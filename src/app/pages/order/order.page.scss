@@ -1,0 +1,281 @@
+@import '../../../theme//mixin.scss';
+@import '../../../global.scss';
+
+.main-header {
+  @include flex(0, space-between, center, '');
+
+
+  >div:first-of-type {
+    @include shape(97, 26);
+    @include flex(8, '', '', '');
+
+    ion-chip {
+      width: 65px;
+      min-height: 22px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 22px;
+      letter-spacing: 0px;
+      @include flex(6, center, center, column);
+      padding: 2px 12px;
+
+      &[title='معلق'] {
+        color: rgba(124, 67, 11, 1);
+        background-color: rgba(255, 195, 0, 1);
+      }
+
+      &[title='مكتمل'] {
+        color: rgb(255, 255, 255);
+        background-color: rgba(48, 193, 167, 1);
+      }
+
+      &[title='مرفوض'] {
+        color: rgb(255, 255, 255);
+        background-color: rgba(226, 18, 105, 1);
+      }
+    }
+
+    ion-icon {
+      @include shape(24, 24)
+    }
+  }
+
+  >div:last-of-type {
+    @include shape(172, 36);
+    @include flex(8, '', center, '');
+
+    ion-icon {
+      @include shape(24, 24);
+    }
+
+    h3 {
+      margin: 0;
+      @include shape(96, 32);
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 32px;
+      letter-spacing: 0px;
+    }
+
+    ion-img {
+      @include shape(36, 36);
+      padding: 8px;
+      border-radius: 50%;
+      background-color: #fff1f1;
+    }
+
+
+  }
+}
+
+ion-content {
+  --padding-top: 0;
+}
+
+
+.container {
+
+  width: 100%;
+  padding: 12px 0 0;
+  @include flex(8, '', '', column);
+
+  .order-date {
+    @include flex(16, center, center, '');
+    height: 46px;
+
+    .date,
+    .time {
+      direction: rtl;
+      @include flex(6, '', center, '');
+      height: 22px;
+
+      ion-img {
+        @include shape(16, 16);
+      }
+
+      p {
+        color: rgba(85, 85, 85, 1);
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 22px;
+        letter-spacing: 0px;
+
+      }
+
+    }
+
+    .date {
+      width: 98px;
+    }
+
+    .time {
+      width: 80px;
+    }
+
+  }
+
+
+  .header {
+    direction: rtl;
+
+    section {
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 30px;
+      letter-spacing: -0.41px;
+    }
+  }
+
+  .order {
+
+
+    .order-details {
+      @include flex(8, '', '', column);
+
+      p {
+        color: rgba(170, 170, 170, 1);
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 26px;
+        letter-spacing: 0px;
+        text-align: right;
+      }
+
+      span {
+        height: 32px;
+        padding: 2px 12px;
+        border-radius: 56px;
+        background-color: rgba(255, 241, 241, 1);
+      }
+
+      >div {
+        border-radius: 12px;
+        padding: 16px;
+        height: 208px;
+        background-color: white;
+        margin: 0 16px;
+        @include flex(16, '', '', column);
+
+        >div {
+          height: 32px;
+          @include flex(0, space-between, '', '');
+        }
+      }
+
+      >div.total {
+        height: 64px;
+        @include flex(0, space-between, center, row);
+      }
+    }
+
+
+  }
+
+  .products {
+    flex-wrap: wrap;
+    @include flex(8, space-evenly, center, row);
+
+    .product {
+      margin: 0 16px;
+      background-color: white;
+      height: 114px;
+      width: 343px;
+      flex-grow: 1;
+      @include flex(8, space-evenly, flex-start, '');
+      border-radius: 12px;
+      border: 1px solid #F0EFEF;
+      padding: 12px;
+
+      ion-img {
+        @include shape(65, 65)
+      }
+
+      .product-data {
+        flex-grow: 1;
+        @include shape(246, 90);
+        @include flex(8, '', '', column);
+
+        >div:first-of-type {
+          width: 100%;
+          height: 52px;
+          overflow: hidden;
+          @include flex(0, space-between, '', '');
+
+          p {
+            height: 52px;
+            flex-basis: 79%;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 26px;
+            letter-spacing: 0px;
+            text-wrap: auto;
+            text-align: right;
+          }
+
+          strong {
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 28px;
+            letter-spacing: 0px;
+            align-self: end;
+          }
+        }
+
+        >div:last-of-type {
+          @include flex(4, end, center, '');
+          height: 30px;
+
+          >div {
+            width: fit-content;
+            height: 30px;
+            direction: rtl;
+            padding: 4px 8px;
+            @include flex(4, '', center, '');
+            border-radius: 4px;
+            border: 0.5px solid #F0EFEF;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 22px;
+            letter-spacing: 0px;
+
+            &:last-of-type {
+              width: 54px;
+            }
+
+            &:nth-of-type(1) {
+              width: 83px;
+            }
+
+            &:first-of-type {
+              width: 66px;
+            }
+
+            strong {
+              font-weight: 700;
+              font-size: 12px;
+              line-height: 22px;
+              letter-spacing: 0px;
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+
+  }
+
+}
+
+@media (width>721px) {
+
+  .products {
+
+
+    .product {
+      flex-grow: 0;
+    }
+  }
+}

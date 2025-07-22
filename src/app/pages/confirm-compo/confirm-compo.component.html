@@ -1,0 +1,75 @@
+<ion-header class="custom-header">
+
+  <div class="content" style="justify-content: end;">
+    <div>
+      <ion-label> انهاء الطلب</ion-label>
+      <ion-back-button (click)="dismiss()" class="no-color-button" icon="chevron-forward">
+      </ion-back-button>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+
+  <div class="container">
+    <section>ملخص الطلب</section>
+
+    <form [formGroup]="orderForm">
+
+      <div class="form">
+        <ion-select formControlName="branche" interface="action-sheet" mode="ios" toggleIcon="chevron-down"
+          expandedIcon="chevron-up" label="الفرع">
+          <ion-select-option value="egypt">egypt</ion-select-option>
+        </ion-select>
+
+        <ion-input formControlName="discountCode" placeholder="كود الخصم..."></ion-input>
+
+        <ion-radio-group value="سفرى" formControlName="serviceMethod">
+          <ion-radio value="سفرى">
+            <ion-label>سفرى</ion-label>
+            <ion-input placeholder="الوصف هنا...."> </ion-input>
+          </ion-radio>
+
+          <ion-radio value="دليفرى">
+            <ion-label>دليفرى</ion-label>
+            <ion-input placeholder="الوصف هنا...."> </ion-input>
+          </ion-radio>
+        </ion-radio-group>
+
+        <div class="barriar"></div>
+
+        <div class="order-data">
+          <div>
+            <p>عدد الطلبات</p>
+            <h3>{{numOfOrders}}</h3>
+          </div>
+          <div>
+            <p>اجمالى الخصومات</p>
+            <h3>{{totalDiscounts}} د</h3>
+          </div>
+          <div>
+            <p>التوصيل</p>
+            <h3>{{deliver}} د</h3>
+          </div>
+          <div>
+            <p>الإجمالي</p>
+            <h3>{{total}} د</h3>
+          </div>
+        </div>
+      </div>
+
+      <section>بيانات المستلم</section>
+      <div class="client">
+        <ion-input formControlName="recieverName" placeholder="اسم المستلم..."></ion-input>
+        <ion-input formControlName="recieverAddress" placeholder="عنوان المستلم..."></ion-input>
+      </div>
+    </form>
+
+  </div>
+
+
+</ion-content>
+
+<ion-footer>
+  <ion-button (click)="finishOrder()" [disabled]="orderForm.invalid">التاكيد</ion-button>
+</ion-footer>

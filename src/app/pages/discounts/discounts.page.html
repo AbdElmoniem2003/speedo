@@ -1,0 +1,124 @@
+<ion-content>
+
+  <div class="container">
+
+    <section>التخفيضات</section>
+    <div class="filter">
+      <ion-button class="no-color-button">
+        <ion-img src="../../../assets/imgs/filter.svg" slot="icon-only"></ion-img>
+      </ion-button>
+      <ion-input (keyup.enter)="search($event)" placeholder="...ابحث عن منتج">
+        <ion-icon name="search-outline"></ion-icon>
+      </ion-input>
+    </div>
+
+    <ion-segment class="nav-segments" value="الخصومات">
+      <ion-segment-button (click)="showOffers==false?getOffers():''" value="العروض">العروض</ion-segment-button>
+      <ion-segment-button (click)="showOffers==true?getDiscounts():''" value="الخصومات">الخصومات</ion-segment-button>
+    </ion-segment>
+
+    @if(showOffers){
+
+    @if(offers?.length){
+    <div class="offers-cards">
+
+      @for (offer of offers; track $index) {
+      <div class="card">
+        <img [src]="offer.image||'../../../assets/imgs/empty.png'">
+        <ion-button class="no-color-button">
+          <ion-label [routerLink]="['/offer']" [queryParams]=" { id: offer._id} ">تفقد المنتجات</ion-label>
+          <ion-icon name="chevron-back"></ion-icon>
+        </ion-button>
+      </div>
+      }
+
+    </div>
+    }@else {
+    <div class="card">
+      <img src="../../../assets/imgs/empty.png" alt="">
+      <h3>There Is No Offers To View At The Moment 🥲</h3>
+    </div>
+    }
+
+    }@else {
+    <div class="discounts-filter">
+      <ion-segment value="الإلكترونيات" [scrollable]="true">
+        <ion-segment-button value="الإلكترونيات">الإلكترونيات</ion-segment-button>
+        <ion-segment-button value="الساعات و الاكسسوارات">الساعات و الاكسسوارات</ion-segment-button>
+        <ion-segment-button value="الأجهزة المنزلية">الأجهزة المنزلية</ion-segment-button>
+      </ion-segment>
+      <ion-icon name="chevron-down-outline"></ion-icon>
+    </div>
+
+    <div class="discounts">
+
+      @if(discounts.length){
+      <div class="discounts-cards">
+        @for(prod of discounts; track $index){
+
+        <div class="card">
+          <div class="card-content" [routerLink]="'/product/'+prod._id">
+            <ion-img [src]="prod.image||'../../../assets/imgs/empty.png'"></ion-img>
+            <p> {{prod.name}} </p>
+            <div>
+              @if(prod.discountPrice){
+              <h3 class="before-discount">
+                {{prod.price}}د
+              </h3>
+              }
+              <h3>{{prod.finalPrice}}د</h3>
+            </div>
+          </div>
+          <ion-button (click)="addToCart(prod)">
+            <ion-label>أضف للسلة</ion-label>
+            <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
+          </ion-button>
+
+          <div class="addition-btns">
+            <ion-button (click)="addToFavorite(prod)" class="no-color-button">
+              <ion-icon [name]="inFavorites?.includes(prod._id)?'heart':'heart-outline'"
+                [color]="inFavorites?.includes(prod._id)?'primary':'dark'" slot="icon-only"></ion-icon>
+            </ion-button>
+            <div class="btns">
+
+              @if(prod.new){
+              <span
+                [class]="(prod.offer&&prod.new)|| (prod.new&&prod.special)||(prod.special&& prod.offer)?'extra':'expanded'">
+                <ion-img src="../../../assets/imgs/stars.svg" slot="icon-only"></ion-img>
+                @if(!prod.special&&!prod.offer){جديد}
+              </span>
+              }
+              @if(prod.offer){
+
+              <span [class]="(prod.offer&&prod.new)|| (prod.new&&prod.special)||(prod.special&&
+                  prod.offer)?'extra':'expanded'">
+                <ion-img src="../../../assets/imgs/offer-icon.svg" slot="icon-only"></ion-img>
+                @if(!prod.new&&!prod.special){خصم}
+              </span>
+              }
+              @if(prod.special){
+              <span [class]="(prod.offer&&prod.new)|| (prod.new&&prod.special)||(prod.special&&
+                  prod.offer)?'extra':'expanded'">
+
+                <ion-img src="../../../assets/imgs/trend-icon.svg" slot="icon-only"></ion-img>
+              </span>
+              }
+            </div>
+          </div>
+        </div>
+        }
+
+      </div>
+      }@else {
+      <div class="card">
+        <img src="../../../assets/imgs/empty.png" alt="">
+        <h3>There Is No Offers To View At The Moment 🥲</h3>
+      </div>
+      }
+    </div>
+
+    }
+
+  </div>
+
+</ion-content>

@@ -1,0 +1,69 @@
+<ion-header class="custom-header">
+
+  <div class="content">
+    <ion-button class="no-color-button" routerLink="/cart">
+      <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
+    </ion-button>
+
+    <div>
+      <ion-label>
+        @if(customView=='offer'){العروض}
+        @if(customView=='category'){الأقسام}
+        @if(customView=='brand'){البراندات}
+      </ion-label>
+      <ion-back-button class="no-color-button" icon="chevron-forward">
+      </ion-back-button>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+
+  <div class="container">
+
+    @if(customView=='brand'){
+
+    <div class="brands">
+      @for (brand of brands; track $index) {
+      <div class="brand" (click)="toSection('brand','')">
+        <ion-img [src]="brand.image||'../../../assets/imgs/empty.png'"></ion-img>
+      </div>
+      }
+    </div>
+
+    }
+
+
+    @if(customView=='category'){
+    <div class="sections">
+      @for (category of categories; track $index) {
+      <div class="custom" (click)="toSection('section','')">
+        <ion-img [src]="category.image||'../../../assets/imgs/empty.png'"></ion-img>
+        <p> {{category.name}}</p>
+      </div>
+      }
+    </div>
+    }
+
+
+    @if(customView=='offer'){
+    <div class="offers">
+
+      @for (offer of offers; track $index) {
+      <div class="offer" (click)="toSection('offer','')">
+        <img [src]="offer.image||'../../../assets/imgs/empty.png'">
+        <ion-button class="no-color-button">
+          <ion-label>تفقد المنتجات</ion-label>
+          <ion-icon name="chevron-back"></ion-icon>
+        </ion-button>
+      </div>
+      }
+
+    </div>
+    }
+
+
+  </div>
+
+
+</ion-content>

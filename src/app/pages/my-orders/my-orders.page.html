@@ -1,0 +1,57 @@
+<ion-content>
+
+  <div class="container">
+
+    <div class="header">
+      <p>({{orders?.length}}) فواتير</p>
+      <section>طلباتي</section>
+    </div>
+
+    <ion-segment class="filter" scrollable="true" [(ngModel)]="filterCase">
+      <ion-segment-button value="rejected">مرفوض</ion-segment-button>
+      <ion-segment-button value="completed">مكتمل</ion-segment-button>
+      <ion-segment-button value="waiting">انتظار</ion-segment-button>
+      <ion-segment-button value="all">الكل</ion-segment-button>
+    </ion-segment>
+
+    <div class="cards my-orders-cards">
+
+      @if(orders){
+      @for (order of orders; track $index) {
+
+      @if((order.value.case==filterCase)|| filterCase=='all'){
+
+      <div class="card" routerLink="/order" [queryParams]="{date:order.key}">
+        <div>
+          <ion-img src="../../../assets/imgs/invoice-01.svg"></ion-img>
+          <div class="texts">
+            <h3>فاتورة 304</h3>
+            <div>
+              <p>{{getObjLength(order.value.products)}} منتجات</p> <span></span>
+              <p>{{order.value.totalPrice}} د</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="texts">
+            <ion-chip
+              [title]="order.value.case=='waiting' ?'معلق':''">{{order.value.case=='waiting' ?'معلق':''}}</ion-chip>
+            <p>منذ {{(newDate - order.key)|date:'h'}} ساعات</p>
+          </div>
+          <ion-icon name="ellipsis-vertical"></ion-icon>
+        </div>
+
+      </div>
+      }
+      }
+      }
+
+
+    </div>
+
+  </div>
+
+
+
+</ion-content>

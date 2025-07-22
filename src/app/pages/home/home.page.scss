@@ -1,0 +1,367 @@
+@import '../../../theme/mixin.scss';
+@import '../../../global.scss';
+
+.container {
+
+  >section {
+    text-align: right;
+    width: 100%;
+    height: 32px;
+    margin: 16px 0;
+    gap: 8px;
+    padding-right: 16px;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 32px;
+    letter-spacing: 0px;
+  }
+
+  .filter {
+
+    @include flex(8, space-between, center, '');
+    width: 100%;
+    height: 42px;
+    padding: 0 16px;
+    top: 163px;
+    margin-bottom: 16px;
+    padding-right: 16px;
+    padding-left: 16px;
+
+    ion-input,
+    ion-button {
+      border: 1px solid rgba(219, 219, 219, 1);
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    ion-input {
+      flex-grow: 1;
+      height: 42px;
+      padding: 8px 24px 8px 12px !important;
+      @include flex(0, space-between, center, '');
+      text-align: right;
+    }
+  }
+
+  .swiper-container {
+    width: 100%;
+    height: 180px;
+    box-sizing: content-box;
+
+    &::part(pagination) {
+      display: flex;
+      justify-content: center;
+      direction: rtl;
+    }
+
+    &::part(bullet) {
+      @include shape(5, 5);
+      border-radius: 5px;
+      background-color: rgba(204, 204, 204, 1);
+
+      &:hover {
+        background-color: #0500d1;
+      }
+    }
+
+    &::part(bullet-active) {
+      @include shape(8, 8);
+      border-radius: 8px;
+      background-color: $primaryColor;
+    }
+
+    ion-img,
+    img {
+      width: calc((343 / 375) * 100%);
+      height: 156px;
+      border-radius: 12px;
+      overflow: hidden;
+      display: block;
+      // object-fit: cover;
+      margin: 0 auto;
+    }
+  }
+
+
+  .home-data {
+    padding-bottom: 96px;
+    width: 100%;
+    @include flex(24, '', '', column);
+
+
+    .sections-cards {
+      .section-content {
+        @include flex(8, '', '', column);
+        width: 100%;
+
+        >div {
+          @include flex(8, '', '', '');
+          overflow: auto;
+          height: fit-content;
+          direction: rtl;
+
+          >div {
+            background-color: white;
+            @include shape(96, 148);
+            border-radius: 10px;
+            flex-grow: 1;
+            border: 1px solid rgba(240, 239, 239, 1);
+            padding: 8px;
+
+            ion-img {
+              @include shape(80, 80);
+              border-radius: 6px;
+              overflow: hidden;
+            }
+
+            h3 {
+              @include shape(80, 40);
+              font-weight: 600;
+              font-size: 12px;
+              line-height: 22px;
+              letter-spacing: 0px;
+              text-align: center;
+              margin: 0;
+            }
+          }
+        }
+
+      }
+    }
+
+    .most-demand,
+    .discounts,
+    .recent {
+
+      .demand-cards,
+      .discount-cards,
+      .recent-cards {
+        width: 100%;
+        direction: rtl;
+        padding: 0 16px;
+        @include flex(8, '', '', '');
+        overflow: auto;
+
+        .card {
+          position: relative;
+          background-color: white;
+          @include shape(167, 303);
+          @include flex(12, center, space-between, column);
+          border-radius: 12px;
+          border: 1px solid rgba(240, 239, 239, 1);
+          padding: 12px;
+
+          .card-content {
+            width: 143px;
+            height: 227px;
+            overflow: hidden;
+            @include flex(8, flex-start, '', column);
+
+            >ion-img,
+            >img {
+              @include shape(143, 143);
+              border-radius: 6px;
+              // overflow: hidden;
+            }
+
+            p {
+              font-weight: 600;
+              font-size: 12px;
+              line-height: 22px;
+              letter-spacing: 0px;
+              white-space: wrap;
+              text-overflow: ellipsis;
+            }
+
+            h3 {
+              font-weight: 700;
+              font-size: 16px;
+              line-height: 28px;
+              letter-spacing: 0px;
+              margin: 0;
+              flex-grow: 1;
+            }
+          }
+
+          >ion-button {
+            height: 40px;
+            direction: ltr;
+            @include flex(8, center, center, '');
+            border-radius: 10px;
+            overflow: hidden;
+            --ion-color-primary:#{$primaryColor};
+
+            ion-label {
+              font-weight: 700;
+              font-size: 14px;
+              line-height: 26px;
+              letter-spacing: 0px;
+              text-align: center;
+            }
+
+            ion-img {
+              @include shape(18, 18);
+              margin-left: 8px;
+            }
+          }
+
+          .addition-btns {
+            position: absolute;
+            top: 12px;
+            width: 143px;
+            padding: 0 5px;
+            @include flex(0, space-between, center, '');
+
+            >ion-button {
+              @include shape(26, 26);
+              --ion-color-primary: rgba(255, 255, 255, 0.2);
+              border-radius: 50%;
+              overflow: hidden;
+            }
+
+            .btns {
+              @include flex(4, '', center, '');
+
+              span {
+                height: 26px;
+                min-width: 26px;
+                max-width: 62px;
+                color: white;
+                background-color: rgba(44, 52, 84, 0.65);
+                border-radius: 15px;
+                @include flex(4, center, center, '');
+                overflow: hidden;
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 22px;
+                letter-spacing: 0px;
+
+                &.extra {
+                  width: fit-content;
+                }
+
+                &.expanded {
+                  width: 64px;
+                }
+              }
+
+              ion-img {
+                @include shape(18, 18);
+              }
+            }
+          }
+        }
+
+      }
+    }
+
+    .offers {
+
+      .offers-cards {
+        width: 100%;
+        overflow: auto;
+        direction: rtl;
+        padding: 0 16px;
+        @include flex(8, start, center, '');
+
+        .card {
+          position: relative;
+          @include shape(255, 156);
+          border-radius: 12px;
+
+
+          ion-img,
+          img {
+            position: relative;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            @include shape(255, 156);
+          }
+
+          ion-button {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            height: 32px;
+            direction: ltr;
+            @include flex(4, '', center, '');
+            --padding: 8px 16px 8px 8px;
+            background-color: white;
+            border-radius: 7px;
+            border: 0.5px solid $primaryColor;
+
+            ion-label {
+              font-weight: 700;
+              font-size: 12px;
+              line-height: 22px;
+              letter-spacing: 0px;
+              text-align: center;
+              @include flex(0, start, center, '');
+              @include shape(77, 32);
+              margin-left: 8px;
+            }
+
+            ion-icon {
+              @include shape(16, 16);
+            }
+
+          }
+        }
+      }
+    }
+
+    .brands {
+
+      .brands-cards {
+        width: 100%;
+        direction: rtl;
+        @include flex(8, '', '', column);
+
+        >div {
+          height: fit-content;
+          @include flex(8, '', center, '');
+          overflow-x: auto;
+          overflow-y: hidden;
+
+          >.card {
+            @include shape(96, 96);
+            flex-grow: 1;
+            @include flex(0, center, '', '');
+            border: 1px solid rgba(240, 239, 239, 1);
+            background-color: white; // to comment when real images
+            border-radius: 12px;
+
+            ion-img,
+            img {
+              position: relative;
+              @include shape(80, 80);
+            }
+          }
+        }
+      }
+    }
+
+  }
+
+  .recent {
+    .header {
+      section {
+        margin-left: auto;
+      }
+    }
+
+
+  }
+}
+
+
+
+@media (767px < width) {
+  .swiper-container {
+
+    swiper-slide {
+      width: 49%;
+    }
+  }
+}

@@ -1,0 +1,285 @@
+<ion-header class="custom-header">
+
+  <div class="content">
+    <ion-button class="no-color-button">
+      <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
+    </ion-button>
+    <div>
+      <ion-label>{{customName}}</ion-label>
+      <ion-back-button class="no-color-button" icon="chevron-forward">
+      </ion-back-button>
+    </div>
+  </div>
+
+
+</ion-header>
+
+<ion-content>
+
+  <div class="container">
+
+
+    <div class="section-filter" style="position: relative;">
+      <ion-segment value="لوشن" [scrollable]="true">
+        <ion-segment-button value="لوشن">لوشن</ion-segment-button>
+        <ion-segment-button value="كريم">كريم</ion-segment-button>
+        <ion-segment-button value="سيرم">سيرم</ion-segment-button>
+        <ion-segment-button value="مرهم">مرهم</ion-segment-button>
+        <ion-segment-button value="بدلة">بدلة</ion-segment-button>
+      </ion-segment>
+
+      <ion-icon name="chevron-down-outline" (click)="openSectionOptions()"></ion-icon>
+    </div>
+
+    <div class="section">
+      <div class="section-cards">
+        <div class="card">
+          <div class="card-content">
+            <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+            <p> جوال سامسونج جالاكسي A34 شبكة الجيل الخامس ... </p>
+            <div>
+              <h3 class="before-discount">4,200 د</h3>
+              <h3>4,000 د</h3>
+            </div>
+          </div>
+          <ion-button>
+            <ion-label>أضف للسلة</ion-label>
+            <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
+          </ion-button>
+          <div class="addition-btns">
+            <ion-button class="no-color-button">
+              <ion-icon name="heart-outline" color="dark" slot="icon-only"></ion-icon>
+            </ion-button>
+            <div class="btns">
+              <span class="extra">
+                <ion-img src="../../../assets/imgs/stars.svg" slot="icon-only"></ion-img>
+                جديد
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-content">
+            <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+            <p>لاب توب اسوس فيفو بوك جو 15 بوحدة معالجة مركز...</p>
+            <div>
+              <h3>2,800 د</h3>
+            </div>
+          </div>
+          <ion-button>
+            <ion-label><ion-label>أضف للسلة</ion-label></ion-label>
+            <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
+          </ion-button>
+          <div class="addition-btns">
+            <ion-button class="no-color-button">
+              <ion-icon name="heart-outline" color="dark" slot="icon-only"></ion-icon>
+            </ion-button>
+            <div class="btns">
+              <span>
+                <ion-img src="../../../assets/imgs/stars.svg" slot="icon-only"></ion-img>
+              </span>
+              <span>
+                <ion-img src="../../../assets/imgs/trend-icon.svg" slot="icon-only"></ion-img>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-content">
+            <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+            <p>لاب توب اسوس فيفو بوك جو 15 بوحدة معالجة مركز...</p>
+            <div>
+              <h3>2,800 د</h3>
+            </div>
+          </div>
+          <ion-button>
+            <ion-label>أضف للسلة</ion-label>
+            <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
+          </ion-button>
+          <div class="addition-btns">
+            <ion-button class="no-color-button">
+              <ion-icon name="heart-outline" color="dark" slot="icon-only"></ion-icon>
+            </ion-button>
+            <div class="btns">
+              <span>
+                <ion-img src="../../../assets/imgs/stars.svg" slot="icon-only"></ion-img>
+              </span>
+              <span>
+                <ion-img src="../../../assets/imgs/trend-icon.svg" slot="icon-only"></ion-img>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-content">
+            <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+            <p>لاب توب اسوس فيفو بوك جو 15 بوحدة معالجة مركز...</p>
+            <div>
+              <h3>2,800 د</h3>
+            </div>
+          </div>
+          <ion-button>
+            <ion-label>أضف للسلة</ion-label>
+            <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
+          </ion-button>
+          <div class="addition-btns">
+            <ion-button class="no-color-button">
+              <ion-icon name="heart-outline" color="dark" slot="icon-only"></ion-icon>
+            </ion-button>
+            <div class="btns">
+              <span>
+                <ion-img src="../../../assets/imgs/stars.svg" slot="icon-only"></ion-img>
+              </span>
+              <span>
+                <ion-img src="../../../assets/imgs/trend-icon.svg" slot="icon-only"></ion-img>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-content">
+            <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+            <p>لاب توب اسوس فيفو بوك جو 15 بوحدة معالجة مركز...</p>
+            <div>
+              <h3>2,800 د</h3>
+            </div>
+          </div>
+          <ion-button>
+            <ion-label>أضف للسلة</ion-label>
+            <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
+          </ion-button>
+          <div class="addition-btns">
+            <ion-button class="no-color-button">
+              <ion-icon name="heart-outline" color="dark" slot="icon-only"></ion-icon>
+            </ion-button>
+            <div class="btns">
+              <span>
+                <ion-img src="../../../assets/imgs/stars.svg" slot="icon-only"></ion-img>
+              </span>
+              <span>
+                <ion-img src="../../../assets/imgs/trend-icon.svg" slot="icon-only"></ion-img>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-content">
+            <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+            <p>لاب توب اسوس فيفو بوك جو 15 بوحدة معالجة مركز...</p>
+            <div>
+              <h3>2,800 د</h3>
+            </div>
+          </div>
+          <ion-button>
+            <ion-label>أضف للسلة</ion-label>
+            <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
+          </ion-button>
+          <div class="addition-btns">
+            <ion-button class="no-color-button">
+              <ion-icon name="heart-outline" color="dark" slot="icon-only"></ion-icon>
+            </ion-button>
+            <div class="btns">
+              <span>
+                <ion-img src="../../../assets/imgs/stars.svg" slot="icon-only"></ion-img>
+              </span>
+              <span>
+                <ion-img src="../../../assets/imgs/trend-icon.svg" slot="icon-only"></ion-img>
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+
+
+  </div>
+
+
+
+</ion-content>
+
+
+
+<ion-modal [isOpen]="openModal" initialBreakpoint="0.95">
+
+  <ng-template>
+    <ion-header class="custom-header">
+
+      <div class="content">
+        <ion-button class="no-color-button">
+          <ion-icon color="dark" name="close"></ion-icon>
+        </ion-button>
+        <div>
+          <ion-label> أقسام الإلكترونيات</ion-label>
+        </div>
+      </div>
+    </ion-header>
+
+    <ion-content>
+
+      <div class="container">
+
+        <div class="compos">
+
+
+          <div class="compo checked">
+            <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+            <p>لوحة مفاتيح</p>
+          </div>
+          <div class="compo">
+            <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+            <p>لوحة مفاتيح</p>
+          </div>
+          <div class="compo">
+            <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+            <p>لوحة مفاتيح</p>
+          </div>
+          <div class="compo">
+            <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+            <p>لوحة مفاتيح</p>
+          </div>
+          <div class="compo">
+            <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+            <p>لوحة مفاتيح</p>
+          </div>
+          <div class="compo">
+            <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+            <p>لوحة مفاتيح</p>
+          </div>
+          <div class="compo">
+            <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+            <p>لوحة مفاتيح</p>
+          </div>
+          <div class="compo">
+            <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+            <p>لوحة مفاتيح</p>
+          </div>
+          <div class="compo">
+            <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+            <p>لوحة مفاتيح</p>
+          </div>
+          <div class="compo">
+            <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+            <p>لوحة مفاتيح</p>
+          </div>
+          <div class="compo">
+            <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+            <p>لوحة مفاتيح</p>
+          </div>
+          <div class="compo">
+            <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+            <p>لوحة مفاتيح</p>
+          </div>
+        </div>
+
+      </div>
+
+
+    </ion-content>
+  </ng-template>
+
+</ion-modal>

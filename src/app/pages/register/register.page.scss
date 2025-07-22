@@ -1,0 +1,187 @@
+@import '../../../global.scss';
+@import '../../../theme/mixin.scss';
+
+
+.container {
+  @include flex(32, '', '', column);
+  position: relative;
+
+  .frames-holder {
+    position: relative;
+    @include shape(375, 278);
+    width: 100%;
+
+
+    .logo {
+
+      @include shape(fit, 95);
+      @include flex(4, space-between, center, column);
+      left: 50%;
+      position: absolute;
+      top: 116px;
+      transform: translateX(-50%);
+
+      ion-img {
+        @include shape(74, 61)
+      }
+
+      p {
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 30px;
+        letter-spacing: -0.41px;
+        text-align: right;
+        color: $primaryColor;
+      }
+    }
+
+    button {
+      position: relative;
+      top: 59px;
+      left: 16px;
+      z-index: 100;
+      border-radius: 15px;
+      overflow: hidden;
+      background-color: transparent;
+      @include shape(56, 24);
+      @include flex(0, space-between, center, '');
+      color: $primaryColor;
+
+      ion-icon {
+        @include shape(24, 24);
+        padding: 4px;
+      }
+
+    }
+
+    >ion-img {
+      position: absolute;
+
+      &:first-of-type {
+        @include shape(228.09, 262.35);
+        top: 15.33px;
+        left: 55.47px;
+      }
+
+      &:nth-last-of-type(2) {
+        @include shape(91.5, 43.5);
+        top: 65px;
+        left: 100%;
+        transform: translateX(-100%);
+      }
+
+      &:last-of-type {
+        @include shape(105.5, 55.5);
+        top: 201px;
+        left: 100%;
+        transform: translateX(-100%);
+      }
+    }
+
+
+  }
+
+
+  .forms {
+    padding: 0 calc((375px - 343px) / 2);
+    @include flex(32, '', '', column);
+
+    form {
+      @include flex(32, '', '', column);
+
+      h3 {
+        font-weight: 700;
+        font-style: Bold;
+        font-size: 20px;
+        line-height: 32px;
+        letter-spacing: 0px;
+        text-align: right;
+        margin: 0;
+      }
+
+      .inputs {
+        @include flex(16, '', '', column);
+
+        ion-input {
+          width: 100%;
+          height: 52px;
+          border-radius: 10px;
+          border: 1px solid rgba(219, 219, 219, 1);
+          font-family: Cairo;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 28px;
+          letter-spacing: 0px;
+          overflow: hidden;
+          text-align: right;
+          @include flex(12, space-evenly, center, '');
+
+          ion-img {
+            @include shape(24, 24);
+            margin: 0 12px;
+          }
+
+        }
+      }
+
+    }
+
+    ion-button {
+      width: 100%;
+      height: 48px;
+      --padding: 8px 16px;
+      border-radius: 10px;
+      color: white;
+      --background: #{$primaryColor};
+
+      ion-img {
+        margin-left: 8px;
+      }
+    }
+
+    >div:last-of-type {
+      width: 100%;
+      height: 58px;
+      margin-top: 32px;
+      @include flex(0, space-between, center, column);
+
+
+      span {
+        color: rgba(85, 85, 85, 1);
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 26px;
+        letter-spacing: 0px;
+
+      }
+
+      strong {
+        color: $primaryColor;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 28px;
+        letter-spacing: 0px;
+
+      }
+    }
+
+    p.password-missed {
+      font-weight: 700;
+      font-style: Bold;
+      font-size: 12px;
+      line-height: 22px;
+      letter-spacing: 0px;
+      text-align: left;
+    }
+  }
+
+  >ion-img {
+    @include shape(204, 236);
+    top: 553px;
+    left: 55px;
+    left: calc(55px / 375px * 100%);
+    transform: rotateZ(180deg);
+    position: fixed;
+    z-index: -1;
+  }
+}

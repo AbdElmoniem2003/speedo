@@ -1,0 +1,206 @@
+<ion-header class="custom-header">
+
+  <div class="content">
+    <ion-button class="no-color-button" routerLink="/cart">
+      <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
+    </ion-button>
+
+    <div>
+      <ion-label> تفاصيل المنتج</ion-label>
+      <ion-back-button class="no-color-button" icon="chevron-forward">
+      </ion-back-button>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+
+  <div class="container">
+
+    <div class="product">
+
+      <div class="img"><img [src]="product?.image||'../../../assets/imgs/empty.png'"></div>
+
+      <div class="prod-data">
+
+        <div class="price">
+          <h3 style="direction: rtl;">{{product?.price - product?.discountPrice}} د</h3>
+          @if(product?.discountPrice){<h3 class="before-discount">{{product?.price}} د</h3>}
+        </div>
+        <div class="prod-title">
+          {{product?.name}}
+        </div>
+        @if(product?.description){<div class="prod-desc">
+          {{product?.description}}
+          <span class="ion-activatable">
+            <u>عرض المزيد</u>
+            <ion-ripple-effect></ion-ripple-effect>
+          </span>
+        </div>}
+      </div>
+
+      <div class="extra">
+        <h5>اضافات</h5>
+
+        <div class="colors">
+          <h3>اللون</h3>
+          <ion-segment [(ngModel)]="prodExtras.color">
+            <ion-segment-button value="اخضر"><span></span></ion-segment-button>
+            <ion-segment-button value="احمر"><span></span></ion-segment-button>
+            <ion-segment-button value="ذهبي"><span></span></ion-segment-button>
+          </ion-segment>
+        </div>
+
+        <div class="sizes">
+          <h3>الحجم</h3>
+          <ion-segment [(ngModel)]="prodExtras.size">
+            <ion-segment-button value="كبير">كبير (٩٨٠د)</ion-segment-button>
+            <ion-segment-button value="متوسط">متوسط (٩٨٧د)</ion-segment-button>
+            <ion-segment-button value="صغير">صغير (٧٨٧د)</ion-segment-button>
+          </ion-segment>
+        </div>
+
+        <ion-radio-group [allowEmptySelection]="true" (ionChange)="prodExtras.towler = !prodExtras.towler">
+          <ion-radio>منشفة (٧٦٨د)</ion-radio>
+        </ion-radio-group>
+
+      </div>
+
+      <div class="similar-prods">
+        <section>منتجات مشابهة</section>
+        <div class="prods-cards">
+          <div class="card">
+            <div class="card-content">
+              <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+              <p> جوال سامسونج جالاكسي A34 شبكة الجيل الخامس ... </p>
+              <div>
+                <h3>4,000 د</h3>
+              </div>
+            </div>
+            <ion-button>
+              <ion-label>أضف للسلة</ion-label>
+              <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
+            </ion-button>
+            <div class="addition-btns">
+              <ion-button class="no-color-button">
+                <ion-icon name="heart-outline" color="dark" slot="icon-only"></ion-icon>
+              </ion-button>
+              <div class="btns">
+                <span class="extra">
+                  <ion-img src="../../../assets/imgs/stars.svg" slot="icon-only"></ion-img>
+                  جديد
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-content">
+              <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+              <p>لاب توب اسوس فيفو بوك جو 15 بوحدة معالجة مركز...</p>
+              <div>
+                <h3>2,800 د</h3>
+              </div>
+            </div>
+            <ion-button>
+              <ion-label><ion-label>أضف للسلة</ion-label></ion-label>
+              <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
+            </ion-button>
+            <div class="addition-btns">
+              <ion-button class="no-color-button">
+                <ion-icon name="heart-outline" color="dark" slot="icon-only"></ion-icon>
+              </ion-button>
+              <div class="btns">
+                <span>
+                  <ion-img src="../../../assets/imgs/stars.svg" slot="icon-only"></ion-img>
+                </span>
+                <span>
+                  <ion-img src="../../../assets/imgs/trend-icon.svg" slot="icon-only"></ion-img>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-content">
+              <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+              <p>لاب توب اسوس فيفو بوك جو 15 بوحدة معالجة مركز...</p>
+              <div>
+                <h3>2,800 د</h3>
+              </div>
+            </div>
+            <ion-button>
+              <ion-label>أضف للسلة</ion-label>
+              <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
+            </ion-button>
+            <div class="addition-btns">
+              <ion-button class="no-color-button">
+                <ion-icon name="heart-outline" color="dark" slot="icon-only"></ion-icon>
+              </ion-button>
+              <div class="btns">
+                <span>
+                  <ion-img src="../../../assets/imgs/stars.svg" slot="icon-only"></ion-img>
+                </span>
+                <span>
+                  <ion-img src="../../../assets/imgs/trend-icon.svg" slot="icon-only"></ion-img>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-content">
+              <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+              <p>لاب توب اسوس فيفو بوك جو 15 بوحدة معالجة مركز...</p>
+              <div>
+                <h3>2,800 د</h3>
+              </div>
+            </div>
+            <ion-button>
+              <ion-label>أضف للسلة</ion-label>
+              <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
+            </ion-button>
+            <div class="addition-btns">
+              <ion-button class="no-color-button">
+                <ion-icon name="heart-outline" color="dark" slot="icon-only"></ion-icon>
+              </ion-button>
+              <div class="btns">
+                <span>
+                  <ion-img src="../../../assets/imgs/stars.svg" slot="icon-only"></ion-img>
+                </span>
+                <span>
+                  <ion-img src="../../../assets/imgs/trend-icon.svg" slot="icon-only"></ion-img>
+                </span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</ion-content>
+
+
+<ion-footer>
+  <div class="add-constract">
+    <h3>8,000 د</h3>
+    <ion-buttons slot="end">
+      <ion-button (click)="product.qtyIncrease=product?.qtyIncrease -1" [disabled]="(product?.qtyIncrease<=0)"><ion-icon
+          name="remove-outline"></ion-icon></ion-button>
+      <span>{{product?.qtyIncrease}}</span>
+      <ion-button (click)="product.qtyIncrease=product?.qtyIncrease +1"><ion-icon
+          name="add-outline"></ion-icon></ion-button>
+    </ion-buttons>
+  </div>
+
+  <div class="add-to-cart">
+    <ion-button class="no-color-button">
+      <ion-icon name="heart-outline"></ion-icon>
+    </ion-button>
+    <ion-button (click)="addToCart(this.product)">
+      <ion-label>أضف للسلة</ion-label>
+      <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
+    </ion-button>
+  </div>
+
+</ion-footer>

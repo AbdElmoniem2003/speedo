@@ -1,0 +1,176 @@
+@import '../../../theme/mixin.scss';
+@import '../../../global.scss';
+
+
+.container {
+
+
+  .header {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    @include flex(8, end, '', '');
+
+    p {
+      color: rgba(128, 128, 128, 1);
+      direction: rtl;
+    }
+  }
+
+  .filter {
+    @include flex(8, end, '', '');
+    width: 100%;
+    padding: 0 16px;
+    height: 40px;
+
+    ion-segment-button {
+      width: 79.75px;
+      min-height: 40px;
+      border-radius: 8px;
+      border: 1px solid rgba(219, 219, 219, 1);
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 22px;
+      letter-spacing: 0px;
+      text-align: center;
+      color: rgba(128, 128, 128, 1);
+      overflow: hidden;
+      --indicator-color: transparent;
+      --color-checked: dodgerblue;
+
+      &.segment-button-checked {
+        color: white;
+        background-color: rgba(33, 40, 68, 1);
+      }
+    }
+
+
+  }
+
+  .cards {
+    @include flex(8, end, '', '');
+    flex-wrap: wrap;
+    padding: 16px 16px 0;
+
+    .card {
+      direction: rtl;
+      height: 86px;
+      flex-grow: 1;
+      width: 343px;
+      @include flex(0, space-between, '', '');
+      padding: 16px 16px 16px 8px;
+      border-radius: 12px;
+      background-color: white;
+      border: 1px solid rgba(240, 239, 239, 1);
+
+      >div:first-of-type {
+        height: 54px;
+        @include flex(8, space-between, center, '');
+
+        ion-img,
+        img {
+          @include shape(36, 36);
+          padding: 8px;
+          border-radius: 50%;
+          background-color: #fff1f1;
+        }
+
+        .texts {
+          height: 54px;
+          @include flex(0, '', flex-start, column);
+
+          h3 {
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 28px;
+            letter-spacing: 0px;
+            margin: 0
+          }
+
+          div {
+            height: 26px;
+            @include flex(8, '', center, '');
+
+            p {
+              font-weight: 600;
+              font-size: 14px;
+              line-height: 26px;
+              letter-spacing: 0px;
+              color: rgba(128, 128, 128, 1);
+            }
+
+            span {
+              @include shape(4, 4);
+              border-radius: 100%;
+              background-color: rgba(217, 217, 217, 1);
+            }
+          }
+        }
+      }
+
+      >div:last-of-type {
+
+        @include shape(96, 50);
+        @include flex(8, '', '', '');
+
+        .texts {
+          @include shape(64, 50);
+          @include flex(6, '', '', column);
+
+          ion-chip {
+            width: 52px;
+            min-height: 22px;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 22px;
+            letter-spacing: 0px;
+            @include flex(6, center, center, column);
+            padding: 0 8px;
+
+            &[title='معلق'] {
+              color: rgba(124, 67, 11, 1);
+              background-color: rgba(255, 195, 0, 1);
+            }
+
+            &[title='مكتمل'] {
+              color: rgb(255, 255, 255);
+              background-color: rgba(48, 193, 167, 1);
+            }
+          }
+
+          p {
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 22px;
+            letter-spacing: 0px;
+            color: rgba(128, 128, 128, 1);
+          }
+        }
+
+        ion-icon {
+          @include shape(24, 24)
+        }
+
+      }
+
+    }
+  }
+}
+
+// @media (1024px>width>725px) {
+
+//   .card {
+//     flex-basis: calc((100% - 8px)/2) !important;
+//     flex-grow: 0 !important;
+//   }
+// }
+
+
+// @media (width>1024px) {
+
+//   .card {
+
+//     flex-basis: calc((100% - 16px)/3) !important;
+//     flex-grow: 0 !important;
+//   }
+// }

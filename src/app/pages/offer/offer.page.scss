@@ -1,0 +1,194 @@
+@import '../../../theme/mixin.scss';
+@import '../../../global.scss';
+
+
+ion-content {
+  --padding-top: 0;
+}
+
+.custom-header {
+  @include flex(12, '', '', column);
+  padding-top: 12px;
+
+  >ion-img,
+  >img {
+    @include shape(343, 165);
+    margin: 0 auto;
+  }
+
+  .content {
+    padding-bottom: 12px;
+    height: 58px;
+
+    >div {
+      >div {
+        @include flex(0, '', end, column);
+        height: 58px;
+
+        p {
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 26px;
+          letter-spacing: 0px;
+          color: rgba(128, 128, 128, 1);
+        }
+      }
+    }
+  }
+}
+
+
+
+.container {
+
+
+  .offers {
+    padding: 8px 0;
+
+    .cards {
+      width: 100%;
+      direction: rtl;
+      padding: 0 16px;
+      flex-wrap: wrap;
+      @include flex(8, '', '', '');
+      overflow: auto;
+
+      .card {
+        position: relative;
+        background-color: white;
+        @include shape(167, 303);
+        @include flex(12, center, center, column);
+        flex-basis: calc((100% - 8px)* 0.5);
+        border-radius: 12px;
+        flex-grow: 1;
+        border: 1px solid rgba(240, 239, 239, 1);
+        padding: 12px;
+
+        .card-content {
+          width: 143px;
+          height: 227px;
+          overflow: hidden;
+          @include flex(8, flex-start, '', column);
+
+          >ion-img,
+          >img {
+            @include shape(143, 143);
+            border-radius: 6px;
+            // overflow: hidden;
+          }
+
+          p {
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 22px;
+            letter-spacing: 0px;
+            white-space: wrap;
+            text-overflow: ellipsis;
+          }
+
+          h3 {
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 28px;
+            letter-spacing: 0px;
+            margin: 0;
+            flex-grow: 1;
+          }
+        }
+
+        >ion-button {
+          height: 40px;
+          direction: ltr;
+          @include flex(8, center, center, '');
+          border-radius: 10px;
+          overflow: hidden;
+          --ion-color-primary:#{$primaryColor};
+
+          ion-label {
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 26px;
+            letter-spacing: 0px;
+            text-align: center;
+          }
+
+          ion-img {
+            @include shape(18, 18);
+            margin-left: 8px;
+          }
+        }
+
+        .addition-btns {
+          position: absolute;
+          top: 12px;
+          width: 143px;
+          padding: 0 5px;
+          @include flex(0, space-between, center, '');
+
+          >ion-button {
+            @include shape(26, 26);
+            --ion-color-primary: white;
+            border-radius: 50%;
+            overflow: hidden;
+          }
+
+          .btns {
+            @include flex(4, '', center, '');
+
+            span {
+              height: 26px;
+              min-width: 26px;
+              max-width: 62px;
+              color: white;
+              background-color: rgba(44, 52, 84, 0.65);
+              border-radius: 15px;
+              @include flex(4, center, center, '');
+              overflow: hidden;
+              font-weight: 600;
+              font-size: 12px;
+              line-height: 22px;
+              letter-spacing: 0px;
+
+              &.extra {
+                width: 64px;
+              }
+            }
+
+            ion-img {
+              @include shape(18, 18);
+            }
+          }
+        }
+      }
+
+    }
+  }
+}
+
+// @media (768px>width>580px) {
+
+//   .custom-header {
+//     >img {
+//       width: 75%;
+//     }
+//   }
+
+//   .card {
+//     flex-basis: calc((100% - 16px)/3) !important;
+//     flex-grow: 0 !important;
+//   }
+// }
+
+// @media (width>768px) {
+
+//   // .custom-header {
+//   //   >img {
+//   //     width: 50%;
+//   //   }
+//   // }
+
+//   .card {
+//     flex-basis: calc((100% - 24px)/4) !important;
+//     flex-grow: 0 !important;
+//   }
+// }

@@ -1,0 +1,304 @@
+<ion-content>
+  <div class="container">
+
+    <section>الرئيسية</section>
+    <div class="filter">
+      <ion-button class="no-color-button">
+        <ion-img src="../../../assets/imgs/filter.svg" slot="icon-only"></ion-img>
+      </ion-button>
+      <ion-input placeholder="...ابحث عن منتج">
+        <ion-icon name="search-outline"></ion-icon>
+      </ion-input>
+    </div>
+
+    <swiper-container class="swiper-container" autoplay='{"delay":2000,"disableOnInteraction":false}'
+      [slidesPerView]="'auto'" [updateOnWindowResize]="true">
+      @if (sliders?.length>0) {
+      @for (slide of sliders; track $index) {
+      <swiper-slide [routerLink]="'/product/'+slide._id">
+        <img [src]="slide.image||'../../../assets/imgs/empty.png'" alt="No Image">
+      </swiper-slide>
+      }
+      }
+      <div class="swiper-pagination"></div>
+    </swiper-container>
+
+
+
+    <div class="home-data">
+
+      <div class="sections-cards">
+        <div class="header">
+          <ion-button class="more no-color-button" (click)="toCustomComponent('category')">
+            المزيد
+            <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
+          </ion-button>
+          <section>الأقسام</section>
+        </div>
+        <div class="section-content">
+
+
+          <div>
+            @for (category of categories; track $index) {
+            <div routerLink="/section" [queryParams]="{id:category._id,customView:'section',name:category.name}">
+              <ion-img [src]="category.image||'../../../assets/imgs/empty.png'"></ion-img>
+              <h3> {{category.name}}</h3>
+            </div>
+            }
+          </div>
+          <div>
+            @for (category of reversedcategories; track $index) {
+            <div routerLink="/section" [queryParams]="{id:category._id,customView:'section',name:category.name}">
+              <ion-img [src]="category.image||'../../../assets/imgs/empty.png'"></ion-img>
+              <h3> {{category.name}}</h3>
+            </div>
+            }
+          </div>
+
+
+        </div>
+      </div>
+
+      @if(bestSeller?.length){
+      <div class="most-demand">
+        <div class="header">
+          <ion-button class="more no-color-button">
+            المزيد
+            <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
+          </ion-button>
+          <section>الأكثر طلبا</section>
+        </div>
+
+        <div class="demand-cards">
+          @for (prod of bestSeller; track $index) {
+          <div class="card">
+            <div class="card-content" [routerLink]="'/product/'+prod._id">
+              <ion-img [src]="prod.image||'../../../assets/imgs/empty.png'"></ion-img>
+              <p>{{prod.name}}</p>
+              <h3>{{prod.price}}د</h3>
+            </div>
+            <ion-button (click)="addToCart(prod)">
+              <ion-label>أضف للسلة</ion-label>
+              <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
+            </ion-button>
+            <div class="addition-btns">
+              <ion-button (click)="addToFavorite(prod)" class="no-color-button">
+                <ion-icon [name]="inFavorites?.includes(prod._id)?'heart':'heart-outline'"
+                  [color]="inFavorites?.includes(prod._id)?'primary':'dark'" slot="icon-only"></ion-icon>
+              </ion-button>
+              <div class="btns">
+
+                @if(prod.new){
+                <span
+                  [class]="(prod.offer&&prod.new)|| (prod.new&&prod.special)||(prod.special&& prod.offer)?'extra':'expanded'">
+                  <ion-img src="../../../assets/imgs/stars.svg" slot="icon-only"></ion-img>
+                  @if(!prod.special&&!prod.offer){جديد}
+                </span>
+                }
+                @if(prod.offer){
+
+                <span [class]="(prod.offer&&prod.new)|| (prod.new&&prod.special)||(prod.special&&
+                  prod.offer)?'extra':'expanded'">
+                  <ion-img src="../../../assets/imgs/offer-icon.svg" slot="icon-only"></ion-img>
+                  @if(!prod.new&&!prod.special){خصم}
+                </span>
+                }
+                @if(prod.special){
+                <span [class]="(prod.offer&&prod.new)|| (prod.new&&prod.special)||(prod.special&&
+                  prod.offer)?'extra':'expanded'">
+
+                  <ion-img src="../../../assets/imgs/trend-icon.svg" slot="icon-only"></ion-img>
+                </span>
+                }
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+
+      </div>
+      }
+
+      @if(offers?.length){
+      <div class="offers">
+
+        <div class="header">
+          <ion-button class="more no-color-button" (click)="toCustomComponent('offer')">
+            المزيد
+            <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
+          </ion-button>
+          <section>العروض</section>
+        </div>
+
+        <div class="offers-cards">
+          @for (offer of offers; track $index) {
+          <div class="card">
+            <ion-img [src]="offer.image||'../../../assets/imgs/empty.png'"></ion-img>
+            <ion-button class="no-color-button">
+              <ion-label>تفقد المنتجات</ion-label>
+              <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
+            </ion-button>
+          </div>
+          }
+        </div>
+
+      </div>
+      }
+
+      @if(discountProducts?.length){
+      <div class="discounts">
+        <div class="header">
+          <ion-button class="more no-color-button" routerLink="/tabs/discounts">
+            المزيد
+            <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
+          </ion-button>
+          <section>التخفيضات</section>
+        </div>
+
+        <div class="discount-cards">
+          @for (discountProd of discountProducts; track $index) {
+          <div class="card">
+            <div class="card-content" [routerLink]='"/product/" + discountProd._id'>
+              <ion-img [src]="discountProd.image"></ion-img>
+              <p> {{discountProd.name}} </p>
+              <h3>{{discountProd.price}} د</h3>
+            </div>
+            <ion-button (click)="addToCart(discountProd)">
+              <ion-label>أضف للسلة</ion-label>
+              <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
+            </ion-button>
+            <div class="addition-btns">
+              <ion-button (click)="addToFavorite(discountProd)" class="no-color-button">
+                <ion-icon [name]="inFavorites?.includes(discountProd._id)?'heart':'heart-outline'"
+                  [color]="inFavorites?.includes(discountProd._id)?'primary':'dark'" slot="icon-only"></ion-icon>
+              </ion-button>
+              <div class="btns">
+
+                @if(discountProd.new){
+                <span
+                  [class]="(discountProd.offer&&discountProd.new)|| (discountProd.new&&discountProd.special)||(discountProd.special&& discountProd.offer)?'extra':'expanded'">
+                  <ion-img src="../../../assets/imgs/stars.svg" slot="icon-only"></ion-img>
+                  @if(!discountProd.special&&!discountProd.offer){جديد}
+                </span>
+                }
+                @if(discountProd.offer){
+
+                <span [class]="(discountProd.offer&&discountProd.new)|| (discountProd.new&&discountProd.special)||(discountProd.special&&
+                  discountProd.offer)?'extra':'expanded'">
+                  <ion-img src="../../../assets/imgs/offer-icon.svg" slot="icon-only"></ion-img>
+                  @if(!discountProd.new&&!discountProd.special){خصم}
+                </span>
+                }
+                @if(discountProd.special){
+                <span [class]="(discountProd.offer&&discountProd.new)|| (discountProd.new&&discountProd.special)||(discountProd.special&&
+                  discountProd.offer)?'extra':'expanded'">
+
+                  <ion-img src="../../../assets/imgs/trend-icon.svg" slot="icon-only"></ion-img>
+                </span>
+                }
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+
+      </div>
+      }
+
+      <div class="brands">
+
+        <div class="header">
+          <ion-button class="more no-color-button" (click)="toCustomComponent('brand')">
+            المزيد
+            <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
+          </ion-button>
+          <section>البراندات</section>
+        </div>
+
+        <div class="brands-cards">
+          <div>
+            @for (brand of brands; track $index) {
+            <div class="card" routerLink="/section" [queryParams]="{customView:'brand',id:brand._id,name:brand.name}">
+              <ion-img [src]="brand.image||loadingImg"></ion-img>
+            </div>
+            }
+
+          </div>
+          <div>
+            @for (brand of reversedBrands; track $index) {
+            <div class="card" routerLink="/section" [queryParams]="{customView:'brand',id:brand._id,name:brand.name}">
+              <ion-img [src]="brand.image||loadingImg"></ion-img>
+            </div>
+            }
+
+          </div>
+        </div>
+
+      </div>
+
+      @if(newProducts.length){
+      <div class="recent">
+
+        <div class="header">
+          <section>وصل حديثا</section>
+        </div>
+
+        <div class="recent-cards">
+          @for (newProd of newProducts; track $index) {
+          <div class="card">
+            <div class="card-content" [routerLink]="'/product/'+newProd._id">
+              <ion-img [src]="newProd.image"></ion-img>
+              <p> {{newProd.name}}</p>
+              <h3>{{newProd.price}}د</h3>
+            </div>
+            <ion-button (click)="addToCart(newProd)">
+              <ion-label>أضف للسلة</ion-label>
+              <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
+            </ion-button>
+
+            <div class="addition-btns">
+              <ion-button (click)="addToFavorite(newProd)" class="no-color-button">
+                <ion-icon [name]="inFavorites?.includes(newProd._id)?'heart':'heart-outline'"
+                  [color]="inFavorites?.includes(newProd._id)?'primary':'dark'" slot="icon-only"></ion-icon>
+              </ion-button>
+              <div class="btns">
+
+                @if(newProd.new){
+                <span
+                  [class]="(newProd.offer&&newProd.new)|| (newProd.new&&newProd.special)||(newProd.special&& newProd.offer)?'extra':'expanded'">
+                  <ion-img src="../../../assets/imgs/stars.svg" slot="icon-only"></ion-img>
+                  @if(!newProd.special&&!newProd.offer){جديد}
+                </span>
+                }
+                @if(newProd.offer){
+
+                <span [class]="(newProd.offer&&newProd.new)|| (newProd.new&&newProd.special)||(newProd.special&&
+                  newProd.offer)?'extra':'expanded'">
+                  <ion-img src="../../../assets/imgs/offer-icon.svg" slot="icon-only"></ion-img>
+                  @if(!newProd.new&&!newProd.special){خصم}
+                </span>
+                }
+                @if(newProd.special){
+                <span [class]="(newProd.offer&&newProd.new)|| (newProd.new&&newProd.special)||(newProd.special&&
+                  newProd.offer)?'extra':'expanded'">
+
+                  <ion-img src="../../../assets/imgs/trend-icon.svg" slot="icon-only"></ion-img>
+                </span>
+                }
+              </div>
+            </div>
+          </div>
+          }
+
+        </div>
+
+      </div>
+      }
+
+
+    </div>
+
+  </div>
+
+  <router-outlet></router-outlet>
+</ion-content>

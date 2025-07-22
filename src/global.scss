@@ -35,3 +35,561 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+@import './theme/mixin.scss';
+@import './theme/variables.scss';
+
+
+
+$primaryColor: var(--primary-color);
+$secondaryColor: var(--secondary-color);
+$navIconsColor: var(--nav-icons-color);
+$noneBg: var(--none-background);
+$alertColor: var(--alert-color);
+
+
+* {
+  font-family: "Cairo", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+ion-button {
+  --padding-bottom: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+}
+
+.main-header {
+  box-shadow: none;
+  @include flex(0, space-between, center, '');
+  width: 100%;
+  height: 52px;
+  background-color: white;
+  padding: 8px 16px;
+
+  >ion-img {
+    @include shape(33.15, 32);
+  }
+
+  .buttons {
+    @include shape(64, 24);
+    @include flex(16, '', center, '');
+
+    ion-button {
+      --ion-color-primary: none;
+      --ion-color-primary-contrast: #{$primaryColor};
+      --box-shadow: none;
+      position: relative;
+
+      >span {
+        position: absolute;
+        background: #ff000063;
+        padding: 3px;
+        border-radius: 50%;
+        height: 15px;
+        width: fit-content;
+        color: white;
+        display: flex;
+        align-items: center;
+        top: 0%;
+        right: 0;
+      }
+
+      ion-img {
+        position: relative;
+        @include shape(24, 24);
+      }
+    }
+
+  }
+}
+
+.custom-header {
+  padding: 0 16px;
+  box-shadow: none;
+
+  >ion-button {
+    --padding-bottom: 8px;
+    --padding-end: 8px;
+    --padding-start: 8px;
+    --padding-top: 8px;
+    position: relative;
+
+    >span {
+      position: absolute;
+      background: #ff000063;
+      padding: 3px;
+      border-radius: 50%;
+      height: 15px;
+      width: fit-content;
+      color: white;
+      display: flex;
+      align-items: center;
+      top: 0%;
+      right: 0;
+    }
+  }
+
+  >ion-img {
+    width: 100%;
+  }
+
+  .content {
+    height: 52px;
+    padding: 8px 0;
+    @include flex(0, space-between, center, '');
+    border-bottom: 1px solid rgba(242, 242, 242, 1);
+
+    >ion-button,
+    ion-back-button {
+      min-height: 24px;
+      min-width: 24px;
+      --padding-bottom: 3px;
+      --padding-start: 3px;
+      --padding-end: 3px;
+      --padding-top: 3px;
+      @include flex(0, center, center, '');
+
+      ion-icon {
+        @include shape(24, 24)
+      }
+    }
+
+    >ion-img {
+      @include shape(24, 24);
+    }
+
+    div {
+      @include flex(8, end, center, '');
+
+      ion-button {
+        min-height: 24px;
+        min-width: 24px;
+        --padding-bottom: 0;
+        --padding-start: 0;
+        --padding-end: 0;
+        --padding-top: 0;
+        @include flex(0, center, center, '');
+
+        ion-icon {
+          @include shape(24, 24)
+        }
+      }
+
+      ion-label {
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 32px;
+        letter-spacing: 0px;
+      }
+
+      p {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 28px;
+        letter-spacing: 0px;
+        text-align: center;
+        color: rgba(128, 128, 128, 1);
+      }
+    }
+  }
+
+}
+
+.no-color-button {
+  --ion-color-primary: none;
+  --ion-color-primary-contrast: #{$primaryColor};
+  --box-shadow: none;
+
+  ion-icon{
+    --ion-color-primary:#{$primaryColor};
+  }
+}
+
+.header {
+  width: 100%;
+  height: 28px;
+  @include flex(0, space-between, center, '');
+  padding: 0 16px;
+  margin-bottom: 8px;
+
+  section {
+    font-size: 16px;
+    line-height: 28px;
+    margin: 0;
+    @include flex(0, end, center, '');
+    padding: 0;
+    font-weight: 700;
+    letter-spacing: 0px;
+  }
+
+  ion-button,
+  ion-tab-button {
+    @include shape(58, 26);
+    @include flex(0, '', center, '');
+  }
+}
+
+ion-content {
+  --ion-background-color: #f6f6f6;
+  --padding-top: 52px;
+}
+
+
+.card {
+  >.card-content {}
+
+  >ion-button:not(.no-color-button) {
+    width: 100% !important;
+  }
+
+  >ion-button.no-color-button {
+    width: 121px !important;
+  }
+}
+
+.btns {
+  @include flex(4, '', center, '');
+
+  span {
+    height: 26px;
+    min-width: 26px;
+    max-width: 62px;
+    color: white;
+    background-color: rgba(44, 52, 84, 0.65);
+    border-radius: 15px;
+    @include flex(4, center, center, '');
+    overflow: hidden;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 22px;
+    letter-spacing: 0px;
+
+    &.extra {
+      width: fit-content;
+    }
+
+    &.expanded {
+      width: 64px;
+    }
+  }
+
+  ion-img {
+    @include shape(18, 18);
+  }
+}
+
+@media(width<360px) {
+
+  .card,
+  .offer {
+    flex-grow: 1 !important;
+  }
+
+  .discount-cards>.card {
+    flex-grow: 0 !important;
+  }
+}
+
+@media (360px<=width<375px) {
+
+  .discount-cards,
+  .similar-prods>.prods-cards,
+  .demand-cards,
+  .section-cards {
+    .card {
+      width: 160px !important;
+      padding: 12px 7px;
+      align-items: center;
+      flex-grow: 0 !important;
+
+      >ion-button {
+        width: 100% !important;
+      }
+    }
+  }
+}
+
+
+
+
+@media (768px>width>359px) {
+
+  .brands-cards,
+  .section-content {
+    flex-direction: column !important;
+    padding: 0 16px;
+    justify-content: start;
+    direction: rtl;
+
+    >div {
+      overflow: auto;
+    }
+  }
+
+  .custom-header {
+    >img {
+      width: 75%;
+    }
+  }
+
+  .prods-cards,
+  .offers,
+  .offers-cards {
+    // width: 100%;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+
+    .offer,
+    .card {
+      // flex-basis: calc((100% - 8px) / 2) !important;
+      // flex-grow: 0 !important;
+
+      img {
+        width: 100% !important;
+        object-fit: fill;
+      }
+
+    }
+  }
+
+  .offers,
+  .offers-cards {
+
+    .offer,
+    .card {
+      flex-grow: 1;
+      // flex-basis: calc((100% - 8px) / 2) !important;
+      // flex-grow: 0 !important;
+
+      img {
+        width: 100% !important;
+        object-fit: fill;
+      }
+
+    }
+  }
+
+  .sections,
+  .brands {
+
+    .section,
+    .brand {
+      flex-basis: calc((100% - 16px) /3) !important;
+      flex-grow: 0 !important;
+    }
+  }
+
+  .cards .card {
+    flex-grow: 1 !important;
+  }
+}
+
+@media(767px>width>595px) {
+  .discounts-cards {
+    .card {
+      flex-basis: calc((100% - 16px) /3) !important;
+      flex-grow: 0 !important;
+    }
+  }
+}
+
+@media (1023px>width>768px) {
+
+  .offers,
+  .offers-cards {
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    justify-content: end;
+
+    .offer,
+    .card {
+      flex-basis: calc((100% - 16px) / 3) !important;
+      // width: 100% !important;
+
+      img {
+        width: 100% !important;
+      }
+    }
+  }
+
+  .cards .card {
+    width: 100% !important;
+    flex-basis: calc((100% - 8px) / 2) !important;
+    flex-grow: 0 !important;
+  }
+
+
+  .brands-cards,
+  .section-content {
+    padding: 0 16px;
+    direction: rtl;
+
+    >div {
+      overflow: auto;
+    }
+  }
+
+  .custom-header {
+    >img {
+      width: 75%;
+    }
+  }
+
+  .prods-cards {
+    width: 100%;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+
+    .offer,
+    .card {
+      width: 100% !important;
+      flex-basis: calc((100% - 16px) / 3) !important;
+      flex-grow: 0 !important;
+
+      img {
+        width: 100% !important;
+        object-fit: fill;
+      }
+
+    }
+  }
+
+  .discounts-cards {
+
+    .card {
+      flex-basis: calc((100% - 24px) /4) !important;
+      flex-grow: 0 !important;
+    }
+  }
+
+  .product {
+
+    >img,
+    >div:last-child {
+      width: 100% !important;
+    }
+
+    >div:nth-child(2),
+    >div:nth-child(3) {
+      flex-basis: 49%;
+      height: 278px;
+      background: white;
+      border: 1px solid rgba(170, 170, 170, 0.5);
+      border-right-width: 0;
+      border-left-width: 0;
+    }
+  }
+
+  .compo {
+    flex-basis: calc((100% - 24px)/4) !important;
+  }
+
+
+  .account-data,
+  .my-orders-cards {
+    .card {
+      flex-basis: calc((100% - 8px)/2) !important;
+      flex-grow: 0 !important;
+    }
+  }
+
+
+  .compo {
+    flex-grow: 0 !important;
+    flex-basis: calc((100% - 32px)/5);
+  }
+
+
+  .sections,
+  .brands {
+
+    .section,
+    .brand {
+      flex-basis: calc((100% - 24px) /4) !important;
+      flex-grow: 0 !important;
+    }
+  }
+
+
+}
+
+@media (width>1023px) {
+
+  .brands-cards,
+  .section-content {
+    padding: 0 16px;
+    direction: rtl;
+
+    >div {
+      overflow: auto;
+    }
+  }
+
+  .offers,
+  .offers-cards {
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    justify-content: end;
+
+    .offer {
+      flex-basis: calc((100% - 24px) / 4);
+      // width: 100% !important;
+
+      img {
+        width: 100% !important;
+      }
+    }
+  }
+
+  .cards {
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    justify-content: end;
+
+    .card {
+      width: 100% !important;
+      flex-basis: calc((100% - 16px) / 3) !important;
+      flex-grow: 0 !important;
+    }
+  }
+
+
+
+  .account-data,
+  .my-orders-cards {
+    .card {
+      flex-basis: calc((100% - 16px)/3) !important;
+      flex-grow: 0 !important;
+    }
+  }
+
+  .compo {
+    flex-grow: 0 !important;
+    flex-basis: calc((100% - 40px)/6);
+  }
+
+
+  .discounts-cards {
+
+    .card {
+      flex-basis: calc((100% - 32px) /5) !important;
+      flex-grow: 0 !important;
+    }
+  }
+
+  .sections,
+  .brands {
+
+    .section,
+    .brand {
+      flex-basis: calc((100% - 32px) /5) !important;
+      flex-grow: 0 !important;
+    }
+  }
+
+}

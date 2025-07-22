@@ -1,0 +1,31 @@
+@mixin shape($w, $h) {
+  @if($w !='fit') {
+    width: #{$w}px;
+  }
+  @else {
+    width: fit-content;
+  }
+  @if($h !='fit') {
+    height: #{$h}px;
+  }
+  @else {
+    height: fit-content;
+  }
+}
+
+@mixin flex($g, $jc, $ai, $dir) {
+  display: flex;
+  gap: #{$g}px;
+
+  @if($jc !='') {
+    justify-content: $jc;
+  }
+
+  @if($ai !='') {
+    align-items: $ai;
+  }
+
+  @if($dir !='') {
+    flex-direction: $dir;
+  }
+}

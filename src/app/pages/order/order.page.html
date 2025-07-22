@@ -1,0 +1,94 @@
+<ion-header class="main-header">
+
+  <div>
+    <ion-icon name="ellipsis-vertical"></ion-icon>
+    <ion-chip *ngIf="order?.case=='waiting'" title="معلق">معلق</ion-chip>
+    <ion-chip *ngIf="order?.case=='rejected'" title="مرفوض">مرفوض</ion-chip>
+    <ion-chip *ngIf="order?.case=='completed'" title="مكتمل">مكتمل</ion-chip>
+  </div>
+
+  <div>
+    <h3>فاتورة 304</h3>
+    <ion-img src="../../../assets/imgs/invoice-01.svg"></ion-img>
+    <ion-icon name="chevron-forward" (click)="back()"></ion-icon>
+  </div>
+</ion-header>
+
+<ion-content>
+
+  <div class="container">
+
+    <div class="order-date">
+
+      <div class="time">
+        <ion-img src="../../../assets/imgs/clock-01.svg"></ion-img>
+        <p>4:48 مساءا</p>
+      </div>
+      <div class="date">
+        <ion-img src="../../../assets/imgs/calendar-03.svg"></ion-img>
+        <p>27 مارس 2024</p>
+      </div>
+    </div>
+
+    <div class="order">
+      <div class="header">
+        <section>ملخص الطلب</section>
+      </div>
+
+      <div class="order-details">
+        <div>
+          <div>
+            <span>{{order?.totalPrice}}</span>
+            <p>مبلغ الطلب</p>
+          </div>
+          <div>
+            <span>0</span>
+            <p>الخصم</p>
+          </div>
+          <div>
+            <span>0</span>
+            <p>الخدمة</p>
+          </div>
+          <div>
+            <span>5,000</span>
+            <p>التوصيل للمحافظة</p>
+          </div>
+        </div>
+        <div class="total">
+          <span>{{order?.totalPrice + 5000}}</span>
+          <p>السعر الكلي</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="products">
+      <div class="header">
+        <section>المنتجات</section>
+      </div>
+
+      @for(prod of billProducts;track $index){
+      <div class="product">
+        <div class="product-data">
+
+          <div>
+            <strong style="direction: rtl;">{{prod.price}} د</strong>
+            <p>{{prod.name}}</p>
+          </div>
+
+          <div>
+            <div *ngIf="order.products[prod._id].extras?.size">الحجم<strong>L 0</strong></div>
+            <div *ngIf="order.products[prod._id].extras?.color">اللون<strong>أبيض 0</strong></div>
+            <div>العدد<strong>{{order.products[prod._id].qtyIncrease}}</strong></div>
+          </div>
+        </div>
+        <ion-img [src]="prod.image||'../../../assets/imgs/empty.png'"></ion-img>
+      </div>
+      }
+
+
+    </div>
+
+  </div>
+
+</ion-content>

@@ -1,0 +1,324 @@
+@import '../../../theme/mixin.scss';
+@import '../../../global.scss';
+
+.container {
+
+  >section {
+    text-align: right;
+    width: 100%;
+    height: 32px;
+    margin: 16px 0;
+    gap: 8px;
+    padding-right: 16px;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 32px;
+    letter-spacing: 0px;
+  }
+
+  .filter {
+
+    @include flex(8, space-between, center, '');
+    width: 100%;
+    height: 42px;
+    padding: 0 16px;
+    top: 163px;
+    margin-bottom: 16px;
+    padding-right: 16px;
+    padding-left: 16px;
+
+    ion-input,
+    ion-button {
+      border: 1px solid rgba(219, 219, 219, 1);
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    ion-input {
+      flex-grow: 1;
+      height: 42px;
+      padding: 8px 24px 8px 12px !important;
+      @include flex(0, space-between, center, '');
+      text-align: right;
+    }
+  }
+
+  .discounts {
+
+    .discounts-cards {
+      width: 100%;
+      direction: rtl;
+      padding: 0 16px;
+      @include flex(8, flex-start, '', row);
+      flex-wrap: wrap;
+
+      .card {
+        position: relative;
+        background-color: white;
+        @include shape(167, 303);
+        @include flex(12, center, center, column);
+        border-radius: 12px;
+        border: 1px solid rgba(240, 239, 239, 1);
+        padding: 12px;
+
+        .card-content {
+          width: 143px;
+          height: 227px;
+          overflow: hidden;
+          @include flex(8, flex-start, '', column);
+
+          >ion-img,
+          >img {
+            @include shape(143, 143);
+            border-radius: 6px;
+            // overflow: hidden;
+          }
+
+          p {
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 22px;
+            letter-spacing: 0px;
+            white-space: wrap;
+            text-overflow: ellipsis;
+          }
+
+          div {
+            display: flex;
+            align-items: center;
+            width: 100%; //
+            height: 28px;
+
+            h3 {
+              font-weight: 700;
+              font-size: 16px;
+              line-height: 28px;
+              letter-spacing: 0px;
+              margin: 0;
+              flex-grow: 1;
+            }
+
+            >h3.before-discount {
+              color: rgba(170, 170, 170, 1);
+              position: relative;
+
+              &::after {
+                content: "";
+                width: 100%;
+                height: 1.2px;
+                display: block;
+                position: absolute;
+                background: rgb(170 170 170);
+                top: 50%;
+                transform: translateY(50%);
+              }
+            }
+          }
+        }
+
+        >ion-button {
+          height: 40px;
+          direction: ltr;
+          @include flex(8, center, center, '');
+          border-radius: 10px;
+          overflow: hidden;
+          --ion-color-primary:#{$primaryColor};
+
+          ion-label {
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 26px;
+            letter-spacing: 0px;
+            text-align: center;
+          }
+
+          ion-img {
+            @include shape(18, 18);
+            margin-left: 8px;
+          }
+        }
+
+        .addition-btns {
+          position: absolute;
+          top: 12px;
+          width: 143px;
+          padding: 0 5px;
+          @include flex(0, space-between, center, '');
+
+          >ion-button {
+            @include shape(26, 26);
+            --ion-color-primary: white;
+            border-radius: 50%;
+            overflow: hidden;
+          }
+
+          .btns {
+            @include flex(4, '', center, '');
+
+            span {
+              height: 26px;
+              min-width: 26px;
+              max-width: 62px;
+              color: white;
+              background-color: rgba(44, 52, 84, 0.65);
+              border-radius: 15px;
+              @include flex(4, center, center, '');
+              overflow: hidden;
+              font-weight: 600;
+              font-size: 12px;
+              line-height: 22px;
+              letter-spacing: 0px;
+
+              &.extra {
+                width: 64px;
+              }
+            }
+
+            ion-img {
+              @include shape(18, 18);
+            }
+          }
+        }
+      }
+
+    }
+  }
+
+  .nav-segments {
+    display: flex;
+    padding: 0 16px;
+
+    ion-segment-button {
+      font-weight: 700;
+      flex-grow: 1;
+      font-size: 16px;
+      line-height: 28px;
+      letter-spacing: 0px;
+      color: rgba(170, 170, 170, 1);
+      border-bottom: 1px solid rgba(219, 219, 219, 1);
+
+      &.segment-button-checked {
+        color: $secondaryColor;
+        --color-checked: #{$primaryColor};
+        --indicator-color: #{$primaryColor};
+      }
+    }
+  }
+
+  .discounts-filter {
+    position: relative;
+
+    ion-segment {
+      padding: 16px;
+      margin-left: 56px;
+      direction: rtl;
+      @include flex(8, '', center, '');
+
+      ion-segment-button {
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 22px;
+        letter-spacing: 0px;
+        text-align: center;
+        background-color: white;
+        --indicator-color: transparent;
+        color: rgba(128, 128, 128, 1);
+        min-height: 40px;
+        --padding-start: 9px;
+        --padding-end: 9px;
+        @include flex(0, center, center, '');
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid rgba(219, 219, 219, 1);
+
+        &:first-of-type {
+          min-width: 115px;
+        }
+
+        &:nth-of-type(2) {
+          min-width: 160px;
+        }
+
+        &:last-of-type {
+          min-width: 95px;
+        }
+
+        &.segment-button-checked {
+          --color-checked:#{$secondaryColor};
+          background-color: $secondaryColor;
+          color: white;
+        }
+      }
+
+    }
+
+    ion-icon {
+      padding: 8px 16px;
+      position: absolute;
+      left: 0;
+      top: 15px;
+      z-index: 1;
+      width: 24px;
+      height: 26px;
+      background-color: #f6f6f6;
+      color: $primaryColor;
+    }
+
+
+  }
+
+  .offers-cards {
+    padding: 16px 16px;
+    @include flex(8, '', center, column);
+
+    .card {
+      position: relative;
+      width: 343px;
+      height: 156px;
+
+
+      ion-img,
+      img {
+        position: absolute;
+        width: 343px;
+        height: 156px;
+        overflow: hidden;
+        border-radius: 12px;
+
+      }
+
+      ion-button {
+        position: absolute;
+        bottom: 16px;
+        right: 16px;
+        direction: rtl;
+        background: white;
+        height: 32px;
+        right: 12px;
+        bottom: 12px;
+        border-radius: 7px;
+        border: 0.5px solid red;
+        display: flex;
+        align-items: center;
+        --padding-start: 0;
+        --padding-end: 0;
+
+        ion-label {
+          font-weight: 700;
+          font-size: 12px;
+          line-height: 22px;
+          letter-spacing: 0px;
+          text-align: center;
+          @include flex(0, start, center, '');
+          @include shape(77, 32);
+          margin-left: 8px;
+        }
+
+        ion-icon {
+          @include shape(16, 16)
+        }
+      }
+    }
+  }
+
+}

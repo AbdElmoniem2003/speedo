@@ -1,0 +1,296 @@
+@import '../../../theme/mixin.scss';
+@import '../../../global.scss';
+
+
+
+ion-content {
+  --padding-top: 0;
+}
+
+
+.container {
+
+
+  .section-filter {
+    ion-segment {
+      margin-left: 56px;
+      direction: rtl;
+      padding: 8px 16px;
+      @include flex(8, '', center, '');
+
+      ion-segment-button {
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 22px;
+        letter-spacing: 0px;
+        text-align: center;
+        background-color: white;
+        --indicator-color: transparent;
+        color: rgba(128, 128, 128, 1);
+        min-height: 40px;
+        min-width: 63px;
+        --padding-start: 9px;
+        --padding-end: 9px;
+        @include flex(0, center, center, '');
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid rgba(219, 219, 219, 1);
+
+        &.segment-button-checked {
+          --color-checked:#{$secondaryColor};
+          background-color: $secondaryColor;
+          color: white;
+        }
+      }
+    }
+
+    ion-icon {
+      padding: 8px 16px;
+      position: absolute;
+      left: 0;
+      top: 7px;
+      z-index: 1;
+      width: 24px;
+      height: 26px;
+      background-color: #f6f6f6;
+      color: $primaryColor;
+    }
+  }
+
+  .section {
+
+    .section-cards {
+      width: 100%;
+      direction: rtl;
+      padding: 8px 16px 112px 8px;
+      @include flex(8, start, '', '');
+      flex-wrap: wrap;
+
+      .card {
+        position: relative;
+        background-color: white;
+        @include shape(167, 303);
+        @include flex(12, center, center, column);
+        border-radius: 12px;
+        flex-grow: 1;
+        border: 1px solid rgba(240, 239, 239, 1);
+        padding: 12px;
+
+        .card-content {
+          width: 143px;
+          height: 227px;
+          overflow: hidden;
+          @include flex(8, flex-start, '', column);
+
+          >ion-img,
+          >img {
+            @include shape(143, 143);
+            border-radius: 6px;
+            // overflow: hidden;
+          }
+
+          p {
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 22px;
+            letter-spacing: 0px;
+            white-space: wrap;
+            text-overflow: ellipsis;
+          }
+
+          div {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 28px;
+
+            h3 {
+              font-weight: 700;
+              font-size: 16px;
+              line-height: 28px;
+              letter-spacing: 0px;
+              margin: 0;
+              flex-grow: 1;
+            }
+
+            >h3.before-discount {
+              color: rgba(170, 170, 170, 1);
+              text-decoration: line-through;
+            }
+          }
+        }
+
+        >ion-button {
+          height: 40px;
+          direction: ltr;
+          @include flex(8, center, center, '');
+          border-radius: 10px;
+          overflow: hidden;
+          --ion-color-primary:#{$primaryColor};
+
+          ion-label {
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 26px;
+            letter-spacing: 0px;
+            text-align: center;
+          }
+
+          ion-img {
+            @include shape(18, 18);
+            margin-left: 8px;
+          }
+        }
+
+        .addition-btns {
+          position: absolute;
+          top: 12px;
+          width: 143px;
+          padding: 0 5px;
+          @include flex(0, space-between, center, '');
+
+          >ion-button {
+            @include shape(26, 26);
+            --ion-color-primary: white;
+            border-radius: 50%;
+            overflow: hidden;
+          }
+
+          .btns {
+            @include flex(4, '', center, '');
+
+            span {
+              height: 26px;
+              min-width: 26px;
+              max-width: 62px;
+              color: white;
+              background-color: rgba(44, 52, 84, 0.65);
+              border-radius: 15px;
+              @include flex(4, center, center, '');
+              overflow: hidden;
+              font-weight: 600;
+              font-size: 12px;
+              line-height: 22px;
+              letter-spacing: 0px;
+
+              &.extra {
+                width: 64px;
+              }
+            }
+
+            ion-img {
+              @include shape(18, 18);
+            }
+          }
+        }
+      }
+
+    }
+  }
+}
+
+
+ion-modal {
+  --backdrop-opacity: 0.5;
+
+  &::part(content) {
+    border-top-right-radius: 24px;
+    border-top-left-radius: 24px;
+    overflow: hidden;
+  }
+
+  ion-content {
+    --background-color: white;
+    --padding-top: 0;
+  }
+
+  .custom-header {
+    ion-button {
+      @include flex(0, center, center, '');
+      border-radius: 50%;
+      background: rgba(240, 239, 239, 1);
+      --padding-bottom: 10px;
+      --padding-end: 10px;
+      --padding-start: 10px;
+      --padding-top: 10px;
+      @include shape(36, 36);
+
+      ion-icon {
+        @include shape(16, 16)
+      }
+    }
+  }
+
+
+  .container {
+    .compos {
+      @include flex(8, '', '', '');
+      flex-wrap: wrap;
+      direction: rtl;
+      padding: 16px;
+
+      .compo {
+        @include shape(109, 169);
+        @include flex(8, '', center, column);
+        flex-grow: 1;
+        background-color: white;
+        border-radius: 12px;
+        border: 1px solid rgba(240, 239, 239, 1);
+        padding: 8px;
+
+        &.checked {
+          border-color: $primaryColor;
+        }
+
+        ion-img {
+          @include shape(93, 93)
+        }
+
+        p {
+          height: 52px;
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 26px;
+          letter-spacing: 0px;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+// @media (width>490px) {
+
+//   .compo {
+//     flex-basis: calc((100% - 24px)/4) !important;
+//   }
+
+//   .card {
+//     flex-grow: 0 !important;
+//     flex-basis: calc((100% - 16px)/3) !important;
+//   }
+// }
+
+// @media (width>767px) {
+//   .compo {
+//     flex-grow: 0 !important;
+//     flex-basis: calc((100% - 32px)/5);
+//   }
+
+//   .card {
+//     flex-grow: 0 !important;
+//     flex-basis: calc((100% - 24px)/4) !important;
+//   }
+// }
+
+// @media (width>1024px) {
+//   .compo {
+//     flex-grow: 0 !important;
+//     flex-basis: calc((100% - 40px)/6);
+//   }
+
+//   .card {
+//     flex-grow: 0 !important;
+//     flex-basis: calc((100% - 32px)/5) !important;
+//   }
+// }

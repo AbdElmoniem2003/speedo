@@ -1,1 +1,32 @@
+@import '../../theme/mixin.scss';
+@import '../../global.scss';
 
+ion-tab-bar {
+  height: 64px;
+
+  ion-tab-button {
+    --ion-color-primary-shade: #{$primaryColor};
+    --ion-color-primary: #{$primaryColor};
+    // color: #{$primaryColor};
+    --ripple-color: #{$primaryColor};
+    @include shape(75, 64);
+    @include flex(4, space-evenly, center, column);
+
+
+    ion-label {
+      font-size: 12px;
+      line-height: 100%;
+      height: 22px;
+      min-width: 52px;
+      letter-spacing: 0;
+      text-align: center;
+      --ion-color-primary:#{$primaryColor};
+      --ion-color-secondary: rgba(128, 128, 128, 1);
+    }
+
+    ion-img {
+      @include shape(24, 24);
+    }
+
+  }
+}

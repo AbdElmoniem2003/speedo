@@ -1,0 +1,53 @@
+<ion-content>
+
+  <div class="container">
+
+
+    <div class="header">
+      <p>({{inFavoritesProducts.length||0}}) منتجات</p>
+      <section>المفضلة</section>
+    </div>
+
+
+    @if(inFavoritesProducts.length){
+    <div class="favorites cards">
+
+
+      @for (prod of inFavoritesProducts; track $index) {
+      <div class="card">
+        <div class="prod-data">
+
+          <div class="txts">
+            <p>{{prod.name}}</p>
+            <h3 style="direction: rtl;">{{prod.finalPrice|number:''}} د </h3>
+          </div>
+
+          <div class="btns">
+            <ion-button (click)="addToFavorite(prod)" class="no-color-button">
+              <ion-icon [name]="inFavorites?.includes(prod._id)?'heart':'heart-outline'"
+                [color]="inFavorites?.includes(prod._id)?'primary':'dark'" slot="icon-only"></ion-icon>
+            </ion-button>
+            <ion-button (click)="addToCart(prod)">
+              <ion-label>نقل للسلة</ion-label>
+              <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
+            </ion-button>
+          </div>
+
+        </div>
+        <img [src]="prod.image||'../../../assets/imgs/empty.png'">
+      </div>
+      }
+
+    </div>
+    }@if(empty){
+    <div class="empty">
+      <img src="../../../assets/imgs/empty.png" alt="">
+      <h3 style="text-align: center;"> No Products In Favorites </h3>
+    </div>
+    }
+
+
+
+  </div>
+
+</ion-content>

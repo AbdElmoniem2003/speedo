@@ -1,0 +1,89 @@
+<ion-content [fullscreen]="true">
+  <div class="container">
+
+    <div class="header">
+      <section>الحساب</section>
+      <div class="user">
+        <ion-img slot="icon-only" src="../../../assets/imgs/red-clock.svg"></ion-img>
+        <div>
+          <div>
+            <h3>{{user?.displayName}}</h3>
+            <p>{{'karim.ali@mail.com'}}</p>
+          </div>
+          <ion-img src="../../../assets/imgs/user-img.svg"></ion-img>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="account-data">
+      <div class="card">
+        <ion-img src="../../../assets/imgs/store-location-01.svg"></ion-img>
+        <p>قائمة الفروع</p>
+      </div>
+      <div class="card" id="contact-us" (click)="getInfo()">
+        <ion-img src="../../../assets/imgs/call.svg"></ion-img>
+        <p>إتصل بنا</p>
+      </div>
+      <div class="card">
+        <ion-img src="../../../assets/imgs/Side menu icon.svg"></ion-img>
+        <p>سياسة الخصوصية</p>
+      </div>
+      <div class="card" (click)="logOut()">
+        <ion-img src="../../../assets/imgs/logout.svg"></ion-img>
+        <p>تسجيل الخروج</p>
+      </div>
+    </div>
+
+  </div>
+
+  <ion-modal trigger="contact-us" #contactModal>
+    <ng-template>
+      <ion-header class="custom-header" style="display: flex;justify-content: end;">
+        <div class="content">
+          <ion-label>تواصل معنا</ion-label>
+          <ion-button (click)="contactModal.dismiss()" class="no-color-button">
+            <ion-icon style="color: black;" name="chevron-forward-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-header>
+      <ion-content>
+        <p></p>
+        <h2>وسائل التواصل</h2>
+        <div class="contacts">
+
+          <div class="ion-activatable">
+            <ion-ripple-effect></ion-ripple-effect>
+            <p>{{companyInfo?.phone}}</p>
+            <ion-img src="../../../assets/imgs/call.svg" slot="end"></ion-img>
+          </div>
+
+          <div class="ion-activatable">
+            <ion-ripple-effect></ion-ripple-effect>
+            <p>انستاقرام</p>
+            <ion-icon name="logo-instagram" slot="end"></ion-icon>
+          </div>
+
+          <div class="ion-activatable">
+            <ion-ripple-effect></ion-ripple-effect>
+            <p>فيسبوك</p>
+            <ion-img src="../../../assets/imgs/facebook.svg" slot="end"></ion-img>
+          </div>
+
+          <div class="ion-activatable">
+            <ion-ripple-effect></ion-ripple-effect>
+            <p>واتس اب</p>
+            <ion-img src="../../../assets/imgs/whatsup.svg" slot="end"></ion-img>
+          </div>
+
+          <div class="ion-activatable">
+            <ion-ripple-effect></ion-ripple-effect>
+            <p>{{companyInfo?.location||companyInfo?.address}}</p>
+            <ion-img src="../../../assets/imgs/location.svg" slot="end"></ion-img>
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

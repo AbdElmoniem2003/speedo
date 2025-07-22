@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">speedo</string>
+    <string name="title_activity_main">speedo</string>
+    <string name="package_name">com.speedo.example</string>
+    <string name="custom_url_scheme">com.speedo.example</string>
+</resources>
