@@ -3,6 +3,7 @@
 
 
 
+
 ion-content {
   --padding-top: 0;
 }
@@ -12,11 +13,30 @@ ion-content {
 
 
   .section-filter {
-    ion-segment {
+    ion-segment ,.animated-categories{
       margin-left: 56px;
       direction: rtl;
       padding: 8px 16px;
       @include flex(8, '', center, '');
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* For Firefox */
+      scrollbar-width: none;
+      /* hides scrollbar */
+
+      /* For Internet Explorer and Edge */
+      -ms-overflow-style: none;
+      /* hides scrollbar */
+
+      ion-skeleton-text {
+        width: 80px;
+        height: 40px;
+        border-radius: 8px;
+        --background:dodgerblue;
+      }
 
       ion-segment-button {
         font-weight: 700;
@@ -28,7 +48,7 @@ ion-content {
         --indicator-color: transparent;
         color: rgba(128, 128, 128, 1);
         min-height: 40px;
-        min-width: 63px;
+        min-width: fit-content;
         --padding-start: 9px;
         --padding-end: 9px;
         @include flex(0, center, center, '');
@@ -58,21 +78,21 @@ ion-content {
   }
 
   .section {
+    padding: 0 16px;
 
     .section-cards {
-      width: 100%;
       direction: rtl;
-      padding: 8px 16px 112px 8px;
-      @include flex(8, start, '', '');
-      flex-wrap: wrap;
+      display: grid;
+      column-gap: 8px;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
 
       .card {
         position: relative;
         background-color: white;
-        @include shape(167, 303);
+        height: 303px;
         @include flex(12, center, center, column);
         border-radius: 12px;
-        flex-grow: 1;
+        flex-basis: calc((100% - 8px) /2);
         border: 1px solid rgba(240, 239, 239, 1);
         padding: 12px;
 
@@ -189,6 +209,10 @@ ion-content {
   }
 }
 
+.empty {
+  width: 50vw;
+  margin: 0 calc((50vw) / 2);
+}
 
 ion-modal {
   --backdrop-opacity: 0.5;
@@ -232,7 +256,8 @@ ion-modal {
       .compo {
         @include shape(109, 169);
         @include flex(8, '', center, column);
-        flex-grow: 1;
+        // flex-grow: 1;
+        flex-basis: calc((100% - 16px)/3);
         background-color: white;
         border-radius: 12px;
         border: 1px solid rgba(240, 239, 239, 1);
@@ -259,38 +284,38 @@ ion-modal {
   }
 }
 
-// @media (width>490px) {
+@media (width>490px) {
 
-//   .compo {
-//     flex-basis: calc((100% - 24px)/4) !important;
-//   }
+  .compo {
+    flex-basis: calc((100% - 24px)/4) !important;
+  }
 
-//   .card {
-//     flex-grow: 0 !important;
-//     flex-basis: calc((100% - 16px)/3) !important;
-//   }
-// }
+  .card {
+    flex-grow: 0 !important;
+    flex-basis: calc((100% - 16px)/3) !important;
+  }
+}
 
-// @media (width>767px) {
-//   .compo {
-//     flex-grow: 0 !important;
-//     flex-basis: calc((100% - 32px)/5);
-//   }
+@media (width>767px) {
+  .compo {
+    // flex-grow: 0 !important;
+    // flex-basis: calc((100% - 32px)/5);
+  }
 
-//   .card {
-//     flex-grow: 0 !important;
-//     flex-basis: calc((100% - 24px)/4) !important;
-//   }
-// }
+  .card {
+    flex-grow: 0 !important;
+    flex-basis: calc((100% - 24px)/4) !important;
+  }
+}
 
-// @media (width>1024px) {
-//   .compo {
-//     flex-grow: 0 !important;
-//     flex-basis: calc((100% - 40px)/6);
-//   }
+@media (width>1024px) {
+  .compo {
+    flex-grow: 1 !important;
+    flex-basis: calc((100% - 40px)/6);
+  }
 
-//   .card {
-//     flex-grow: 0 !important;
-//     flex-basis: calc((100% - 32px)/5) !important;
-//   }
-// }
+  .card {
+    flex-grow: 0 !important;
+    flex-basis: calc((100% - 32px)/5) !important;
+  }
+}

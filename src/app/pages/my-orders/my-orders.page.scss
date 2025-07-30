@@ -1,6 +1,16 @@
 @import '../../../theme/mixin.scss';
 @import '../../../global.scss';
 
+.empty {
+  width: 100%;
+  @include flex(20, center, center, column);
+
+  ion-icon {
+    transform: rotateZ(90deg);
+    font-size: 50px;
+    margin: 0;
+  }
+}
 
 .container {
 

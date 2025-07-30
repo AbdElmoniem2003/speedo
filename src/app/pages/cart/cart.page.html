@@ -14,7 +14,7 @@
 
   <div class="container">
 
-    @if(inCartProducts.length){
+    @if(inCartProducts?.length){
     <div class="cart-prods">
       @for (product of inCartProducts; track $index) {
       <div class="product">
@@ -23,42 +23,42 @@
           <div>
             <h3>{{product.name}}</h3>
             <div class="add-constract">
-              <h3>{{product.price * product.qtyIncrease}} د</h3>
+              <h3>{{(product.price * product.quantity)|number}} د.ع</h3>
               <ion-buttons slot="end">
-                <ion-button (click)="removeOne(product)" [disabled]="(product.qtyIncrease<=0)"><ion-icon
+                <ion-button (click)="removeOne(product)" [disabled]="(product.quantity<=0)"><ion-icon
                     name="remove-outline"></ion-icon></ion-button>
-                <span>{{product.qtyIncrease}}</span>
+                <span>{{product.quantity}}</span>
                 <ion-button (click)="addOne(product)"><ion-icon name="add-outline"></ion-icon></ion-button>
               </ion-buttons>
             </div>
           </div>
-          <img [src]="product.image||'../../../assets/imgs/logo.svg'">
+          <img [src]="product.image||'../../../assets/imgs/logo.png'">
         </div>
 
-        @if(inCartIDs[product._id].extras){
+        <!-- @if(inCartIDs[product._id].extras){
 
         <div class="prod-options">
           <div class="extra-data">
             <div *ngIf="inCartIDs[product._id].extras.towler">
-              <span>1545د</span>
+              <span>1545 د.ع</span>
               <p>منشفة</p>
             </div>
             <div *ngIf="inCartIDs[product._id].extras.size">
-              <span>1545د</span>
+              <span>1545 د.ع</span>
               <p>الحجم ({{inCartIDs[product._id].extras.size}})</p>
             </div>
             <div *ngIf="inCartIDs[product._id].extras.color">
-              <span>1545د</span>
+              <span>1545 د.ع</span>
               <p>اللون ({{inCartIDs[product._id].extras.color}})</p>
             </div>
           </div>
 
           <div class="total">
             <p>اجمالى المنتج</p>
-            <h3>{{product.qtyIncrease * product.price + 3*1545}} د</h3>
+            <h3>{{product.qtyIncrease * product.price + 3*1545}}  د.ع</h3>
           </div>
         </div>
-        }
+        } -->
 
       </div>
       }
@@ -68,10 +68,10 @@
 
     </div>
     }
-    @if(!inCartProducts.length){
+    @if(!inCartProducts?.length){
     <div class="empty">
-      <img src="../../../assets/imgs/empty.png" alt="">
-      <h3 style="text-align: center;"> No Products In Cart</h3>
+      <ion-icon name="code-working-outline"></ion-icon>
+      <h3 style="text-align: center;">لا منتجات في السلة حاليا</h3>
     </div>
     }
   </div>
@@ -84,19 +84,19 @@
   <div class="content">
     <div class="total">
       <p>الإجمالي الكلى</p>
-      <h3>{{inCartProducts.length?calcTotal(1000) :0|number:'1.0-0'}} د</h3>
+      <h3>{{inCartProducts?.length?calcTotal(1000) :0|number}} د.ع</h3>
     </div>
     <div>
       <div class="orders">
         <p>الطلبات</p>
-        <h3>{{calcTotal()}} د</h3>
+        <h3>{{calcTotal()|number}} د.ع</h3>
       </div>
       <div class="deliver">
         <p>التوصيل</p>
-        <h3>{{inCartProducts.length?1000 : 000 }} د</h3>
+        <h3>{{(inCartProducts?.length?1000 : 000)|number }} د.ع</h3>
       </div>
     </div>
   </div>
 
-  <ion-button (click)="finishOrder()" [disabled]="!inCartProducts.length">انهاء الطلب</ion-button>
+  <ion-button (click)="finishOrder()" [disabled]="!inCartProducts?.length">انهاء الطلب</ion-button>
 </ion-footer>

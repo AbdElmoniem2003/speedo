@@ -38,7 +38,7 @@ ion-content {
       @include flex(8, center, center, column);
       background-color: white;
       height: 227px;
-      flex-grow: 1;
+      // flex-grow: 1;
       overflow: hidden;
       border: 1px solid rgba(240, 239, 239, 1);
       border-radius: 12px;
@@ -172,7 +172,9 @@ ion-content {
       }
     }
   }
-
+.brand,.custom{
+    width:calc((100% - 16px) /3) !important;
+  }
 }
 
 @media (width>1023px) {
@@ -189,6 +191,10 @@ ion-content {
         width: 100% !important;
       }
     }
+  }
+
+  .brand,.custom{
+    width:calc((100% - 24px) /4) !important;
   }
 
 }

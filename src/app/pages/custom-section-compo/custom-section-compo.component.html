@@ -1,0 +1,30 @@
+<ion-header class="custom-header custom-compo-header">
+
+  <div class="content">
+    <ion-button class="no-color-button" (click)="dismisModal()">
+      <ion-icon color="dark" name="close"></ion-icon>
+    </ion-button>
+    <div>
+      <ion-label> أقسام الإلكترونيات</ion-label>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+
+  <div class="container custom-compo-container">
+
+    <div class="compos">
+      @for (category of customObjArr; track $index) {
+      <div [class.checked]="category._id==currentSubId" class="compo" (click)="dismisModal(category._id)">
+        <ion-img [src]="category.image||'../../../assets/imgs/logo-icon.svg'"></ion-img>
+        <p>{{category.name}}</p>
+      </div>
+      }
+    </div>
+
+  </div>
+
+
+
+</ion-content>

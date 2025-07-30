@@ -1,11 +1,11 @@
-export interface Product {
+export class Product {
   additions: string[];
   balance: number;
   bestSeller: boolean;
   brand: string;
   brandDiscount: number;
   brandDiscountPercentage: number;
-  category: string;
+  category: Category;
   categoryDiscount: number;
   categoryDiscountPercentage: number;
   code: string;
@@ -35,6 +35,11 @@ export interface Product {
   totalBalance: number;
   type: number;
   updatedAt: string;
+
+  isFav: boolean = false;
+  inCart: boolean = false;
+  quantity: number;
+
   __v: number;
   _id: string;
 }
@@ -95,7 +100,7 @@ export interface Offer {
 export interface Info {
 
   "_id": string,
-  "location": null,
+  "location": string,
   "phone": string,
   "whatsapp": string,
   "facebook": string,
@@ -107,4 +112,17 @@ export interface Info {
   "updatedAt": string,
   "__v": number
 
+}
+
+export interface User {
+  "_id": string,
+  "username": string,
+  "displayName": string,
+  "status": number,
+  "privatePrice": boolean,
+  "createdAt": string,
+  "updatedAt": string,
+  "__v": number,
+  "accessToken": string,
+  "refreshToken": string
 }

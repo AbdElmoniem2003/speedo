@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
-import { Subscription } from 'rxjs';
 import { DataService } from 'src/app/core/services/data.service';
 import { environment } from 'src/environments/environment';
 
@@ -15,8 +14,8 @@ const baseUrl = environment.baseUrl
 })
 export class MyOrdersPage implements OnInit {
 
+  nowDate: number = Date.now()
   orders: any;
-  newDate = Date.now();
   filterCase: string = 'all'
 
   constructor(
@@ -29,20 +28,31 @@ export class MyOrdersPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.getOrders()
+    this.getOrders();
   }
 
   async getOrders(ev?: any) {
     const inOrders = await this.storage.get('orders');
-    this.orders = inOrders ? Object.entries(this.orders).map(([key, value]) => {
+    if (!inOrders) return;
+    this.orders = Object.entries(inOrders).map(([key, value]) => {
       return { key, value }
-    }) : []
-    console.log(this.orders[0])
-
+    })
+    this.orders.forEach(o => {
+      console.log(this.nowDate - o.value.date)
+    })
   }
 
   getObjLength(obj: Object) {
     return Object.keys(obj).length
+  }
+
+  calcTimeDiff(customDate: number): string {
+    const timeDiff = this.nowDate - customDate;
+    let hours: any = Math.floor(timeDiff / 1000 / 60 / 60);
+    let minutes: any = Math.floor(timeDiff / 1000 / 60);
+    hours = hours > 0 ? `0${hours}`.slice(0, 2) : '00';
+    minutes = minutes > 0 ? `0${minutes}`.slice(0, 2) : '00';
+    return (hours + ':' + minutes)
   }
 
 }

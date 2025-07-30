@@ -1,9 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IonTabButton, NavController } from '@ionic/angular';
 import { DataService } from '../core/services/data.service';
-import { Product } from '../core/project-interfaces/interfaces';
+import { Product, User } from '../core/project-interfaces/interfaces';
 import { Storage } from '@ionic/storage-angular';
 import { Subscription } from 'rxjs';
+import { WildUsedService } from '../core/services/wild-used.service';
+import { CartService } from '../core/services/cart.service';
+import { FavoService } from '../core/services/favorites.service';
+import { AuthService } from '../core/services/auth.service';
 
 @Component({
   selector: 'app-tabs',
@@ -13,9 +17,6 @@ import { Subscription } from 'rxjs';
 })
 export class TabsPage implements OnInit {
 
-  totalInCart: number = 0;
-  inCartSub: Subscription
-
   @ViewChild('tab1') tab1: IonTabButton
   @ViewChild('tab2') tab2: IonTabButton
   @ViewChild('tab3') tab3: IonTabButton
@@ -24,38 +25,25 @@ export class TabsPage implements OnInit {
 
   constructor(private navCtrl: NavController,
     private dataService: DataService,
-    private storage: Storage
+    private storage: Storage,
+    private wildUsedService: WildUsedService,
+    public cartService: CartService,
+    private favoService: FavoService,
+    public authService: AuthService
   ) { }
 
   async ngOnInit() {
-    this.getInCarts()
+    this.cartService.getCartProds()
+    this.favoService.getFavorites()
+    this.authService.getUserFromStorage()
+    // this.cartService.cartBehaviourSub.subscribe((total) => this.totalInCart = total)
   }
 
-  getInCarts() {
-    this.inCartSub = this.dataService.cartBehaviorSubject.subscribe((response: any) => {
-      if (response) {
-        this.storage.get('inCart').then((idsObj) => {
-          if (idsObj) {
-            if (Object.keys(idsObj).includes(response.prod._id)) {
-              idsObj[response.prod._id].qtyIncrease += 1
-            } else {
-              idsObj[response.prod._id] = { qtyIncrease: 1 }
-            }
-            response.extras ? idsObj[response.prod._id].extras = response.extras : null
-            this.storage.set('inCart', idsObj)
-            this.totalInCart = Object.keys(idsObj).length;
-          } else {
-            this.totalInCart = 1
-            this.storage.set('inCart', { [response.prod._id]: { qtyIncrease: 1 } })
-          }
-        })
-      }
-    })
+  async ionViewWillEnter() {
   }
 
   toCart() { this.navCtrl.navigateForward('/cart') }
 
   ngOnDestroy() {
-    this.inCartSub.unsubscribe()
   }
 }

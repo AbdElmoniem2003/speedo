@@ -5,9 +5,7 @@ import { Storage } from '@ionic/storage-angular';
 import { Subscription } from 'rxjs';
 import { Product } from 'src/app/core/project-interfaces/interfaces';
 import { DataService } from 'src/app/core/services/data.service';
-import { environment } from 'src/environments/environment';
 
-const baseUrl = environment.baseUrl
 
 @Component({
   selector: 'app-order',
@@ -19,7 +17,7 @@ export class OrderPage implements OnInit {
 
   orderSubscription: Subscription;
   billProducts: Product[] = [];
-  order: any
+  bill: any
 
   constructor(private navCtrl: NavController,
     private storage: Storage,
@@ -34,17 +32,16 @@ export class OrderPage implements OnInit {
   async getProducts() {
     const orders = await this.storage.get('orders');
     const orderDate = this.route.snapshot.queryParamMap.get('date');
-    this.order = orders[orderDate];
-    const productsIDs = Object.keys(this.order.products)
-    console.log(this.order)
-    this.orderSubscription = this.dataService.getData(baseUrl + '/product?skip=0').subscribe((response: Product[]) => {
-      productsIDs.forEach(id => {
-        response.forEach((p) => {
-          if (id !== p._id) return;
-          this.billProducts.push(p)
-        })
-      })
-    })
+    this.bill = orders[`${orderDate}`];
+    this.billProducts = this.bill.products
+    // this.orderSubscription = this.dataService.getData('product?skip=0').subscribe((response: Product[]) => {
+    //   order.forEach(id => {
+    //     response.forEach((p) => {
+    //       if (id !== p._id) return;
+    //       this.billProducts.push(p)
+    //     })
+    //   })
+    // })
   }
 
   back() {
@@ -52,7 +49,7 @@ export class OrderPage implements OnInit {
   }
 
   ngOnDestroy() {
-    this.orderSubscription.unsubscribe()
+    // this.orderSubscription.unsubscribe()
   }
 
 }

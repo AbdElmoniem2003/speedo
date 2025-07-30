@@ -5,7 +5,7 @@
 
     <div class="frames-holder">
 
-      <button class="ion-activatable">
+      <button class="ion-activatable" (click)="toHome()">
         <ion-ripple-effect></ion-ripple-effect>
         <ion-icon name="close-outline"></ion-icon>
         <ion-label>اغلاق</ion-label>
@@ -16,7 +16,7 @@
       <ion-img src="../../../assets/imgs/frame3.svg"></ion-img>
 
       <div class="logo">
-        <ion-img src="../../../assets/imgs/logo.svg"></ion-img>
+        <ion-img src="../../../assets/imgs/logo-icon.svg"></ion-img>
         <p>سبيدو لايف</p>
       </div>
 
@@ -28,12 +28,19 @@
         <h3>إنشاء حساب</h3>
 
         <div class="inputs">
-          <ion-input formControlName="displayName" type="email" placeholder="اسم المستخدم">
+
+          <ion-input formControlName="username" type="email" placeholder="بريد المستخدم">
+            <ion-icon slot="end" [class]="registerForm.get('username').valid?'valid':''"
+              name="mail-outline"></ion-icon>
+          </ion-input>
+
+          <ion-input formControlName=" username" type="text" placeholder="اسم المستخدم">
             <ion-img slot="end"
               [src]="registerForm.get('displayName').valid?'../../../assets/imgs/red-person.svg':'../../../assets/imgs/black-person.svg'"></ion-img>
           </ion-input>
 
-          <ion-input formControlName="password" [type]="showPassword?'text':'password'" placeholder="كلمة السر">
+          <ion-input (keyup.enter)="register()" formControlName="password" [type]="showPassword?'text':'password'"
+            placeholder="كلمة السر">
             <ion-img (click)="showPassword = !showPassword"
               [src]="registerForm.get('password').valid?'../../../assets/imgs/red-lock.svg':'../../../assets/imgs/black-lock.svg'"
               slot="end"></ion-img>

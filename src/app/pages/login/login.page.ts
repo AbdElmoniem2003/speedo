@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
@@ -16,7 +17,8 @@ export class LoginPage implements OnInit {
 
   constructor(
     private builder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private navCtrl: NavController
   ) { }
 
   ngOnInit() {
@@ -26,12 +28,17 @@ export class LoginPage implements OnInit {
   initForms() {
     this.loginForm = this.builder.group({
       password: [null, Validators.required],
+      username: [null, [Validators.required, Validators.email]],
       displayName: [null, Validators.required]
     })
   }
 
   login() {
     this.authService.logIn(this.loginForm.value)
+  }
+
+  toHome() {
+    this.navCtrl.navigateRoot('tabs/home')
   }
 
 

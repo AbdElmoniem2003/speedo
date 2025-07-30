@@ -115,9 +115,14 @@
           text-align: right;
           @include flex(12, space-evenly, center, '');
 
-          ion-img {
+          ion-img,
+          ion-icon {
             @include shape(24, 24);
             margin: 0 12px;
+
+            &.valid {
+              color:#{$primaryColor};
+            }
           }
 
         }
@@ -129,7 +134,7 @@
       width: 100%;
       height: 48px;
       --padding: 8px 16px;
-      border-radius: 10px;
+      --border-radius: 10px;
       color: white;
       --background: #{$primaryColor};
 

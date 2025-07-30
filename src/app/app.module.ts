@@ -6,8 +6,9 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import { AuthIntercepror } from './core/interceptors/auth.interceptor';
 
 
 
@@ -15,12 +16,16 @@ import { IonicStorageModule } from '@ionic/storage-angular';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      scrollAssist: true,
+      // autoFocusAssist: true
+    }),
     AppRoutingModule,
-    // HttpClientModule,
     IonicStorageModule.forRoot({ name: 'Speedo' })
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideHttpClient(withInterceptorsFromDi())],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideHttpClient(withInterceptorsFromDi()),
+  { provide: HTTP_INTERCEPTORS, useClass: AuthIntercepror, multi: true }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

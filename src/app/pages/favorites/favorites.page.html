@@ -9,23 +9,20 @@
     </div>
 
 
-    @if(inFavoritesProducts.length){
+    @if(inFavoritesProducts?.length){
     <div class="favorites cards">
-
-
       @for (prod of inFavoritesProducts; track $index) {
       <div class="card">
         <div class="prod-data">
 
-          <div class="txts">
+          <div class="txts" [routerLink]="'/product/'+prod._id">
             <p>{{prod.name}}</p>
             <h3 style="direction: rtl;">{{prod.finalPrice|number:''}} د </h3>
           </div>
 
           <div class="btns">
-            <ion-button (click)="addToFavorite(prod)" class="no-color-button">
-              <ion-icon [name]="inFavorites?.includes(prod._id)?'heart':'heart-outline'"
-                [color]="inFavorites?.includes(prod._id)?'primary':'dark'" slot="icon-only"></ion-icon>
+            <ion-button (click)="removeFromFavorites(prod)" class="no-color-button">
+              <ion-icon [name]="'heart'" slot="icon-only"></ion-icon>
             </ion-button>
             <ion-button (click)="addToCart(prod)">
               <ion-label>نقل للسلة</ion-label>
@@ -34,15 +31,15 @@
           </div>
 
         </div>
-        <img [src]="prod.image||'../../../assets/imgs/empty.png'">
+        <img [routerLink]="'/product/'+prod._id" [src]="prod.image||'../../../assets/imgs/logo.png'">
       </div>
       }
 
     </div>
-    }@if(empty){
+    }    @if(!inFavoritesProducts?.length){
     <div class="empty">
-      <img src="../../../assets/imgs/empty.png" alt="">
-      <h3 style="text-align: center;"> No Products In Favorites </h3>
+      <ion-icon name="code-working-outline"></ion-icon>
+      <h3 style="text-align: center;">لا منتجات في السلة حاليا</h3>
     </div>
     }
 

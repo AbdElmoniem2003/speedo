@@ -3,7 +3,7 @@
   <div class="content" style="justify-content: end;">
     <div>
       <ion-label> انهاء الطلب</ion-label>
-      <ion-back-button (click)="dismiss()" class="no-color-button" icon="chevron-forward">
+      <ion-back-button (click)="modalCtrl.dismiss()" class="no-color-button" icon="chevron-forward">
       </ion-back-button>
     </div>
   </div>
@@ -24,15 +24,15 @@
 
         <ion-input formControlName="discountCode" placeholder="كود الخصم..."></ion-input>
 
-        <ion-radio-group value="سفرى" formControlName="serviceMethod">
-          <ion-radio value="سفرى">
+        <ion-radio-group value="safari" formControlName="serviceMethod">
+          <ion-radio value="safari">
             <ion-label>سفرى</ion-label>
-            <ion-input placeholder="الوصف هنا...."> </ion-input>
+            <ion-input formControlName="safari-info" placeholder="الوصف هنا...."> </ion-input>
           </ion-radio>
 
-          <ion-radio value="دليفرى">
+          <ion-radio value="delivery">
             <ion-label>دليفرى</ion-label>
-            <ion-input placeholder="الوصف هنا...."> </ion-input>
+            <ion-input formControlName="delivary-info" placeholder="الوصف هنا...."> </ion-input>
           </ion-radio>
         </ion-radio-group>
 
@@ -40,20 +40,20 @@
 
         <div class="order-data">
           <div>
-            <p>عدد الطلبات</p>
+            <p>عد الطلبات</p>
             <h3>{{numOfOrders}}</h3>
           </div>
           <div>
             <p>اجمالى الخصومات</p>
-            <h3>{{totalDiscounts}} د</h3>
+            <h3>{{totalDiscounts|number}} د.ع</h3>
           </div>
           <div>
             <p>التوصيل</p>
-            <h3>{{deliver}} د</h3>
+            <h3>{{deliver | number}} د.ع</h3>
           </div>
           <div>
             <p>الإجمالي</p>
-            <h3>{{total}} د</h3>
+            <h3>{{total|number}} د.ع</h3>
           </div>
         </div>
       </div>

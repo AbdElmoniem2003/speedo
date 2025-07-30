@@ -150,10 +150,10 @@ ion-content {
 .empty {
   @include flex(20, center, center, column);
 
-  img {
-    min-width: 360px;
-    max-width: 70%;
-    height: fit-content;
+  ion-icon {
+    transform: rotateZ(90deg);
+    font-size: 50px;
+    margin: 0;
   }
 }
 
@@ -165,6 +165,7 @@ ion-footer {
   border-top: 1px solid rgba(242, 242, 242, 1);
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
+  background-color: white;
 
   .content {
     @include flex(0, space-between, center, '');
@@ -229,8 +230,8 @@ ion-footer {
 
 @media (1023px>width>767px) {
   .product {
-    flex-basis: calc((100% - 16px) / 2) !important;
-    flex-grow: 0 !important;
+    // flex-basis: calc((100% - 16px) / 2) !important;
+    // flex-grow: 0 !important;
 
     .prod-options {
       flex-grow: 1;
@@ -243,8 +244,8 @@ ion-footer {
 
 @media (width>1023px) {
   .product {
-    flex-basis: calc((100% - 32px) / 3) !important;
-    flex-grow: 0 !important;
+    // flex-basis: calc((100% - 32px) / 3) !important;
+    // flex-grow: 0 !important;
   }
 
 }

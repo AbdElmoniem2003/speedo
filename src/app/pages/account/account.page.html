@@ -7,7 +7,7 @@
         <ion-img slot="icon-only" src="../../../assets/imgs/red-clock.svg"></ion-img>
         <div>
           <div>
-            <h3>{{user?.displayName}}</h3>
+            <h3>{{user?.username}}</h3>
             <p>{{'karim.ali@mail.com'}}</p>
           </div>
           <ion-img src="../../../assets/imgs/user-img.svg"></ion-img>
@@ -60,19 +60,19 @@
 
           <div class="ion-activatable">
             <ion-ripple-effect></ion-ripple-effect>
-            <p>انستاقرام</p>
+            <p>{{companyInfo.instagram}}</p>
             <ion-icon name="logo-instagram" slot="end"></ion-icon>
           </div>
 
           <div class="ion-activatable">
             <ion-ripple-effect></ion-ripple-effect>
-            <p>فيسبوك</p>
+            <p>{{companyInfo.facebook||'ليس لدينا حساب علي الفيسبوك'}}</p>
             <ion-img src="../../../assets/imgs/facebook.svg" slot="end"></ion-img>
           </div>
 
           <div class="ion-activatable">
             <ion-ripple-effect></ion-ripple-effect>
-            <p>واتس اب</p>
+            <p> {{companyInfo.whatsapp}}</p>
             <ion-img src="../../../assets/imgs/whatsup.svg" slot="end"></ion-img>
           </div>
 

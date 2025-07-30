@@ -3,17 +3,18 @@ import {
   OnInit,
 } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { NavController } from "@ionic/angular";
+import { NavController, RefresherCustomEvent } from "@ionic/angular";
 import { Storage } from "@ionic/storage-angular";
 import { Subscription } from "rxjs";
 import { Brand, Category, Product, Slider } from "src/app/core/project-interfaces/interfaces";
+import { CartService } from "src/app/core/services/cart.service";
 import { DataService } from "src/app/core/services/data.service";
+import { FavoService } from "src/app/core/services/favorites.service";
+import { WildUsedService } from "src/app/core/services/wild-used.service";
 import { environment } from "src/environments/environment";
 
 import { register, SwiperContainer } from "swiper/element/bundle";
 
-
-const baseUrl: string = environment.baseUrl;
 
 @Component({
   selector: "app-home",
@@ -28,66 +29,72 @@ export class HomePage implements OnInit {
 
   getSubscription: Subscription = null;
 
-  isLoading: boolean = false;
+  isLoading: boolean = true;
   stopLoading: boolean = false;
   empty: boolean = false;
   error: boolean = false;
   skip: number = 0
 
-  products: Product[] = [];
-  sliders: Slider[] = [];
-  categories: Category[] = []
-  reversedcategories: Category[] = []
-  brands: Brand[] = [];
-  reversedBrands: Brand[] = [];
-  newProducts: Product[] = []
-  discountProducts: Product[] = []
-  offers: Product[] = []
-  bestSeller: Product[] = []
-  inFavorites: string[] = [];
+  products: Product[];
+  sliders: Slider[];
+  categories: Category[];
+  brands: Brand[];
+  newProducts: Product[];
+  discountProducts: Product[];
+  offers: Product[];
+  bestSeller: Product[];
+  // inFavorites: string[] ;
+  filterModalOpen: boolean = false
 
   constructor(
     private navCtrl: NavController,
     private router: Router,
     private route: ActivatedRoute,
     private storage: Storage,
-    private dataService: DataService
+    private dataService: DataService,
+    private wildUsedService: WildUsedService,
+    private cartService: CartService,
+    private favoService: FavoService
   ) { }
 
   ngOnInit() {
-    this.getData()
   }
 
   ionViewWillEnter() {
-    this.storage.get('favorites').then((res: string[]) => this.inFavorites = res ? res : [])
+    this.showLoading()
+    this.getData()
   }
 
 
 
-  endPoint(endPoint?: string) {
-    return endPoint ? baseUrl + "/" + endPoint : baseUrl;
-  }
 
 
-  getData() {
+
+  getData(ev?: any) {
     this.getSubscription = this.dataService
-      .getData(this.endPoint("home?skip=" + this.skip))
+      .getData("home?skip=" + this.skip)
       .subscribe((response: any) => {
-        this.products = response.products;
-        this.sliders = response.sliders;
-        this.handleSwiper();
+        if (response) {
+          this.products = response.products;
+          this.sliders = response.sliders;
+          this.handleSwiper();
 
+          this.categories = response.categories
+          this.brands = response.brands
 
-        this.categories = response.categories
-        this.reversedcategories = [...response.categories].reverse()
-        this.brands = response.brands
-        this.reversedBrands = [...response.brands].reverse()
+          this.newProducts = response.newProducts
+          this.discountProducts = response.discountProducts
+          this.bestSeller = response.bestSeller;
 
-        this.newProducts = response.newProducts
-        this.discountProducts = response.discountProducts
-        this.bestSeller = response.bestSeller
+          this.checkFavorites()
+        }
+        response ? this.showContent(ev) : this.showEmpty(ev)
+      }, err => {
+        this.wildUsedService.generalToast(err.error.message, 'primary')
+        this.showError(ev)
       });
   }
+
 
 
   handleSwiper() {
@@ -98,10 +105,13 @@ export class HomePage implements OnInit {
       el: 'swiper-pagination'
     };
     this.swiperEle.hashNavigation = true;
-    this.swiperEle.updateOnWindowResize = true;
-    window.addEventListener('resize', (ev) => {
-      this.swiperEle.slidesPerView = 'auto';
-    })
+  }
+
+  checkFavorites() {
+    this.favoService.checkFavoriteProds(this.products)
+    this.favoService.checkFavoriteProds(this.bestSeller)
+    this.favoService.checkFavoriteProds(this.newProducts)
+    this.favoService.checkFavoriteProds(this.discountProducts)
   }
 
   toCustomComponent(customView: string) {
@@ -110,20 +120,23 @@ export class HomePage implements OnInit {
     });
   }
 
-
   addToCart(product: Product) {
-    this.dataService.cartBehaviorSubject.next({ prod: product });
+    product.quantity = product.quantity ? product.quantity + 1 : 1;
+    this.cartService.updateCart(product)
   }
 
   addToFavorite(prod: Product) {
-    if (this.inFavorites.includes(prod._id)) {
-      this.inFavorites = this.inFavorites.filter((p) => { return p !== prod._id })
-    } else {
-      this.inFavorites.push(prod._id)
-    }
-    this.dataService.updateFavorite(prod)
+    prod.isFav = !prod.isFav
+    this.favoService.updateFavorites(prod);
+    this.checkFavorites()
   }
 
+
+  showLoading() {
+    this.isLoading = true
+    this.empty = false
+    this.error = false
+  }
 
   showContent(ev?: any) {
     this.isLoading = false;
@@ -144,18 +157,18 @@ export class HomePage implements OnInit {
     this.empty = false
     ev?.target.complete()
   }
-  refresh(ev?: any) {
-    this.stopLoading = false
-    this.isLoading = true
+  async refresh(ev?: RefresherCustomEvent) {
+    this.showLoading()
+    this.skip = 0
     this.error = false
     this.empty = false
-    ev?.target.complete()
+    this.getData(ev)
   }
 
 
 
 
   ngOnDestroy() {
-    this.getSubscription.unsubscribe()
+    this.getSubscription?.unsubscribe()
   }
 }

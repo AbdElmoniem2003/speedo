@@ -1,14 +1,18 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Storage } from "@ionic/storage-angular";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, take } from "rxjs";
 import { Product } from "../project-interfaces/interfaces";
+import { environment } from "src/environments/environment";
+
+const baseUrl = environment.baseUrl
 
 @Injectable({ providedIn: 'root' })
 
 export class DataService {
 
-  cartBehaviorSubject: BehaviorSubject<any> = new BehaviorSubject(null)
+
+  param: any;
 
   constructor(
     private http: HttpClient,
@@ -16,35 +20,26 @@ export class DataService {
   ) { }
 
 
+  passObj(obj) {
+    this.param=obj
+  }
+
   getData(url: string) {
-    return this.http.get(url)
+    return this.http.get(baseUrl + url).pipe(take(1))
   }
 
   postData(url: string, body: any) {
-    return this.http.post(url, body)
+    return this.http.post(baseUrl + url, body).pipe(take(1))
   }
 
   deleteData(url: string) {
-    return this.http.delete(url)
+    return this.http.delete(baseUrl + url).pipe(take(1))
   }
 
   updateData(url: string, body: any) {
-    return this.http.patch(url, body)
+    return this.http.patch(baseUrl + url, body).pipe(take(1))
   }
 
-  updateFavorite(prod: Product) {
-    this.storage.get('favorites').then((res: string[]) => {
-      if (res.includes(prod._id)) {
-        res = res.filter(p => { return p !== prod._id })
-        this.storage.set('favorites', res)
-      } else {
-        res.push(prod._id);
-        this.storage.set('favorites', res)
-      }
-    }).catch(() => {
-      this.storage.set('favorites', [prod._id])
-    })
-  }
 
 
 }

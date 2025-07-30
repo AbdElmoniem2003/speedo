@@ -3,7 +3,7 @@
   <div class="container">
 
     <div class="header">
-      <p>({{orders?.length}}) فواتير</p>
+      <p>({{orders?.length||0}}) فواتير</p>
       <section>طلباتي</section>
     </div>
 
@@ -16,7 +16,7 @@
 
     <div class="cards my-orders-cards">
 
-      @if(orders){
+      @if(orders?.length){
       @for (order of orders; track $index) {
 
       @if((order.value.case==filterCase)|| filterCase=='all'){
@@ -28,7 +28,7 @@
             <h3>فاتورة 304</h3>
             <div>
               <p>{{getObjLength(order.value.products)}} منتجات</p> <span></span>
-              <p>{{order.value.totalPrice}} د</p>
+              <p>{{order.value.totalPrice |number}} د.ع</p>
             </div>
           </div>
         </div>
@@ -37,7 +37,7 @@
           <div class="texts">
             <ion-chip
               [title]="order.value.case=='waiting' ?'معلق':''">{{order.value.case=='waiting' ?'معلق':''}}</ion-chip>
-            <p>منذ {{(newDate - order.key)|date:'h'}} ساعات</p>
+            <p>منذ {{calcTimeDiff(order.value.date)}} ساعات</p>
           </div>
           <ion-icon name="ellipsis-vertical"></ion-icon>
         </div>
@@ -45,6 +45,11 @@
       </div>
       }
       }
+      }@else{
+      <div class="empty">
+        <ion-icon name="code-working-outline"></ion-icon>
+        <h3 style="text-align: center;">ليس لديك طلبات حاليا</h3>
+      </div>
       }
 
 

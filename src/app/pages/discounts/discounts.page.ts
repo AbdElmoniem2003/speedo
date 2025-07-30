@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { AnimationController, ModalController, NavController, SegmentCustomEvent } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { Subscription } from 'rxjs';
-import { Offer, Product } from 'src/app/core/project-interfaces/interfaces';
+import { Category, Offer, Product } from 'src/app/core/project-interfaces/interfaces';
 import { DataService } from 'src/app/core/services/data.service';
-import { environment } from 'src/environments/environment';
+import { WildUsedService } from 'src/app/core/services/wild-used.service';
+import { CartService } from 'src/app/core/services/cart.service';
+import { FavoService } from 'src/app/core/services/favorites.service';
+import { CustomSectionCompoComponent } from '../custom-section-compo/custom-section-compo.component';
 
-
-const baseUrl: string = environment.baseUrl;
 
 @Component({
   selector: 'app-discounts',
@@ -19,90 +20,138 @@ const baseUrl: string = environment.baseUrl;
 export class DiscountsPage implements OnInit {
 
   discountsSubscription: Subscription = null
+  discountsSubCategoriesSubscription: Subscription = null
+  discountCategories: any
   offersSubscription: Subscription = null
 
   offers: Offer[] = [];
   discounts: Product[] = [];
-  inFavorites: string[] = []
+  inFavorites: string[] = ['']
 
-  showOffers: boolean = false;
+  segment = 'offers'
+
+  // showDiscount: boolean = true;
   isLoading: boolean = false;
-  stopLoading: boolean = false;
   empty: boolean = false;
   error: boolean = false;
-  skip: number = 0
+  discountSkip: number = 0;
+  offerSkip: number = 0;
+  filterModalOpen: boolean = false;
+  openModal: boolean = false;
+
+  canLoadDiscounts: boolean = true
+  canLoadOffers: boolean = true
 
   constructor(
     private navCtrl: NavController,
     private dataService: DataService,
-    private storage: Storage
+    private storage: Storage,
+    private cartService: CartService,
+    private wildUsedService: WildUsedService,
+    private favoService: FavoService,
+    private modalCtrl: ModalController,
+    private animationCtrl: AnimationController
   ) { }
 
   ngOnInit() {
-    this.showOffers ? this.getOffers() : this.getDiscounts()
   }
 
   ionViewWillEnter() {
-    this.storage.get('favorites').then((res: string[]) => this.inFavorites = res ? res : [])
+    this.getOffers()
   }
 
 
-  getOffers() {
-    this.showOffers = true
-    this.offersSubscription = this.dataService.getData(baseUrl + '/offer').subscribe((response: any[]) => {
-      this.offers = response
+  getOffers(ev?: any) {
+    // this.wildUsedService.showLoading()
+    this.showLoading()
+    this.offersSubscription = this.dataService.getData(`offer`).subscribe({
+      next: (response: any[]) => {
+        if (response.length < 20) {
+          this.offers = this.offerSkip ? this.offers.concat(response) : response
+          this.canLoadOffers = false
+        } else {
+          this.offers = this.offers.concat(response)
+        }
+        this.offers.length ? this.showContent(ev) : this.showEmpty(ev)
+        // this.wildUsedService.dismisLoading()
+      }, error: error => this.showError(ev)
     })
   }
 
-  getDiscounts() {
-    this.showOffers = false
-    this.discountsSubscription = this.dataService.getData(baseUrl + '/product?status=1').subscribe((response: any) => {
-      this.discounts = response.filter(((obj) => { return (obj.discountPercentage == true || obj.discountPrice) }))
+  getDiscounts(ev?: any) {
+    // this.wildUsedService.showLoading()
+    this.showLoading()
+    this.discountsSubscription = this.dataService.getData(`product?status=1&skip=${this.discountSkip}&discount=1`).subscribe({
+      next: (response: any) => {
+        this.canLoadDiscounts = !(response.length < 20);
+        this.discounts = this.discountSkip ? this.discounts.concat(response) : response
+        this.favoService.checkFavoriteProds(this.discounts);
+        this.getDiscoutSubGategories();
+        this.discounts.length ? this.showContent(ev) : this.showEmpty(ev)
+        // this.wildUsedService.dismisLoading()
+      }, error: error => this.showError(ev)
     })
+  }
+
+
+  toggleSegement(ev: SegmentCustomEvent) {
+    const val = ev.target.value;
+    if (!val) return;
+    if (val === 'discounts') {
+      this.getDiscounts()
+    }
+    if (val === 'offers') {
+      this.getOffers()
+    }
+  }
+
+  getDiscoutSubGategories() {
+    this.discountsSubCategoriesSubscription = this.dataService.getData(`product/discount/category`).subscribe({
+      next: (res: Category[]) => {
+        if (res.length > 1) {
+          this.discountCategories = [{ name: 'الكل', _id: 'all' }, ...res]
+        } else this.discountCategories = res
+      }
+    })
+  }
+
+
+
+  toOffer(offer: Offer) {
+    this.navCtrl.navigateForward(`offer?id=${offer._id}`);
+    this.dataService.passObj(offer)
   }
 
   search(ev: any) {
     console.log(ev.target.value);
-    this.dataService.getData(baseUrl + '/product?searchText=' + ev.target.value).subscribe((respose: any) => {
+    this.dataService.getData('product?searchText=' + ev.target.value).subscribe((respose: any) => {
       console.log(respose.filter((obj) => {
         return obj.discountPrice
       }))
     })
   }
 
-  addToCart(product: Product) {
-    this.dataService.cartBehaviorSubject.next({ prod: product });
+  addToCart(prod: Product) {
+    prod.quantity = prod.quantity ? prod.quantity + 1 : 1;
+    this.cartService.updateCart(prod)
   }
 
   addToFavorite(prod: Product) {
-    if (this.inFavorites.includes(prod._id)) {
-      this.inFavorites = this.inFavorites.filter((p) => { return p !== prod._id })
-    } else {
-      this.inFavorites.push(prod._id)
-    }
-    this.dataService.updateFavorite(prod)
+    prod.isFav = !prod.isFav
+    this.favoService.updateFavorites(prod)
   }
-
 
   paginateProducts(ev: any) {
-    this.skip++
-    this.dataService.getData(baseUrl + "/product?skip=" + this.skip).subscribe((res: any) => {
-      // handle pagination
-      if (res.products.length == 20) {
-        this.discounts.concat(res.products);
-        this.showContent(ev)
-      } else if (res.products.length > 0) {
-        this.discounts.concat(res.products);
-        this.stopLoading = true
-        this.showContent(ev)
-      }
-      else {
-        this.showEmpty(ev)
-      }
-    })
+    this.discountSkip += 1
+    this.getDiscounts(ev)
   }
 
 
+  showLoading() {
+    this.isLoading = true;
+    this.empty = false;
+    this.error = false;
+  }
   showContent(ev?: any) {
     this.isLoading = false;
     this.empty = false;
@@ -123,17 +172,28 @@ export class DiscountsPage implements OnInit {
     ev?.target.complete()
   }
   refresh(ev?: any) {
-    this.stopLoading = false
     this.isLoading = true
     this.error = false
     this.empty = false
     ev?.target.complete()
   }
 
+  async openCustomModal() {
+    const modal = await this.modalCtrl.create({
+      component: CustomSectionCompoComponent,
+      componentProps: {
+        customObjArr: this.discountCategories,
+      },
+      cssClass: ['custom-modal'],
+    })
+    await modal.present()
+  }
+
 
   ngOnDestroy() {
     this.offersSubscription.unsubscribe();
     this.discountsSubscription.unsubscribe();
+    this.discountsSubCategoriesSubscription.unsubscribe()
   }
 
 }

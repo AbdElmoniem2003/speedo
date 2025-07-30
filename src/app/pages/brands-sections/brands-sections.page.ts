@@ -5,9 +5,7 @@ import { Subscription } from 'rxjs';
 import { Brand, Category, Offer } from 'src/app/core/project-interfaces/interfaces';
 import { DataService } from 'src/app/core/services/data.service';
 import { WildUsedService } from 'src/app/core/services/wild-used.service';
-import { environment } from 'src/environments/environment';
 
-const baseUrl: string = environment.baseUrl
 
 @Component({
   selector: 'app-brands-sections',
@@ -37,7 +35,7 @@ export class BrandsSectionsPage implements OnInit {
   }
 
   getCustomData() {
-    this.customSubscription = this.dataService.getData(baseUrl + '/' + this.customView)
+    this.customSubscription = this.dataService.getData( this.customView)
       .subscribe(async (response: Offer[] | Brand[] | Category[]) => {
         console.log(response)
         if (this.customView == 'category') { this.categories = response as Category[] }

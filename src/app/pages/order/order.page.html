@@ -2,9 +2,9 @@
 
   <div>
     <ion-icon name="ellipsis-vertical"></ion-icon>
-    <ion-chip *ngIf="order?.case=='waiting'" title="معلق">معلق</ion-chip>
-    <ion-chip *ngIf="order?.case=='rejected'" title="مرفوض">مرفوض</ion-chip>
-    <ion-chip *ngIf="order?.case=='completed'" title="مكتمل">مكتمل</ion-chip>
+    <ion-chip *ngIf="bill?.case=='waiting'" title="معلق">معلق</ion-chip>
+    <ion-chip *ngIf="bill?.case=='rejected'" title="مرفوض">مرفوض</ion-chip>
+    <ion-chip *ngIf="bill?.case=='completed'" title="مكتمل">مكتمل</ion-chip>
   </div>
 
   <div>
@@ -38,7 +38,7 @@
       <div class="order-details">
         <div>
           <div>
-            <span>{{order?.totalPrice}}</span>
+            <span>{{bill?.totalPrice|number}}</span>
             <p>مبلغ الطلب</p>
           </div>
           <div>
@@ -55,7 +55,7 @@
           </div>
         </div>
         <div class="total">
-          <span>{{order?.totalPrice + 5000}}</span>
+          <span>{{(bill?.totalPrice + 5000)|number}}</span>
           <p>السعر الكلي</p>
         </div>
       </div>
@@ -68,18 +68,18 @@
       </div>
 
       @for(prod of billProducts;track $index){
-      <div class="product">
+      <div class="product" [routerLink]="`/product/${prod._id}`">
         <div class="product-data">
 
           <div>
-            <strong style="direction: rtl;">{{prod.price}} د</strong>
+            <strong style="direction: rtl;">{{prod.price|number}} د.ع</strong>
             <p>{{prod.name}}</p>
           </div>
 
           <div>
-            <div *ngIf="order.products[prod._id].extras?.size">الحجم<strong>L 0</strong></div>
-            <div *ngIf="order.products[prod._id].extras?.color">اللون<strong>أبيض 0</strong></div>
-            <div>العدد<strong>{{order.products[prod._id].qtyIncrease}}</strong></div>
+            <!-- <div *ngIf="billProducts[prod._id].extras?.size">الحجم<strong>L 0</strong></div>
+            <div *ngIf="billProducts[prod._id].extras?.color">اللون<strong>أبيض 0</strong></div>-->
+            <div>العدد<strong>{{prod.quantity}}</strong></div>
           </div>
         </div>
         <ion-img [src]="prod.image||'../../../assets/imgs/empty.png'"></ion-img>

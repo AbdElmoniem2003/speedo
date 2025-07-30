@@ -10,7 +10,8 @@
         "ignore": [
           "width: fit-content",
           "height: fit-content",
-          "min-width: fit-content"
+          "min-width: fit-content",
+          "max-width: fit-content"
         ]
       }
     ],

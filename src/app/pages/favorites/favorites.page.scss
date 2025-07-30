@@ -97,7 +97,7 @@
 
             >ion-icon {
               @include shape(24, 24);
-              color: $secondaryColor;
+              color: #{$secondaryColor};
             }
           }
         }
@@ -106,13 +106,23 @@
   }
 }
 
+.empty {
+  @include flex(20, center, center, column);
 
-@media (1024px>width>768px) {
+  ion-icon {
+    transform: rotateZ(90deg);
+    font-size: 50px;
+    margin: 0;
+  }
+}
+
+
+@media (width>360px) {
 
 
   .card {
-    flex-basis: calc((100% - 8px)/2);
-    flex-grow: 0 !important;
+    flex-basis:100% !important;
+    flex-grow: 1 !important;
   }
 }
 
@@ -121,7 +131,7 @@
 
 
   .card {
-    flex-basis: calc((100% - 16px)/3);
-    flex-grow: 0 !important;
+    // flex-basis: calc((100% - 16px)/3);
+    // flex-grow: 0 !important;
   }
 }
