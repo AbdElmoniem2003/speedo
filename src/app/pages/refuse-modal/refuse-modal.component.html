@@ -1,0 +1,19 @@
+<ion-header class="custom-header">
+  <ion-toolbar>
+    <ion-label slot="end">الرجاء إرسال سبب الإلغاء</ion-label>
+    <ion-button slot="end" (click)="modalCtrl.dismiss()" class="no-color-button">
+      <ion-icon name="chevron-forward"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="container">
+    <ion-input placeholder="سبب الإلغاء...." [(ngModel)]='order.refuseReason'></ion-input>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-button (click)="confirmRefusal()">
+    <ion-label>إرسال</ion-label>
+    <ion-icon name="send"></ion-icon>
+  </ion-button>
+</ion-footer>

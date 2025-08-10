@@ -44,6 +44,7 @@ ion-content {
 
       >ion-input,
       .client>ion-input,
+      >ion-label,
       >ion-select {
         height: 48px;
         border-radius: 10px;
@@ -55,14 +56,19 @@ ion-content {
         direction: rtl;
       }
 
-      ion-select {}
+      >ion-label {
+        width: 100%;
+        padding: 12px;
+        color: rgba(24, 24, 24, 1);
+        display: flex;
+        align-items: center;
+      }
 
       >ion-input {
         color: rgba(24, 24, 24, 1);
       }
 
       ion-radio-group {
-        height: 144px;
         @include flex(4, '', '', column);
         flex-wrap: wrap;
         border-radius: 10px;
@@ -77,7 +83,9 @@ ion-content {
           border: 1px solid rgba(0, 0, 0, 0.6);
           padding: 12px;
 
-
+          &:not(:last-of-type) {
+            margin-bottom: 4px;
+          }
 
           &:first-of-type {
             margin-bottom: 4px;
@@ -90,6 +98,7 @@ ion-content {
               border-color: $primaryColor;
               background-color: $primaryColor;
             }
+
             &::part(mark) {
               display: none;
             }
@@ -103,13 +112,15 @@ ion-content {
             height: 24px;
           }
 
-          ion-input {
+          ion-input,
+          p {
             font-weight: 400;
             min-height: 18px;
             font-size: 12px;
             line-height: 18px;
             text-align: right;
             direction: rtl;
+            color: $secondaryColor;
           }
         }
 
@@ -166,7 +177,7 @@ ion-content {
 
 ion-footer {
   height: 84px;
-  padding: 12px 16px 0;
+  padding: 12px 16px 0 !important;
   @include flex(12, center, '', '');
   border-top: 1px solid rgba(242, 242, 242, 1);
   border-top-left-radius: 12px;
@@ -191,23 +202,23 @@ ion-footer {
 
 }
 
-@media (width>767px) {
-  .form {
-    flex-flow: row wrap !important;
+// @media (width>767px) {
+//   .form {
+//     flex-flow: row wrap !important;
 
-    >* {
-      width: calc((100% - 16px) /2) !important;
-    }
+//     >* {
+//       width: calc((100% - 16px) /2) !important;
+//     }
 
-    .barriar {
-      display: none;
-    }
-  }
+//     .barriar {
+//       display: none;
+//     }
+//   }
 
-  ion-footer {
+//   ion-footer {
 
-    ion-button {
-      flex-basis: 50%;
-    }
-  }
-}
+//     ion-button {
+//       flex-basis: 50%;
+//     }
+//   }
+// }

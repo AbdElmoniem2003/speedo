@@ -32,7 +32,8 @@
     padding: 0 16px;
     height: 40px;
 
-    ion-segment-button {
+    ion-segment-button,
+    ion-skeleton-text {
       width: 79.75px;
       min-height: 40px;
       border-radius: 8px;
@@ -56,16 +57,16 @@
 
   }
 
-  .cards {
-    @include flex(8, end, '', '');
+  .orders-cards {
+    @include flex(8, end, '', column);
     flex-wrap: wrap;
     padding: 16px 16px 0;
 
-    .card {
+    .order-card {
       direction: rtl;
       height: 86px;
       flex-grow: 1;
-      width: 343px;
+      min-width: 328px;
       @include flex(0, space-between, '', '');
       padding: 16px 16px 16px 8px;
       border-radius: 12px;
@@ -74,9 +75,11 @@
 
       >div:first-of-type {
         height: 54px;
-        @include flex(8, space-between, center, '');
+        flex-grow: 1;
+        @include flex(8, start, center, '');
 
         ion-img,
+        .img,
         img {
           @include shape(36, 36);
           padding: 8px;
@@ -118,13 +121,14 @@
       }
 
       >div:last-of-type {
-
-        @include shape(96, 50);
+        height: 50px;
         @include flex(8, '', '', '');
 
         .texts {
-          @include shape(64, 50);
-          @include flex(6, '', '', column);
+          height: 50px;
+          @include flex(6, '', end, column);
+          // width: 64px;
+          text-align: start;
 
           ion-chip {
             width: 52px;
@@ -146,6 +150,12 @@
               color: rgb(255, 255, 255);
               background-color: rgba(48, 193, 167, 1);
             }
+
+            &[title='مرفوض'] {
+              color: rgb(255, 255, 255);
+              background-color: rgba(226, 18, 105, 1);
+            }
+
           }
 
           p {
@@ -166,21 +176,3 @@
     }
   }
 }
-
-// @media (1024px>width>725px) {
-
-//   .card {
-//     flex-basis: calc((100% - 8px)/2) !important;
-//     flex-grow: 0 !important;
-//   }
-// }
-
-
-// @media (width>1024px) {
-
-//   .card {
-
-//     flex-basis: calc((100% - 16px)/3) !important;
-//     flex-grow: 0 !important;
-//   }
-// }

@@ -1,0 +1,5 @@
+@media (width>768px) {
+  ion-toolbar {
+    padding: 0 calc((100% - 767px) /2) !important;
+  }
+}

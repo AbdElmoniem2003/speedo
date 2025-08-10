@@ -1,8 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { InfiniteScrollCustomEvent, IonPopover, ModalController, NavController, PopoverController, PopoverOptions, RefresherCustomEvent } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
+import { Order } from 'src/app/core/project-interfaces/interfaces';
 import { DataService } from 'src/app/core/services/data.service';
 import { environment } from 'src/environments/environment';
+import { OrderStatus } from 'src/app/core/enums/enum';
+import { EnterAnimation, LeaveAnimation, popoverEnterAnimation, popoverLeaveAnimation } from 'src/app/core/consts/animations';
+import { OrderOptionsComponent } from '../order-options/order-options.component';
+import { WildUsedService } from 'src/app/core/services/wild-used.service';
+import { RefuseModalComponent } from '../refuse-modal/refuse-modal.component';
+import { CartService } from 'src/app/core/services/cart.service';
 
 const baseUrl = environment.baseUrl
 
@@ -10,49 +17,173 @@ const baseUrl = environment.baseUrl
   selector: 'app-my-orders',
   templateUrl: './my-orders.page.html',
   styleUrls: ['./my-orders.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class MyOrdersPage implements OnInit {
 
   nowDate: number = Date.now()
-  orders: any;
-  filterCase: string = 'all'
+  orders: Order[] = [];
+  skip: number = 0;
+  status: number = 1;
+  isLoading: boolean = true;
+  error: boolean = false;
+  empty: boolean = false;
+  orderStatus = OrderStatus
+  stopLoad: boolean = false
+
+  @ViewChild('orderPopover') orderPopover: IonPopover;
 
   constructor(
-    private navCtrl: NavController,
+    public navCtrl: NavController,
+    private modalCtrl: ModalController,
     private dataService: DataService,
-    private storage: Storage
+    private storage: Storage,
+    private popoverCtrl: PopoverController,
+    private wildUsedService: WildUsedService,
+    public cartService: CartService
   ) { }
 
   ngOnInit() {
   }
 
   ionViewWillEnter() {
+    this.showLoading();
     this.getOrders();
   }
+  toCart() { this.navCtrl.navigateForward('/cart') }
 
-  async getOrders(ev?: any) {
-    const inOrders = await this.storage.get('orders');
-    if (!inOrders) return;
-    this.orders = Object.entries(inOrders).map(([key, value]) => {
-      return { key, value }
-    })
-    this.orders.forEach(o => {
-      console.log(this.nowDate - o.value.date)
+  get orderEndPoint() {
+    let query = `order?skip=${this.skip}`;
+    return query
+  }
+
+  getOrders(ev?: any) {
+    this.dataService.getData(this.orderEndPoint).subscribe({
+      next: (res: Order[]) => {
+        this.stopLoad = (res.length < 20);
+        if (res.length < 20) {
+          this.orders = this.skip ? this.orders.concat(res) : res
+        } else {
+          this.orders = this.orders.concat(res)
+        }
+        this.orders.length ? this.showContent(ev) : this.showEmpty(ev)
+      }, error: (err) => {
+        this.showError(ev)
+        console.log(err)
+        this.wildUsedService.generalToast('حدث خطأ في الشبكة. تحقق من إتصالك بالإنترنت', '', 'light-color', 2500, 'middle')
+      }
     })
   }
 
-  getObjLength(obj: Object) {
-    return Object.keys(obj).length
+
+  filterByStatus(status: number) {
+
   }
 
-  calcTimeDiff(customDate: number): string {
-    const timeDiff = this.nowDate - customDate;
-    let hours: any = Math.floor(timeDiff / 1000 / 60 / 60);
-    let minutes: any = Math.floor(timeDiff / 1000 / 60);
-    hours = hours > 0 ? `0${hours}`.slice(0, 2) : '00';
-    minutes = minutes > 0 ? `0${minutes}`.slice(0, 2) : '00';
-    return (hours + ':' + minutes)
+  showLoading() {
+    this.isLoading = true
+    this.empty = false
+    this.error = false
+  }
+
+  showContent(ev?: any) {
+    this.isLoading = false;
+    this.empty = false;
+    this.error = false;
+    ev?.target.complete()
+  }
+
+  showEmpty(ev?: any) {
+    this.isLoading = false
+    this.error = false
+    this.empty = true
+    ev?.target.complete()
+  }
+  showError(ev?: any) {
+    this.isLoading = false
+    this.error = true
+    this.empty = false
+    ev?.target.complete()
+  }
+  async refresh(ev?: RefresherCustomEvent) {
+    this.showLoading()
+    this.skip = 0
+    this.error = false
+    this.empty = false
+    this.getOrders(ev)
+  }
+
+  async showOrderOptions(ev: PointerEvent | MouseEvent, order: Order, index: number) {
+
+    const opts: PopoverOptions = {
+      component: OrderOptionsComponent,
+      componentProps: {
+        // selectedOrder: order,
+      },
+      cssClass: 'order-options',
+      event: ev,
+      mode: 'ios',
+      // enterAnimation: popoverEnterAnimation, leaveAnimation: popoverLeaveAnimation
+    }
+    if (order.status == this.orderStatus.REJECTED) return;
+
+    // if (order.status == this.orderStatus.REJECTED) opts.componentProps['buttons'] = [{ txt: "تفعيل", operation: 2 }]
+    const popover = await this.popoverCtrl.create(opts)
+    await popover.present();
+
+    const data: number = (await popover.onDidDismiss()).data;
+    if (!data) return;
+
+    if (data == 1) {      // cancel
+      const decition = await this.wildUsedService.generalAlert('هل تريد الإلغاء؟', "نعم", "كلا")
+      if (!decition) return;
+      this.openRefusalModal(order)
+    }
+    if (data == 2) {      // activate
+      //   const decition = await this.wildUsedService.generalAlert('هل تريد التفعيل؟')
+      //   if (!decition) return;
+      //   this.activateOrder(order)
+    }
+  }
+
+  async openRefusalModal(order: Order) {
+    const modal = await this.modalCtrl.create({
+      component: RefuseModalComponent,
+      cssClass: 'cancel-modal',
+      componentProps: {
+        order: order
+      }
+    })
+    await modal.present();
+    const refusalReason = (await modal.onDidDismiss()).data;
+    if (!refusalReason) return;
+    this.cancelOrder(order)
+  }
+
+  cancelOrder(order: Order) {
+    this.dataService.deleteData(`order/${order._id}`).subscribe({
+      next: (res) => {
+        order.status = this.orderStatus.REJECTED
+        console.log(res)
+      }, error: (err) => {
+        console.log(err)
+      }
+    })
+  }
+  // activateOrder(order: Order) {
+  //   order.status = this.orderStatus.WAITING
+  //   this.dataService.updateData(`order/${order._id}`, order).subscribe({
+  //     next: (res) => {
+  //       console.log(res)
+  //     }, error: (err) => {
+  //       console.log(err)
+  //     }
+  //   })
+  // }
+
+  loadMore(ev: InfiniteScrollCustomEvent) {
+    this.skip += 1;
+    this.getOrders(ev)
   }
 
 }

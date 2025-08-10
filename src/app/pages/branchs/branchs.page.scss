@@ -1,0 +1,66 @@
+@import '../../../theme/mixin.scss';
+@import '../../../global.scss';
+
+.branchs {
+  @include flex(8, '', '', column);
+  padding: 16px;
+
+  .branch {
+    width: 100%;
+    height: fit-content;
+    @include flex(0, '', center, column);
+    padding: 8px;
+    border-radius: 8px;
+    border: 2px solid rgba(240, 230, 230, 1);
+    background-color: white;
+
+    &.checked {
+      border-color: $primaryColor $secondaryColor;
+    }
+
+    >div {
+      width: 100%;
+      direction: rtl;
+      @include flex(0, space-between, center, '');
+
+      &.name {
+        p:last-of-type {
+          font-weight: 700;
+          font-size: 14px;
+        }
+      }
+
+      p {
+        font-size: 14px;
+        font-weight: 500;
+
+        &:last-of-type {
+          color: $primaryColor
+        }
+
+        &:first-of-type {
+          color: $secondaryColor
+        }
+      }
+    }
+  }
+}
+
+ion-footer {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  padding: 5px 16px;
+  border-radius: 15px 15px 0 0;
+
+  ion-button,
+  ion-skeleton-text {
+    width: 65%;
+    display: flex;
+    justify-content: space-between;
+    --border-radius: 50px;
+    height: 40px;
+  }
+}

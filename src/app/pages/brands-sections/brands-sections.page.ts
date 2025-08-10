@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Brand, Category, Offer } from 'src/app/core/project-interfaces/interfaces';
+import { CartService } from 'src/app/core/services/cart.service';
 import { DataService } from 'src/app/core/services/data.service';
 import { WildUsedService } from 'src/app/core/services/wild-used.service';
 
@@ -21,35 +22,95 @@ export class BrandsSectionsPage implements OnInit {
   offers: Offer[] = [];
   categories: Category[] = [];
 
+  skip = 0
+  isLoading = true;
+  empty = false;
+  error = false; stopLoading = false
+
   constructor(
     private route: ActivatedRoute,
     private wildUsedService: WildUsedService,
-    private navCtrl: NavController,
-    private dataService: DataService
+    public navCtrl: NavController,
+    private dataService: DataService,
+    public cartService: CartService
   ) { }
 
   async ngOnInit() {
-    await this.wildUsedService.showLoading()
+    this.wildUsedService.showLoading()
     this.customView = this.route.snapshot.queryParamMap.get('customView');
     this.getCustomData()
   }
 
-  getCustomData() {
-    this.customSubscription = this.dataService.getData( this.customView)
-      .subscribe(async (response: Offer[] | Brand[] | Category[]) => {
-        console.log(response)
-        if (this.customView == 'category') { this.categories = response as Category[] }
-        if (this.customView == 'offer') { this.offers = response as Offer[] }
-        if (this.customView == 'brand') { this.brands = response as Brand[] }
-        await this.wildUsedService.dismisLoading()
+  getCustomData(ev?: any) {
+    this.customSubscription = this.dataService.getData(this.customView)
+      .subscribe({
+        next: async (response: Offer[] | Brand[] | Category[]) => {
+          if (this.customView == 'category') { this.categories = response as Category[] }
+          if (this.customView == 'offer') { this.offers = response as Offer[] }
+          if (this.customView == 'brand') { this.brands = response as Brand[] }
+
+          (this.offers || this.categories || this.brands) ? this.showContent(ev) : this.showEmpty(ev);
+          this.stopLoading = response.length < 20;
+          this.wildUsedService.dismisLoading()
+        }, error: async err => {
+          this.wildUsedService.dismisLoading()
+          this.showError(ev)
+        }
       })
   }
 
 
+
+
+
+
+
+
+
+
+  showLoading() {
+    this.isLoading = true;
+    this.empty = false;
+    this.error = false;
+  }
+  showContent(ev?: any) {
+    this.isLoading = false;
+    this.empty = false;
+    this.error = false;
+    ev?.target.complete()
+  }
+
+  showEmpty(ev?: any) {
+    this.isLoading = false;
+    this.error = false;
+    this.empty = true;
+    ev?.target.complete();
+  }
+  showError(ev?: any) {
+    this.isLoading = false;
+    this.error = true;
+    this.empty = false;
+    ev?.target.complete();
+  }
+  refresh(ev?: any) {
+    // reset
+    this.skip = 0;
+    this.brands = []
+    this.offers = []
+    this.categories = []
+    this.showLoading()
+    this.getCustomData(ev);
+    ev?.target.complete();
+  }
+
+  loadMore(ev: any) {
+    this.skip += 1;
+    this.getCustomData(ev)
+  }
+
   toSection(sectionName: string, id: string) {
     this.navCtrl.navigateForward(['section'], { queryParams: { customView: this.customView, section: sectionName, id: id } })
   }
-
 
   ngOnDestroy() {
     this.customSubscription.unsubscribe()

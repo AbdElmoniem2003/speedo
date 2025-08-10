@@ -1,0 +1,186 @@
+<ion-header class="custom-header">
+  <ion-toolbar>
+    <ion-button class="no-color-button" routerLink="/cart" slot="start">
+      <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
+      @if((cartService.cartProducts?.length)){
+      <span>{{cartService.cartProducts?.length}}</span>
+      }
+    </ion-button>
+    <ion-label slot="end">البحث في المنتجات</ion-label>
+    <ion-button class="no-color-button" (click)="navCtrl.pop()" slot="end">
+      <ion-icon name="chevron-forward"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+  <div class="filter">
+    <ion-button class="no-color-button" (click)="homeFilterModal.present()">
+      <ion-img src="../../../assets/imgs/filter.svg" slot="icon-only"></ion-img>
+    </ion-button>
+    <ion-input #searchInputField [(ngModel)]="searchWord" (keyup.enter)="search()" (ionChange)="search()"
+      placeholder="...ابحث عن منتج">
+      <ion-icon name="search-outline"></ion-icon>
+    </ion-input>
+  </div>
+</ion-header>
+
+<ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)" pullFactor="0.8" pullMin="60" pullMax="120">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+
+
+  <div class="container">
+
+    <div class="search">
+
+      <!-- Empty Ele -->
+      @if(empty) {
+      <div class="empty" style="display: flex;flex-direction: column;align-items: center;">
+        <img src="../../../assets/imgs/logo-icon.svg" alt="">
+        <h3>لم يتم العثور علي منتجات</h3>
+      </div>
+      }
+
+      <!-- Error Ele -->
+      @if(error) {
+      <div class="empty" style="display: flex;flex-direction: column;align-items: center;">
+        <img src="../../../assets/imgs/logo-icon.svg" alt="">
+        <h3>حدث خطا . تحقق من الشبكة</h3>
+      </div>
+      }
+
+      <!-- Loading Ele -->
+      @if(isLoading) {
+      <ion-skeleton-text class="card" animated *ngFor="let i of [1,2,3,4,5,6]"></ion-skeleton-text>
+      }
+
+
+      @if(!isLoading){
+      <div class="search-cards">
+        @for(prod of searchProducts; track $index){
+
+        <div class="card fade-in">
+          <div class="card-content" [routerLink]="'/product/'+prod._id">
+            <app-custom-image [mainImg]="prod.image" [customID]="prod._id"></app-custom-image>
+            <p> {{prod.name}} </p>
+            <div>
+              @if(prod.discountPrice){
+              <h3 class="before-discount">
+                {{prod.price |number}} د.ع
+              </h3>
+              }
+              <h3>{{prod.finalPrice|number}} د.ع</h3>
+            </div>
+          </div>
+          <ion-button (click)="addToCart(prod)">
+            <ion-label>أضف للسلة</ion-label>
+            <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
+          </ion-button>
+
+          <div class="addition-btns">
+            <ion-button (click)="addToFavorite(prod)" class="no-color-button">
+              <ion-icon [name]="prod.isFav?'heart':'heart-outline'" [color]="prod.isFav?'primary':'dark'"
+                slot="icon-only"></ion-icon>
+            </ion-button>
+            <div class="btns">
+
+              @if(prod.new){
+              <span [class]="(prod.offer)|| (prod.special)?'extra':'expanded'">
+                <img src="../../../assets/imgs/stars.svg" slot="icon-only">
+                @if(!prod.special&&!prod.offer){جديد}
+              </span>
+              }
+              @if(prod.offer){
+
+              <span [class]="(prod.new)||(prod.special)?'extra':'expanded'">
+                <img src="../../../assets/imgs/offer-icon.svg" slot="icon-only">
+                @if(!prod.new&&!prod.special){خصم}
+              </span>
+              }
+              @if(prod.special){
+              <span [class]="(prod.new)||( prod.offer)?'extra':'expanded'">
+
+                <img src="../../../assets/imgs/trend-icon.svg" slot="icon-only">
+              </span>
+              }
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+      }
+
+    </div>
+
+    <ion-infinite-scroll threshold="25%" position="bottom" (ionInfinite)="loadMore($event)" [disabled]="stopLoading">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+  </div>
+
+
+</ion-content>
+
+<ion-modal class="filter-modal" trigger="homeFilterModal" #homeFilterModal>
+  <ng-template>
+    <ion-header class="custom-header  modal-header">
+      <ion-toolbar>
+        <ion-label slot="end">فلتر</ion-label>
+        <ion-button slot="end" class="no-color-button no-padding" (click)="homeFilterModal.dismiss()">
+          <ion-icon name="chevron-forward" slot="icon-only" style="color: black;"></ion-icon>
+        </ion-button>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <div class="filter-content">
+        <div class="colors">
+          <h3>اللون</h3>
+          <ion-segment value="اخضر">
+            <ion-segment-button value="اخضر"><span></span></ion-segment-button>
+            <ion-segment-button value="احمر"><span></span></ion-segment-button>
+            <ion-segment-button value="ذهبي"><span></span></ion-segment-button>
+          </ion-segment>
+        </div>
+
+        <div class="prices">
+          <h3>السعر($)</h3>
+          <div class="range-wrapper">
+            <div class="fake-knob start"></div>
+            <ion-range dir="rtl" [dualKnobs]="true" min="5" max="105" [value]="{ lower: 5, upper: 55 }" [pin]="true"
+              class="custom-range"></ion-range>
+            <div class="fake-knob end"></div>
+          </div>
+        </div>
+
+        <div class="options">
+          <h3>متغير</h3>
+          <div class="checks">
+            <ion-checkbox value="1">خيار 1</ion-checkbox>
+            <ion-checkbox value="2">خيار 2</ion-checkbox>
+            <ion-checkbox value="3">خيار 3</ion-checkbox>
+            <ion-checkbox value="4">خيار 4</ion-checkbox>
+            <ion-checkbox value="5">خيار 5</ion-checkbox>
+          </div>
+        </div>
+
+        <div class="sizes">
+          <h3>الحجم</h3>
+          <div class="checks square-checkbox">
+            <ion-checkbox value="كبير">كبير</ion-checkbox>
+            <ion-checkbox value="متوسط">متوسط</ion-checkbox>
+            <ion-checkbox value="صغير">صغير</ion-checkbox>
+          </div>
+        </div>
+      </div>
+    </ion-content>
+    <ion-footer>
+      <ion-buttons>
+        <ion-button (click)="null">حفظ</ion-button>
+        <ion-button (click)="filterModalOpen=false">إلغاء</ion-button>
+      </ion-buttons>
+    </ion-footer>
+  </ng-template>
+</ion-modal>

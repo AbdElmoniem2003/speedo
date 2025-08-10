@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { Subscription } from 'rxjs';
 import { Product } from 'src/app/core/project-interfaces/interfaces';
@@ -18,12 +19,14 @@ export class FavoritesPage implements OnInit {
 
   favoritesSubscription: Subscription
   inFavoritesProducts: Product[] = []
+  empty: boolean = false;
 
   constructor(
     private dataService: DataService,
     private storage: Storage,
     private wildUsedService: WildUsedService,
-    private cartService: CartService,
+    public cartService: CartService, public navCtrl: NavController,
+
     private favoServise: FavoService
   ) { }
 
@@ -33,9 +36,11 @@ export class FavoritesPage implements OnInit {
   ionViewWillEnter() {
     this.getFavorites()
   }
+  toCart() { this.navCtrl.navigateForward('/cart') }
 
   async getFavorites() {
     this.inFavoritesProducts = await this.favoServise.getFavorites()
+    this.empty = (!this.inFavoritesProducts) ? true : false
   }
 
   addToCart(prod: Product) {
@@ -47,7 +52,8 @@ export class FavoritesPage implements OnInit {
     // if (desiction) this.inFavorites.push(prod._id);
     // this.inFavorites = this.inFavorites.filter((p) => { return p !== prod._id })
     prod.isFav = !prod.isFav
-    this.inFavoritesProducts = this.inFavoritesProducts.filter((p) => { return p._id !== prod._id })
+    this.inFavoritesProducts = this.inFavoritesProducts.filter((p) => { return p._id !== prod._id });
+    if (!this.inFavoritesProducts.length) this.empty = true
     this.favoServise.updateFavorites(prod);
 
   }

@@ -31,8 +31,7 @@ ion-content {
 
   .sections {
     padding: 16px;
-    @include flex(8, flex-end, center, '');
-    flex-wrap: wrap;
+    direction: rtl;
 
     .custom {
       @include flex(8, center, center, column);
@@ -114,87 +113,6 @@ ion-content {
 
     }
 
-    // .offer{
-
-    //   ion-img{
-
-    //   }
-    // ion-button{
-
-    // }
-    // }
-  }
-
-}
-
-@media (481px>width>359px) {
-.custom{
-  flex-basis: calc((100% - 8px)/ 2) !important;
-}
-}
-@media (768px>width>480px) {
-
-  .custom{
-    flex-basis: calc((100% - 16px)/ 3) !important;
-  }
-  .offers {
-    flex-direction: row;
-    flex-wrap: wrap;
-
-    .offer {
-      width: 100% !important;
-
-      img {
-        width: 100% !important;
-        object-fit: fill;
-      }
-
-      ion-button {}
-    }
-  }
-
-
-
-}
-
-@media (1023px>width>768px) {
-  .offers {
-    justify-content: end;
-    flex-direction: row !important;
-    flex-wrap: wrap;
-
-    .offer {
-      flex-basis: calc((100% - 16px) / 2);
-      width: 100%;
-
-      img {
-        width: 100% !important;
-      }
-    }
-  }
-.brand,.custom{
-    width:calc((100% - 16px) /3) !important;
-  }
-}
-
-@media (width>1023px) {
-  .offers {
-    justify-content: end;
-    flex-direction: row !important;
-    flex-wrap: wrap;
-
-    .offer {
-      flex-basis: calc((100% - 32px) / 3);
-      width: 100%;
-
-      img {
-        width: 100% !important;
-      }
-    }
-  }
-
-  .brand,.custom{
-    width:calc((100% - 24px) /4) !important;
   }
 
 }

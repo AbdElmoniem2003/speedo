@@ -1,0 +1,104 @@
+<ion-header class="custom-header">
+
+  @if(objToView.image){<img [src]="objToView.image" alt="">}
+
+  <ion-toolbar>
+    <ion-button slot="start" class="no-color-button" routerLink="/cart">
+      <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
+      @if((cartService.cartProducts?.length)){
+      <span>{{cartService.cartProducts?.length}}</span>
+      }
+    </ion-button>
+
+    <ion-label slot="end">{{objToView?.name}}</ion-label>
+    <ion-button slot="end" class="no-color-button" (click)="navCtrl.pop()">
+      <ion-icon name="chevron-forward" slot="icon-only"></ion-icon>
+    </ion-button>
+
+
+
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content>
+
+  <div class="container">
+
+    <div class="section-filter" style="position: relative;" *ngIf="subCategories?.length">
+      <ion-segment [value]="currentSubCategoryId" [scrollable]="true">
+        <ion-segment-button class="fade-in" *ngFor="let subCategory of subCategories" [value]="subCategory._id"
+          (click)="filterBySubcategory(subCategory._id)">{{subCategory.name}}</ion-segment-button>
+      </ion-segment>
+      <ion-icon name="chevron-down-outline" (click)="openSectionOptions()"></ion-icon>
+    </div>
+    <div class="section-filter" *ngIf="!subCategories.length && isLoading">
+      <div class="animated-categories">
+        <ion-skeleton-text *ngFor="let i of [1,2,3,4,5,6]" animated></ion-skeleton-text>
+      </div>
+      <ion-icon name="chevron-down-outline" (click)="openSectionOptions()"></ion-icon>
+    </div>
+
+    <div class="section">
+      @if(isLoading){
+      <div class="section-cards">
+        <ion-skeleton-text class="card" animated="true" *ngFor="let i of [1,2,3,4,5,6,7,8]"></ion-skeleton-text>
+      </div>
+      }
+
+      @if(!isLoading&&!empty&&!error){
+      <div class="section-cards">
+        @for (product of products; track $index) {
+        <div class="card fade-in">
+          <div class="card-content" [routerLink]="`/product/${product._id}`">
+            <app-custom-image [mainImg]="product.image" [customID]="product._id"></app-custom-image>
+            <p> {{product.name}}</p>
+            <div>
+              @if(product.discountPrice){<h3 class="before-discount"> {{product.price|number}} د.ع</h3>}
+              <h3>{{(product.price - product.discountPrice) |number}} د.ع</h3>
+            </div>
+          </div>
+          <ion-button (click)="addToCart(product)">
+            <ion-label>أضف للسلة</ion-label>
+            <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
+          </ion-button>
+          <div class="addition-btns">
+            <ion-button class="no-color-button" (click)="updateFavorites(product)">
+              <ion-icon [name]="!product.isFav?'heart-outline':''" color="dark"
+                [src]="product.isFav?'../../../assets/imgs/tabs-icons/favourite-active.svg':''"
+                slot="icon-only"></ion-icon>
+            </ion-button>
+            <div class="btns">
+              <span class="extra">
+                <ion-img src="../../../assets/imgs/stars.svg" slot="icon-only"></ion-img>
+                جديد
+              </span>
+            </div>
+          </div>
+        </div>
+        }
+      </div>}
+
+      @if(empty) {
+      <div class="empty">
+        <ion-icon name="code-working-outline"></ion-icon>
+        <p>لا منتجات </p>
+      </div>
+      }
+      @if(error){
+      <div class="empty">
+        <ion-icon name="code-working-outline"></ion-icon>
+        <p>حدث خطا . تحقق من الشبكة</p>
+      </div>
+      }
+    </div>
+
+  </div>
+
+  <ion-infinite-scroll [disabled]="!canLoad" threshold="25%" position="bottom" (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more products...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>

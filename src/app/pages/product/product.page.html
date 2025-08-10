@@ -1,20 +1,23 @@
-<ion-header class="custom-header" *ngIf="!isloading">
+@if(!isloading){
+<ion-header class="custom-header">
 
-  <div class="content">
-    <ion-button class="no-color-button" routerLink="/cart">
+  <ion-toolbar>
+    <ion-button slot="start" class="no-color-button" routerLink="/cart">
       <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
-            @if((cartService.cartProducts?.length)){
+      @if((cartService.cartProducts?.length)){
       <span>{{cartService.cartProducts?.length}}</span>
       }
     </ion-button>
 
-    <div>
-      <ion-label> تفاصيل المنتج</ion-label>
-      <ion-back-button class="no-color-button" icon="chevron-forward">
-      </ion-back-button>
-    </div>
-  </div>
+
+    <ion-label slot="end"> تفاصيل المنتج</ion-label>
+    <ion-button slot="end" class="no-color-button" (click)="navCtrl.pop()">
+      <ion-icon name="chevron-forward" slot="icon-only"></ion-icon>
+    </ion-button>
+
+  </ion-toolbar>
 </ion-header>
+}
 
 <ion-content *ngIf="!isloading">
 
@@ -23,7 +26,10 @@
     @if(product){
     <div class="product">
 
-      <div class="img fade-in"><img [src]="product?.image||'../../../assets/imgs/logo-icon.svg'"></div>
+      <div class="img fade-in">
+        <app-custom-image [mainImg]="product.image" [customID]="product._id"
+          [altImg]="'../../../assets/imgs/logo-cover.png'"></app-custom-image>
+      </div>
 
       <div class="prod-data fade-in">
 
@@ -99,7 +105,7 @@
           @for (prod of similarProducts; track $index) {
           <div class="card fade-in">
             <div class="card-content" [routerLink]="`/product/${prod._id}`">
-              <ion-img [src]="prod.image||'../../../assets/imgs/logo.png'"></ion-img>
+              <app-custom-image [mainImg]="prod.image" [customID]="prod._id"></app-custom-image>
               <p> {{prod.name}}</p>
               <div>
                 <h3>{{prod.price - prod.discountPrice|number}} د.ع</h3>
@@ -117,25 +123,22 @@
               <div class="btns">
 
                 @if(prod.new){
-                <span
-                  [class]="(prod.offer&&prod.new)|| (prod.new&&prod.special)||(prod.special&& prod.offer)?'extra':'expanded'">
-                  <ion-img src="../../../assets/imgs/stars.svg" slot="icon-only"></ion-img>
+                <span [class]="(prod.offer)|| (prod.special)?'extra':'expanded'">
+                  <img src="../../../assets/imgs/stars.svg" slot="icon-only">
                   @if(!prod.special&&!prod.offer){جديد}
                 </span>
                 }
                 @if(prod.offer){
 
-                <span [class]="(prod.offer&&prod.new)|| (prod.new&&prod.special)||(prod.special&&
-                  prod.offer)?'extra':'expanded'">
-                  <ion-img src="../../../assets/imgs/offer-icon.svg" slot="icon-only"></ion-img>
+                <span [class]="(prod.new)|| (prod.special)?'extra':'expanded'">
+                  <img src="../../../assets/imgs/offer-icon.svg" slot="icon-only">
                   @if(!prod.new&&!prod.special){خصم}
                 </span>
                 }
                 @if(prod.special){
-                <span [class]="(prod.offer&&prod.new)|| (prod.new&&prod.special)||(prod.special&&
-                  prod.offer)?'extra':'expanded'">
+                <span [class]=" (prod.new)||(prod.offer)?'extra':'expanded'">
 
-                  <ion-img src="../../../assets/imgs/trend-icon.svg" slot="icon-only"></ion-img>
+                  <img src="../../../assets/imgs/trend-icon.svg" slot="icon-only">
                 </span>
                 }
               </div>
@@ -150,7 +153,7 @@
     </div>
     }
     @if(error){
-    <p style="text-align: center;">{{errorMsg}}</p>
+    <p style="text-align: center;"> برجاء التحقق من الشبكة و إعادة المحاولة</p>
     }
   </div>
 
@@ -158,24 +161,29 @@
 
 
 <ion-footer *ngIf="!isloading">
-  <div class="add-constract">
-    <h3>{{product.price - product.discountPrice |number}} د.ع</h3>
-    <ion-buttons slot="end">
-      <ion-button (click)="product.quantity=product?.quantity -1" [disabled]="(product?.quantity<=1)">
-        <ion-icon name="remove-outline"></ion-icon></ion-button>
-      <span>{{product?.quantity}}</span>
-      <ion-button (click)="product.quantity=product?.quantity +1"><ion-icon name="add-outline"></ion-icon></ion-button>
-    </ion-buttons>
+
+  <div>
+    <div class="add-constract">
+      <h3>{{product.price - product.discountPrice |number}} د.ع</h3>
+      <ion-buttons slot="end">
+        <ion-button (click)="product.quantity=product?.quantity -1" [disabled]="(product?.quantity<=1)">
+          <ion-icon name="remove-outline"></ion-icon></ion-button>
+        <span>{{product?.quantity}}</span>
+        <ion-button (click)="product.quantity=product?.quantity +1"><ion-icon
+            name="add-outline"></ion-icon></ion-button>
+      </ion-buttons>
+    </div>
+
+    <div class="add-to-cart">
+      <ion-button class="no-color-button" (click)="removeFromFavorite()">
+        <ion-icon [name]="product?.isFav?'heart':'heart-outline'" [color]="'primary'"></ion-icon>
+      </ion-button>
+      <ion-button (click)="addToCart(this.product)">
+        <ion-label>أضف للسلة</ion-label>
+        <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
+      </ion-button>
+    </div>
   </div>
 
-  <div class="add-to-cart">
-    <ion-button class="no-color-button" (click)="removeFromFavorite()">
-      <ion-icon [name]="product?.isFav?'heart':'heart-outline'" [color]="product?.isFav?'danger':''"></ion-icon>
-    </ion-button>
-    <ion-button (click)="addToCart(this.product)">
-      <ion-label>أضف للسلة</ion-label>
-      <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
-    </ion-button>
-  </div>
 
 </ion-footer>

@@ -29,8 +29,8 @@
         <h3>تسجيل الدخول</h3>
 
         <div class="inputs">
-          <ion-input formControlName="username" type="email" placeholder="بريد المستخدم">
-            <ion-icon slot="end" [class]="loginForm.get('username').valid?'valid':''" name="mail-outline"></ion-icon>
+          <ion-input formControlName="username" type="text" placeholder="بريد المستخدم">
+            <ion-icon slot="end" [class]="loginForm.get('username').valid?'valid':''" name="mail-outline" color="dark"></ion-icon>
           </ion-input>
           <ion-input formControlName="displayName" type="text" placeholder="اسم المستخدم">
             <ion-img slot="end"

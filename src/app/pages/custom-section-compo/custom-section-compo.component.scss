@@ -27,6 +27,13 @@ ion-content {
   }
 }
 
+ion-toolbar {
+  ion-button:last-of-type {
+    width: 36px !important;
+    height: 36px !important;
+  }
+}
+
 
 .container {
   .compos {
@@ -48,8 +55,11 @@ ion-content {
         border-color: $primaryColor;
       }
 
-      ion-img {
-        @include shape(93, 93)
+      ion-img,
+      app-custom-image {
+        @include shape(93, 93);
+        border-radius: 6px;
+        overflow: hidden;
       }
 
       p {

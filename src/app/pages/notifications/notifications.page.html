@@ -1,0 +1,73 @@
+<ion-header class="custom-header">
+
+  <ion-toolbar>
+    <p slot="end">({{notifications?.length||0}})</p>
+    <ion-label slot="end"> الإشعارات </ion-label>
+    <ion-button slot="end" class="no-color-button" (click)="navCtrl.pop()">
+      <ion-icon name="chevron-forward" slot="icon-only"></ion-icon>
+    </ion-button>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)" pullFactor="0.8" pullMin="60" pullMax="120">
+    <ion-refresher-content refreshingSpinner="bubbles"></ion-refresher-content>
+  </ion-refresher>
+
+
+  <div class="container">
+
+    <div class="notifications">
+
+      <!-- (Un)Loading Elements -->
+      @if(!isloading){
+      @for(notif of notifications;track $index){
+      <div class="notif" (click)="openNotification(notif)">
+        <div class="content">
+          <h3>{{notif.title}}</h3>
+          <p>{{notif.body}}</p>
+        </div>
+        <app-custom-image [mainImg]="notif.image"></app-custom-image>
+      </div>
+      }
+      }
+      @if(isloading){
+      @for(1 of [1,2,3,4,5,6];track $index){
+      <div class="notif loading">
+        <div class="content">
+          <ion-skeleton-text animated class="topic"></ion-skeleton-text>
+          <ion-skeleton-text animated class="body"></ion-skeleton-text>
+        </div>
+        <ion-skeleton-text animated class="img"></ion-skeleton-text>
+      </div>
+      }
+      }
+
+      <!-- Empty Ele -->
+      @if(empty){
+      <div class="empty fade-in">
+        <ion-icon name="code-working-outline"></ion-icon>
+        <h3 style="text-align: center;">لا إشعارات</h3>
+      </div>
+      }
+
+      <!-- Error Ele -->
+      @if(error){
+      <div class="empty fade-in">
+        <ion-icon name="code-working-outline" style="font-size: 3em;transform:rotateZ(90deg);"></ion-icon>
+        <h3> برجاء التحقق من الشبكة و إعادة المحاولة</h3>
+      </div>
+      }
+
+
+    </div>
+
+    <ion-infinite-scroll threshold="25%" [disabled]="stopLoading" position="bottom" (ionInfinite)="loadMore($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="جاري التحميل...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+  </div>
+</ion-content>

@@ -24,12 +24,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/section/section.module').then(m => m.SectionPageModule)
   },
   {
-    path: 'order',
+    path: 'order/:id',
     loadChildren: () => import('./pages/order/order.module').then(m => m.OrderPageModule)
-  },
-  {
-    path: 'brands-sections',
-    loadChildren: () => import('./pages/brands-sections/brands-sections.module').then(m => m.BrandsSectionsPageModule)
   },
   {
     path: 'offer',
@@ -45,6 +41,26 @@ const routes: Routes = [
   }, {
     path: 'brands-sections',
     loadChildren: () => import('./pages/brands-sections/brands-sections.module').then(m => m.BrandsSectionsPageModule)
+  },
+  {
+    path: 'branchs',
+    loadChildren: () => import('./pages/branchs/branchs.module').then(m => m.BranchsPageModule)
+  },
+  {
+    path: 'custom-image',
+    loadChildren: () => import('./pages/custom-image/custom-image.module').then(m => m.CustomImagePageModule)
+  },
+  {
+    path: 'search-products',
+    loadChildren: () => import('./pages/search-products/search-products.module').then(m => m.SearchProductsPageModule)
+  },
+  {
+    path: 'notifications',
+    loadChildren: () => import('./pages/notifications/notifications.module').then(m => m.NotificationsPageModule)
+  },
+  {
+    path: 'brand',
+    loadChildren: () => import('./pages/brand/brand.module').then(m => m.BrandPageModule)
   }
 ];
 @NgModule({

@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Category, Offer, Product } from 'src/app/core/project-interfaces/interfaces';
 import { CartService } from 'src/app/core/services/cart.service';
 import { DataService } from 'src/app/core/services/data.service';
+import { FavoService } from 'src/app/core/services/favorites.service';
 import { WildUsedService } from 'src/app/core/services/wild-used.service';
+import { CustomSectionCompoComponent } from '../custom-section-compo/custom-section-compo.component';
 
 
 @Component({
@@ -33,7 +35,9 @@ export class OfferPage implements OnInit {
     private currentRoute: ActivatedRoute,
     private dataService: DataService,
     public cartService: CartService,
-    private modalCtrl: ModalController
+    public favoService: FavoService,
+    private modalCtrl: ModalController,
+    public navCtrl: NavController
   ) { }
 
   async ngOnInit() {
@@ -81,12 +85,24 @@ export class OfferPage implements OnInit {
   }
 
   async updateFavorites(prod: Product) {
-    const desicion = await this.wildUsedService.updateFavorite(prod)
-    if (desicion) {
-      this.inFavorites ? this.inFavorites?.push(prod._id) : this.inFavorites = [prod._id]
-    } else {
-      this.inFavorites = this.inFavorites.filter((p) => { return p !== prod._id })
-    }
+    prod.isFav = !prod.isFav
+    this.favoService.updateFavorites(prod);
+    this.checkFavorites()
+  }
+
+  checkFavorites() {
+    this.favoService.checkFavoriteProds(this.offerProducts)
+  }
+
+  async openCustomModal() {
+    const modal = await this.modalCtrl.create({
+      component: CustomSectionCompoComponent,
+      componentProps: {
+        customObjArr: this.offerCategoriesSub,
+      },
+      cssClass: ['custom-modal'],
+    })
+    await modal.present()
   }
 
 

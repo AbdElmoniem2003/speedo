@@ -1,30 +1,34 @@
 <ion-header class="custom-header">
-  <img src="../../../assets/imgs/prod.png">
-  <div class="content">
-    <ion-button class="no-color-button">
-      <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
-      @if((cartService.cartProducts?.length)){
-      <span>{{cartService.cartProducts?.length}}</span>
-      }
-    </ion-button>
-    <div>
-      <div>
-        <ion-label> {{offer.name}}</ion-label>
-        <p> {{offer.description}}</p>
+  <app-custom-image [mainImg]="offer?.image" [customID]="offer?._id"
+    [altImg]="'../../../assets/imgs/logo-cover.png'"></app-custom-image>
+  <ion-toolbar>
+    <ion-item lines="none">
+      <ion-button slot="start" class="no-color-button">
+        <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
+        @if((cartService.cartProducts?.length)){
+        <span>{{cartService.cartProducts?.length}}</span>
+        }
+      </ion-button>
+
+      <div class="txts">
+        <ion-label slot="end"> {{offer.name}}</ion-label>
+        <p slot="end"> {{offer.description}}</p>
       </div>
-      <ion-back-button class="no-color-button" icon="chevron-forward">
-      </ion-back-button>
+      <ion-button slot="end" (click)="navCtrl.pop()" class="no-color-button">
+        <ion-icon icon="chevron-forward"></ion-icon>
+      </ion-button>
+    </ion-item>
+
+
+    <div class="filter">
+      <ion-icon (click)="openCustomModal()" name="chevron-down-outline"></ion-icon>
+      <ion-segment [scrollable]="true" *ngIf="offerCategories.length" [value]="offerCategories[0]._id">
+        <ion-segment-button *ngFor="let category of offerCategories"
+          [value]="category._id">{{category.name}}</ion-segment-button>
+      </ion-segment>
+
     </div>
-  </div>
-
-  <div class="filter">
-    <ion-segment [scrollable]="true" *ngIf="offerCategories.length" [value]="offerCategories[0]._id">
-      <ion-segment-button *ngFor="let category of offerCategories"
-        [value]="category._id">{{category.name}}</ion-segment-button>
-    </ion-segment>
-    <ion-icon (click)="openModal=true" name="chevron-down-outline"></ion-icon>
-
-  </div>
+  </ion-toolbar>
 </ion-header>
 
 
@@ -39,7 +43,7 @@
         @for (product of offerProducts; track $index) {
         <div class="card">
           <div class="card-content">
-            <ion-img [src]="product.image||'../../../assets/imgs/empty.png'"></ion-img>
+            <app-custom-image [mainImg]="product.image" [customID]="product._id"></app-custom-image>
             <p>{{product.name}}</p>
             <h3>{{product.price - product.discountPrice|number}} د.ع</h3>
           </div>

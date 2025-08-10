@@ -1,31 +1,56 @@
 <ion-header class="custom-header">
 
-  <div class="content">
-    <ion-button class="no-color-button" routerLink="/cart">
+  <ion-toolbar>
+    <ion-button class="no-color-button" routerLink="/cart" slot="start">
+      @if((cartService.cartProducts?.length)){
+      <span>{{cartService.cartProducts?.length}}</span>
+      }
       <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
     </ion-button>
 
-    <div>
-      <ion-label>
-        @if(customView=='offer'){العروض}
-        @if(customView=='category'){الأقسام}
-        @if(customView=='brand'){البراندات}
-      </ion-label>
-      <ion-back-button class="no-color-button" icon="chevron-forward">
-      </ion-back-button>
-    </div>
-  </div>
+    <ion-label slot="end">
+      @if(customView=='offer'){العروض}
+      @if(customView=='category'){الأقسام}
+      @if(customView=='brand'){البراندات}
+    </ion-label>
+    <ion-button slot="end" class="no-color-button" (click)="navCtrl.pop()">
+      <ion-icon name="chevron-forward" slot="icon-only"></ion-icon>
+    </ion-button>
+
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)" pullFactor="0.8" pullMin="60" pullMax="120">
+    <ion-refresher-content refreshingSpinner="bubbles"></ion-refresher-content>
+  </ion-refresher>
+
   <div class="container">
 
+    <!-- Empty Ele -->
+    @if(empty){
+    <div class="empty fade-in">
+      <ion-icon name="code-working-outline"></ion-icon>
+      <h3 style="text-align: center;">لا منتجات في السلة حاليا</h3>
+    </div>
+    }
+
+    <!-- Error Ele -->
+    @if(error) {
+    <div class="empty" style="display: flex;flex-direction: column;align-items: center;">
+      <img src="../../../assets/imgs/logo-icon.svg" alt="">
+      <h3>حدث خطا . تحقق من الشبكة</h3>
+    </div>
+    }
+
+
+    @if(!isLoading){
     @if(customView=='brand'){
 
     <div class="brands">
       @for (brand of brands; track $index) {
-      <div class="brand" (click)="toSection('brand','')">
+      <div class="brand" (click)="toSection('brand',brand._id)">
         <ion-img [src]="brand.image||'../../../assets/imgs/empty.png'"></ion-img>
       </div>
       }
@@ -37,7 +62,7 @@
     @if(customView=='category'){
     <div class="sections">
       @for (category of categories; track $index) {
-      <div class="custom" (click)="toSection('section','')">
+      <div class="custom" (click)="toSection('section',category._id)">
         <ion-img [src]="category.image||'../../../assets/imgs/empty.png'"></ion-img>
         <p> {{category.name}}</p>
       </div>
@@ -50,7 +75,7 @@
     <div class="offers">
 
       @for (offer of offers; track $index) {
-      <div class="offer" (click)="toSection('offer','')">
+      <div class="offer" (click)="toSection('offer',offer._id)">
         <img [src]="offer.image||'../../../assets/imgs/empty.png'">
         <ion-button class="no-color-button">
           <ion-label>تفقد المنتجات</ion-label>
@@ -61,7 +86,12 @@
 
     </div>
     }
+    }
 
+    <ion-infinite-scroll threshold="25%" [disabled]="stopLoading" position="bottom" (ionInfinite)="loadMore($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 
   </div>
 

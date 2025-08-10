@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { NavController, RefresherCustomEvent } from "@ionic/angular";
 import { Storage } from "@ionic/storage-angular";
 import { Subscription } from "rxjs";
-import { Brand, Category, Product, Slider } from "src/app/core/project-interfaces/interfaces";
+import { Brand, Category, Offer, Product, Slider } from "src/app/core/project-interfaces/interfaces";
 import { CartService } from "src/app/core/services/cart.service";
 import { DataService } from "src/app/core/services/data.service";
 import { FavoService } from "src/app/core/services/favorites.service";
@@ -47,13 +47,13 @@ export class HomePage implements OnInit {
   filterModalOpen: boolean = false
 
   constructor(
-    private navCtrl: NavController,
+    public navCtrl: NavController,
     private router: Router,
     private route: ActivatedRoute,
     private storage: Storage,
     private dataService: DataService,
     private wildUsedService: WildUsedService,
-    private cartService: CartService,
+    public cartService: CartService,
     private favoService: FavoService
   ) { }
 
@@ -65,6 +65,7 @@ export class HomePage implements OnInit {
     this.getData()
   }
 
+  toCart() { this.navCtrl.navigateForward('/cart') }
 
 
 
@@ -90,12 +91,10 @@ export class HomePage implements OnInit {
         }
         response ? this.showContent(ev) : this.showEmpty(ev)
       }, err => {
-        this.wildUsedService.generalToast(err.error.message, 'primary')
+        this.wildUsedService.generalToast(err.error.message, '', 'light-color', 2500, 'middle')
         this.showError(ev)
       });
   }
-
-
 
   handleSwiper() {
     register();
@@ -131,6 +130,12 @@ export class HomePage implements OnInit {
     this.checkFavorites()
   }
 
+
+  //to Offer Category Brand
+  openRelatedView(customObj: Category | Offer | Brand, customView: string) {
+    this.dataService.param = customObj;
+    this.navCtrl.navigateForward(customView, { queryParams: { id: customObj._id } })
+  }
 
   showLoading() {
     this.isLoading = true

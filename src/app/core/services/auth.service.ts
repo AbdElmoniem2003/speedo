@@ -22,7 +22,8 @@ export class AuthService {
   }
 
   async getUserFromStorage() {
-     this.user = await this.storage.get('user')
+    this.user = await this.storage.get('user');
+    return this.user
   }
 
   saveCredintials(userData: User) {
@@ -35,24 +36,24 @@ export class AuthService {
     this.dataService.postData('user/login', user).subscribe((response: User) => {
       this.saveCredintials(response)
       this.navCtrl.navigateRoot('tabs/home')
-    }, err => this.wildUsedService.generalToast(err.error.message))
+    }, err => this.wildUsedService.generalToast(err.error.message, '', 'light-color', 2500, 'middle'))
   }
 
   register(user: { username: string, password: string, id?: string }) {
     this.dataService.postData('user/register', user).subscribe((response: any) => {
       this.saveCredintials(response)
       this.navCtrl.navigateRoot('tabs/home')
-    }, err => this.wildUsedService.generalToast(err.error.message))
+    }, err => this.wildUsedService.generalToast(err.error.message, '', 'light-color', 2500, 'middle'))
   }
 
   setAccessToken(token: string) {
-    return localStorage.setItem('accessToken', token)
+    localStorage.setItem('accessToken', token)
   }
   getAccessToken() {
     return localStorage.getItem('accessToken')
   }
   setRefreshToken(token: string) {
-    return localStorage.setItem('refreshToken', token)
+    localStorage.setItem('refreshToken', token)
   }
   getRefreshToken() {
     return localStorage.getItem('refreshToken')
@@ -61,12 +62,14 @@ export class AuthService {
   refreshToken() {
     let refreshPromise = new Promise<string>((resolve, reject) => {
       const token = this.getRefreshToken();
-      this.dataService.getData('user/refreshToken?token' + token)
-        .subscribe((res: { accessToken: string, refreshToken: string }) => {
-          this.setAccessToken(res.accessToken)
-          this.setRefreshToken(res.refreshToken)
-          resolve(res.accessToken)
-        }, err => reject(err))
+      this.dataService.getData(`user/refreshToken?token=${token}`)
+        .subscribe({
+          next: (res: { accessToken: string, refreshToken: string }) => {
+            this.setAccessToken(res.accessToken)
+            this.setRefreshToken(res.refreshToken)
+            resolve(res.accessToken)
+          }, error: err => reject(err)
+        })
     })
     return from(refreshPromise)
   }
@@ -75,7 +78,7 @@ export class AuthService {
     localStorage.removeItem('refreshToken')
     localStorage.removeItem('accessToken')
     this.storage.clear().then(() => {
-      this.wildUsedService.generalToast("Login Again Cuz Your Session Was Expired")
+      this.wildUsedService.generalToast("يرجي تسجيل الدخول!.", '', 'light-color', 2500, 'middle')
       this.navCtrl.navigateRoot('login')
     })
   }

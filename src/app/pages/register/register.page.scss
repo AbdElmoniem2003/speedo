@@ -122,7 +122,7 @@
             margin: 0 12px;
 
             &.valid {
-              color:#{$primaryColor};
+              --ion-color-dark:#{$primaryColor};
             }
 
           }

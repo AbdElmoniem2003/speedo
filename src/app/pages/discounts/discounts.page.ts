@@ -28,25 +28,26 @@ export class DiscountsPage implements OnInit {
   discounts: Product[] = [];
   inFavorites: string[] = ['']
 
-  segment = 'offers'
+  segment = 'product'
+  switchEnum = {
+    offer: "offer",
+    discount: 'product'
+  }
 
-  // showDiscount: boolean = true;
   isLoading: boolean = false;
   empty: boolean = false;
   error: boolean = false;
-  discountSkip: number = 0;
-  offerSkip: number = 0;
+  skip: number = 0;
   filterModalOpen: boolean = false;
   openModal: boolean = false;
 
-  canLoadDiscounts: boolean = true
-  canLoadOffers: boolean = true
+  stopLoding: boolean = true
 
   constructor(
-    private navCtrl: NavController,
+    public navCtrl: NavController,
     private dataService: DataService,
     private storage: Storage,
-    private cartService: CartService,
+    public cartService: CartService,
     private wildUsedService: WildUsedService,
     private favoService: FavoService,
     private modalCtrl: ModalController,
@@ -57,52 +58,39 @@ export class DiscountsPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.getOffers()
+    this.showLoading()
+    this.getData()
+  }
+  toCart() { this.navCtrl.navigateForward('/cart') }
+
+  get endPoint() {
+    let query: string;
+    if (this.segment == this.switchEnum.offer) query = `${this.segment}?skip=${this.skip}`
+    if (this.segment == this.switchEnum.discount) query = `${this.segment}?status=1&skip=${this.skip}&discount=1`
+    return query
   }
 
-
-  getOffers(ev?: any) {
-    // this.wildUsedService.showLoading()
-    this.showLoading()
-    this.offersSubscription = this.dataService.getData(`offer`).subscribe({
+  getData(ev?: any) {
+    this.offersSubscription = this.dataService.getData(this.endPoint).subscribe({
       next: (response: any[]) => {
-        if (response.length < 20) {
-          this.offers = this.offerSkip ? this.offers.concat(response) : response
-          this.canLoadOffers = false
+
+        if (this.segment == 'offer') {
+          this.offers = this.skip ? this.offers.concat(response) : response
+          this.offers.length ? this.showContent(ev) : this.showEmpty(ev)
         } else {
-          this.offers = this.offers.concat(response)
+          this.discounts = this.skip ? this.discounts.concat(response) : response
+          this.discounts.length ? this.showContent(ev) : this.showEmpty(ev)
         }
-        this.offers.length ? this.showContent(ev) : this.showEmpty(ev)
-        // this.wildUsedService.dismisLoading()
+
+        this.stopLoding = response.length < 20
+
       }, error: error => this.showError(ev)
     })
   }
-
-  getDiscounts(ev?: any) {
-    // this.wildUsedService.showLoading()
-    this.showLoading()
-    this.discountsSubscription = this.dataService.getData(`product?status=1&skip=${this.discountSkip}&discount=1`).subscribe({
-      next: (response: any) => {
-        this.canLoadDiscounts = !(response.length < 20);
-        this.discounts = this.discountSkip ? this.discounts.concat(response) : response
-        this.favoService.checkFavoriteProds(this.discounts);
-        this.getDiscoutSubGategories();
-        this.discounts.length ? this.showContent(ev) : this.showEmpty(ev)
-        // this.wildUsedService.dismisLoading()
-      }, error: error => this.showError(ev)
-    })
-  }
-
 
   toggleSegement(ev: SegmentCustomEvent) {
-    const val = ev.target.value;
-    if (!val) return;
-    if (val === 'discounts') {
-      this.getDiscounts()
-    }
-    if (val === 'offers') {
-      this.getOffers()
-    }
+    this.showLoading()
+    this.getData()
   }
 
   getDiscoutSubGategories() {
@@ -116,41 +104,14 @@ export class DiscountsPage implements OnInit {
   }
 
 
-
-  toOffer(offer: Offer) {
-    this.navCtrl.navigateForward(`offer?id=${offer._id}`);
-    this.dataService.passObj(offer)
-  }
-
-  search(ev: any) {
-    console.log(ev.target.value);
-    this.dataService.getData('product?searchText=' + ev.target.value).subscribe((respose: any) => {
-      console.log(respose.filter((obj) => {
-        return obj.discountPrice
-      }))
-    })
-  }
-
-  addToCart(prod: Product) {
-    prod.quantity = prod.quantity ? prod.quantity + 1 : 1;
-    this.cartService.updateCart(prod)
-  }
-
-  addToFavorite(prod: Product) {
-    prod.isFav = !prod.isFav
-    this.favoService.updateFavorites(prod)
-  }
-
-  paginateProducts(ev: any) {
-    this.discountSkip += 1
-    this.getDiscounts(ev)
-  }
-
-
   showLoading() {
+    this.skip = 0
     this.isLoading = true;
     this.empty = false;
     this.error = false;
+    this.stopLoding = true
+    this.offers = []
+    this.discounts = []
   }
   showContent(ev?: any) {
     this.isLoading = false;
@@ -171,13 +132,20 @@ export class DiscountsPage implements OnInit {
     this.empty = false
     ev?.target.complete()
   }
+
   refresh(ev?: any) {
-    this.isLoading = true
-    this.error = false
-    this.empty = false
-    ev?.target.complete()
+    this.skip = 0;
+    this.getData(ev)
   }
 
+  loadMore(ev: any) {
+    this.skip += 1;
+    this.getData(ev)
+  }
+
+
+
+  // Functions
   async openCustomModal() {
     const modal = await this.modalCtrl.create({
       component: CustomSectionCompoComponent,
@@ -187,6 +155,28 @@ export class DiscountsPage implements OnInit {
       cssClass: ['custom-modal'],
     })
     await modal.present()
+  }
+
+  toOffer(offer: Offer) {
+    this.navCtrl.navigateForward(`offer?id=${offer._id}`);
+    this.dataService.passObj(offer)
+  }
+
+  search(ev: any) {
+    console.log(ev.target.value);
+    this.dataService.getData('product?searchText=' + ev.target.value).subscribe((respose: any) => {
+
+    })
+  }
+
+  addToCart(prod: Product) {
+    prod.quantity = prod.quantity ? prod.quantity + 1 : 1;
+    this.cartService.updateCart(prod)
+  }
+
+  addToFavorite(prod: Product) {
+    prod.isFav = !prod.isFav
+    this.favoService.updateFavorites(prod)
   }
 
 

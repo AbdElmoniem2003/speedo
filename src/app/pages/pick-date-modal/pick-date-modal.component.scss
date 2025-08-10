@@ -1,0 +1,11 @@
+ion-datetime {
+  font-weight: bold;
+  font-family: cairo;
+
+  font ion-buttons[slot='buttons'] {
+    ion-button {
+      font-weight: bold;
+      font-family: cairo;
+    }
+  }
+}

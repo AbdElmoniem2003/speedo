@@ -23,19 +23,19 @@
   --secondary-border: #dbdbdb;
   --ion-font-family: "regular";
   /** primary **/
-  --ion-color-primary: #4D2777;
-  --ion-color-primary-rgb: 77, 39, 119;
-  --ion-color-primary-contrast: #ffffff;
-  --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #442269;
-  --ion-color-primary-tint: #5f3d85;
+	--ion-color-primary: #fb143c;
+	--ion-color-primary-rgb: 251,20,60;
+	--ion-color-primary-contrast: #000000;
+	--ion-color-primary-contrast-rgb: 0,0,0;
+	--ion-color-primary-shade: #dd1235;
+	--ion-color-primary-tint: #fb2c50;
   /** secondary **/
-  --ion-color-secondary: #212844;
-  --ion-color-secondary-rgb: 33, 40, 68;
-  --ion-color-secondary-contrast: #ffffff;
-  --ion-color-secondary-contrast-rgb: 255, 255, 255;
-  --ion-color-secondary-shade: #1d233c;
-  --ion-color-secondary-tint: #373e57;
+ --ion-color-secondary: #2c3454;
+	--ion-color-secondary-rgb: 44,52,84;
+	--ion-color-secondary-contrast: #ffffff;
+	--ion-color-secondary-contrast-rgb: 255,255,255;
+	--ion-color-secondary-shade: #272e4a;
+	--ion-color-secondary-tint: #414865
   /** tertiary **/
   --ion-color-tertiary: #5260ff;
   --ion-color-tertiary-rgb: 82, 96, 255;
@@ -91,8 +91,8 @@
 
 
   // App Custom Style Variables
-  --primary-color: rgba(251, 20, 60, 1);
-  --secondary-color: rgba(44, 52, 84, 1);
+  --primary-color: #fb143c;
+  --secondary-color: #2c3454;
   --nav-icons-color: rgba(128, 128, 128, 1);
   --none-background: #f6f6f6;
   --alert-color: rgba(226, 18, 105, 1);

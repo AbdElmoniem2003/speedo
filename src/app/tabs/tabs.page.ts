@@ -17,11 +17,7 @@ import { AuthService } from '../core/services/auth.service';
 })
 export class TabsPage implements OnInit {
 
-  @ViewChild('tab1') tab1: IonTabButton
-  @ViewChild('tab2') tab2: IonTabButton
-  @ViewChild('tab3') tab3: IonTabButton
-  @ViewChild('tab4') tab4: IonTabButton
-  @ViewChild('tab5') tab5: IonTabButton
+  user: User;
 
   constructor(private navCtrl: NavController,
     private dataService: DataService,
@@ -35,11 +31,11 @@ export class TabsPage implements OnInit {
   async ngOnInit() {
     this.cartService.getCartProds()
     this.favoService.getFavorites()
-    this.authService.getUserFromStorage()
     // this.cartService.cartBehaviourSub.subscribe((total) => this.totalInCart = total)
   }
 
   async ionViewWillEnter() {
+    this.user=await this.authService.getUserFromStorage()
   }
 
   toCart() { this.navCtrl.navigateForward('/cart') }

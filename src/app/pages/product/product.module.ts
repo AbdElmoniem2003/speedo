@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { ProductPageRoutingModule } from './product-routing.module';
 
 import { ProductPage } from './product.page';
+import { CustomImagePageModule } from '../custom-image/custom-image.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ProductPageRoutingModule
+    ProductPageRoutingModule,
+    CustomImagePageModule
   ],
   declarations: [ProductPage]
 })
-export class ProductPageModule {}
+export class ProductPageModule { }

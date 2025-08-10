@@ -1,0 +1,207 @@
+@import '../../../theme/mixin.scss';
+@import '../../../global.scss';
+
+.container {
+
+
+  .section-filter {
+
+    ion-segment,
+    .animated-categories {
+      margin-left: 56px;
+      direction: rtl;
+      padding: 8px 16px;
+      @include flex(8, '', center, '');
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* For Firefox */
+      scrollbar-width: none;
+      /* hides scrollbar */
+
+      /* For Internet Explorer and Edge */
+      -ms-overflow-style: none;
+      /* hides scrollbar */
+
+      ion-skeleton-text {
+        width: 80px;
+        height: 40px;
+        border-radius: 8px;
+        --background: dodgerblue;
+      }
+
+      ion-segment-button {
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 22px;
+        letter-spacing: 0px;
+        text-align: center;
+        background-color: white;
+        --indicator-color: transparent;
+        color: rgba(128, 128, 128, 1);
+        min-height: 40px;
+        min-width: fit-content;
+        --padding-start: 9px;
+        --padding-end: 9px;
+        @include flex(0, center, center, '');
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid rgba(219, 219, 219, 1);
+
+        &.segment-button-checked {
+          --color-checked:#{$secondaryColor};
+          background-color: $secondaryColor;
+          color: white;
+        }
+      }
+    }
+
+    ion-icon {
+      padding: 8px 16px;
+      position: absolute;
+      left: 0;
+      top: 7px;
+      z-index: 1;
+      width: 24px;
+      height: 26px;
+      background-color: #f6f6f6;
+      color: $primaryColor;
+    }
+  }
+
+  .section {
+    padding: 0 16px;
+
+    .section-cards {
+      direction: rtl;
+      display: grid;
+      padding: 8px 0 0;
+      column-gap: 8px;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+
+      .card {
+        position: relative;
+        background-color: white;
+        height: 303px;
+        @include flex(12, center, center, column);
+        border-radius: 12px;
+        flex-basis: calc((100% - 8px) /2);
+        border: 1px solid rgba(240, 239, 239, 1);
+        padding: 12px;
+
+        .card-content {
+          width: 143px;
+          height: 227px;
+          overflow: hidden;
+          @include flex(8, flex-start, '', column);
+
+          >ion-img,
+          app-custom-image,
+          >img {
+            @include shape(143, 143);
+            border-radius: 6px;
+            overflow: hidden;
+          }
+
+          p {
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 22px;
+            letter-spacing: 0px;
+            white-space: wrap;
+            text-overflow: ellipsis;
+          }
+
+          div {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 28px;
+
+            h3 {
+              font-weight: 700;
+              font-size: 16px;
+              line-height: 28px;
+              letter-spacing: 0px;
+              margin: 0;
+              flex-grow: 1;
+            }
+
+            >h3.before-discount {
+              color: rgba(170, 170, 170, 1);
+              text-decoration: line-through;
+            }
+          }
+        }
+
+        >ion-button {
+          height: 40px;
+          direction: ltr;
+          @include flex(8, center, center, '');
+          border-radius: 10px;
+          overflow: hidden;
+          --ion-color-primary:#{$primaryColor};
+
+          ion-label {
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 26px;
+            letter-spacing: 0px;
+            text-align: center;
+          }
+
+          ion-img {
+            @include shape(18, 18);
+            margin-left: 8px;
+          }
+        }
+
+        .addition-btns {
+          position: absolute;
+          top: 12px;
+          width: 143px;
+          padding: 0 5px;
+          @include flex(0, space-between, center, '');
+
+          >ion-button {
+            @include shape(26, 26);
+            --ion-color-primary: white;
+            border-radius: 50%;
+            overflow: hidden;
+          }
+
+          .btns {
+            @include flex(4, '', center, '');
+
+            span {
+              height: 26px;
+              min-width: 26px;
+              max-width: 62px;
+              color: white;
+              background-color: rgba(44, 52, 84, 0.65);
+              border-radius: 15px;
+              @include flex(4, center, center, '');
+              overflow: hidden;
+              font-weight: 600;
+              font-size: 12px;
+              line-height: 22px;
+              letter-spacing: 0px;
+
+              &.extra {
+                width: 64px;
+              }
+            }
+
+            ion-img {
+              @include shape(18, 18);
+            }
+          }
+        }
+      }
+
+    }
+  }
+}
+

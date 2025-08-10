@@ -2,13 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { Subscription } from 'rxjs';
-import { Product } from 'src/app/core/project-interfaces/interfaces';
+import { Branch, Product } from 'src/app/core/project-interfaces/interfaces';
 import { DataService } from 'src/app/core/services/data.service';
 import { WildUsedService } from 'src/app/core/services/wild-used.service';
 import { ConfirmCompoComponent } from '../confirm-compo/confirm-compo.component';
 import { CartService } from 'src/app/core/services/cart.service';
-
-
 
 @Component({
   selector: 'app-cart',
@@ -23,12 +21,15 @@ export class CartPage implements OnInit {
   inCartIDs: any
   empty: boolean = false;
 
+  location: { lat: number, lng: number } = null;
+  branchs: Branch[] = [];
+
   constructor(private dataService: DataService,
     private storage: Storage,
     private wildUsedService: WildUsedService,
     private modalCtrl: ModalController,
     private cartService: CartService,
-    private navCtrl: NavController
+    public navCtrl: NavController
   ) { }
 
   ngOnInit() {
@@ -56,20 +57,20 @@ export class CartPage implements OnInit {
 
   async deleteFromCart(product: Product) {
     console.log(product._id)
-    this.wildUsedService.generalAlert("delete...?").then(async (descision) => {
+    this.wildUsedService.generalAlert(`؟ ${product.name} هل ترد حذف`, 'أجل', "كلا").then(async (descision) => {
       if (!descision) return;
-      await this.wildUsedService.showLoading()
+      this.wildUsedService.showLoading()
       this.inCartProducts = this.inCartProducts.filter((prod) => {
         return prod._id !== product._id
       });
       this.empty = this.inCartProducts.length ? false : true
       this.cartService.deleteFromCart(product)
-      await this.wildUsedService.dismisLoading()
+      this.wildUsedService.dismisLoading()
     })
   }
 
-  calcTotal(deliver: number = 0) {
-    let total = deliver
+  calcTotal() {
+    let total = 0
     this.inCartProducts?.forEach(p => {
       // need to handle prod extras
       // if (this.inCartIDs[p._id].extras) {
@@ -90,13 +91,19 @@ export class CartPage implements OnInit {
       this.navCtrl.navigateForward('login');
       return;
     }
-    let modal = await this.modalCtrl.create({
-      component: ConfirmCompoComponent,
-      componentProps: {
-        orderProducts: this.inCartProducts,
-      }
-    })
-    await modal.present()
+    this.navCtrl.navigateForward('branchs')
+  }
+
+  async clearCart() {
+    if (this.empty) {
+      await this.wildUsedService.generalToast('لا منتجات لخذفها', '', 'light-color', 2500, 'middle');
+      return;
+    }
+    const desicion = await this.wildUsedService.generalAlert('هل تريد حذف كل المنتجات من السلة؟', 'أجل', "كلا");
+    if (!desicion) return;
+    this.cartService.clearCart()
+    this.inCartProducts = [];
+    await this.wildUsedService.generalToast('السلة فارغة', 'primary', 'light-color', 2500)
   }
 
   ngOnDestroy() {

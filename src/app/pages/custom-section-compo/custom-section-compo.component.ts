@@ -4,12 +4,13 @@ import { IonicModule, LoadingController, ModalController } from '@ionic/angular'
 import { IonIcon, IonButton, IonHeader, IonImg, IonLabel } from "@ionic/angular/standalone";
 import { Subscription } from 'rxjs';
 import { Category } from 'src/app/core/project-interfaces/interfaces';
+import { CustomImagePageModule } from '../custom-image/custom-image.module';
 
 @Component({
   selector: 'app-custom-section-compo',
   templateUrl: './custom-section-compo.component.html',
   styleUrls: ['./custom-section-compo.component.scss'],
-  imports: [IonicModule]
+  imports: [IonicModule, CustomImagePageModule]
 })
 export class CustomSectionCompoComponent implements OnInit, OnDestroy {
 

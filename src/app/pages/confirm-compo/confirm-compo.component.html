@@ -1,57 +1,60 @@
-<ion-header class="custom-header">
+<ion-header class="custom-header modal-header">
 
-  <div class="content" style="justify-content: end;">
-    <div>
-      <ion-label> انهاء الطلب</ion-label>
-      <ion-back-button (click)="modalCtrl.dismiss()" class="no-color-button" icon="chevron-forward">
-      </ion-back-button>
-    </div>
-  </div>
+  <ion-toolbar>
+    <ion-label slot="end"> انهاء الطلب</ion-label>
+    <ion-button slot="end" (click)="modalCtrl.dismiss()" class="no-color-button" icon="chevron-forward">
+    </ion-button>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-  <div class="container">
+  <div class="container modal-container">
     <section>ملخص الطلب</section>
 
+    @if(!empty&&!isloading){
     <form [formGroup]="orderForm">
 
       <div class="form">
-        <ion-select formControlName="branche" interface="action-sheet" mode="ios" toggleIcon="chevron-down"
-          expandedIcon="chevron-up" label="الفرع">
-          <ion-select-option value="egypt">egypt</ion-select-option>
-        </ion-select>
+        <ion-label>{{selectedBranch?.name}}</ion-label>
 
-        <ion-input formControlName="discountCode" placeholder="كود الخصم..."></ion-input>
+        <ion-input class="fade-in" formControlName="coupon" placeholder="كود الخصم..."
+          (ionChange)="logCoupon($event)"></ion-input>
 
-        <ion-radio-group value="safari" formControlName="serviceMethod">
-          <ion-radio value="safari">
-            <ion-label>سفرى</ion-label>
-            <ion-input formControlName="safari-info" placeholder="الوصف هنا...."> </ion-input>
+        <ion-radio-group value="1" formControlName="type" (ionChange)="updateService($event)">
+
+          @for (type of orderTypes; track $index) {
+          <ion-radio class="fade-in" [value]="type.type">
+            <ion-label>{{type.name}}</ion-label>
+            <p>{{type.description}}</p>
           </ion-radio>
-
-          <ion-radio value="delivery">
-            <ion-label>دليفرى</ion-label>
-            <ion-input formControlName="delivary-info" placeholder="الوصف هنا...."> </ion-input>
-          </ion-radio>
+          }
         </ion-radio-group>
 
         <div class="barriar"></div>
 
         <div class="order-data">
-          <div>
+          <div class="fade-in">
             <p>عد الطلبات</p>
-            <h3>{{numOfOrders}}</h3>
+            <h3>{{orderProducts.length |number }}</h3>
           </div>
-          <div>
+          <div class="fade-in">
             <p>اجمالى الخصومات</p>
             <h3>{{totalDiscounts|number}} د.ع</h3>
           </div>
-          <div>
+          <div class="fade-in">
             <p>التوصيل</p>
-            <h3>{{deliver | number}} د.ع</h3>
+            @if(service===1){<h3>{{selectedBranch.service | number}} د.ع</h3>}
+            @if(service===3){<h3>{{selectedBranch.fastDriverService | number}} د.ع</h3>}
+            @if(service===4){<h3>{{selectedBranch.driverService | number}} د.ع</h3>}
           </div>
-          <div>
+          @if(selectedCountry){
+          <div class="fade-in">
+            <p> التوصيل للمدينة </p>
+            <h3>{{selectedCountry.cost | number}} د.ع</h3>
+          </div>
+          }
+          <div class="fade-in">
             <p>الإجمالي</p>
             <h3>{{total|number}} د.ع</h3>
           </div>
@@ -60,16 +63,33 @@
 
       <section>بيانات المستلم</section>
       <div class="client">
-        <ion-input formControlName="recieverName" placeholder="اسم المستلم..."></ion-input>
-        <ion-input formControlName="recieverAddress" placeholder="عنوان المستلم..."></ion-input>
+        <ion-input class="fade-in" formControlName="displayName" placeholder="اسم المستلم..."></ion-input>
+        <ion-input class="fade-in" formControlName="address" placeholder="عنوان المستلم..."></ion-input>
+        <ion-input class="fade-in" formControlName="phone" placeholder="هاتف المستلم..."></ion-input>
+
+        <ion-select (ionChange)="updateCountry($event)" formControlName="country" mode="ios" interface="action-sheet"
+          toggleIcon="chevron-down" expandedIcon="chevron-up" label="اختر المدينة">
+          @for (country of countries; track $index) {
+          <ion-select-option [value]="country._id">{{country.name}}</ion-select-option>
+          }
+        </ion-select>
+        <ion-label class="fade-in"
+          (click)="openDateModal()">{{(orderForm.value.deliveryDate|date:'yyyy-MM-dd , HH:mm a')||'اختر موعد التسليم'}}</ion-label>
       </div>
     </form>
+    }
+    @if(empty&&!isloading) {
+    <div class="empty">
+      <ion-icon name="code-working-outline"></ion-icon>
+      <ion-label>تحقق من الشبكة " خطأ في الانترنت "</ion-label>
+    </div>
+    }
 
   </div>
 
 
 </ion-content>
 
-<ion-footer>
-  <ion-button (click)="finishOrder()" [disabled]="orderForm.invalid">التاكيد</ion-button>
+<ion-footer class="fade-in">
+  <ion-button (click)="finishOrder()">التاكيد</ion-button>
 </ion-footer>

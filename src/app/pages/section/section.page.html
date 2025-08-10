@@ -2,27 +2,28 @@
 
   @if(customImage){<img [src]="customImage" alt="">}
 
-  <div class="content">
-    <ion-button class="no-color-button" routerLink="/cart">
+  <ion-toolbar>
+    <ion-button slot="start" class="no-color-button" routerLink="/cart">
       <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
       @if((cartService.cartProducts?.length)){
       <span>{{cartService.cartProducts?.length}}</span>
       }
     </ion-button>
-    <div>
-      <ion-label>{{customName}}</ion-label>
-      <ion-back-button class="no-color-button" icon="chevron-forward">
-      </ion-back-button>
-    </div>
-  </div>
 
+    <ion-label slot="end">{{objToView?.name}}</ion-label>
+    <ion-button slot="end" class="no-color-button" (click)="navCtrl.pop()">
+      <ion-icon name="chevron-forward" slot="icon-only"></ion-icon>
+    </ion-button>
+
+
+
+  </ion-toolbar>
 
 </ion-header>
 
 <ion-content>
 
   <div class="container">
-
 
     <div class="section-filter" style="position: relative;" *ngIf="subCategories?.length">
       <ion-segment [value]="currentSubCategoryId" [scrollable]="true">
@@ -50,7 +51,7 @@
         @for (product of products; track $index) {
         <div class="card fade-in">
           <div class="card-content" [routerLink]="`/product/${product._id}`">
-            <ion-img [src]="product.image||'../../../assets/imgs/logo-icon.svg'"></ion-img>
+            <app-custom-image [mainImg]="product.image" [customID]="product._id"></app-custom-image>
             <p> {{product.name}}</p>
             <div>
               @if(product.discountPrice){<h3 class="before-discount"> {{product.price|number}} د.ع</h3>}

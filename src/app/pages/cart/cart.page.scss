@@ -6,15 +6,14 @@ ion-content {
 }
 
 .cart-prods {
-  padding: 0 16px 164px;
-  @include flex(16, '', '', '');
-  flex-wrap: wrap;
   direction: rtl;
+  display: flex !important;
+  flex-flow: column;
+  padding: 0 16px;
 
   .product {
     direction: ltr;
-    background-color: white;
-    width: 343px;
+    background-color: white !important;
     height: fit-content;
     @include flex(8, center, '', '');
     flex-wrap: wrap;
@@ -30,9 +29,14 @@ ion-content {
       @include flex(16, end, center, '');
 
       ion-img,
-      img {
+      img,
+      app-custom-image {
         width: 65px !important;
         height: 65px !important;
+        align-self: flex-start;
+        border: 0.5px solid rgba(233, 233, 233, 1);
+        border-radius: 6px;
+        overflow: hidden;
       }
 
       ion-icon {
@@ -57,7 +61,7 @@ ion-content {
         }
 
         .add-constract {
-          @include flex(16, space-between, center, '');
+          @include flex(16,end, center, '');
 
           ion-buttons {
             @include flex(16, '', center, '');
@@ -147,16 +151,6 @@ ion-content {
   }
 }
 
-.empty {
-  @include flex(20, center, center, column);
-
-  ion-icon {
-    transform: rotateZ(90deg);
-    font-size: 50px;
-    margin: 0;
-  }
-}
-
 
 ion-footer {
   height: 120px;
@@ -168,6 +162,9 @@ ion-footer {
   background-color: white;
 
   .content {
+    max-width: 767px;
+    width: 100%;
+    padding: 0 16px;
     @include flex(0, space-between, center, '');
 
     p {
@@ -207,7 +204,6 @@ ion-footer {
       @include flex(24, '', center, '');
     }
 
-
   }
 
   ion-button {
@@ -218,34 +214,14 @@ ion-footer {
     --padding-start: 12px;
     --padding-end: 12px;
     height: 48px;
+    max-width: 767px;
+    width: 100%;
+    margin: 0 auto;
     font-weight: 700;
     font-size: 16px;
     line-height: 28px;
     letter-spacing: 0px;
     text-align: center;
-  }
-
-}
-
-
-@media (1023px>width>767px) {
-  .product {
-    // flex-basis: calc((100% - 16px) / 2) !important;
-    // flex-grow: 0 !important;
-
-    .prod-options {
-      flex-grow: 1;
-    }
-  }
-
-
-
-}
-
-@media (width>1023px) {
-  .product {
-    // flex-basis: calc((100% - 32px) / 3) !important;
-    // flex-grow: 0 !important;
   }
 
 }

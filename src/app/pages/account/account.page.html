@@ -1,4 +1,22 @@
-<ion-content [fullscreen]="true">
+<ion-header class="main-header">
+  <ion-toolbar>
+    <ion-button slot="start" class="ion-activatable no-color-button" (click)="navCtrl.navigateForward('notifications')">
+      <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
+      <ion-ripple-effect></ion-ripple-effect>
+    </ion-button>
+    <ion-button slot="start" class="ion-activatable no-color-button" (click)="toCart()">
+      @if((cartService.cartProducts?.length)){
+      <span>{{cartService.cartProducts?.length}}</span>
+      }
+      <ion-img slot="icon-only" src="../../../assets/imgs/cart.svg">
+      </ion-img>
+      <ion-ripple-effect></ion-ripple-effect>
+    </ion-button>
+    <ion-img slot="end" src="../../../assets/imgs/logo-icon.svg"></ion-img>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
   <div class="container">
 
     <div class="header">
@@ -17,6 +35,31 @@
 
 
     <div class="account-data">
+
+      <!-- Empty Ele -->
+      @if(empty) {
+      <div class="empty" style="display: flex;flex-direction: column;align-items: center;">
+        <img src="../../../assets/imgs/logo-icon.svg" alt="">
+        <h3>لا يوجد بيانات</h3>
+      </div>
+      }
+
+      <!-- Error Ele -->
+      @if(error) {
+      <div class="empty" style="display: flex;flex-direction: column;align-items: center;">
+        <img src="../../../assets/imgs/logo-icon.svg" alt="">
+        <h3>حدث خطا . تحقق من الشبكة</h3>
+      </div>
+      }
+
+      @if(isLoading){
+      <div class="card" *ngFor="let i of [1,2,3,4,5]">
+        <ion-skeleton-text class="img" animated></ion-skeleton-text>
+        <ion-skeleton-text class="text" animated></ion-skeleton-text>
+      </div>
+      }
+
+      @if(!isLoading&&!error&&!empty){
       <div class="card">
         <ion-img src="../../../assets/imgs/store-location-01.svg"></ion-img>
         <p>قائمة الفروع</p>
@@ -33,6 +76,7 @@
         <ion-img src="../../../assets/imgs/logout.svg"></ion-img>
         <p>تسجيل الخروج</p>
       </div>
+      }
     </div>
 
   </div>
@@ -40,13 +84,14 @@
   <ion-modal trigger="contact-us" #contactModal>
     <ng-template>
       <ion-header class="custom-header" style="display: flex;justify-content: end;">
-        <div class="content">
-          <ion-label>تواصل معنا</ion-label>
-          <ion-button (click)="contactModal.dismiss()" class="no-color-button">
+        <ion-toolbar>
+          <ion-label slot="end">تواصل معنا</ion-label>
+          <ion-button slot="end" (click)="contactModal.dismiss()" class="no-color-button">
             <ion-icon style="color: black;" name="chevron-forward-outline"></ion-icon>
           </ion-button>
-        </div>
+        </ion-toolbar>
       </ion-header>
+
       <ion-content>
         <p></p>
         <h2>وسائل التواصل</h2>

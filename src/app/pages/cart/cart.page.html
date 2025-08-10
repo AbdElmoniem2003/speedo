@@ -1,18 +1,30 @@
 <ion-header class="custom-header">
 
-  <div class="content" style="justify-content: end;">
-    <div>
-      <p>({{inCartProducts?.length||0}}) منتجات</p>
-      <ion-label> السلة</ion-label>
-      <ion-back-button class="no-color-button" icon="chevron-forward">
-      </ion-back-button>
-    </div>
-  </div>
+  <ion-toolbar>
+    <ion-button slot="start" class="no-color-button" (click)="clearCart()">
+      <ion-icon name="trash"></ion-icon>
+    </ion-button>
+    <p slot="end">({{inCartProducts?.length||0}}) منتجات</p>
+    <ion-label slot="end"> السلة</ion-label>
+    <ion-button slot="end" class="no-color-button" (click)="navCtrl.pop()">
+      <ion-icon name="chevron-forward" slot="icon-only"></ion-icon>
+    </ion-button>
+
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
   <div class="container">
+
+    <!-- Empty Ele -->
+    @if(!inCartProducts?.length){
+    <div class="empty">
+      <ion-icon name="code-working-outline"></ion-icon>
+      <h3 style="text-align: center;">لا منتجات في السلة حاليا</h3>
+    </div>
+    }
+
 
     @if(inCartProducts?.length){
     <div class="cart-prods">
@@ -32,7 +44,8 @@
               </ion-buttons>
             </div>
           </div>
-          <img [src]="product.image||'../../../assets/imgs/logo.png'">
+          <app-custom-image [mainImg]="product.image" [customID]="product._id"
+            [routerLink]="`/product/${product._id}`"></app-custom-image>
         </div>
 
         <!-- @if(inCartIDs[product._id].extras){
@@ -68,23 +81,18 @@
 
     </div>
     }
-    @if(!inCartProducts?.length){
-    <div class="empty">
-      <ion-icon name="code-working-outline"></ion-icon>
-      <h3 style="text-align: center;">لا منتجات في السلة حاليا</h3>
-    </div>
-    }
+
   </div>
 
 
 
 </ion-content>
 
-<ion-footer>
+<ion-footer *ngIf="inCartProducts">
   <div class="content">
     <div class="total">
       <p>الإجمالي الكلى</p>
-      <h3>{{inCartProducts?.length?calcTotal(1000) :0|number}} د.ع</h3>
+      <h3>{{calcTotal()+1000|number}} د.ع</h3>
     </div>
     <div>
       <div class="orders">
@@ -93,7 +101,7 @@
       </div>
       <div class="deliver">
         <p>التوصيل</p>
-        <h3>{{(inCartProducts?.length?1000 : 000)|number }} د.ع</h3>
+        <h3>{{1000|number }} د.ع</h3>
       </div>
     </div>
   </div>

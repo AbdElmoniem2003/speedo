@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { SectionPageRoutingModule } from './section-routing.module';
 
 import { SectionPage } from './section.page';
+import { CustomImagePageModule } from '../custom-image/custom-image.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SectionPageRoutingModule
+    SectionPageRoutingModule,
+    CustomImagePageModule
   ],
   declarations: [SectionPage]
 })
-export class SectionPageModule {}
+export class SectionPageModule { }

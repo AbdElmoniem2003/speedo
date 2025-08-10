@@ -28,8 +28,8 @@ export class FavoService {
   }
 
   checkFavoriteProds(products: Product[]) {
-    products.forEach((prod) => {
-      this.favoProducts?.forEach((p) => {
+    this.favoProducts?.forEach((p) => {
+      products.forEach((prod) => {
         if (p._id == prod._id) prod.isFav = true;
       })
     })

@@ -1,54 +1,76 @@
-<ion-content>
+<ion-header class="main-header">
+  <ion-toolbar>
+    <ion-button slot="start" class="ion-activatable no-color-button" (click)="navCtrl.navigateForward('notifications')">
+      <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
+      <ion-ripple-effect></ion-ripple-effect>
+    </ion-button>
+    <ion-button slot="start" class="ion-activatable no-color-button" (click)="toCart()">
+      @if((cartService.cartProducts?.length)){
+      <span>{{cartService.cartProducts?.length}}</span>
+      }
+      <ion-img slot="icon-only" src="../../../assets/imgs/cart.svg">
+      </ion-img>
+      <ion-ripple-effect></ion-ripple-effect>
+    </ion-button>
+    <ion-img slot="end" src="../../../assets/imgs/logo-icon.svg"></ion-img>
+  </ion-toolbar>
 
   <div class="page-header">
+    <div>
       <section>التخفيضات</section>
-    <div class="filter">
-      <ion-button class="no-color-button" id="homeFilterModal">
-        <ion-img src="../../../assets/imgs/filter.svg" slot="icon-only"></ion-img>
-      </ion-button>
-      <ion-input (keyup.enter)="search($event)" placeholder="...ابحث عن منتج">
-        <ion-icon name="search-outline"></ion-icon>
-      </ion-input>
-    </div>
+      <div class="filter">
+        <ion-button class="no-color-button" [routerLink]="'/search-products'">
+          <ion-img src="../../../assets/imgs/filter.svg" slot="icon-only"></ion-img>
+        </ion-button>
+        <ion-input (ionFocus)="navCtrl.navigateForward('search-products')" placeholder="...ابحث عن منتج">
+          <ion-icon name="search-outline"></ion-icon>
+        </ion-input>
+      </div>
 
-    <ion-segment [(ngModel)]="segment" class="nav-segments" value="discounts" (ionChange)="toggleSegement($event)">
-      <ion-segment-button value="offers">العروض</ion-segment-button>
-      <ion-segment-button value="discounts">الخصومات</ion-segment-button>
-    </ion-segment>
+      <ion-segment [(ngModel)]="segment" class="nav-segments" [value]="segment" (ionChange)="toggleSegement($event)">
+        <ion-segment-button value="offer">العروض</ion-segment-button>
+        <ion-segment-button value="product">الخصومات</ion-segment-button>
+      </ion-segment>
+    </div>
   </div>
+</ion-header>
+
+<ion-content>
   <div class="container">
 
-
-
-    @if(segment==='offers'){
-
-    <div class="offers-cards">
-      @if(!isLoading){
-
-      @for (offer of offers; track $index) {
-      <div class="offer fade-in">
-        <img [src]="offer.image||'../../../assets/imgs/prod.png'">
-        <ion-button class="no-color-button" (click)="toOffer(offer)">
-          <ion-label>تفقد المنتجات</ion-label>
-          <ion-icon name="chevron-back"></ion-icon>
-        </ion-button>
+    <!-- Loading Ele -->
+    @if(isLoading && segment===switchEnum.discount){
+    <div class="discounts-filter">
+      <div class="loading-segments">
+        <ion-skeleton-text *ngFor="let i of [1,2,3,4,5]" animated="true"></ion-skeleton-text>
       </div>
-      }
-
-      }
-      @else {
-      <ion-skeleton-text class="offer" *ngFor="let i of [1,2,3]"></ion-skeleton-text>
-      }
+      <ion-icon name="chevron-down-outline" (click)="openCustomModal()"></ion-icon>
     </div>
 
+    <div class="discounts">
+      <div class="discounts-cards">
+        <ion-skeleton-text class="card" animated *ngFor="let i of [1,2,3,4]"></ion-skeleton-text>
+      </div>
+    </div>
+    }
+
+
+    @if(isLoading && segment===switchEnum.offer){
+    <div class="offers-cards">
+      <ion-skeleton-text class="offer" *ngFor="let i of [1,2,3]"></ion-skeleton-text>
+    </div>
+    }
+
+    <!-- Empty Ele -->
 
     @if(empty) {
     <div class="empty" style="display: flex;flex-direction: column;align-items: center;">
       <img src="../../../assets/imgs/logo-icon.svg" alt="">
-      <h3>لا يوجد عروض في الوقت الحالي 🥲</h3>
+      <h3>لا يوجد {{segment==switchEnum.offer?"تخفيضات":"تخفيضات"}} في الوقت الحالي</h3>
     </div>
     }
 
+    <!-- Error Ele -->
     @if(error) {
     <div class="empty" style="display: flex;flex-direction: column;align-items: center;">
       <img src="../../../assets/imgs/logo-icon.svg" alt="">
@@ -56,36 +78,38 @@
     </div>
     }
 
-    }
-    @if(segment==='discounts'){
+
+
     @if(!isLoading){
+    @if(segment==='offer'){
 
-    <div class="discounts-filter" *ngIf="discountCategories">
-      <ion-segment [value]="discountCategories[0]?._id" [scrollable]="true">
-        <ion-segment-button *ngFor="let category of discountCategories" [value]="category._id"
-          class="fade-in">{{category.name}}</ion-segment-button>
-      </ion-segment>
-      <ion-icon name="chevron-down-outline" (click)="openCustomModal()"></ion-icon>
-    </div>
+    <div class="offers-cards">
 
-    }@else{
-    <div class="discounts-filter">
-      <div class="loading-segments">
-        <ion-skeleton-text *ngFor="let i of [1,2,3,4,5]" animated="true"></ion-skeleton-text>
+      @for (offer of offers; track $index) {
+      <div class="offer fade-in">
+        <app-custom-image [mainImg]="offer.image" [customID]="offer._id"
+          [altImg]="'../../../assets/imgs/logo-cover.png'"></app-custom-image>
+        <ion-button class="no-color-button" (click)="toOffer(offer)">
+          <ion-label>تفقد المنتجات</ion-label>
+          <ion-icon name="chevron-back"></ion-icon>
+        </ion-button>
       </div>
-      <ion-icon name="chevron-down-outline" (click)="openCustomModal()"></ion-icon>
+      }
+
     </div>
+
     }
+
+    @if(segment==='product'){
 
     <div class="discounts">
 
       <div class="discounts-cards">
-        @if(!isLoading){
         @for(prod of discounts; track $index){
 
         <div class="card fade-in">
           <div class="card-content" [routerLink]="'/product/'+prod._id">
-            <ion-img [src]="prod.image||'../../../assets/imgs/logo-icon.svg'"></ion-img>
+            <app-custom-image [mainImg]="prod.image" [customID]="prod._id"></app-custom-image>
             <p> {{prod.name}} </p>
             <div>
               @if(prod.discountPrice){
@@ -109,25 +133,22 @@
             <div class="btns">
 
               @if(prod.new){
-              <span
-                [class]="(prod.offer&&prod.new)|| (prod.new&&prod.special)||(prod.special&& prod.offer)?'extra':'expanded'">
-                <ion-img src="../../../assets/imgs/stars.svg" slot="icon-only"></ion-img>
+              <span [class]="(prod.offer&&prod.new)|| (prod.new&&prod.special)?'extra':'expanded'">
+                <img src="../../../assets/imgs/stars.svg" slot="icon-only">
                 @if(!prod.special&&!prod.offer){جديد}
               </span>
               }
               @if(prod.offer){
 
-              <span [class]="(prod.offer&&prod.new)|| (prod.new&&prod.special)||(prod.special&&
-                  prod.offer)?'extra':'expanded'">
-                <ion-img src="../../../assets/imgs/offer-icon.svg" slot="icon-only"></ion-img>
+              <span [class]="(prod.new&&prod.offer)||(prod.special&&prod.offer)?'extra':'expanded'">
+                <img src="../../../assets/imgs/offer-icon.svg" slot="icon-only">
                 @if(!prod.new&&!prod.special){خصم}
               </span>
               }
               @if(prod.special){
-              <span [class]="(prod.offer&&prod.new)|| (prod.new&&prod.special)||(prod.special&&
-                  prod.offer)?'extra':'expanded'">
+              <span [class]="(prod.new&&prod.special)||(prod.special&& prod.offer)?'extra':'expanded'">
 
-                <ion-img src="../../../assets/imgs/trend-icon.svg" slot="icon-only"></ion-img>
+                <img src="../../../assets/imgs/trend-icon.svg" slot="icon-only">
               </span>
               }
             </div>
@@ -135,87 +156,18 @@
         </div>
         }
 
-        }@else {
-        <ion-skeleton-text class="card" animated *ngFor="let i of [1,2,3,4]"></ion-skeleton-text>
-        }
+
       </div>
-      @if(empty) {
-      <div class="empty" style="display: flex;flex-direction: column;align-items: center;">
-        <img src="../../../assets/imgs/logo-icon.svg" alt="">
-        <h3>There Is No Discounts To View At The Moment 🥲</h3>
-      </div>
-      }
+
     </div>
 
+    <ion-infinite-scroll threshold="25%" [disabled]="stopLoding" position="bottom" (ionInfinite)="loadMore($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+
     }
-
+    }
   </div>
-
-
-  <ion-modal class="filter" trigger="homeFilterModal" #homeFilterModal>
-    <ng-template>
-      <ion-header class="custom-header  modal-header">
-        <div class="content" style="justify-content:end;border-bottom: 1px solid rgba(240,239,222,1);">
-          <div>
-            <ion-label>فلتر</ion-label>
-            <ion-button class="no-color-button no-padding" (click)="homeFilterModal.dismiss()">
-              <ion-icon name="chevron-forward" slot="icon-only" style="color: black;"></ion-icon>
-            </ion-button>
-          </div>
-        </div>
-      </ion-header>
-
-      <ion-content>
-        <div class="filter-content">
-          <div class="colors">
-            <h3>اللون</h3>
-            <ion-segment value="اخضر">
-              <ion-segment-button value="اخضر"><span></span></ion-segment-button>
-              <ion-segment-button value="احمر"><span></span></ion-segment-button>
-              <ion-segment-button value="ذهبي"><span></span></ion-segment-button>
-            </ion-segment>
-          </div>
-
-          <div class="prices">
-            <h3>السعر($)</h3>
-            <div class="range-wrapper">
-              <div class="fake-knob start"></div>
-              <ion-range dir="rtl" [dualKnobs]="true" min="5" max="105" [value]="{ lower: 5, upper: 55 }" [pin]="true"
-                class="custom-range"></ion-range>
-              <div class="fake-knob end"></div>
-            </div>
-          </div>
-
-          <div class="options">
-            <h3>متغير</h3>
-            <div class="checks">
-              <ion-checkbox value="1">خيار 1</ion-checkbox>
-              <ion-checkbox value="2">خيار 2</ion-checkbox>
-              <ion-checkbox value="3">خيار 3</ion-checkbox>
-              <ion-checkbox value="4">خيار 4</ion-checkbox>
-              <ion-checkbox value="5">خيار 5</ion-checkbox>
-            </div>
-          </div>
-
-          <div class="sizes">
-            <h3>الحجم</h3>
-            <div class="checks square-checkbox">
-              <ion-checkbox value="كبير">كبير</ion-checkbox>
-              <ion-checkbox value="متوسط">متوسط</ion-checkbox>
-              <ion-checkbox value="صغير">صغير</ion-checkbox>
-            </div>
-          </div>
-        </div>
-      </ion-content>
-      <ion-footer>
-        <ion-buttons>
-          <ion-button (click)="null">حفظ</ion-button>
-          <ion-button (click)="filterModalOpen=false">إلغاء</ion-button>
-        </ion-buttons>
-      </ion-footer>
-    </ng-template>
-  </ion-modal>
-
-
-
 </ion-content>

@@ -28,8 +28,8 @@ export class LoginPage implements OnInit {
   initForms() {
     this.loginForm = this.builder.group({
       password: [null, Validators.required],
-      username: [null, [Validators.required, Validators.email]],
-      displayName: [null, Validators.required]
+      username: [null, [Validators.required]],
+      displayName: [null,[Validators.required]]
     })
   }
 

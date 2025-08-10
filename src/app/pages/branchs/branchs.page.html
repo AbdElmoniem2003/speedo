@@ -1,0 +1,58 @@
+<ion-header class="custom-header modal-header">
+
+  <ion-toolbar>
+    <ion-label slot="end"> اختر الفرع</ion-label>
+    <ion-button slot="end" (click)="back()" class="no-color-button" icon="chevron-forward">
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <div class="branchs">
+      @if(!isLoading){
+      @for (branch of branchs; track $index) {
+      <div class="branch fade-in" [class.checked]="currentBranch._id==branch._id" (click)="selectBranch(branch)">
+        <div class="name">
+          <p>الاسم</p>
+          <p>{{branch.name}}</p>
+        </div>
+        <div class="deliver-service">
+          <p>خدمة التوصيل</p>
+          <p>{{branch.driverService |number}} د.ع</p>
+        </div>
+        <div class="fast-deliver-service">
+          <p> خدمة التوصيل السريع</p>
+          <p>{{branch.fastDriverService |number}} د.ع</p>
+        </div>
+        <div class="open-date">
+          <p>وقت الفتح</p>
+          <p>{{branch.openDate|date:'hh:MM a'}}</p>
+        </div>
+        <div class="close-date">
+          <p>وقت الاغلاق</p>
+          <p>{{branch.endDate|date:'hh:MM a'}}</p>
+        </div>
+        <div class="branch-case">
+          <p> حالة الفرع</p>
+          <p>{{branch.isOpen?"مفتوح":"مغلق"}}</p>
+        </div>
+      </div>
+      }
+      }
+      @if(isLoading) {
+      @for (i of [1,2,3,4]; track $index) {
+      <ion-skeleton-text class="branch" animated style="height: 200px;">
+      </ion-skeleton-text>
+      }
+      }
+    </div>
+  </div>
+</ion-content>
+<ion-footer>
+  @if(isLoading){
+  <ion-skeleton-text animated></ion-skeleton-text>
+  }@else {<ion-button (click)="confirmOrder()">
+    <ion-label slot="end">تأكيد</ion-label>
+  </ion-button>}
+</ion-footer>

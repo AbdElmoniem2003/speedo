@@ -7,101 +7,110 @@ ion-content {
 }
 
 .custom-header {
-  @include flex(12, '', '', column);
-  padding-top: 12px;
+  padding: 12px 0 0 !important;
+
+  .txts {
+    @include flex(0, center, end, column);
+    max-height: 58px;
+    flex-grow: 1;
+    overflow: hidden;
+
+    ion-label,
+    p {
+      overflow: hidden;
+      text-wrap: wrap;
+      text-align: right;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: -webkit-fill-available;
+      direction: rtl;
+    }
+  }
 
   >ion-img,
+  >app-custom-image,
   >img {
     @include shape(343, 165);
+    display: block;
     margin: 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
   }
 
-  .content {
-    padding-bottom: 12px;
-    height: fit-content;
+  span {
+    font-size: 14px;
+  }
 
-    >div {
-      >div {
-        @include flex(0, '', end, column);
-        height: fit-content;
+  ion-toolbar {
+    padding: 0;
 
-        ion-label{
-          text-align: end;
-          white-space: wrap;
-        }
-        p {
-          font-weight: 600;
-          font-size: 14px;
-          line-height: 26px;
-          letter-spacing: 0px;
-          color: rgba(128, 128, 128, 1);
+    ion-item {
+      padding: 12px 0;
+      --border-color: transparent;
+    }
+  }
+
+  .filter {
+    display: flex;
+    padding: 0 16px;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    ion-segment {
+      padding: 0;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* For Firefox */
+      scrollbar-width: none;
+      /* hides scrollbar */
+
+      /* For Internet Explorer and Edge */
+      -ms-overflow-style: none;
+      /* hides scrollbar */
+      padding: 16px 0;
+      direction: rtl;
+      @include flex(8, '', center, '');
+
+      ion-segment-button {
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 22px;
+        letter-spacing: 0px;
+        text-align: center;
+        background-color: white;
+        --indicator-color: transparent;
+        color: rgba(128, 128, 128, 1);
+        min-height: 40px;
+        --padding-start: 9px;
+        --padding-end: 9px;
+        @include flex(0, center, center, '');
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid rgba(219, 219, 219, 1);
+        min-width: fit-content;
+
+        &.segment-button-checked {
+          --color-checked:#{$secondaryColor};
+          background-color: $secondaryColor;
+          color: white;
         }
       }
+
+    }
+
+    ion-icon {
+      // padding: 8px 16px;
+      width: 24px;
+      height: 24px;
+      background-color: #f6f6f6;
+      color: $primaryColor;
     }
   }
 }
-
-.filter {
-  position: relative;
-
-  ion-segment {
-    &::-webkit-scrollbar {
-      display: none;
-    }
-
-    /* For Firefox */
-    scrollbar-width: none;
-    /* hides scrollbar */
-
-    /* For Internet Explorer and Edge */
-    -ms-overflow-style: none;
-    /* hides scrollbar */
-    padding: 16px;
-    margin-left: 56px;
-    direction: rtl;
-    margin-top: -12px;
-    @include flex(8, '', center, '');
-
-    ion-segment-button {
-      font-weight: 700;
-      font-size: 12px;
-      line-height: 22px;
-      letter-spacing: 0px;
-      text-align: center;
-      background-color: white;
-      --indicator-color: transparent;
-      color: rgba(128, 128, 128, 1);
-      min-height: 40px;
-      --padding-start: 9px;
-      --padding-end: 9px;
-      @include flex(0, center, center, '');
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid rgba(219, 219, 219, 1);
-      min-width: fit-content;
-
-      &.segment-button-checked {
-        --color-checked:#{$secondaryColor};
-        background-color: $secondaryColor;
-        color: white;
-      }
-    }
-
-  }
-
-  ion-icon {
-    padding: 8px 16px;
-    position: absolute;
-    left: 0;
-    top: 6px;
-    z-index: 1;
-    width: 24px;
-    height: 26px;
-    background-color: #f6f6f6;
-    color: $primaryColor;
-  }
-}
-
 
 
 .container {
@@ -343,3 +352,4 @@ ion-modal {
     }
   }
 }
+

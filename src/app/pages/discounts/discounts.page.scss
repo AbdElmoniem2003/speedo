@@ -1,86 +1,18 @@
 @import '../../../theme/mixin.scss';
 @import '../../../global.scss';
 
-.page-header {
-  position: fixed;
-  top: 52px;
-  width: 100%;
-  z-index: 2;
-  background-color: #f6f6f6;
-  height: 122px;
+ion-content {}
 
-  >section {
-    text-align: right;
-    width: 100%;
-    height: 32px;
-    margin: 16px 0;
-    gap: 8px;
-    padding-right: 16px;
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 32px;
-    letter-spacing: 0px;
-  }
-
-
-  .nav-segments {
-    display: flex;
-    padding: 0 16px;
-
-    ion-segment-button {
-      font-weight: 700;
-      flex-grow: 1;
-      font-size: 16px;
-      line-height: 28px;
-      letter-spacing: 0px;
-      color: rgba(170, 170, 170, 1);
-      border-bottom: 1px solid rgba(219, 219, 219, 1);
-
-      &.segment-button-checked {
-        color: $secondaryColor;
-        --color-checked: #{$primaryColor};
-        --indicator-color: #{$primaryColor};
-      }
-    }
-  }
-
-  .filter {
-
-    @include flex(8, space-between, center, '');
-    width: 100%;
-    height: 42px;
-    padding: 0 16px;
-    top: 163px;
-    margin-bottom: 16px;
-    padding-right: 16px;
-    padding-left: 16px;
-
-    ion-input,
-    ion-button {
-      border: 1px solid rgba(219, 219, 219, 1);
-      border-radius: 24px;
-      overflow: hidden;
-    }
-
-    ion-input {
-      flex-grow: 1;
-      height: 42px;
-      padding: 8px 24px 8px 12px !important;
-      @include flex(0, space-between, center, '');
-      text-align: right;
-    }
-  }
-}
 
 .container {
-  padding-top: calc(122px + 52px);
+  padding: 0;
 
   .discounts {
 
     .discounts-cards {
+      padding: 0 16px;
       width: 100%;
       direction: rtl;
-      padding: 0 16px;
       @include flex(8, flex-start, '', row);
       flex-wrap: wrap;
 
@@ -100,6 +32,7 @@
           @include flex(8, flex-start, '', column);
 
           >ion-img,
+          app-custom-image,
           >img {
             @include shape(143, 143);
             border-radius: 6px;
@@ -219,11 +152,12 @@
 
 
   .discounts-filter {
+    padding: 0 0 16px;
     position: relative;
 
     ion-segment,
     .loading-segments {
-      padding: 16px;
+      padding: 0 16px;
       margin-left: 56px;
       direction: rtl;
       @include flex(8, '', center, '');
@@ -257,10 +191,10 @@
     }
 
     ion-icon {
-      padding: 8px 16px;
+      padding: 0 16px;
       position: absolute;
       left: 0;
-      top: 15px;
+      top: 8px;
       z-index: 1;
       width: 24px;
       height: 26px;
@@ -272,7 +206,8 @@
   }
 
   .offers-cards {
-    padding: 16px 16px;
+    padding: 0 16px 16px;
+    overflow-y: auto;
     @include flex(8, end, center, column);
 
     .card,
@@ -283,6 +218,7 @@
 
 
       ion-img,
+      app-custom-image,
       img {
         position: absolute;
         width: 343px;
@@ -299,6 +235,7 @@
         direction: rtl;
         background: white;
         height: 32px;
+        width: 121px;
         right: 12px;
         bottom: 12px;
         border-radius: 7px;
@@ -320,7 +257,8 @@
         }
 
         ion-icon {
-          @include shape(16, 16)
+          @include shape(16, 16);
+          margin-right: 4px;
         }
       }
     }
@@ -328,6 +266,7 @@
     .offer {
 
       ion-img,
+      app-custom-image,
       img {
         width: 100%;
       }
@@ -335,70 +274,6 @@
   }
 
 }
-
-// @media (767px>width>555px) {
-
-
-//   .offer,
-//   .card {
-//     flex-grow: 0 !important;
-//     flex-basis: calc((100% - 8px) / 2) !important;
-
-//     img {
-//       width: 100% !important;
-//       object-fit: fill;
-//     }
-
-//   }
-
-
-//   .discounts-cards {
-
-//     .card {
-//       flex-basis: calc((100% - 16px) /3) !important;
-//     }
-//   }
-
-// }
-
-
-// @media (width>623px) {
-//   .prod-data {
-//     border-right: 1px dotted dodgerblue !important;
-//   }
-
-//   .offer {
-//     flex-basis: calc((100% - 8px) / 2) !important;
-//     flex-grow: 0 !important;
-//   }
-
-//   .card {
-//     flex-grow: 0 !important;
-//     flex-basis: calc((100% - 16px) / 3) !important;
-
-//     img {
-//       width: 100% !important;
-//     }
-//   }
-
-
-// }
-
-// @media (1199px>=width >=1023px) {
-
-
-
-
-//   .card {
-//     flex-grow: 0 !important;
-//     flex-basis: calc((100% - 16px) / 3) !important;
-
-//     img {
-//       width: 100% !important;
-//     }
-//   }
-
-// }
 
 
 ion-modal {
@@ -432,41 +307,4 @@ ion-modal {
     }
   }
 
-
-  .container {
-    .compos {
-      @include flex(8, '', '', '');
-      flex-wrap: wrap;
-      direction: rtl;
-      padding: 16px;
-
-      .compo {
-        @include shape(109, 169);
-        @include flex(8, '', center, column);
-        // flex-grow: 1;
-        flex-basis: calc((100% - 16px)/3);
-        background-color: white;
-        border-radius: 12px;
-        border: 1px solid rgba(240, 239, 239, 1);
-        padding: 8px;
-
-        &.checked {
-          border-color: $primaryColor;
-        }
-
-        ion-img {
-          @include shape(93, 93)
-        }
-
-        p {
-          height: 52px;
-          font-weight: 600;
-          font-size: 14px;
-          line-height: 26px;
-          letter-spacing: 0px;
-          text-align: center;
-        }
-      }
-    }
-  }
 }

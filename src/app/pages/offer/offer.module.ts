@@ -7,14 +7,18 @@ import { IonicModule } from '@ionic/angular';
 import { OfferPageRoutingModule } from './offer-routing.module';
 
 import { OfferPage } from './offer.page';
+import { CustomImagePage } from '../custom-image/custom-image.page';
+import { CustomImagePageModule } from "../custom-image/custom-image.module";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    OfferPageRoutingModule
+    OfferPageRoutingModule,
+    CustomImagePageModule
   ],
-  declarations: [OfferPage]
+  declarations: [OfferPage],
+  providers: [CustomImagePage]
 })
-export class OfferPageModule {}
+export class OfferPageModule { }

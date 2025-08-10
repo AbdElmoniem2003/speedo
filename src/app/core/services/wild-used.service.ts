@@ -5,6 +5,7 @@ import { Storage } from "@ionic/storage-angular";
 import { Product } from "../project-interfaces/interfaces";
 import { Subscription } from "rxjs";
 import { DataService } from "./data.service";
+import { alertEnterAnimation, alertLeaveAnimation, EnterAnimation, LeaveAnimation } from "../consts/animations";
 
 @Injectable({ providedIn: 'root' })
 
@@ -38,27 +39,27 @@ export class WildUsedService {
 
 
 
-  updateFavorite(prod: Product) {
-    return new Promise<boolean>((resolve, reject) => {
-      this.storage.get('favorites').then((res: string[]) => {
-        if (res) {
-          if (res.includes(prod._id)) {
-            res = res.filter(p => { return p !== prod._id });
-            this.inFavorites = res
-            this.storage.set('favorites', res)
-            resolve(false)
-          } else {
-            res.push(prod._id);
-            this.inFavorites = res
-            this.storage.set('favorites', res)
-            resolve(true)
-          }
-        } else {
-          this.storage.set('favorites', [prod._id]).then(() => resolve(true))
-        }
-      })
-    })
-  }
+  // updateFavorite(prod: Product) {
+  //   return new Promise<boolean>((resolve, reject) => {
+  //     this.storage.get('favorites').then((res: string[]) => {
+  //       if (res) {
+  //         if (res.includes(prod._id)) {
+  //           res = res.filter(p => { return p !== prod._id });
+  //           this.inFavorites = res
+  //           this.storage.set('favorites', res)
+  //           resolve(false)
+  //         } else {
+  //           res.push(prod._id);
+  //           this.inFavorites = res
+  //           this.storage.set('favorites', res)
+  //           resolve(true)
+  //         }
+  //       } else {
+  //         this.storage.set('favorites', [prod._id]).then(() => resolve(true))
+  //       }
+  //     })
+  //   })
+  // }
 
 
 
@@ -68,7 +69,7 @@ export class WildUsedService {
     loadingEle.classList.remove('hidden')
   }
 
-  async dismisLoading() {
+  dismisLoading() {
     const loadingEle = document.querySelector('.custom-loading-ele');
     loadingEle.classList.add('hidden')
   }
@@ -76,8 +77,11 @@ export class WildUsedService {
   generalAlert(msg?: string, ok?: string, cancel?: string) {
     return new Promise<boolean>(async (resolve, reject) => {
       const alert = await this.alertCtrl.create({
+        enterAnimation: alertEnterAnimation,
+        leaveAnimation: alertLeaveAnimation,
+        cssClass: 'custom-alert',
         message: msg || 'Are You Sure',
-        header: 'sure to do this action',
+        header: 'تنبيه',
         mode: 'ios',
         buttons: [
           {
@@ -94,14 +98,16 @@ export class WildUsedService {
     })
   }
 
-  async generalToast(msg?: string, color?: string) {
+  async generalToast(msg?: string, color?: string, cssClass?: string, duration?: number, mode?: any) {
     const toast = await this.toastCtrl.create({
+      enterAnimation: EnterAnimation, leaveAnimation: LeaveAnimation,
       message: msg || "Some Error Occured",
       color: color || "danger",
-      position: "top",
-      duration: 1800,
+      cssClass: cssClass,
+      position: mode || "top",
+      duration: duration || 1200,
       buttons: [{
-        text: "OK",
+        text: "حسناً",
         role: "cancel"
       }]
     })

@@ -1,62 +1,111 @@
+<ion-header class="main-header">
+  <ion-toolbar>
+    <ion-button slot="start" class="ion-activatable no-color-button" (click)="navCtrl.navigateForward('notifications')">
+      <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
+      <ion-ripple-effect></ion-ripple-effect>
+    </ion-button>
+    <ion-button slot="start" class="ion-activatable no-color-button" (click)="toCart()">
+      @if((cartService.cartProducts?.length)){
+      <span>{{cartService.cartProducts?.length}}</span>
+      }
+      <ion-img slot="icon-only" src="../../../assets/imgs/cart.svg">
+      </ion-img>
+      <ion-ripple-effect></ion-ripple-effect>
+    </ion-button>
+    <ion-img slot="end" src="../../../assets/imgs/logo-icon.svg"></ion-img>
+  </ion-toolbar>
+</ion-header>
 <ion-content>
+
+  <ion-refresher (ionRefresh)="refresh($event)" slot="fixed">
+    <ion-refresher-content refreshingSpinner="bubbles"></ion-refresher-content>
+  </ion-refresher>
 
   <div class="container">
 
+    @if(!isLoading&&!empty&&!error){
     <div class="header">
       <p>({{orders?.length||0}}) فواتير</p>
       <section>طلباتي</section>
     </div>
-
-    <ion-segment class="filter" scrollable="true" [(ngModel)]="filterCase">
-      <ion-segment-button value="rejected">مرفوض</ion-segment-button>
-      <ion-segment-button value="completed">مكتمل</ion-segment-button>
-      <ion-segment-button value="waiting">انتظار</ion-segment-button>
-      <ion-segment-button value="all">الكل</ion-segment-button>
+    <ion-segment class="filter fade-in" scrollable="true" [value]="orderStatus.ALL">
+      <ion-segment-button [value]="orderStatus.CANCELED"
+        (click)="filterByStatus(orderStatus.CANCELED)">مرفوض</ion-segment-button>
+      <ion-segment-button [value]="orderStatus.ACCEPTED"
+        (click)="filterByStatus(orderStatus.ACCEPTED)">مكتمل</ion-segment-button>
+      <ion-segment-button [value]="orderStatus.WAITING"
+        (click)="filterByStatus(orderStatus.WAITING)">انتظار</ion-segment-button>
+      <ion-segment-button [value]="orderStatus.ALL" (click)="filterByStatus(orderStatus.ALL)">الكل</ion-segment-button>
     </ion-segment>
+    }
+    @if(isLoading){
+    <ion-segment class="filter">
+      @for (i of [1,2,3,4]; track $index) {
+      <ion-skeleton-text animated></ion-skeleton-text>
+      }
+    </ion-segment>
+    }
 
-    <div class="cards my-orders-cards">
+    <div class="orders-cards">
 
-      @if(orders?.length){
+      @if(!isLoading&&!empty&&!error){
       @for (order of orders; track $index) {
-
-      @if((order.value.case==filterCase)|| filterCase=='all'){
-
-      <div class="card" routerLink="/order" [queryParams]="{date:order.key}">
-        <div>
+      <div class="order-card fade-in">
+        <div [routerLink]="`/order/${order._id}`">
           <ion-img src="../../../assets/imgs/invoice-01.svg"></ion-img>
           <div class="texts">
-            <h3>فاتورة 304</h3>
+            <h3>فاتورة {{order.orderNumber}}</h3>
             <div>
-              <p>{{getObjLength(order.value.products)}} منتجات</p> <span></span>
-              <p>{{order.value.totalPrice |number}} د.ع</p>
+              <p>{{order.order.length}} منتجات</p> <span></span>
+              <p>{{order.total|number}} د.ع</p>
             </div>
           </div>
         </div>
 
         <div>
-          <div class="texts">
-            <ion-chip
-              [title]="order.value.case=='waiting' ?'معلق':''">{{order.value.case=='waiting' ?'معلق':''}}</ion-chip>
-            <p>منذ {{calcTimeDiff(order.value.date)}} ساعات</p>
+          <div class="texts" [routerLink]="`/order/${order._id}`">
+            @if(order.status==orderStatus.WAITING){
+            <ion-chip title="معلق">معلق</ion-chip>
+            }
+            @if(order.status==orderStatus.REJECTED){
+            <ion-chip title="مرفوض">مرفوض</ion-chip>
+            }
+            @if(order.status==orderStatus.ACCEPTED){
+            <ion-chip title="مكتمل">مكتمل</ion-chip>
+            }
+            <p>{{order.createdAt|fromNowPipe}}</p>
           </div>
-          <ion-icon name="ellipsis-vertical"></ion-icon>
+          <ion-icon name="ellipsis-vertical" id="order-options"
+            (click)="showOrderOptions($event,order,$index)"></ion-icon>
         </div>
 
       </div>
+
       }
-      }
-      }@else{
+      }@if(empty){
       <div class="empty">
         <ion-icon name="code-working-outline"></ion-icon>
         <h3 style="text-align: center;">ليس لديك طلبات حاليا</h3>
       </div>
       }
-
-
+      @if(error){
+      <div class="empty">
+        <ion-icon name="code-working-outline"></ion-icon>
+        <h3 style="text-align: center;"> حدث خطأ في الشبكة. تحقق من إتصالك بالإنترنت </h3>
+      </div>
+      }
     </div>
-
+    @if(isLoading){
+    <div class="orders-cards">
+      <ion-skeleton-text class="order-card" animated *ngFor="let i of [1,2,3,4,5]">
+      </ion-skeleton-text>
+    </div>
+    }
   </div>
 
-
+  <ion-infinite-scroll threshold="25%" [disabled]="stopLoad" position="bottom" (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content loadingSpinner="Circular" loadingText="جاري التحميل ...." color="primary">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>

@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { MyOrdersPageRoutingModule } from './my-orders-routing.module';
 
 import { MyOrdersPage } from './my-orders.page';
+import { FromNowPipe } from 'src/app/core/pipes/time-from-pipe/time-from-pipe';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MyOrdersPageRoutingModule
+    MyOrdersPageRoutingModule,
+    FromNowPipe
   ],
   declarations: [MyOrdersPage]
 })
-export class MyOrdersPageModule {}
+export class MyOrdersPageModule { }

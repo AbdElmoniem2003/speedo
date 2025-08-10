@@ -1,0 +1,57 @@
+@import '../../../theme/mixin.scss';
+@import '../../../global.scss';
+
+
+.notifications {
+  padding: 16px;
+  @include flex(8, '', '', column);
+
+  .notif {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid rgba(239, 239, 239, 1);
+    border-radius: 12px;
+    @include flex(16, '', center, '');
+    &:not(.loading){
+      background-color: white;
+    }
+
+    app-custom-image,
+    .img {
+      @include shape(40, 40);
+      border-radius: 50%;
+      border: 1px solid rgba(239, 239, 239, 1);
+    }
+
+    .content {
+      flex-grow: 1;
+      @include flex(4, '', '', column);
+
+      h3,
+      .topic {
+        height: 24px;width: 100%;
+        text-align: right;
+        text-overflow: ellipsis;
+        text-wrap: nowrap;
+        overflow: hidden;
+        border-radius: 5px;
+        font-size: 18px;
+        line-height: 24px;
+      }
+
+      p,
+      .body {
+        height: 24px;
+        width: 100%;
+        text-align: right;
+        text-overflow: ellipsis;
+        text-wrap: nowrap;
+        overflow: hidden;
+        border-radius: 5px;
+        font-size: 14px;
+        line-height: 100%;
+      }
+    }
+  }
+
+}

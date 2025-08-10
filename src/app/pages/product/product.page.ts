@@ -27,10 +27,9 @@ export class ProductPage implements OnInit {
   empty: boolean = false;
   isloading: boolean = true;
   error: boolean = false
-  errorMsg: string = null
 
   constructor(
-    private navCtrl: NavController,
+    public navCtrl: NavController,
     private router: ActivatedRoute,
     private dataService: DataService,
     private storage: Storage,
@@ -43,7 +42,7 @@ export class ProductPage implements OnInit {
     this.getProduct();
   }
 
-  getProduct() {
+  getProduct(ev?: any) {
     this.showLoading()
     this.wildUsedService.showLoading()
     const productId = this.router.snapshot.paramMap.get('id');
@@ -52,15 +51,14 @@ export class ProductPage implements OnInit {
         next: (res: Product) => {
           this.product = res;
           this.product.quantity = 1
-          this.product.image = this.product.image ? this.product.image : '../../../assets/imgs/logo-icon.svg';
           this.getSimillarProducts(res);
           this.wildUsedService.dismisLoading()
           this.favoService.checkFavoriteProds([this.product])
-          this.showContent()
+          this.showContent(ev)
         },
         error: (err) => {
           this.wildUsedService.dismisLoading()
-          this.showError(err)
+          this.showError(ev)
         }
       })
   }
@@ -74,7 +72,6 @@ export class ProductPage implements OnInit {
     this.dataService.getData('product?skip=0').subscribe({
       next: (res: Product[]) => {
         this.similarProducts = res.filter((p) => {
-          p.image = p.image ? p.image : '../../../assets/imgs/logo-icon.svg'
           return (p.category._id == prod.category._id && p._id !== prod._id)
         })
       }
@@ -102,11 +99,10 @@ export class ProductPage implements OnInit {
     this.empty = false
     ev?.target.complete()
   }
-  showError(error: any, ev?: any) {
+  showError(ev?: any) {
     this.isloading = false
     this.error = true
     this.empty = false
-    this.errorMsg = error.error.message
     ev?.target.complete()
   }
   showEmpty(ev?: any) {

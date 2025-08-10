@@ -1,18 +1,43 @@
+<ion-header class="main-header">
+  <ion-toolbar>
+    <ion-button slot="start" class="ion-activatable no-color-button" (click)="navCtrl.navigateForward('notifications')">
+      <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
+      <ion-ripple-effect></ion-ripple-effect>
+    </ion-button>
+    <ion-button slot="start" class="ion-activatable no-color-button" (click)="toCart()">
+      @if((cartService.cartProducts?.length)){
+      <span>{{cartService.cartProducts?.length}}</span>
+      }
+      <ion-img slot="icon-only" src="../../../assets/imgs/cart.svg">
+      </ion-img>
+      <ion-ripple-effect></ion-ripple-effect>
+    </ion-button>
+    <ion-img slot="end" src="../../../assets/imgs/logo-icon.svg"></ion-img>
+  </ion-toolbar>
+</ion-header>
 <ion-content>
 
   <div class="container">
 
 
     <div class="header">
-      <p>({{inFavoritesProducts.length||0}}) منتجات</p>
+      <p>({{inFavoritesProducts?.length||0}}) منتجات</p>
       <section>المفضلة</section>
     </div>
 
 
+    <!-- Empty Ele -->
+    @if(empty){
+    <div class="empty fade-in">
+      <ion-icon name="code-working-outline"></ion-icon>
+      <h3 style="text-align: center;">لا منتجات في السلة حاليا</h3>
+    </div>
+    }
+
     @if(inFavoritesProducts?.length){
     <div class="favorites cards">
       @for (prod of inFavoritesProducts; track $index) {
-      <div class="card">
+      <div class="card fade-in">
         <div class="prod-data">
 
           <div class="txts" [routerLink]="'/product/'+prod._id">
@@ -31,17 +56,15 @@
           </div>
 
         </div>
-        <img [routerLink]="'/product/'+prod._id" [src]="prod.image||'../../../assets/imgs/logo.png'">
+        <app-custom-image [routerLink]="'/product/'+prod._id" [mainImg]="prod.image"
+          [customID]="prod._id"></app-custom-image>
+        <!-- <img [src]="prod.image" alt=""> -->
       </div>
       }
 
     </div>
-    }    @if(!inFavoritesProducts?.length){
-    <div class="empty">
-      <ion-icon name="code-working-outline"></ion-icon>
-      <h3 style="text-align: center;">لا منتجات في السلة حاليا</h3>
-    </div>
     }
+
 
 
 

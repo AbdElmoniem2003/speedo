@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { Category, Product } from 'src/app/core/project-interfaces/interfaces';
+import { Brand, Category, Product } from 'src/app/core/project-interfaces/interfaces';
 import { CartService } from 'src/app/core/services/cart.service';
 import { DataService } from 'src/app/core/services/data.service';
 import { FavoService } from 'src/app/core/services/favorites.service';
@@ -17,18 +17,15 @@ import { CustomSectionCompoComponent } from '../custom-section-compo/custom-sect
 })
 export class SectionPage implements OnInit {
 
-  productsSubscription: Subscription;
-  subCategoriesSub: Subscription;
   skip: number = 0
   products: Product[]
   subCategories: Category[] | any = []
   currentSubCategoryId: string = 'all'
 
-  sectionToView: string = null;
-  customView: string = null;
+  customId: string = null;
+  objToView: Category = null;
   customImage: string = null;
-  sectionID: string;
-  customName: string;
+
 
 
   isLoading: boolean = false;
@@ -39,7 +36,7 @@ export class SectionPage implements OnInit {
 
   constructor(
     private currentRoute: ActivatedRoute,
-    private navCtrl: NavController,
+    public navCtrl: NavController,
     private wildUsedService: WildUsedService,
     private modalCtrl: ModalController,
     private dataService: DataService,
@@ -56,43 +53,39 @@ export class SectionPage implements OnInit {
   }
 
   getViewParams() {
-    this.customView = this.currentRoute.snapshot.queryParamMap.get('customView')
-    this.sectionID = this.currentRoute.snapshot.queryParamMap.get('id')
-    this.customName = this.currentRoute.snapshot.queryParamMap.get('name')
-    if (this.customView == 'brand') {
-      this.customImage = this.currentRoute.snapshot.queryParamMap.get('image')
-    }
+    this.objToView = this.dataService.param;
+    if (!this.objToView) this.getCategory()
   }
 
   getData(ev?: any) {
-    // this.wildUsedService.showLoading();
+    this.customId = this.currentRoute.snapshot.queryParamMap.get('id')
     this.showLoading()
-    this.getViewParams()
+    this.getViewParams();
+    // this.getCategory()
     this.getProducts();
-    // this.getSubCategories()
-    // this.wildUsedService.dismisLoading();
+    this.getSubCategories()
   }
+
+
+  getCategory() {
+    this.dataService.getData(`category?_id=${this.customId}&skip=0&status=1`).subscribe({
+      next: (res: Category[]) => this.objToView = res[0]
+    })
+  }
+
+
+
 
   get dataEndPoint(): string {
     let query = `product?skip='${this.skip}&status=1`;
-    switch (this.customView) {
-      case 'brand':
-        query += `&brand=${this.sectionID}`
-        break
-      case 'category':
-        query += `&category=${this.sectionID}`
-        break
-      case 'brand':
-        query += `&offer=${this.sectionID}`
-        break
-    }
+    query += `&category=${this.customId}`
     if (this.currentSubCategoryId != 'all') query += `&subCategory=${this.currentSubCategoryId}`
     return query
   }
 
   getProducts(ev?: any) {
     // remove susbcription;
-    this.productsSubscription = this.dataService.getData(this.dataEndPoint)
+    this.dataService.getData(this.dataEndPoint)
       .subscribe({
         next: (response: Product[]) => {
           if (response.length < 20) {
@@ -100,7 +93,6 @@ export class SectionPage implements OnInit {
           } else {
             this.products = this.products.concat(response)
           }
-          this.getSubCategories();
           this.favoService.checkFavoriteProds(this.products)
           this.canLoad = response.length > 20;
           this.products.length > 0 ? this.showContent(ev) : this.showEmpty(ev)
@@ -113,33 +105,26 @@ export class SectionPage implements OnInit {
 
   get subCategEndPoint(): string {
     let endPoint: string = null
-    switch (this.customView) {
-      case 'category':
-        endPoint = 'subCategory?status=1&category=' + this.sectionID
-        break;
-      case 'brand':
-        endPoint = 'brand/category?brand=' + this.sectionID
-        break
-    }
+    endPoint = 'subCategory?status=1&category=' + this.customId
     return endPoint
   }
 
 
   getSubCategories() {
-    this.subCategoriesSub = this.dataService.getData(this.subCategEndPoint).subscribe({
+    this.dataService.getData(this.subCategEndPoint).subscribe({
       next: (res: Category[]) => {
         if (res.length > 1) {
-          this.subCategories = [{ name: 'الكل', _id: 'all' }, ...res]
+          this.subCategories = [{ name: 'الكل', _id: 'all' }, ...res];
         } else this.subCategories = res;
         this.currentSubCategoryId = this.subCategories[0]?._id
       }
     })
   }
 
-  filterBySubcategory(subCategoruId: string) {
-    if (this.subCategories.length === 1) return;
+  filterBySubcategory(subCategoryId: string) {
+    if (this.subCategories.length === 1 || subCategoryId == this.currentSubCategoryId) return;
     this.showLoading()
-    this.currentSubCategoryId = subCategoruId;
+    this.currentSubCategoryId = subCategoryId;
     this.getProducts()
   }
 
@@ -183,6 +168,7 @@ export class SectionPage implements OnInit {
 
     ev?.target.complete()
   }
+
   showLoading(ev?: any) {
     this.isLoading = true;
     this.empty = false;
@@ -207,11 +193,8 @@ export class SectionPage implements OnInit {
     ev?.target.complete()
   }
 
-
-
   ngOnDestroy() {
-    this.productsSubscription?.unsubscribe()
-    this.subCategoriesSub?.unsubscribe()
+    this.dataService.param = null
   }
 
 }

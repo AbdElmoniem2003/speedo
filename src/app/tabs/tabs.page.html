@@ -1,25 +1,3 @@
-<ion-header class="main-header">
-  <div class="buttons">
-    <ion-button class="ion-activatable no-color-button">
-      <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
-      <ion-ripple-effect></ion-ripple-effect>
-    </ion-button>
-    <ion-button class="ion-activatable no-color-button" (click)="toCart()">
-      @if((cartService.cartProducts?.length)){
-      <span>{{cartService.cartProducts?.length}}</span>
-      }
-      <ion-img slot="icon-only" src="../../../assets/imgs/cart.svg">
-      </ion-img>
-      <ion-ripple-effect></ion-ripple-effect>
-    </ion-button>
-  </div>
-  <ion-img src="../../../assets/imgs/logo-icon.svg"></ion-img>
-</ion-header>
-
-
-
-
-
 <ion-tabs>
 
   <ion-tab-bar slot="bottom" style="direction: rtl;">
@@ -30,7 +8,7 @@
       <ion-label [color]="tab1.selected?'primary':'secondary'">الرئيسية</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button #tab2 tab="my-orders" href="/tabs/my-orders" *ngIf="authService.user!==null">
+    <ion-tab-button #tab2 tab="my-orders" href="/tabs/my-orders" *ngIf="user">
       <ion-img aria-hidden="true"
         [src]="tab2.selected?'../../assets/imgs/tabs-icons/my-orders-active.svg':'../../assets/imgs/tabs-icons/my-orders.svg'"></ion-img>
       <ion-label [color]="tab2.selected?'primary':'secondary'">طلباتي</ion-label>

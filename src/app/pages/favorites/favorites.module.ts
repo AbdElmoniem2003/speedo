@@ -7,14 +7,17 @@ import { IonicModule } from '@ionic/angular';
 import { FavoritesPageRoutingModule } from './favorites-routing.module';
 
 import { FavoritesPage } from './favorites.page';
+import { CustomImagePageModule } from '../custom-image/custom-image.module';
+import { CustomImagePage } from '../custom-image/custom-image.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    FavoritesPageRoutingModule
+    FavoritesPageRoutingModule,
+    CustomImagePageModule
   ],
-  declarations: [FavoritesPage]
+  declarations: [FavoritesPage],
 })
-export class FavoritesPageModule {}
+export class FavoritesPageModule { }
