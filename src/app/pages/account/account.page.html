@@ -64,7 +64,7 @@
         <ion-img src="../../../assets/imgs/store-location-01.svg"></ion-img>
         <p>قائمة الفروع</p>
       </div>
-      <div class="card" id="contact-us" (click)="getInfo()">
+      <div class="card" id="contact-us" (click)="contactModal.present()">
         <ion-img src="../../../assets/imgs/call.svg"></ion-img>
         <p>إتصل بنا</p>
       </div>
@@ -93,38 +93,40 @@
       </ion-header>
 
       <ion-content>
-        <p></p>
-        <h2>وسائل التواصل</h2>
-        <div class="contacts">
+        <div>
+          <p></p>
+          <h2>وسائل التواصل</h2>
+          <div class="contacts">
 
-          <div class="ion-activatable">
-            <ion-ripple-effect></ion-ripple-effect>
-            <p>{{companyInfo?.phone}}</p>
-            <ion-img src="../../../assets/imgs/call.svg" slot="end"></ion-img>
-          </div>
+            <div class="ion-activatable">
+              <ion-ripple-effect></ion-ripple-effect>
+              <p>{{companyInfo?.phone}}</p>
+              <ion-img src="../../../assets/imgs/call.svg" slot="end"></ion-img>
+            </div>
 
-          <div class="ion-activatable">
-            <ion-ripple-effect></ion-ripple-effect>
-            <p>{{companyInfo.instagram}}</p>
-            <ion-icon name="logo-instagram" slot="end"></ion-icon>
-          </div>
+            <div class="ion-activatable">
+              <ion-ripple-effect></ion-ripple-effect>
+              <p>{{companyInfo.instagram}}</p>
+              <ion-icon name="logo-instagram" slot="end"></ion-icon>
+            </div>
 
-          <div class="ion-activatable">
-            <ion-ripple-effect></ion-ripple-effect>
-            <p>{{companyInfo.facebook||'ليس لدينا حساب علي الفيسبوك'}}</p>
-            <ion-img src="../../../assets/imgs/facebook.svg" slot="end"></ion-img>
-          </div>
+            <div class="ion-activatable">
+              <ion-ripple-effect></ion-ripple-effect>
+              <p>{{companyInfo.facebook||'ليس لدينا حساب علي الفيسبوك'}}</p>
+              <ion-img src="../../../assets/imgs/facebook.svg" slot="end"></ion-img>
+            </div>
 
-          <div class="ion-activatable">
-            <ion-ripple-effect></ion-ripple-effect>
-            <p> {{companyInfo.whatsapp}}</p>
-            <ion-img src="../../../assets/imgs/whatsup.svg" slot="end"></ion-img>
-          </div>
+            <div class="ion-activatable">
+              <ion-ripple-effect></ion-ripple-effect>
+              <p> {{companyInfo.whatsapp}}</p>
+              <ion-img src="../../../assets/imgs/whatsup.svg" slot="end"></ion-img>
+            </div>
 
-          <div class="ion-activatable">
-            <ion-ripple-effect></ion-ripple-effect>
-            <p>{{companyInfo?.location||companyInfo?.address}}</p>
-            <ion-img src="../../../assets/imgs/location.svg" slot="end"></ion-img>
+            <div class="ion-activatable">
+              <ion-ripple-effect></ion-ripple-effect>
+              <p>{{companyInfo?.location||companyInfo?.address}}</p>
+              <ion-img src="../../../assets/imgs/location.svg" slot="end"></ion-img>
+            </div>
           </div>
         </div>
       </ion-content>

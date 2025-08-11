@@ -24,6 +24,10 @@
 
 <ion-content>
 
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)" pullFactor="0.8" pullMin="60" pullMax="120">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <div class="container">
 
     <div class="section-filter" style="position: relative;" *ngIf="subCategories?.length">
@@ -82,13 +86,13 @@
 
       @if(empty) {
       <div class="empty">
-        <ion-icon name="code-working-outline"></ion-icon>
+        <ion-icon [src]="'../../../assets/imgs/logo-icon.svg'"></ion-icon>
         <p>لا منتجات </p>
       </div>
       }
       @if(error){
       <div class="empty">
-        <ion-icon name="code-working-outline"></ion-icon>
+        <ion-icon [src]="'../../../assets/imgs/logo-icon.svg'"></ion-icon>
         <p>حدث خطا . تحقق من الشبكة</p>
       </div>
       }

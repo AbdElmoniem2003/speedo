@@ -2,7 +2,8 @@
 
   <ion-toolbar>
     <ion-label slot="end"> انهاء الطلب</ion-label>
-    <ion-button slot="end" (click)="modalCtrl.dismiss()" class="no-color-button" icon="chevron-forward">
+    <ion-button slot="end" (click)="modalCtrl.dismiss()" class="no-color-button">
+      <ion-icon name="chevron-forward"></ion-icon>
     </ion-button>
   </ion-toolbar>
 </ion-header>
@@ -80,7 +81,7 @@
     }
     @if(empty&&!isloading) {
     <div class="empty">
-      <ion-icon name="code-working-outline"></ion-icon>
+      <ion-icon [src]="'../../../assets/imgs/logo-icon.svg'"></ion-icon>
       <ion-label>تحقق من الشبكة " خطأ في الانترنت "</ion-label>
     </div>
     }

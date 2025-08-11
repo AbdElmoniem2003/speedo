@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "749676104786",
+    "project_id": "abdelmoniem-push",
+    "storage_bucket": "abdelmoniem-push.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:749676104786:android:1bc5118fff37c4b672a38b",
+        "android_client_info": {
+          "package_name": "com.push_notify.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuCTOtrmjVIw8U1MflU84nAlvC-vHQljI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:749676104786:android:8057bb83c0626e0072a38b",
+        "android_client_info": {
+          "package_name": "com.speedo.example"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuCTOtrmjVIw8U1MflU84nAlvC-vHQljI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

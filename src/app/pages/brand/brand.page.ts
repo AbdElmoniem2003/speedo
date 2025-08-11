@@ -108,7 +108,7 @@ export class BrandPage implements OnInit {
     this.showLoading()
     this.getViewParams();
     // this.getBrand()
-    this.getProducts();
+    this.getProducts(ev);
     this.getSubCategories()
   }
 
@@ -185,6 +185,13 @@ export class BrandPage implements OnInit {
     this.error = true;
 
     ev?.target.complete()
+  }
+
+  refresh(ev: any) {
+    this.skip = 0;
+    this.currentSubCategoryId = 'all'
+    this.showLoading()
+    this.getData(ev)
   }
 
   ngOnDestroy() {

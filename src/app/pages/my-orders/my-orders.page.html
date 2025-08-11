@@ -23,28 +23,20 @@
 
   <div class="container">
 
-    @if(!isLoading&&!empty&&!error){
     <div class="header">
       <p>({{orders?.length||0}}) فواتير</p>
       <section>طلباتي</section>
     </div>
-    <ion-segment class="filter fade-in" scrollable="true" [value]="orderStatus.ALL">
-      <ion-segment-button [value]="orderStatus.CANCELED"
-        (click)="filterByStatus(orderStatus.CANCELED)">مرفوض</ion-segment-button>
+    <ion-segment class="filter fade-in" scrollable="true" [value]="filterStatus">
+      <ion-segment-button [value]="orderStatus.REJECTED"
+        (click)="filterByStatus(orderStatus.REJECTED)">مرفوض</ion-segment-button>
       <ion-segment-button [value]="orderStatus.ACCEPTED"
         (click)="filterByStatus(orderStatus.ACCEPTED)">مكتمل</ion-segment-button>
       <ion-segment-button [value]="orderStatus.WAITING"
         (click)="filterByStatus(orderStatus.WAITING)">انتظار</ion-segment-button>
       <ion-segment-button [value]="orderStatus.ALL" (click)="filterByStatus(orderStatus.ALL)">الكل</ion-segment-button>
     </ion-segment>
-    }
-    @if(isLoading){
-    <ion-segment class="filter">
-      @for (i of [1,2,3,4]; track $index) {
-      <ion-skeleton-text animated></ion-skeleton-text>
-      }
-    </ion-segment>
-    }
+
 
     <div class="orders-cards">
 
@@ -84,13 +76,13 @@
       }
       }@if(empty){
       <div class="empty">
-        <ion-icon name="code-working-outline"></ion-icon>
+        <ion-icon [src]="'../../../assets/imgs/logo-icon.svg'"></ion-icon>
         <h3 style="text-align: center;">ليس لديك طلبات حاليا</h3>
       </div>
       }
       @if(error){
       <div class="empty">
-        <ion-icon name="code-working-outline"></ion-icon>
+        <ion-icon [src]="'../../../assets/imgs/logo-icon.svg'"></ion-icon>
         <h3 style="text-align: center;"> حدث خطأ في الشبكة. تحقق من إتصالك بالإنترنت </h3>
       </div>
       }

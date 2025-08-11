@@ -24,7 +24,6 @@ export class SectionPage implements OnInit {
 
   customId: string = null;
   objToView: Category = null;
-  customImage: string = null;
 
 
 
@@ -62,7 +61,7 @@ export class SectionPage implements OnInit {
     this.showLoading()
     this.getViewParams();
     // this.getCategory()
-    this.getProducts();
+    this.getProducts(ev);
     this.getSubCategories()
   }
 
@@ -191,6 +190,13 @@ export class SectionPage implements OnInit {
     this.error = true;
 
     ev?.target.complete()
+  }
+
+  refresh(ev: any) {
+    this.skip = 0;
+    this.currentSubCategoryId = 'all'
+    this.showLoading()
+    this.getData(ev)
   }
 
   ngOnDestroy() {

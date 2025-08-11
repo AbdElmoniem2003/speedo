@@ -100,7 +100,6 @@ export class WildUsedService {
 
   async generalToast(msg?: string, color?: string, cssClass?: string, duration?: number, mode?: any) {
     const toast = await this.toastCtrl.create({
-      enterAnimation: EnterAnimation, leaveAnimation: LeaveAnimation,
       message: msg || "Some Error Occured",
       color: color || "danger",
       cssClass: cssClass,
@@ -111,6 +110,7 @@ export class WildUsedService {
         role: "cancel"
       }]
     })
+    console.log(555)
     await toast.present()
   }
 

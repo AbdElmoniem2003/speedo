@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { Subscription } from 'rxjs';
 import { Info, User } from 'src/app/core/project-interfaces/interfaces';
@@ -29,7 +29,7 @@ export class AccountPage implements OnInit {
     private storage: Storage,
     private dataService: DataService,
     private wildUsedService: WildUsedService, public navCtrl: NavController,
-
+    private modalCtrl: ModalController,
     public cartService: CartService
   ) { }
 
@@ -50,6 +50,8 @@ export class AccountPage implements OnInit {
       }, error: err => this.showError(ev)
     })
   }
+
+
 
   async logOut() {
     const desicion = await this.wildUsedService.generalAlert('هل انت متاكد انك تريد تسجيل الخروج ؟', 'نعم', 'لا');

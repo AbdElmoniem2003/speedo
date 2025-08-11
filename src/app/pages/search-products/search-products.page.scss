@@ -46,7 +46,7 @@ ion-header {
     .search-cards {
       width: 100%;
       direction: rtl;
-      padding: 0 8px 0 16px;
+      padding:16px;
       @include flex(8, flex-start, '', row);
       flex-wrap: wrap;
 
@@ -168,7 +168,7 @@ ion-header {
               line-height: 22px;
               letter-spacing: 0px;
 
-              &.extra {
+              &.expanded {
                 width: 64px;
               }
             }

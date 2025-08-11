@@ -1,21 +1,23 @@
 import { Injectable } from "@angular/core";
 import { Storage } from "@ionic/storage-angular";
 import { Order } from "../../project-interfaces/interfaces";
+import { BehaviorSubject } from "rxjs";
 
 
 @Injectable({ providedIn: 'root' })
 
-export class OrderService{
+export class OrderService {
 
-  previousOrders:Order[]=[]
+  previousOrders: Order[] = []
+  orderBehaviourSubject = new BehaviorSubject<Order>(null);
 
   constructor(
     private storage: Storage,
 
   ) { }
 
-  async getPreviosOrders() {
-    // this.previousOrders= await this.storage.get('orders')
+  async cancelOrder(order: Order) {
+    this.orderBehaviourSubject.next(order)
   }
 
 

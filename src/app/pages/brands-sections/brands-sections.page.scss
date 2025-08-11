@@ -10,18 +10,24 @@ ion-content {
 
 .container {
   .brands {
-    padding: 16px;
-    @include flex(8, flex-end, center, '');
-    flex-wrap: wrap;
+    display: grid !important;
+  row-gap: 8px;
+  column-gap: 8px;
+  padding: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+
+  ion-button {
+    color: white;
+  }
 
     .brand {
       @include flex(0, center, center, '');
       padding: 12px;
-      flex-grow: 1;
       background-color: white;
       border: 1px solid rgba(240, 239, 239, 1);
       border-radius: 12px;
-      @include shape(167, 167);
+      height: 167px;
+      // @include shape(167, 167);
 
       ion-img {
         @include shape(143, 143);

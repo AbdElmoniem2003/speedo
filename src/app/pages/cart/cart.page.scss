@@ -46,7 +46,8 @@ ion-content {
       }
 
       >div:first-of-type {
-        @include flex(16, '', '', column);
+        @include flex(16, '',end, column);
+        width: calc((243 / 343 )*100%);
 
         h3 {
           margin: 0;
@@ -55,9 +56,15 @@ ion-content {
           font-size: 14px;
           line-height: 26px;
           letter-spacing: 0px;
-          text-align: right;
-          text-overflow: ellipsis;
-          text-wrap: wrap;
+              display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: auto;
+    direction: rtl;
+    width: calc((211 / 243) * 100%);
         }
 
         .add-constract {

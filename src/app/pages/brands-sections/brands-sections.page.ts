@@ -17,7 +17,6 @@ import { WildUsedService } from 'src/app/core/services/wild-used.service';
 export class BrandsSectionsPage implements OnInit {
 
   customView: string = null;
-  customSubscription: Subscription;
   brands: Brand[] = [];
   offers: Offer[] = [];
   categories: Category[] = [];
@@ -25,7 +24,7 @@ export class BrandsSectionsPage implements OnInit {
   skip = 0
   isLoading = true;
   empty = false;
-  error = false; stopLoading = false
+  error = false; stopLoading = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -42,7 +41,8 @@ export class BrandsSectionsPage implements OnInit {
   }
 
   getCustomData(ev?: any) {
-    this.customSubscription = this.dataService.getData(this.customView)
+
+    this.dataService.getData(`${this.customView}?skip=${this.skip}`)
       .subscribe({
         next: async (response: Offer[] | Brand[] | Category[]) => {
           if (this.customView == 'category') { this.categories = response as Category[] }
@@ -50,6 +50,7 @@ export class BrandsSectionsPage implements OnInit {
           if (this.customView == 'brand') { this.brands = response as Brand[] }
 
           (this.offers || this.categories || this.brands) ? this.showContent(ev) : this.showEmpty(ev);
+          console.log(response.length)
           this.stopLoading = response.length < 20;
           this.wildUsedService.dismisLoading()
         }, error: async err => {
@@ -113,7 +114,6 @@ export class BrandsSectionsPage implements OnInit {
   }
 
   ngOnDestroy() {
-    this.customSubscription.unsubscribe()
   }
 
 }

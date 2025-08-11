@@ -164,7 +164,7 @@ ion-content {
   .products {
     @include flex(8, center, end, column);
     max-width: 768px;
-    padding: 0 16px;
+    padding: 0 16px 16px;
 
     .header {
       padding: 0;
@@ -178,8 +178,8 @@ ion-content {
     .product {
       background-color: white;
       height: 114px;
-      min-width: 343px;
-      max-width: 768px;
+      // min-width: 343px;
+      // max-width: 768px;
       width: 100%;
       flex-grow: 1;
       @include flex(8, space-evenly, flex-start, '');
@@ -230,10 +230,11 @@ ion-content {
             font-weight: 700;
             font-size: 16px;
             line-height: 28px;
+            height: 52px;
             letter-spacing: 0px;
             align-self: end;
             min-width: 51px;
-            text-align: end;
+            text-align: end;direction: rtl;
             width: -webkit-fill-available;
           }
         }

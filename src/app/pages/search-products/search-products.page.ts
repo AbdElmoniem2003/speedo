@@ -67,7 +67,7 @@ export class SearchProductsPage implements OnInit {
 
   search() {
     this.showLoading()
-    this.getProducts()
+    // this.getProducts()
   }
 
   addToCart(prod: Product) {

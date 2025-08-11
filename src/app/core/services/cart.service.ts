@@ -24,7 +24,7 @@ export class CartService {
     })
   }
 
-  updateCart(product: Product) {
+  async updateCart(product: Product) {
     let prodIndex: number = null;
     if (this.cartProducts) {
       const existed = this.cartProducts.find((p, i) => {
@@ -41,15 +41,14 @@ export class CartService {
       this.cartProducts = [product]
     }
 
-    // this.cartBehaviourSub.next(this.cartProducts.length)
-    this.wildUsedService.generalToast('تمت الاضافة للسلة بنجاح.', 'primary', 'light-color')
+    await this.wildUsedService.generalToast('تمت الاضافة للسلة بنجاح.', 'primary', 'light-color', 465465)
     this.storage.set('inCart', this.cartProducts)
   }
 
-  deleteFromCart(product: Product) {
+  async deleteFromCart(product: Product) {
     console.log(product._id)
     this.cartProducts = this.cartProducts.filter((p) => { return p._id !== product._id });
-    this.wildUsedService.generalToast('تمت الحذف من السلة بنجاح.', 'primary', 'light-color')
+    await this.wildUsedService.generalToast('تمت الحذف من السلة بنجاح.', 'primary', 'light-color')
     this.storage.set('inCart', this.cartProducts);
     // this.cartBehaviourSub.next(this.cartProducts.length)
   }

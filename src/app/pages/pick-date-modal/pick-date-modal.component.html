@@ -1,6 +1,6 @@
 <ion-content>
   <ion-datetime dir="ltr" mode="ios" color="primary" size="cover" #dateTime [presentation]="presentation"
-    [max]="maxDate" [locale]="'en-US'">
+    [max]="maxDate" [locale]="'en-US'" [cancelText]="'تجاهل'" [doneText]="'تأكيد'" [showDefaultButtons]="true">
     <ion-buttons slot="buttons">
       <ion-button color="danger" (click)="close()">cancel</ion-button>
       <ion-button color="primary" (click)="sellect()">ok</ion-button>

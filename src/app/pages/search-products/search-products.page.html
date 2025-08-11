@@ -52,7 +52,9 @@
 
       <!-- Loading Ele -->
       @if(isLoading) {
-      <ion-skeleton-text class="card" animated *ngFor="let i of [1,2,3,4,5,6]"></ion-skeleton-text>
+      <div class="search-cards">
+        <ion-skeleton-text class="card" animated *ngFor="let i of [1,2,3,4,5,6]"></ion-skeleton-text>
+      </div>
       }
 
 

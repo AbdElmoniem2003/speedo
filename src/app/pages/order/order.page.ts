@@ -9,6 +9,7 @@ import { DataService } from 'src/app/core/services/data.service';
 import { WildUsedService } from 'src/app/core/services/wild-used.service';
 import { OrderOptionsComponent } from '../order-options/order-options.component';
 import { RefuseModalComponent } from '../refuse-modal/refuse-modal.component';
+import { OrderService } from 'src/app/core/services/order-service/order.service';
 
 
 @Component({
@@ -38,7 +39,7 @@ export class OrderPage implements OnInit {
     private currentRoute: ActivatedRoute,
     private wildUsedService: WildUsedService,
     private popoverCtrl: PopoverController,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController, private orderService: OrderService
 
   ) { }
 
@@ -113,13 +114,14 @@ export class OrderPage implements OnInit {
     await modal.present();
     const refusalReason = (await modal.onDidDismiss()).data;
     if (!refusalReason) return;
-    this.cancelOrder(order)
+    this.cancelOrder(order);
+    this.orderService.cancelOrder(order)
+
   }
 
   cancelOrder(order: Order) {
     this.dataService.deleteData(`order/${order._id}`).subscribe({
       next: (res) => {
-        console.log(res);
         order.status = this.orderStatus.REJECTED
       }, error: (err) => {
         console.log(err)

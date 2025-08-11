@@ -10,6 +10,8 @@ import { OrderOptionsComponent } from '../order-options/order-options.component'
 import { WildUsedService } from 'src/app/core/services/wild-used.service';
 import { RefuseModalComponent } from '../refuse-modal/refuse-modal.component';
 import { CartService } from 'src/app/core/services/cart.service';
+import { OrderService } from 'src/app/core/services/order-service/order.service';
+import { Subscription } from 'rxjs';
 
 const baseUrl = environment.baseUrl
 
@@ -21,14 +23,16 @@ const baseUrl = environment.baseUrl
 })
 export class MyOrdersPage implements OnInit {
 
-  nowDate: number = Date.now()
   orders: Order[] = [];
+  orderStatus = OrderStatus
+  filterStatus: number = this.orderStatus.ALL;
+  ordersSubscription: Subscription
+
   skip: number = 0;
   status: number = 1;
   isLoading: boolean = true;
   error: boolean = false;
   empty: boolean = false;
-  orderStatus = OrderStatus
   stopLoad: boolean = false
 
   @ViewChild('orderPopover') orderPopover: IonPopover;
@@ -40,20 +44,30 @@ export class MyOrdersPage implements OnInit {
     private storage: Storage,
     private popoverCtrl: PopoverController,
     private wildUsedService: WildUsedService,
-    public cartService: CartService
+    public cartService: CartService,
+    private orderService: OrderService
   ) { }
 
   ngOnInit() {
+    this.ordersSubscription = this.orderService.orderBehaviourSubject.subscribe({
+      next: (res: Order) => {
+        if (!res) return;
+        this.orders = this.orders.filter(o => { return o._id !== res._id })
+      }
+    })
+
   }
 
   ionViewWillEnter() {
     this.showLoading();
     this.getOrders();
   }
+
   toCart() { this.navCtrl.navigateForward('/cart') }
 
   get orderEndPoint() {
     let query = `order?skip=${this.skip}`;
+    if (this.filterStatus != null) query += `&status=${this.filterStatus}`
     return query
   }
 
@@ -77,7 +91,9 @@ export class MyOrdersPage implements OnInit {
 
 
   filterByStatus(status: number) {
-
+    this.filterStatus = status;
+    this.showLoading()
+    this.getOrders()
   }
 
   showLoading() {
@@ -123,11 +139,9 @@ export class MyOrdersPage implements OnInit {
       cssClass: 'order-options',
       event: ev,
       mode: 'ios',
-      // enterAnimation: popoverEnterAnimation, leaveAnimation: popoverLeaveAnimation
     }
     if (order.status == this.orderStatus.REJECTED) return;
 
-    // if (order.status == this.orderStatus.REJECTED) opts.componentProps['buttons'] = [{ txt: "تفعيل", operation: 2 }]
     const popover = await this.popoverCtrl.create(opts)
     await popover.present();
 
@@ -140,9 +154,7 @@ export class MyOrdersPage implements OnInit {
       this.openRefusalModal(order)
     }
     if (data == 2) {      // activate
-      //   const decition = await this.wildUsedService.generalAlert('هل تريد التفعيل؟')
-      //   if (!decition) return;
-      //   this.activateOrder(order)
+
     }
   }
 
@@ -157,7 +169,8 @@ export class MyOrdersPage implements OnInit {
     await modal.present();
     const refusalReason = (await modal.onDidDismiss()).data;
     if (!refusalReason) return;
-    this.cancelOrder(order)
+    this.cancelOrder(order);
+    this.orderService.cancelOrder(order)
   }
 
   cancelOrder(order: Order) {
@@ -184,6 +197,10 @@ export class MyOrdersPage implements OnInit {
   loadMore(ev: InfiniteScrollCustomEvent) {
     this.skip += 1;
     this.getOrders(ev)
+  }
+
+  ngOnDestroy() {
+    this.ordersSubscription.unsubscribe()
   }
 
 }
