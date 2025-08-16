@@ -44,7 +44,9 @@ export class HomePage implements OnInit {
   offers: Product[];
   bestSeller: Product[];
   // inFavorites: string[] ;
-  filterModalOpen: boolean = false
+  filterModalOpen: boolean = false;
+
+
 
   constructor(
     public navCtrl: NavController,
@@ -89,9 +91,9 @@ export class HomePage implements OnInit {
 
           this.checkFavorites()
         }
-        response ? this.showContent(ev) : this.showEmpty(ev)
+        response ? this.showContent(ev) : this.showEmpty(ev);
       }, err => {
-        this.wildUsedService.generalToast(err.error.message, '', 'light-color', 2500, 'middle')
+        this.wildUsedService.generalToast("حدث خطا . تحقق من الشبكة", '', 'light-color', 2500, 'middle')
         this.showError(ev)
       });
   }
@@ -167,10 +169,24 @@ export class HomePage implements OnInit {
     this.skip = 0
     this.error = false
     this.empty = false
-    this.getData(ev)
+    this.getData(ev);
   }
 
 
+  // // typing Actions
+  // typingText: string = ''
+  // previosText: string = 'Chelsea is gonna with the primier league this season .';
+  // speed: number = 50;
+  // isTyping: boolean = true;
+
+  // typing() {
+  //   let textArr = this.previosText.split('');
+  //   textArr.forEach((word, i) => {
+  //     setTimeout(() => {
+  //       this.typingText += word;
+  //     }, this.speed * i);
+  //   })
+  // }
 
 
   ngOnDestroy() {

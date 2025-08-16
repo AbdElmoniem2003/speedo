@@ -42,7 +42,8 @@ export class AppComponent {
 
     if (Capacitor.getPlatform() == 'web') return;
 
-    await PushNotifications.requestPermissions()
+    const permisstion = await PushNotifications.requestPermissions();
+    if (permisstion.receive == 'denied') return;
     await PushNotifications.register();
 
     setTimeout(async () => {

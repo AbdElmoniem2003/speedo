@@ -827,7 +827,6 @@ ion-modal.filter-modal {
 
       ion-button {
         --border-radius: 10px;
-        --background: #{$primaryColor};
         --padding-top: 8px;
         --padding-bottom: 8px;
         --padding-start: 24px;
@@ -839,15 +838,17 @@ ion-modal.filter-modal {
         line-height: 28px;
         letter-spacing: 0px;
         text-align: center;
-        --background: white;
-        --color: #{$primaryColor};
         border-radius: 10px;
         border: 1px solid $primaryColor;
       }
 
       >ion-button:first-of-type {
-        --background: #{$primaryColor};
-        --color: white;
+        background: #{$primaryColor};
+        color: white;
+      }
+      >ion-button:last-of-type {
+        background: white;
+        color: #{$primaryColor} !important;
       }
     }
 

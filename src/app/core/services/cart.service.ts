@@ -41,7 +41,7 @@ export class CartService {
       this.cartProducts = [product]
     }
 
-    await this.wildUsedService.generalToast('تمت الاضافة للسلة بنجاح.', 'primary', 'light-color', 465465)
+    await this.wildUsedService.generalToast('تمت الاضافة للسلة بنجاح.', 'primary', 'light-color')
     this.storage.set('inCart', this.cartProducts)
   }
 

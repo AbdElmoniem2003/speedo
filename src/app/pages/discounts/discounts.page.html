@@ -87,8 +87,7 @@
 
       @for (offer of offers; track $index) {
       <div class="offer fade-in">
-        <app-custom-image [mainImg]="offer.image" [customID]="offer._id"
-          [altImg]="'../../../assets/imgs/logo-cover.png'"></app-custom-image>
+        <app-custom-image [mainImg]="offer.image" [altImg]="'../../../assets/imgs/logo-cover.png'"></app-custom-image>
         <ion-button class="no-color-button" (click)="toOffer(offer)">
           <ion-label>تفقد المنتجات</ion-label>
           <ion-icon name="chevron-back"></ion-icon>
@@ -109,7 +108,7 @@
 
         <div class="card fade-in">
           <div class="card-content" [routerLink]="'/product/'+prod._id">
-            <app-custom-image [mainImg]="prod.image" [customID]="prod._id"></app-custom-image>
+            <app-custom-image [mainImg]="prod.image"></app-custom-image>
             <p> {{prod.name}} </p>
             <div>
               @if(prod.discountPrice){

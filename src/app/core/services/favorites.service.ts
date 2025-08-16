@@ -38,5 +38,10 @@ export class FavoService {
         if (p._id == prod._id) prod.isFav = true;
       })
     })
+  };
+
+  clearFavorites() {
+    this.favoProducts = [];
+    this.storage.remove('favorites')
   }
 }

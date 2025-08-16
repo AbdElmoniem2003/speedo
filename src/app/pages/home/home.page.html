@@ -47,7 +47,7 @@
       @if (!isLoading) {
       @for (slide of sliders; track $index) {
       <swiper-slide [routerLink]="slide.product?'/product/'+slide.product:'/tabs/home'">
-        <app-custom-image class="fade-in" [mainImg]="slide.image" [customID]="slide._id"
+        <app-custom-image class="fade-in" [mainImg]="slide.image"
           [altImg]="'../../../assets/imgs/logo-cover.png'"></app-custom-image>
       </swiper-slide>
       }
@@ -77,7 +77,7 @@
           <div>
             @for (category of categories; track $index) {
             <div class="fade-in" (click)="openRelatedView(category,'section')">
-              <app-custom-image [mainImg]="category.image" [customID]="category._id"></app-custom-image>
+              <app-custom-image [mainImg]="category.image"></app-custom-image>
               <h3> {{category.name}}</h3>
             </div>
             }
@@ -102,7 +102,7 @@
           @for (prod of bestSeller; track $index) {
           <div class="card fade-in">
             <div class="card-content" [routerLink]="'/product/'+prod._id">
-              <app-custom-image [mainImg]="prod.image" [customID]="prod._id"></app-custom-image>
+              <app-custom-image [mainImg]="prod.image"></app-custom-image>
               <p>{{prod.name}}</p>
               <h3>{{prod.price}}د</h3>
             </div>
@@ -159,7 +159,7 @@
         <div class="offers-cards">
           @for (offer of offers; track $index) {
           <div class="card fade-in">
-            <app-custom-image [mainImg]="offer.image" [customID]="offer._id"></app-custom-image>
+            <app-custom-image [mainImg]="offer.image"></app-custom-image>
             <ion-button class="no-color-button" [routerLink]="['/offer']" [queryParams]=" { id: offer._id} ">
               <ion-label>تفقد المنتجات</ion-label>
               <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
@@ -187,7 +187,7 @@
           @for (discountProd of discountProducts; track $index) {
           <div class=" card fade-in">
             <div class="card-content" [routerLink]='"/product/" + discountProd._id'>
-              <app-custom-image [mainImg]="discountProd.image" [customID]="discountProd._id"></app-custom-image>
+              <app-custom-image [mainImg]="discountProd.image"></app-custom-image>
               <p> {{discountProd.name}} </p>
               <h3>{{discountProd.price |number}} د.ع</h3>
             </div>
@@ -245,7 +245,7 @@
           <div>
             @for (brand of brands; track $index) {
             <div class="card fade-in" (click)="openRelatedView(brand,'brand')">
-              <app-custom-image [mainImg]="brand.image" [customID]="brand._id"></app-custom-image>
+              <app-custom-image [mainImg]="brand.image"></app-custom-image>
             </div>
             }
 
@@ -268,7 +268,7 @@
           @for (newProd of newProducts; track $index) {
           <div class="card fade-in">
             <div class="card-content" [routerLink]="`/product/${newProd._id}`">
-              <app-custom-image [mainImg]="newProd.image" [customID]="newProd._id"></app-custom-image>
+              <app-custom-image [mainImg]="newProd.image"></app-custom-image>
               <p> {{newProd.name}}</p>
               <h3>{{newProd.price|number}} د.ع</h3>
             </div>

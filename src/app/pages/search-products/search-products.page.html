@@ -64,7 +64,7 @@
 
         <div class="card fade-in">
           <div class="card-content" [routerLink]="'/product/'+prod._id">
-            <app-custom-image [mainImg]="prod.image" [customID]="prod._id"></app-custom-image>
+            <app-custom-image [mainImg]="prod.image"></app-custom-image>
             <p> {{prod.name}} </p>
             <div>
               @if(prod.discountPrice){
@@ -116,7 +116,7 @@
     </div>
 
     <ion-infinite-scroll threshold="25%" position="bottom" (ionInfinite)="loadMore($event)" [disabled]="stopLoading">
-      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="جاري التحميل...">
       </ion-infinite-scroll-content>
     </ion-infinite-scroll>
 
@@ -181,7 +181,7 @@
     <ion-footer>
       <ion-buttons>
         <ion-button (click)="null">حفظ</ion-button>
-        <ion-button (click)="filterModalOpen=false">إلغاء</ion-button>
+        <ion-button (click)="homeFilterModal.dismiss()">إلغاء</ion-button>
       </ion-buttons>
     </ion-footer>
   </ng-template>

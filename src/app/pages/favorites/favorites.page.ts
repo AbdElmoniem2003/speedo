@@ -58,6 +58,15 @@ export class FavoritesPage implements OnInit {
 
   }
 
+  async clearFavorites() {
+    if (this.empty) return await this.wildUsedService.generalToast('المفضلات فارغة بالفعل !', '', 'light-color');
+    const decision = await this.wildUsedService.generalAlert('هل تريد حذف كل المنتجات المفضلة؟', 'أجل', "كلا");
+    if (!decision) return;
+    this.inFavoritesProducts = [];
+    this.empty = true;
+    this.favoServise.clearFavorites()
+  }
+
 
   ngOnDestroy() {
     this.favoritesSubscription.unsubscribe()

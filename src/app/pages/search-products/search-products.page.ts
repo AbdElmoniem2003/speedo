@@ -15,7 +15,6 @@ export class SearchProductsPage implements OnInit {
 
   @ViewChild('searchInputField') searchInputField: IonInput
   searchProducts: Product[] = []
-  filterModalOpen: boolean = false;
 
   isLoading: boolean = false;
   empty: boolean = false;
@@ -67,7 +66,7 @@ export class SearchProductsPage implements OnInit {
 
   search() {
     this.showLoading()
-    // this.getProducts()
+    this.getProducts()
   }
 
   addToCart(prod: Product) {
@@ -110,15 +109,14 @@ export class SearchProductsPage implements OnInit {
     // reset
     this.searchWord = null;
     this.skip = 0;
-    this.searchProducts = []
+    this.searchProducts = [];
+    this.stopLoading = false
     this.showLoading()
     this.getProducts(ev);
-    ev?.target.complete();
   }
 
   loadMore(ev: any) {
     this.skip += 1;
-    console.log(this.skip)
     this.getProducts(ev)
   }
 

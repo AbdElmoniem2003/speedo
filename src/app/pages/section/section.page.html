@@ -54,7 +54,7 @@
         @for (product of products; track $index) {
         <div class="card fade-in">
           <div class="card-content" [routerLink]="`/product/${product._id}`">
-            <app-custom-image [mainImg]="product.image" [customID]="product._id"></app-custom-image>
+            <app-custom-image [mainImg]="product.image"></app-custom-image>
             <p> {{product.name}}</p>
             <div>
               @if(product.discountPrice){<h3 class="before-discount"> {{product.price|number}} د.ع</h3>}

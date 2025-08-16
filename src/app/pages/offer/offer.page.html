@@ -1,6 +1,5 @@
 <ion-header class="custom-header">
-  <app-custom-image [mainImg]="offer?.image" [customID]="offer?._id"
-    [altImg]="'../../../assets/imgs/logo-cover.png'"></app-custom-image>
+  <app-custom-image [mainImg]="offer?.image" [altImg]="'../../../assets/imgs/logo-cover.png'"></app-custom-image>
   <ion-toolbar>
     <ion-item lines="none">
       <ion-button slot="start" class="no-color-button">
@@ -43,7 +42,7 @@
         @for (product of offerProducts; track $index) {
         <div class="card">
           <div class="card-content">
-            <app-custom-image [mainImg]="product.image" [customID]="product._id"></app-custom-image>
+            <app-custom-image [mainImg]="product.image"></app-custom-image>
             <p>{{product.name}}</p>
             <h3>{{product.price - product.discountPrice|number}} د.ع</h3>
           </div>

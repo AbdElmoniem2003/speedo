@@ -21,6 +21,7 @@
 
 
     <div class="header">
+      <ion-icon name="trash" (click)="clearFavorites()"></ion-icon>
       <p>({{inFavoritesProducts?.length||0}}) منتجات</p>
       <section>المفضلة</section>
     </div>
@@ -56,8 +57,7 @@
           </div>
 
         </div>
-        <app-custom-image [routerLink]="'/product/'+prod._id" [mainImg]="prod.image"
-          [customID]="prod._id"></app-custom-image>
+        <app-custom-image [routerLink]="'/product/'+prod._id" [mainImg]="prod.image"></app-custom-image>
         <!-- <img [src]="prod.image" alt=""> -->
       </div>
       }

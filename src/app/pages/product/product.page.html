@@ -27,8 +27,7 @@
     <div class="product">
 
       <div class="img fade-in">
-        <app-custom-image [mainImg]="product.image" [customID]="product._id"
-          [altImg]="'../../../assets/imgs/logo-cover.png'"></app-custom-image>
+        <app-custom-image [mainImg]="product.image" [altImg]="'../../../assets/imgs/logo-cover.png'"></app-custom-image>
       </div>
 
       <div class="prod-data fade-in">
@@ -105,7 +104,7 @@
           @for (prod of similarProducts; track $index) {
           <div class="card fade-in">
             <div class="card-content" [routerLink]="`/product/${prod._id}`">
-              <app-custom-image [mainImg]="prod.image" [customID]="prod._id"></app-custom-image>
+              <app-custom-image [mainImg]="prod.image"></app-custom-image>
               <p> {{prod.name}}</p>
               <div>
                 <h3>{{prod.price - prod.discountPrice|number}} د.ع</h3>

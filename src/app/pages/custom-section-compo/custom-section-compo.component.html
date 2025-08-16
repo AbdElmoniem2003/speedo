@@ -15,7 +15,7 @@
     <div class="compos">
       @for (category of customObjArr; track $index) {
       <div [class.checked]="category._id==currentSubId" class="compo" (click)="dismisModal(category._id)">
-        <app-custom-image [mainImg]="category.image" [customID]="category._id"></app-custom-image>
+        <app-custom-image [mainImg]="category.image"></app-custom-image>
         <p>{{category.name}}</p>
       </div>
       }
