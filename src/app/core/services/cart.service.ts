@@ -41,6 +41,7 @@ export class CartService {
     }
     else {
       this.cartProducts = [product]
+      await this.wildUsedService.generalToast('تمت الاضافة للسلة بنجاح.', 'primary', 'light-color')
     }
 
     this.storage.set('inCart', this.cartProducts)

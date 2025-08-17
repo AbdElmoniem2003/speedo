@@ -952,6 +952,7 @@ ion-toast.global-notification {
       background-color: rgba(239, 239, 239, 1);
 
       &::part(time-button) {
+        color: $primaryColor !important;
         background: var(--bg-gray);
       }
 

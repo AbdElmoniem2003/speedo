@@ -48,8 +48,6 @@ export class SearchProductsPage implements OnInit {
 
   get searchEndPoint() {
     this.customFilterWord = this.dataService.searchParams;
-
-    console.log(this.customFilterWord)
     let query: string = `product?skip=${this.skip}`;
     if (this.customFilterWord) query += `&${this.customFilterWord}`
     if (this.searchWord) query += `&searchText=${this.searchWord}`;
