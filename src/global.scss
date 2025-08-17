@@ -1182,14 +1182,14 @@ ion-label{color: $primaryColor !important;}
     }
 
     ion-alert{
-      --background:#afb2b3 !important;
+      --background:#f4f8fa !important;
     }
 
     ion-action-sheet{
       z-index: 20006;
-      --background: #afb2b3 !important;
+      --background: #f1f6f7 !important;
       --ion-color-primary: #{$secondaryColor};
-      --button-background-selected: #{$secondaryColor};
+      --button-background-selected: #{$lightColor};
     }
 
 }

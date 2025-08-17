@@ -53,7 +53,7 @@ export class NotificationsPage implements OnInit {
           this.stopLoading = res?.length != 20;
         }, error: async (err) => {
           this.showError(ev);
-          await this.wildUsedService.generalToast('حدث خطأ ما. تأكد من اللإتصال بالشبكة.', '', 'light-color', 2500, 'middle');
+          await this.wildUsedService.generalToast('حدث خطأ ما. تأكد من اللإتصال بالشبكة.', '', 'light-color', 2000);
         }
       })
   }

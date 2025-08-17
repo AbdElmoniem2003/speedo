@@ -37,14 +37,14 @@ export class AuthService {
     this.dataService.postData('user/login', user).subscribe((response: User) => {
       this.saveCredintials(response)
       this.navCtrl.navigateRoot('tabs/home')
-    }, err => this.wildUsedService.generalToast(err.error.message, '', 'light-color', 2500, 'middle'))
+    }, err => this.wildUsedService.generalToast(err.error.message, '', 'light-color', 2000))
   }
 
   register(user: { username: string, password: string, id?: string }) {
     this.dataService.postData('user/register', user).subscribe((response: any) => {
       this.saveCredintials(response)
       this.navCtrl.navigateRoot('tabs/home')
-    }, err => this.wildUsedService.generalToast(err.error.message, '', 'light-color', 2500, 'middle'))
+    }, err => this.wildUsedService.generalToast(err.error.message, '', 'light-color', 2000))
   }
 
   setAccessToken(token: string) {
@@ -79,7 +79,7 @@ export class AuthService {
     localStorage.removeItem('refreshToken')
     localStorage.removeItem('accessToken')
     this.storage.clear().then(() => {
-      // this.wildUsedService.generalToast("يرجي تسجيل الدخول!.", '', 'light-color', 2500, 'middle')
+      // this.wildUsedService.generalToast("يرجي تسجيل الدخول!.", '', 'light-color',2000)
       this.navCtrl.navigateRoot('login')
     })
   }

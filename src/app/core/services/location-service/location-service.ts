@@ -22,7 +22,7 @@ export class LocationService {
         return;
       }
       const request = (await this.requestPermission()).location
-      if (request == 'denied') { this.wildUsedService.generalToast("الرجاء تفعيل خدمات الموقع", '', 'light-color', 2500, 'middle') }
+      if (request == 'denied') { this.wildUsedService.generalToast("الرجاء تفعيل خدمات الموقع", '', 'light-color', 2000) }
     })
   }
 

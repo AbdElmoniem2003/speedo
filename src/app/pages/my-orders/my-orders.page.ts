@@ -81,7 +81,7 @@ export class MyOrdersPage implements OnInit {
       }, error: (err) => {
         this.showError(ev)
         console.log(err)
-        this.wildUsedService.generalToast('حدث خطأ في الشبكة. تحقق من إتصالك بالإنترنت', '', 'light-color', 2500, 'middle')
+        this.wildUsedService.generalToast('حدث خطأ في الشبكة. تحقق من إتصالك بالإنترنت', '', 'light-color', 2000)
       }
     })
   }

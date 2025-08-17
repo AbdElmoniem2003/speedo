@@ -97,7 +97,7 @@ export class ConfirmCompoComponent implements OnInit {
       error: (err) => {
         this.empty = true;
         this.isloading = false;
-        this.wildUsedService.generalToast("خطأ في الشبكة : حاول لاحقاً.", '', 'light-color', 2500, 'middle');
+        this.wildUsedService.generalToast("خطأ في الشبكة : حاول لاحقاً.", '', 'light-color', 2000);
       },
     });
   }
@@ -159,7 +159,7 @@ export class ConfirmCompoComponent implements OnInit {
         await this.wildUsedService.generalToast("تم تأكيد طلبك بنجاح.", 'primary', 'light-color');
         this.wildUsedService.dismisLoading()
       }, error: async (err) => {
-        await this.wildUsedService.generalToast('فشل في العملية تحقق من الشبكة', '', 'light-color', 2500, 'middle')
+        await this.wildUsedService.generalToast('فشل في العملية تحقق من الشبكة', '', 'light-color', 2000)
         this.wildUsedService.dismisLoading()
       }
     })

@@ -71,7 +71,7 @@ export class OrderPage implements OnInit {
         this.wildUsedService.dismisLoading()
       }, error: (err) => {
         this.showError(ev)
-        this.wildUsedService.generalToast('حدث خطأ في الشبكة. تحقق من إتصالك بالإنترنت', '', 'light-color', 2500, 'middle')
+        this.wildUsedService.generalToast('حدث خطأ في الشبكة. تحقق من إتصالك بالإنترنت', '', 'light-color', 2000)
         this.wildUsedService.dismisLoading()
       }
     })

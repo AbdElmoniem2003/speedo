@@ -99,7 +99,7 @@ export class CartPage implements OnInit {
 
   async clearCart() {
     if (this.empty) {
-      await this.wildUsedService.generalToast('لا منتجات لخذفها', '', 'light-color', 2500, 'middle');
+      await this.wildUsedService.generalToast('لا منتجات لخذفها', '', 'light-color', 2000);
       return;
     }
     const desicion = await this.wildUsedService.generalAlert('هل تريد حذف كل المنتجات من السلة؟', 'أجل', "كلا");

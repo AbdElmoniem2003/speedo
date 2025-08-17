@@ -92,7 +92,7 @@ export class HomePage implements OnInit {
           }
           response ? this.showContent(ev) : this.showEmpty(ev);
         }, error: err => {
-          this.wildUsedService.generalToast("حدث خطا . تحقق من الشبكة", '', 'light-color', 2500, 'middle')
+          this.wildUsedService.generalToast("حدث خطا . تحقق من الشبكة", '', 'light-color', 2000)
           this.showError(ev)
         }
       });
