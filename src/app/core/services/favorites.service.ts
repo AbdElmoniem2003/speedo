@@ -26,16 +26,18 @@ export class FavoService {
       this.favoProducts?.length ? this.favoProducts?.push(product) : this.favoProducts = [product];
       await this.wildUsedService.generalToast('تمت الاضافة للمفضلات بنجاح.', 'primary', 'light-color')
     } else {
-      this.favoProducts = this.favoProducts.filter((p) => { return p._id !== product._id })
+      this.favoProducts = this.favoProducts.filter((p) => { return p._id !== product._id });
       await this.wildUsedService.generalToast('تمت الإزالة من المفضلات بنجاح.', 'primary', 'light-color')
     }
     this.storage.set('favorites', this.favoProducts)
   }
 
   checkFavoriteProds(products: Product[]) {
-    this.favoProducts?.forEach((p) => {
+    // to remove the last one if it was in multiple arraies of Products
+    if (!this.favoProducts.length) products.forEach(p => p.isFav = false);
+    this.favoProducts.forEach((p) => {
       products.forEach((prod) => {
-        if (p._id == prod._id) prod.isFav = true;
+        if (p._id === prod._id) prod.isFav = true;
       })
     })
   };

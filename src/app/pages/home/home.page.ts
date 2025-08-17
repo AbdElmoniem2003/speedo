@@ -128,9 +128,9 @@ export class HomePage implements OnInit {
     this.cartService.updateCart(product)
   }
 
-  addToFavorite(prod: Product) {
-    prod.isFav = !prod.isFav
-    this.favoService.updateFavorites(prod);
+  async addToFavorite(prod: Product) {
+    prod.isFav = !prod.isFav;
+    await this.favoService.updateFavorites(prod);
     this.checkFavorites()
   }
 
