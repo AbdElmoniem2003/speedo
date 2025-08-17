@@ -1,4 +1,4 @@
-package com.speedo.example;
+package iraqsoft.speedolive.com;
 
 import com.getcapacitor.BridgeActivity;
 

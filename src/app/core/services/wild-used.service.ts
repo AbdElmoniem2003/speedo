@@ -37,33 +37,6 @@ export class WildUsedService {
     })
   }
 
-
-
-  // updateFavorite(prod: Product) {
-  //   return new Promise<boolean>((resolve, reject) => {
-  //     this.storage.get('favorites').then((res: string[]) => {
-  //       if (res) {
-  //         if (res.includes(prod._id)) {
-  //           res = res.filter(p => { return p !== prod._id });
-  //           this.inFavorites = res
-  //           this.storage.set('favorites', res)
-  //           resolve(false)
-  //         } else {
-  //           res.push(prod._id);
-  //           this.inFavorites = res
-  //           this.storage.set('favorites', res)
-  //           resolve(true)
-  //         }
-  //       } else {
-  //         this.storage.set('favorites', [prod._id]).then(() => resolve(true))
-  //       }
-  //     })
-  //   })
-  // }
-
-
-
-
   showLoading() {
     const loadingEle = document.querySelector('.custom-loading-ele');
     loadingEle.classList.remove('hidden')
@@ -110,10 +83,20 @@ export class WildUsedService {
         role: "cancel"
       }]
     })
-    console.log(555)
     await toast.present()
   }
 
-
+  checkDarkThemes() {
+    const checkDarkOrLight = window.matchMedia('(prefers-color-scheme: dark)');
+    // activate dark if dark is the default
+    this.activateDarkThemes(checkDarkOrLight.matches)
+    // change themes by changing system themes
+    checkDarkOrLight.addEventListener(('change'), (media) => {
+      this.activateDarkThemes(media.matches)
+    })
+  }
+  activateDarkThemes(themeCase: boolean) {
+    document.body.classList.toggle('dark', themeCase)
+  }
 
 }

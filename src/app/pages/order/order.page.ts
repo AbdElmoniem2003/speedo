@@ -26,6 +26,7 @@ export class OrderPage implements OnInit {
   billProducts: ProductOrder[] = [];
   orderID: string;
   bill: any
+  ordersProductsTotalPrice: number = 0
 
   orderStatus = OrderStatus
   skip: number = 0;
@@ -64,6 +65,8 @@ export class OrderPage implements OnInit {
       next: (res: Order[]) => {
         this.order = res[0]
         this.billProducts = res[0].order;
+        console.log(this.billProducts)
+        this.billProducts.forEach(p => { this.ordersProductsTotalPrice += (p.product.price * p.qty) })
         res.length ? this.showContent(ev) : this.showEmpty(ev)
         this.wildUsedService.dismisLoading()
       }, error: (err) => {

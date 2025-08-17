@@ -11,8 +11,6 @@ import { CartService } from "src/app/core/services/cart.service";
 import { DataService } from "src/app/core/services/data.service";
 import { FavoService } from "src/app/core/services/favorites.service";
 import { WildUsedService } from "src/app/core/services/wild-used.service";
-import { environment } from "src/environments/environment";
-
 import { register, SwiperContainer } from "swiper/element/bundle";
 
 
@@ -76,25 +74,27 @@ export class HomePage implements OnInit {
   getData(ev?: any) {
     this.getSubscription = this.dataService
       .getData("home?skip=" + this.skip)
-      .subscribe((response: any) => {
-        if (response) {
-          this.products = response.products;
-          this.sliders = response.sliders;
-          this.handleSwiper();
+      .subscribe({
+        next: (response: any) => {
+          if (response) {
+            this.products = response.products;
+            this.sliders = response.sliders;
+            this.handleSwiper();
 
-          this.categories = response.categories
-          this.brands = response.brands
+            this.categories = response.categories
+            this.brands = response.brands
 
-          this.newProducts = response.newProducts
-          this.discountProducts = response.discountProducts
-          this.bestSeller = response.bestSeller;
+            this.newProducts = response.newProducts
+            this.discountProducts = response.discountProducts
+            this.bestSeller = response.bestSeller;
 
-          this.checkFavorites()
+            this.checkFavorites();
+          }
+          response ? this.showContent(ev) : this.showEmpty(ev);
+        }, error: err => {
+          this.wildUsedService.generalToast("حدث خطا . تحقق من الشبكة", '', 'light-color', 2500, 'middle')
+          this.showError(ev)
         }
-        response ? this.showContent(ev) : this.showEmpty(ev);
-      }, err => {
-        this.wildUsedService.generalToast("حدث خطا . تحقق من الشبكة", '', 'light-color', 2500, 'middle')
-        this.showError(ev)
       });
   }
 
@@ -106,6 +106,7 @@ export class HomePage implements OnInit {
       el: 'swiper-pagination'
     };
     this.swiperEle.hashNavigation = true;
+    this.swiperEle.oneWayMovement = false
   }
 
   checkFavorites() {
@@ -114,6 +115,7 @@ export class HomePage implements OnInit {
     this.favoService.checkFavoriteProds(this.newProducts)
     this.favoService.checkFavoriteProds(this.discountProducts)
   }
+
 
   toCustomComponent(customView: string) {
     this.navCtrl.navigateForward(["/brands-sections"], {
@@ -188,6 +190,11 @@ export class HomePage implements OnInit {
   //   })
   // }
 
+
+  toCustomSearch(custom: string) {
+    this.dataService.searchParams = custom
+    this.navCtrl.navigateForward(`search-products`)
+  }
 
   ngOnDestroy() {
     this.getSubscription?.unsubscribe()

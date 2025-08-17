@@ -22,7 +22,7 @@
         <ion-button class="no-color-button" [routerLink]="'/search-products'">
           <ion-img src="../../../assets/imgs/filter.svg" slot="icon-only"></ion-img>
         </ion-button>
-        <ion-input (ionFocus)="navCtrl.navigateForward('search-products')" placeholder="...ابحث عن منتج">
+        <ion-input [readonly]="true" (click)="navCtrl.navigateForward('search-products')" placeholder="...ابحث عن منتج">
           <ion-icon name="search-outline"></ion-icon>
         </ion-input>
       </div>
@@ -43,7 +43,7 @@
   <div class="container">
 
     <swiper-container class="swiper-container" autoplay='{"delay":2000,"disableOnInteraction":false}'
-      [slidesPerView]="'auto'" [updateOnWindowResize]="true">
+      [slidesPerView]="'auto'" [loop]="true" [updateOnWindowResize]="true">
       @if (!isLoading) {
       @for (slide of sliders; track $index) {
       <swiper-slide [routerLink]="slide.product?'/product/'+slide.product:'/tabs/home'">
@@ -89,7 +89,7 @@
 
       <div class="most-demand" *ngIf="bestSeller">
         <div class="header">
-          <ion-button class="more no-color-button">
+          <ion-button class="more no-color-button" (click)="toCustomSearch('bestSeller=true')">
             المزيد
             <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
           </ion-button>
@@ -107,7 +107,7 @@
               <h3>{{prod.price}}د</h3>
             </div>
             <ion-button (click)="addToCart(prod)">
-              <ion-label>أضف للسلة</ion-label>
+              <ion-label> {{prod.inCart?'في السلة':'أضف للسلة'}}</ion-label>
               <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
             </ion-button>
             <div class="addition-btns">
@@ -174,7 +174,7 @@
 
       <div class="discounts" *ngIf="discountProducts">
         <div class="header">
-          <ion-button class="more no-color-button" routerLink="/tabs/discounts">
+          <ion-button class="more no-color-button" (click)="toCustomSearch('discount=1')">
             المزيد
             <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
           </ion-button>
@@ -191,8 +191,8 @@
               <p> {{discountProd.name}} </p>
               <h3>{{discountProd.price |number}} د.ع</h3>
             </div>
-            <ion-button (click)="addToCart(discountProd)">
-              <ion-label>أضف للسلة</ion-label>
+            <ion-button (click)="addToCart(discountProd)" [disabled]="discountProd.inCart">
+              <ion-label> {{discountProd.inCart?'في السلة':'أضف للسلة'}}</ion-label>
               <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
             </ion-button>
             <div class="addition-btns">
@@ -260,6 +260,10 @@
       <div class="recent" *ngIf="newProducts">
 
         <div class="header">
+          <ion-button class="more no-color-button" (click)="toCustomSearch('new=true')">
+            المزيد
+            <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
+          </ion-button>
           <section>وصل حديثا</section>
         </div>
 
@@ -272,8 +276,8 @@
               <p> {{newProd.name}}</p>
               <h3>{{newProd.price|number}} د.ع</h3>
             </div>
-            <ion-button (click)="addToCart(newProd)">
-              <ion-label>أضف للسلة</ion-label>
+            <ion-button (click)="addToCart(newProd)" [disabled]="newProd.inCart">
+              <ion-label> {{newProd.inCart?'في السلة':'أضف للسلة'}}</ion-label>
               <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
             </ion-button>
 

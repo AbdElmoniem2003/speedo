@@ -1,0 +1,21 @@
+<swiper-container class="swiper-container" [slidesPerView]="1" [pagination]="true" [updateOnWindowResize]="true" zoom>
+
+  <!-- Product main image -->
+  <swiper-slide class="slide">
+    <div class="swiper-slides" (click)="checkDismiss($event)">
+      <app-custom-image (click)="dblClick($event)" [mainImg]="prodImg"
+        [altImg]="'../../../assets/imgs/logo-cover.png'"></app-custom-image>
+    </div>
+  </swiper-slide>
+  <!-- Product images -->
+  @for (img of images; track $index) {
+  <swiper-slide class="slide">
+    <div class="swiper-slides" (click)="checkDismiss($event)">
+      <app-custom-image (click)="dblClick($event)" [mainImg]="img.IMG_URL"
+        [altImg]="'../../../assets/imgs/logo-cover.png'"></app-custom-image>
+    </div>
+  </swiper-slide>
+  }
+
+  <!-- <div class='swiper-pagination'></div> -->
+</swiper-container>

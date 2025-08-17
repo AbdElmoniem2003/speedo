@@ -78,7 +78,7 @@ export class DiscountsPage implements OnInit {
           this.offers = this.skip ? this.offers.concat(response) : response
           this.offers.length ? this.showContent(ev) : this.showEmpty(ev)
         } else {
-          this.discounts = this.skip ? this.discounts.concat(response) : response
+          this.discounts = this.skip ? this.discounts.concat(response) : response;
           this.discounts.length ? this.showContent(ev) : this.showEmpty(ev)
         }
 

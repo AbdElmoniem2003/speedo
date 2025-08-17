@@ -13,6 +13,7 @@ export class DataService {
 
 
   param: any;
+  searchParams: any;
 
   constructor(
     private http: HttpClient,
@@ -21,7 +22,7 @@ export class DataService {
 
 
   passObj(obj) {
-    this.param=obj
+    this.param = obj
   }
 
   getData(url: string) {

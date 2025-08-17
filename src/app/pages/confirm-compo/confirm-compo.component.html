@@ -64,18 +64,24 @@
 
       <section>بيانات المستلم</section>
       <div class="client">
-        <ion-input class="fade-in" formControlName="displayName" placeholder="اسم المستلم..."></ion-input>
-        <ion-input class="fade-in" formControlName="address" placeholder="عنوان المستلم..."></ion-input>
-        <ion-input class="fade-in" formControlName="phone" placeholder="هاتف المستلم..."></ion-input>
+        <ion-input class="fade-in" [class.invalid]="orderForm.get('displayName').invalid" formControlName="displayName"
+          placeholder="اسم المستلم..."></ion-input>
+        <ion-input class="fade-in" [class.invalid]="orderForm.get('address').invalid" formControlName="address"
+          placeholder="عنوان المستلم..."></ion-input>
+        <ion-input class="fade-in" [class.invalid]="orderForm.get('phone').invalid" formControlName="phone"
+          placeholder="هاتف المستلم..."></ion-input>
 
-        <ion-select (ionChange)="updateCountry($event)" formControlName="country" mode="ios" interface="action-sheet"
-          toggleIcon="chevron-down" expandedIcon="chevron-up" label="اختر المدينة">
+        @if(service!==1){
+        <ion-select (ionChange)="updateCountry($event)" [class.invalid]="orderForm.get('phone').invalid"
+          formControlName="country" mode="ios" interface="action-sheet" toggleIcon="chevron-down"
+          expandedIcon="chevron-up" label="اختر المدينة">
           @for (country of countries; track $index) {
           <ion-select-option [value]="country._id">{{country.name}}</ion-select-option>
           }
         </ion-select>
-        <ion-label class="fade-in"
+        <ion-label class="fade-in" [class.invalid]="orderForm.get('phone').invalid"
           (click)="openDateModal()">{{(orderForm.value.deliveryDate|date:'yyyy-MM-dd , HH:mm a')||'اختر موعد التسليم'}}</ion-label>
+        }
       </div>
     </form>
     }

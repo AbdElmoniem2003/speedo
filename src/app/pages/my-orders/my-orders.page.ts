@@ -49,6 +49,7 @@ export class MyOrdersPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    // to remove canceled one after return to my-orders
     this.ordersSubscription = this.orderService.orderBehaviourSubject.subscribe({
       next: (res: Order) => {
         if (!res) return;
@@ -67,20 +68,16 @@ export class MyOrdersPage implements OnInit {
 
   get orderEndPoint() {
     let query = `order?skip=${this.skip}`;
-    if (this.filterStatus != null) query += `&status=${this.filterStatus}`
+    if (this.filterStatus !== null) query += `&status=${this.filterStatus}`
     return query
   }
 
   getOrders(ev?: any) {
     this.dataService.getData(this.orderEndPoint).subscribe({
       next: (res: Order[]) => {
-        this.stopLoad = (res.length < 20);
-        if (res.length < 20) {
-          this.orders = this.skip ? this.orders.concat(res) : res
-        } else {
-          this.orders = this.orders.concat(res)
-        }
+        this.orders = (this.skip > 0) ? this.orders.concat(res) : res;
         this.orders.length ? this.showContent(ev) : this.showEmpty(ev)
+        this.stopLoad = (res.length < 20);
       }, error: (err) => {
         this.showError(ev)
         console.log(err)

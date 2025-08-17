@@ -37,7 +37,8 @@
     }
 
     ion-icon {
-      @include shape(24, 24)
+      @include shape(24, 24);
+      color: black !important;
     }
 
 
@@ -46,7 +47,7 @@
       @include flex(8, '', center, '');
 
       ion-icon {
-        @include shape(24, 24);
+        @include shape(24, 24);color: black !important;
       }
 
       h3 {
@@ -96,7 +97,7 @@ ion-content {
       }
 
       p {
-        color: rgba(85, 85, 85, 1);
+        color: rgba(85, 85, 85, 1) !important;
         font-weight: 600;
         font-size: 12px;
         line-height: 22px;
@@ -125,7 +126,7 @@ ion-content {
       @include flex(8, '', '', column);
 
       p {
-        color: rgba(170, 170, 170, 1);
+        color: rgba(170, 170, 170, 1) !important;
         font-weight: 700;
         font-size: 14px;
         line-height: 26px;
@@ -137,6 +138,7 @@ ion-content {
         height: 32px;
         padding: 2px 12px;
         border-radius: 56px;
+        color: black !important;
         background-color: rgba(255, 241, 241, 1);
       }
 
@@ -251,6 +253,7 @@ ion-content {
             @include flex(4, '', center, '');
             border-radius: 4px;
             border: 0.5px solid #F0EFEF;
+            color: black !important;
             font-weight: 500;
             font-size: 12px;
             line-height: 22px;
@@ -269,6 +272,7 @@ ion-content {
             }
 
             strong {
+              color: black !important;
               font-weight: 700;
               font-size: 12px;
               line-height: 22px;

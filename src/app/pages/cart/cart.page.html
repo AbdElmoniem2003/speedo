@@ -2,7 +2,7 @@
 
   <ion-toolbar>
     <ion-button slot="start" class="no-color-button" (click)="clearCart()">
-      <ion-icon name="trash"></ion-icon>
+      <ion-icon name="trash" color="primary"></ion-icon>
     </ion-button>
     <p slot="end">({{inCartProducts?.length||0}}) منتجات</p>
     <ion-label slot="end"> السلة</ion-label>
@@ -31,16 +31,16 @@
       @for (product of inCartProducts; track $index) {
       <div class="product">
         <div class="product-data">
-          <ion-icon (click)="deleteFromCart(product)" name="trash-outline"></ion-icon>
+          <ion-icon (click)="deleteFromCart(product)" name="trash-outline" color="primary"></ion-icon>
           <div>
             <h3>{{product.name}}</h3>
             <div class="add-constract">
               <h3>{{(product.price * product.quantity)|number}} د.ع</h3>
               <ion-buttons slot="end">
-                <ion-button (click)="removeOne(product)" [disabled]="(product.quantity<=0)"><ion-icon
+                <ion-button (click)="removeOne(product,true)" [disabled]="(product.quantity<=0)"><ion-icon
                     name="remove-outline"></ion-icon></ion-button>
                 <span>{{product.quantity}}</span>
-                <ion-button (click)="addOne(product)"><ion-icon name="add-outline"></ion-icon></ion-button>
+                <ion-button (click)="addOne(product,true)"><ion-icon name="add-outline"></ion-icon></ion-button>
               </ion-buttons>
             </div>
           </div>
@@ -91,12 +91,12 @@
   <div class="content">
     <div class="total">
       <p>الإجمالي الكلى</p>
-      <h3>{{calcTotal()+1000|number}} د.ع</h3>
+      <h3>{{total+1000|number}} د.ع</h3>
     </div>
     <div>
       <div class="orders">
         <p>الطلبات</p>
-        <h3>{{calcTotal()|number}} د.ع</h3>
+        <h3>{{total|number}} د.ع</h3>
       </div>
       <div class="deliver">
         <p>التوصيل</p>

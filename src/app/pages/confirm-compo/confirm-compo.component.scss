@@ -59,7 +59,7 @@ ion-content {
       >ion-label {
         width: 100%;
         padding: 12px;
-        color: rgba(24, 24, 24, 1);
+        color: rgba(24, 24, 24, 1) !important;
         display: flex;
         align-items: center;
       }
@@ -105,6 +105,7 @@ ion-content {
           }
 
           ion-label {
+            color: black !important;
             font-weight: 700;
             font-size: 14px;
             line-height: 24px;
@@ -147,7 +148,7 @@ ion-content {
             line-height: 26px;
             letter-spacing: 0px;
             text-align: right;
-            color: rgba(170, 170, 170, 1);
+            color: rgba(170, 170, 170, 1) !important;
           }
 
           h3 {
@@ -165,6 +166,10 @@ ion-content {
           }
         }
       }
+    }
+
+    .invalid{
+      border-color: $primaryColor !important;
     }
   }
 
@@ -192,6 +197,7 @@ ion-footer {
     --padding-start: 12px;
     --padding-end: 12px;
     height: 48px;
+        max-width: 767px;
     width: 100%;
     font-weight: 700;
     font-size: 16px;

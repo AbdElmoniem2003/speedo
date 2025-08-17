@@ -104,7 +104,7 @@
 
             >ion-icon {
               @include shape(24, 24);
-              color: #{$secondaryColor};
+              color: #{$secondaryColor} !important;
             }
           }
         }

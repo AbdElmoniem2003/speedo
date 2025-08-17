@@ -39,7 +39,7 @@ export class FavoritesPage implements OnInit {
   toCart() { this.navCtrl.navigateForward('/cart') }
 
   async getFavorites() {
-    this.inFavoritesProducts = await this.favoServise.getFavorites()
+    this.inFavoritesProducts = await this.favoServise.getFavorites();
     this.empty = (!this.inFavoritesProducts) ? true : false
   }
 

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { IonInput, NavController } from '@ionic/angular';
 import { Product } from 'src/app/core/project-interfaces/interfaces';
 import { CartService } from 'src/app/core/services/cart.service';
@@ -15,21 +16,23 @@ export class SearchProductsPage implements OnInit {
 
   @ViewChild('searchInputField') searchInputField: IonInput
   searchProducts: Product[] = []
+  searchWord: string = '';
+  customFilterWord: string = null; // from home page
 
-  isLoading: boolean = false;
+  isLoading: boolean = true;
   empty: boolean = false;
   error: boolean = false;
   skip: number = 0;
   openModal: boolean = false;
   stopLoading: boolean = false;
 
-  searchWord: string = ''
 
   constructor(
     private dataService: DataService,
     public navCtrl: NavController,
     public cartService: CartService,
-    public favoService: FavoService
+    public favoService: FavoService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -44,7 +47,11 @@ export class SearchProductsPage implements OnInit {
   }
 
   get searchEndPoint() {
+    this.customFilterWord = this.dataService.searchParams;
+
+    console.log(this.customFilterWord)
     let query: string = `product?skip=${this.skip}`;
+    if (this.customFilterWord) query += `&${this.customFilterWord}`
     if (this.searchWord) query += `&searchText=${this.searchWord}`;
     return query;
   }

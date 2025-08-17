@@ -32,7 +32,7 @@
     @if(empty){
     <div class="empty fade-in">
       <ion-icon [src]="'../../../assets/imgs/logo-icon.svg'"></ion-icon>
-      <h3 style="text-align: center;">لا منتجات في السلة حاليا</h3>
+      <h3 style="text-align: center;">...</h3>
     </div>
     }
 
@@ -51,7 +51,7 @@
     <div class="brands">
       @for (brand of brands; track $index) {
       <div class="brand" (click)="toSection('brand',brand._id)">
-        <ion-img [src]="brand.image||'../../../assets/imgs/logo-icon.svg'"></ion-img>
+        <app-custom-image [mainImg]="brand.image"></app-custom-image>
       </div>
       }
     </div>
@@ -63,7 +63,7 @@
     <div class="sections">
       @for (category of categories; track $index) {
       <div class="custom" (click)="toSection('section',category._id)">
-        <ion-img [src]="category.image||'../../../assets/imgs/logo-icon.svg'"></ion-img>
+        <app-custom-image [mainImg]="category.image"></app-custom-image>
         <p> {{category.name}}</p>
       </div>
       }
@@ -76,7 +76,7 @@
 
       @for (offer of offers; track $index) {
       <div class="offer" (click)="toSection('offer',offer._id)">
-        <img [src]="offer.image||'../../../assets/imgs/logo-icon.svg'">
+        <app-custom-image [mainImg]="offer.image" [altImg]="'../../../assets/imgs/logo-cover.png'"></app-custom-image>
         <ion-button class="no-color-button">
           <ion-label>تفقد المنتجات</ion-label>
           <ion-icon name="chevron-back"></ion-icon>

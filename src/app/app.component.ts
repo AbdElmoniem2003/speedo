@@ -12,6 +12,7 @@ import { FCM } from '@capacitor-community/fcm';
 import { environment } from 'src/environments/environment';
 import { Capacitor } from '@capacitor/core';
 import { AuthService } from './core/services/auth.service';
+import { StatusBar, StatusBarStyle } from '@capacitor/status-bar';
 
 @Component({
   selector: 'app-root',
@@ -36,12 +37,14 @@ export class AppComponent {
   async ngOnInit() {
     this.storage.create()
     this.user = await this.authService.getUserFromStorage()
-    await this.navCtrl.navigateRoot('tabs/home')
+    await this.navCtrl.navigateRoot('tabs/home');
+    if (Capacitor.getPlatform() !== 'web') await StatusBar.setOverlaysWebView({ overlay: false });
+    this.wildUsedService.checkDarkThemes()
     await SplashScreen.hide();
 
 
+    // Notification Functions
     if (Capacitor.getPlatform() == 'web') return;
-
     const permisstion = await PushNotifications.requestPermissions();
     if (permisstion.receive == 'denied') return;
     await PushNotifications.register();

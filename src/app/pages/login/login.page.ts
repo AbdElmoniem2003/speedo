@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { NavController } from '@ionic/angular';
+import { parsePhoneNumberWithError } from 'libphonenumber-js';
 import { AuthService } from 'src/app/core/services/auth.service';
+
+
+
 
 @Component({
   selector: 'app-login',
@@ -28,13 +32,23 @@ export class LoginPage implements OnInit {
   initForms() {
     this.loginForm = this.builder.group({
       password: [null, Validators.required],
-      username: [null, [Validators.required]],
-      displayName: [null,[Validators.required]]
-    })
+      username: [null, [Validators.required, () => { return this.available() }]],
+    });
+  }
+
+  available(): ValidationErrors {
+    try {
+      const phone = parsePhoneNumberWithError(this.loginForm.value.username, "IQ");
+      console.log(phone.isValid())
+      return phone.isValid() ? null : { invalidPhone: true };
+    } catch (error) {
+      return { invalidPhone: true };
+    }
   }
 
   login() {
-    this.authService.logIn(this.loginForm.value)
+    console.log(this.loginForm.get("username"))
+    // this.authService.logIn(this.loginForm.value)
   }
 
   toHome() {

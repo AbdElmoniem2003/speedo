@@ -11,8 +11,7 @@ import { WildUsedService } from 'src/app/core/services/wild-used.service';
 @Component({
   selector: 'app-brands-sections',
   templateUrl: './brands-sections.page.html',
-  styleUrls: ['./brands-sections.page.scss'],
-  standalone: false,
+  styleUrls: ['./brands-sections.page.scss'], standalone: false,
 })
 export class BrandsSectionsPage implements OnInit {
 
@@ -50,7 +49,6 @@ export class BrandsSectionsPage implements OnInit {
           if (this.customView == 'brand') { this.brands = response as Brand[] }
 
           (this.offers || this.categories || this.brands) ? this.showContent(ev) : this.showEmpty(ev);
-          console.log(response.length)
           this.stopLoading = response.length < 20;
           this.wildUsedService.dismisLoading()
         }, error: async err => {
@@ -59,15 +57,6 @@ export class BrandsSectionsPage implements OnInit {
         }
       })
   }
-
-
-
-
-
-
-
-
-
 
   showLoading() {
     this.isLoading = true;

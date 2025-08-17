@@ -52,7 +52,7 @@
       <div class="order-details">
         <div>
           <div>
-            <span>{{order.orderPrice|number}}</span>
+            <span>{{ordersProductsTotalPrice|number}}</span>
             <p>مبلغ الطلب</p>
           </div>
           <div>
@@ -63,8 +63,8 @@
             <span>{{order.service|number}}</span>
             <p>الخدمة</p>
           </div>
-          <div>
-            <span>{{order.country?.name}}</span>
+          <div *ngIf="order.country">
+            <span>{{order.countryCost|number}}</span>
             <p>المحافظة</p>
           </div>
           <!-- <div>

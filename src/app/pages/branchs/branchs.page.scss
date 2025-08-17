@@ -35,7 +35,7 @@
         font-weight: 500;
 
         &:last-of-type {
-          color: $primaryColor
+          color: $primaryColor !important
         }
 
         &:first-of-type {
@@ -47,7 +47,7 @@
 }
 
 ion-footer {
-  height: 60px;
+  height: 84px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,10 +57,11 @@ ion-footer {
 
   ion-button,
   ion-skeleton-text {
-    width: 65%;
     display: flex;
     justify-content: space-between;
-    --border-radius: 50px;
-    height: 40px;
+    --border-radius: 10px;
+    height: 48px;
+    width: 100%;
+    max-width: 767px;
   }
 }

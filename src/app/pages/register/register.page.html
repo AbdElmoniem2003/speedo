@@ -29,18 +29,19 @@
 
         <div class="inputs">
 
-          <ion-input formControlName="username" type="email" placeholder="بريد المستخدم">
-            <ion-icon slot="end" [class]="registerForm.get('username').valid?'valid':''" name="mail-outline" color="dark"></ion-icon>
-          </ion-input>
-
-          <ion-input formControlName="displayName" type="text" placeholder="اسم المستخدم">
+          <ion-label class="error-phone" labelPlacement="floating">
+            {{(registerForm.get('username').touched&& registerForm.get('username').invalid)?'هذا الرقم غير متوافق مع بلدك.':''}}</ion-label>
+          <ion-input formControlName="username" type="text" placeholder="اسم المستخدم">
             <ion-img slot="end"
-              [src]="registerForm.get('displayName').valid?'../../../assets/imgs/red-person.svg':'../../../assets/imgs/black-person.svg'"></ion-img>
+              [src]="registerForm.get('username').valid?'../../../assets/imgs/red-person.svg':'../../../assets/imgs/black-person.svg'"></ion-img>
           </ion-input>
 
           <ion-input (keyup.enter)="register()" formControlName="password" [type]="showPassword?'text':'password'"
             placeholder="كلمة السر">
-            <ion-img (click)="showPassword = !showPassword"
+            <ion-icon (click)="showPassword=!showPassword" slot="start"
+              [name]="showPassword?'eye-off-outline':'eye-outline'"></ion-icon>
+
+            <ion-img
               [src]="registerForm.get('password').valid?'../../../assets/imgs/red-lock.svg':'../../../assets/imgs/black-lock.svg'"
               slot="end"></ion-img>
           </ion-input>

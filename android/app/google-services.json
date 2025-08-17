@@ -1,45 +1,36 @@
 {
   "project_info": {
-    "project_number": "749676104786",
-    "project_id": "abdelmoniem-push",
-    "storage_bucket": "abdelmoniem-push.firebasestorage.app"
+    "project_number": "692764947866",
+    "project_id": "speedo-live",
+    "storage_bucket": "speedo-live.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:749676104786:android:1bc5118fff37c4b672a38b",
+        "mobilesdk_app_id": "1:692764947866:android:b0d8eb008b8bba002e7623",
         "android_client_info": {
-          "package_name": "com.push_notify.app"
+          "package_name": "iraqsoft.speedolive.com"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "692764947866-50h5r51riavujlgl3sst5rrhfom3daq0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyAuCTOtrmjVIw8U1MflU84nAlvC-vHQljI"
+          "current_key": "AIzaSyCp-VxRxsyJ3WxEPkYd0pF07r6fv6ePNcw"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:749676104786:android:8057bb83c0626e0072a38b",
-        "android_client_info": {
-          "package_name": "com.speedo.example"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAuCTOtrmjVIw8U1MflU84nAlvC-vHQljI"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "692764947866-50h5r51riavujlgl3sst5rrhfom3daq0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

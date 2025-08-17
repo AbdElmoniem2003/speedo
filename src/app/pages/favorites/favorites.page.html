@@ -31,7 +31,7 @@
     @if(empty){
     <div class="empty fade-in">
       <ion-icon [src]="'../../../assets/imgs/logo-icon.svg'"></ion-icon>
-      <h3 style="text-align: center;">لا منتجات في السلة حاليا</h3>
+      <h3 style="text-align: center;">لا منتجات في المفضلة حاليا</h3>
     </div>
     }
 
@@ -51,7 +51,7 @@
               <ion-icon [name]="'heart'" slot="icon-only"></ion-icon>
             </ion-button>
             <ion-button (click)="addToCart(prod)">
-              <ion-label>نقل للسلة</ion-label>
+              <ion-label> {{prod.inCart?'في السلة':'أضف للسلة'}}</ion-label>
               <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
             </ion-button>
           </div>

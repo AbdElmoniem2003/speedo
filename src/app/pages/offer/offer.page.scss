@@ -38,16 +38,25 @@ ion-content {
   }
 
   span {
-    font-size: 14px;
+    font-size: 14px;background-color: $primaryColor;
+    color: white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   ion-toolbar {
-    padding: 0;
+    padding: 0 !important;
 
     ion-item {
-      padding: 12px 0;
-      --border-color: transparent;
-    }
+      padding:0 calc((100% - 768px) / 2 ) !important;
+            --border-color: transparent;
+    --background: $lightColor;
+
+          }
   }
 
   .filter {
@@ -109,6 +118,13 @@ ion-content {
       background-color: #f6f6f6;
       color: $primaryColor;
     }
+  }
+}
+
+ion-toolbar{
+  >div{
+    background-color: #f6f6f6;
+
   }
 }
 

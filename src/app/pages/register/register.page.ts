@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { NavController } from '@ionic/angular';
+import { parsePhoneNumberWithError } from 'libphonenumber-js';
 import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
@@ -28,9 +29,18 @@ export class RegisterPage implements OnInit {
   initForms() {
     this.registerForm = this.builder.group({
       password: [null, Validators.required],
-      username: [null, [Validators.required, Validators.email]],
-      displayName: [null, Validators.required],
+      username: [null, [Validators.required, () => { return this.available() }]],
     })
+  }
+
+
+  available(): ValidationErrors {
+    try {
+      const phone = parsePhoneNumberWithError(this.registerForm.value.username, "IQ");
+      return phone.isValid() ? null : { invalidPhone: true };
+    } catch (error) {
+      return { invalidPhone: true };
+    }
   }
 
 

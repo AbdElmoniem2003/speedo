@@ -21,6 +21,7 @@ export class CartPage implements OnInit {
   inCartIDs: any
   empty: boolean = false;
 
+  total: number = 0;
   location: { lat: number, lng: number } = null;
   branchs: Branch[] = [];
 
@@ -38,48 +39,50 @@ export class CartPage implements OnInit {
 
   async getInCartProducts() {
     this.inCartProducts = await this.storage.get("inCart");
-    this.empty = this.inCartProducts?.length ? false : true;
+    this.empty = this.inCartProducts?.length ? false : true;;
+    if (this.inCartProducts) this.calcTotal();
   }
 
-  addOne(prod: Product) {
+  addOne(prod: Product, noToast: boolean) {
     prod.quantity = prod.quantity ? prod.quantity + 1 : 1;
-    this.cartService.updateCart(prod)
+    this.calcTotal()
+    this.cartService.updateCart(prod, noToast)
   }
 
-  removeOne(prod: Product) {
+  removeOne(prod: Product, noToast: boolean) {
     if (prod.quantity == 1) {
-      this.deleteFromCart(prod);
+      this.deleteFromCart(prod, noToast);
       return;
     }
-    prod.quantity -= 1
-    this.cartService.updateCart(prod)
+    prod.quantity -= 1;
+    this.calcTotal()
+    this.cartService.updateCart(prod, noToast)
   }
 
-  async deleteFromCart(product: Product) {
-    console.log(product._id)
-    this.wildUsedService.generalAlert(`؟ ${product.name} هل ترد حذف`, 'أجل', "كلا").then(async (descision) => {
+  async deleteFromCart(product: Product, noToast?: boolean) {
+    product.inCart = false;
+    this.wildUsedService.generalAlert(` ${product.name} هل ترد حذف` + ` ؟ `, 'أجل', "كلا").then(async (descision) => {
       if (!descision) return;
-      this.wildUsedService.showLoading()
       this.inCartProducts = this.inCartProducts.filter((prod) => {
         return prod._id !== product._id
       });
-      this.empty = this.inCartProducts.length ? false : true
-      this.cartService.deleteFromCart(product)
-      this.wildUsedService.dismisLoading()
+      this.empty = this.inCartProducts.length ? false : true;
+      this.total = this.inCartProducts.length ? this.calcTotal() : 0;
+      this.cartService.deleteFromCart(product, noToast)
     })
   }
 
   calcTotal() {
-    let total = 0
+    this.total = 0
     this.inCartProducts?.forEach(p => {
       // need to handle prod extras
       // if (this.inCartIDs[p._id].extras) {
       //   total = total + (p.qtyIncrease * (p.price - p.discountPrice)) + 3 * 1545
       // } else {
-      total = total + (p.quantity * (p.price - p.discountPrice));
+      this.total = this.total + (p.quantity * (p.price - p.discountPrice));
       // }
     })
-    return total
+    return this.total
   }
 
   async finishOrder() {
@@ -103,6 +106,7 @@ export class CartPage implements OnInit {
     if (!desicion) return;
     this.cartService.clearCart()
     this.inCartProducts = [];
+    this.total = 0;
     await this.wildUsedService.generalToast('السلة فارغة', 'primary', 'light-color', 2500)
   }
 

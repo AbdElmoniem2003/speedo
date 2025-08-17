@@ -27,7 +27,8 @@
     <div class="product">
 
       <div class="img fade-in">
-        <app-custom-image [mainImg]="product.image" [altImg]="'../../../assets/imgs/logo-cover.png'"></app-custom-image>
+        <app-custom-image (click)="openImageModal()" [mainImg]="product.image"
+          [altImg]="'../../../assets/imgs/logo-cover.png'"></app-custom-image>
       </div>
 
       <div class="prod-data fade-in">
@@ -177,8 +178,8 @@
       <ion-button class="no-color-button" (click)="removeFromFavorite()">
         <ion-icon [name]="product?.isFav?'heart':'heart-outline'" [color]="'primary'"></ion-icon>
       </ion-button>
-      <ion-button (click)="addToCart(this.product)">
-        <ion-label>أضف للسلة</ion-label>
+      <ion-button (click)="addToCart(this.product)" [disabled]="this.product.inCart">
+        <ion-label> {{this.product.inCart?'في السلة':'أضف للسلة'}}</ion-label>
         <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
       </ion-button>
     </div>

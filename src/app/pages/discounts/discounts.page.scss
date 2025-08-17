@@ -11,10 +11,7 @@ ion-content {}
 
     .discounts-cards {
       padding: 0 16px;
-      width: 100%;
       direction: rtl;
-      @include flex(8, flex-start, '', row);
-      flex-wrap: wrap;
 
       .card {
         position: relative;

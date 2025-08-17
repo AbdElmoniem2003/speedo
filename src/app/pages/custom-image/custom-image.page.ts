@@ -20,9 +20,8 @@ export class CustomImagePage implements OnInit {
   @Input() loadingImg: string = '../../../assets/imgs/loading.gif';
   @Input() altImg: string = '../../../assets/imgs/logo-icon.svg';
 
-
   @Input() mainImg: string;
-  viewImg: string = this.altImg;
+  viewImg: string = '';
 
   constructor(
     private cameraService: CameraService
@@ -61,7 +60,7 @@ export class CustomImagePage implements OnInit {
   }
 
   async updateImages() {
-    if (!this.mainImg) return;
+    if (!this.mainImg) return this.viewImg = this.altImg;  // @ Input()
     const foundData = await this.checkCached();
     if (!foundData) {
       this.viewImg = this.mainImg
@@ -70,6 +69,7 @@ export class CustomImagePage implements OnInit {
     const extention = this.mainImg.slice(this.mainImg.lastIndexOf('.') + 1);
     this.viewImg = `data:image/${extention};base64,` + (foundData as string);
   }
+
 
 
 

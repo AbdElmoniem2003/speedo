@@ -77,7 +77,11 @@
       }@if(empty){
       <div class="empty">
         <ion-icon [src]="'../../../assets/imgs/logo-icon.svg'"></ion-icon>
-        <h3 style="text-align: center;">ليس لديك طلبات حاليا</h3>
+        <h3 style="text-align: center;">ليس لديك طلبات
+          @if(filterStatus==orderStatus.WAITING){معلقة}
+          @if(filterStatus==orderStatus.REJECTED){مرفوضة}
+          @if(filterStatus==orderStatus.ACCEPTED){مكتملة}
+          حاليا</h3>
       </div>
       }
       @if(error){

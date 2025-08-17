@@ -22,7 +22,7 @@
         <ion-button class="no-color-button" [routerLink]="'/search-products'">
           <ion-img src="../../../assets/imgs/filter.svg" slot="icon-only"></ion-img>
         </ion-button>
-        <ion-input (ionFocus)="navCtrl.navigateForward('search-products')" placeholder="...ابحث عن منتج">
+        <ion-input [readonly]="true" (click)="navCtrl.navigateForward('search-products')" placeholder="...ابحث عن منتج">
           <ion-icon name="search-outline"></ion-icon>
         </ion-input>
       </div>
@@ -36,6 +36,12 @@
 </ion-header>
 
 <ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)" pullFactor="0.8" pullMin="60" pullMax="120">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+
   <div class="container">
 
     <!-- Loading Ele -->
@@ -120,7 +126,7 @@
             </div>
           </div>
           <ion-button (click)="addToCart(prod)">
-            <ion-label>أضف للسلة</ion-label>
+            <ion-label>{{prod.inCart?'في السلة':'أضف للسلة'}} </ion-label>
             <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
           </ion-button>
 

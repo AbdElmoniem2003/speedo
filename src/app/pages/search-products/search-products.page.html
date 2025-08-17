@@ -76,7 +76,7 @@
             </div>
           </div>
           <ion-button (click)="addToCart(prod)">
-            <ion-label>أضف للسلة</ion-label>
+            <ion-label> {{prod.inCart?'في السلة':'أضف للسلة'}}</ion-label>
             <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
           </ion-button>
 

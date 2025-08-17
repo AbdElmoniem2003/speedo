@@ -1,8 +1,9 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 import { KeyboardResize } from '@capacitor/keyboard';
+import { StatusBar } from '@capacitor/status-bar';
 
 const config: CapacitorConfig = {
-  appId: 'com.speedo.example',
+  appId: 'iraqsoft.speedolive.com',
   appName: 'speedo',
   webDir: 'www',
   server: {
@@ -22,7 +23,8 @@ const config: CapacitorConfig = {
       launchAutoHide: false,
     },
     StatusBar: {
-      overlaysWebView: true
+      backgroundColor: "#ffffffff",
+      style: "LIGHT"
     }, PushNotifications: {
       presentationOptions: ["badge", "sound", "alert"]
     }

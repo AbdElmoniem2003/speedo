@@ -256,3 +256,10 @@ export interface Notification {
   createdAt?: Date,
   updatedAt?: Date,
 }
+
+export interface ProductImage {
+
+  IMG_URL:
+  string, ITEM_BARCODE: string, createdAt: string, status: number
+  updatedAt: string, __v: number, _id: string
+}

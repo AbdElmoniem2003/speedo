@@ -39,6 +39,7 @@ import { WildUsedService } from "src/app/core/services/wild-used.service";
 })
 export class ConfirmCompoComponent implements OnInit {
   total: number = 0;
+  ordersTotalPrice: number = 0
   totalDiscounts: number = 0;
   orderProducts: Product[] = [];
   orderForm: FormGroup;
@@ -65,16 +66,18 @@ export class ConfirmCompoComponent implements OnInit {
 
   async ngOnInit() {
     this.selectedBranch = this.cartService.branch;
-    this.getData();
+    this.orderProducts = this.cartService.cartProducts;
     this.calcBill();
+    this.getData();
   }
 
   calcBill() {
     if (this.service == 1) this.total = this.selectedBranch.service;
     if (this.service == 4) this.total = this.selectedBranch.driverService;
     if (this.service == 3) this.total = this.selectedBranch.fastDriverService;
-    this.calcBranchDiscounts()
-    this.calcOrderProductsPrice()
+    this.calcBranchDiscounts();
+    this.calcOrderProductsPrice();
+    this.total += (this.ordersTotalPrice - this.totalDiscounts);
     if (this.selectedCountry) this.total += this.selectedCountry.cost;
   }
 
@@ -105,10 +108,8 @@ export class ConfirmCompoComponent implements OnInit {
       type: 1,
       phone: ["", [Validators.required]],
       displayName: ["", Validators.required],
-      address: ["", Validators.required],
+      address: ["", Validators.required], country: null, deliveryDate: [new Date().getTime()],
       note: [""],
-      country: [null],
-      deliveryDate: [new Date()],
       branch: [this.selectedBranch],
     });
   }
@@ -136,9 +137,9 @@ export class ConfirmCompoComponent implements OnInit {
       discount: this.totalDiscounts,
       couponDiscount: null,
       service: this.service,
-      orderPrice: this.total,
+      orderPrice: this.ordersTotalPrice,
       total: this.total,
-      netTotal: this.total - this.totalDiscounts,
+      netTotal: null,
       coupon: null,
       ...this.orderForm.value
     };
@@ -146,46 +147,20 @@ export class ConfirmCompoComponent implements OnInit {
     return body;
   }
 
-  finishOrder() {
-    // this.storage.get('orders').then(async (orders) => {
-    //   const orderDate = Date.now();
-    //   if (orders) {
-    //     orders[orderDate.toString()] = {
-    //       products: this.orderProducts,
-    //       date: orderDate,
-    //       reciever: this.orderForm.value,
-    //       case: 'waiting',
-    //       totalPrice: this.total
-    //     }
-    //     this.storage.set('orders', orders)
-    //   } else {
-    //     orders = {
-    //       [orderDate.toString()]: {
-    //         products: this.orderProducts,
-    //         date: orderDate,
-    //         reciever: this.orderForm.value,
-    //         case: 'waiting',
-    //         totalPrice: this.total
-    //       }
-    //     }
-    //   }
-    //   this.storage.set('orders', orders);
-    //   this.storage.set('inCart', {});
-    //   this.cartService.cartProducts = []
-    //   await this.authService.getUserFromStorage()
-    //   this.navCtrl.navigateRoot('tabs/home')
-    //   this.modalCtrl.dismiss()
-    // });
+  async finishOrder() {
+    if (this.orderForm.invalid) return await this.wildUsedService.generalToast('الرجاء ملأ بيانات المستلم', '', 'light-color')
 
-    if (this.orderForm.invalid) return this.orderForm.markAllAsDirty()
-
+    const decision = await this.wildUsedService.generalAlert("هل تريد إنهاء الطلب ؟ ", "نعم", "كلا");
+    if (!decision) return;
+    this.wildUsedService.showLoading();
     this.dataService.postData(`order`, this.orderBody).subscribe({
       next: async (res) => {
         this.clearOrder()
-        await this.wildUsedService.generalToast("تم تأكيد طلبك بنجاح.", 'primary', 'light-color')
+        await this.wildUsedService.generalToast("تم تأكيد طلبك بنجاح.", 'primary', 'light-color');
+        this.wildUsedService.dismisLoading()
       }, error: async (err) => {
-        console.log(err)
         await this.wildUsedService.generalToast('فشل في العملية تحقق من الشبكة', '', 'light-color', 2500, 'middle')
+        this.wildUsedService.dismisLoading()
       }
     })
   }
@@ -207,9 +182,14 @@ export class ConfirmCompoComponent implements OnInit {
     this.calcBill()
   }
 
-
   updateService(event: any) {
     this.service = event.target.value;
+    console.log(this.service);
+    if (this.service == 1) {
+      this.orderForm.value.country = null;
+      this.orderForm.value.deliveryDate = null;
+      this.selectedCountry = null;
+    };
     this.calcBill()
   }
 
@@ -219,7 +199,8 @@ export class ConfirmCompoComponent implements OnInit {
   }
 
   calcOrderProductsPrice() {
-    this.orderProducts.forEach(p => { return this.total += p.price })
+    this.ordersTotalPrice = 0;
+    this.orderProducts.forEach(p => { return this.ordersTotalPrice += (p.price * p.quantity) })
   }
 
   async patchUserInfo() {

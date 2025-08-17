@@ -17,14 +17,13 @@ export class CartService {
     private wildUsedService: WildUsedService
   ) { }
 
-  getCartProds() {
+  async getCartProds() {
     return this.storage.get('inCart').then((res) => {
       this.cartProducts = res;
-      // this.cartBehaviourSub.next(this.cartProducts?.length)
     })
   }
 
-  async updateCart(product: Product) {
+  async updateCart(product: Product, noToast?: boolean) {
     let prodIndex: number = null;
     if (this.cartProducts) {
       const existed = this.cartProducts.find((p, i) => {
@@ -33,22 +32,23 @@ export class CartService {
       })
       if (!existed) {
         this.cartProducts.push(product)
-      } else {
-        this.cartProducts[prodIndex].quantity = product.quantity
+        await this.wildUsedService.generalToast('تمت الاضافة للسلة بنجاح.', 'primary', 'light-color')
+      } if (existed && !noToast) {
+        return this.wildUsedService.generalToast(" .المنتج موجود في السلة بالفعل")
+      } if (existed && noToast) {
+        this.cartProducts[prodIndex] = product
       }
     }
     else {
       this.cartProducts = [product]
     }
 
-    await this.wildUsedService.generalToast('تمت الاضافة للسلة بنجاح.', 'primary', 'light-color')
     this.storage.set('inCart', this.cartProducts)
   }
 
-  async deleteFromCart(product: Product) {
-    console.log(product._id)
+  async deleteFromCart(product: Product, noToast?: boolean) {
     this.cartProducts = this.cartProducts.filter((p) => { return p._id !== product._id });
-    await this.wildUsedService.generalToast('تمت الحذف من السلة بنجاح.', 'primary', 'light-color')
+    if (!noToast) await this.wildUsedService.generalToast('تمت الحذف من السلة بنجاح.', 'primary', 'light-color')
     this.storage.set('inCart', this.cartProducts);
     // this.cartBehaviourSub.next(this.cartProducts.length)
   }

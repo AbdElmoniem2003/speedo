@@ -1,0 +1,58 @@
+@import '../../../theme/mixin.scss';
+@import '../../../global.scss';
+
+swiper-container{
+      height: 100%;
+      // width: 100%;
+      // max-width: fit-content;
+    margin: auto 0;
+    box-sizing: content-box;
+
+    swiper-slide {
+    display: flex;
+    width: 100% !important;
+    justify-content: center;
+    }
+
+    &::part(pagination) {
+      display: flex;
+      justify-content: center;
+      // direction: rtl;
+    }
+
+    &::part(bullet) {
+      @include shape(5, 5);
+      border-radius: 5px;
+      background-color: rgba(204, 204, 204, 1);
+
+      &:hover {
+        background-color: #0500d1;
+      }
+    }
+
+    &::part(bullet-active) {
+      @include shape(8, 8);
+      border-radius: 8px;
+      background-color: $primaryColor;
+    }
+
+
+  }
+
+  .swiper-slides{
+        height: 100%;
+        width: 100%;
+    display: flex;
+    align-items: center;justify-content: center;
+  }
+app-custom-image{
+  display: block;
+      height: fit-content;
+      max-width: 433px;
+
+      img{
+        transform-origin: center center;
+        transform: scale(1);
+        transition: transform 500ms ;
+      }
+}

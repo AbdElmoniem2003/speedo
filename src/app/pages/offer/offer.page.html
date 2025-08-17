@@ -1,31 +1,33 @@
 <ion-header class="custom-header">
   <app-custom-image [mainImg]="offer?.image" [altImg]="'../../../assets/imgs/logo-cover.png'"></app-custom-image>
   <ion-toolbar>
-    <ion-item lines="none">
-      <ion-button slot="start" class="no-color-button">
-        <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
-        @if((cartService.cartProducts?.length)){
-        <span>{{cartService.cartProducts?.length}}</span>
-        }
-      </ion-button>
+    <div>
+      <ion-item lines="none">
+        <ion-button slot="start" class="no-color-button" (click)="toCart()">
+          <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
+          @if((cartService.cartProducts?.length)){
+          <span>{{cartService.cartProducts?.length}}</span>
+          }
+        </ion-button>
 
-      <div class="txts">
-        <ion-label slot="end"> {{offer.name}}</ion-label>
-        <p slot="end"> {{offer.description}}</p>
+        <div class="txts">
+          <ion-label slot="end"> {{offer.name}}</ion-label>
+          <p slot="end"> {{offer.description}}</p>
+        </div>
+        <ion-button slot="end" (click)="navCtrl.pop()" class="no-color-button">
+          <ion-icon icon="chevron-forward"></ion-icon>
+        </ion-button>
+      </ion-item>
+
+
+      <div class="filter">
+        <ion-icon (click)="openCustomModal()" name="chevron-down-outline"></ion-icon>
+        <ion-segment [scrollable]="true" *ngIf="offerCategories.length" [value]="selectedCategoryID">
+          <ion-segment-button *ngFor="let category of offerCategories" (click)="filterByCategory(category)"
+            [value]="category._id">{{category.name}}</ion-segment-button>
+        </ion-segment>
+
       </div>
-      <ion-button slot="end" (click)="navCtrl.pop()" class="no-color-button">
-        <ion-icon icon="chevron-forward"></ion-icon>
-      </ion-button>
-    </ion-item>
-
-
-    <div class="filter">
-      <ion-icon (click)="openCustomModal()" name="chevron-down-outline"></ion-icon>
-      <ion-segment [scrollable]="true" *ngIf="offerCategories.length" [value]="offerCategories[0]._id">
-        <ion-segment-button *ngFor="let category of offerCategories"
-          [value]="category._id">{{category.name}}</ion-segment-button>
-      </ion-segment>
-
     </div>
   </ion-toolbar>
 </ion-header>
@@ -33,12 +35,16 @@
 
 <ion-content>
 
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)" pullFactor="0.8" pullMin="60" pullMax="120">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+
   <div class="container">
 
-    @if(!isLoading){
     <div class="offers">
       <div class="cards">
-        @if(offerProducts.length){
+        @if(!isLoading){
         @for (product of offerProducts; track $index) {
         <div class="card">
           <div class="card-content">
@@ -52,24 +58,40 @@
           </ion-button>
           <div class="addition-btns">
             <ion-button class="no-color-button" (click)="updateFavorites(product)">
-              <ion-icon [name]="!inFavorites.includes(product._id)?'heart-outline':''" color="dark"
-                [src]="inFavorites.includes(product._id)?'../../../assets/imgs/tabs-icons/favourite-active.svg':''"
+              <ion-icon [name]="product.isFav?'heart':'heart-outline'" [color]="product.isFav?'primary':'dark'"
+                [src]="product.isFav?'../../../assets/imgs/tabs-icons/favourite-active.svg':''"
                 slot="icon-only"></ion-icon>
             </ion-button>
           </div>
         </div>
         }
-        }@else {
-        <div class="empty" style="display: flex;flex-direction: column;align-items: center;">
-          <img [src]="'../../../assets/imgs/logo-icon.svg'" alt="">
-          <p>No Products To View</p>
-        </div>
+        } @if(isLoading){
+        <ion-skeleton-text *ngFor="let i of [1,2,3,4]" class="card" animated="true"></ion-skeleton-text>
         }
-
       </div>
+    </div>
 
+    @if(empty) {
+    <div class="empty" style="display: flex;flex-direction: column;align-items: center;">
+      <img [src]="'../../../assets/imgs/logo-icon.svg'" alt="">
+      <p>لا منتجات لعرضها</p>
     </div>
     }
+    @if(error) {
+    <div class="empty" style="display: flex;flex-direction: column;align-items: center;">
+      <img [src]="'../../../assets/imgs/logo-icon.svg'" alt="">
+      <p>حدث خطأ في الشبكة</p>
+    </div>
+    }
+
+
+
+
+
+    <ion-infinite-scroll threshold="25%" [disabled]="true" position="bottom" (ionInfinite)="loadMore($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 
   </div>
 

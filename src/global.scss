@@ -46,6 +46,9 @@ $secondaryColor: var(--secondary-color);
 $navIconsColor: var(--nav-icons-color);
 $noneBg: var(--none-background);
 $alertColor: var(--alert-color);
+$lightColor:var(--ion-color-light);
+$darkColor:var(--ion-color-dark);
+$ionContentBG:var(--ion-content-BG);
 
 
 * {
@@ -65,7 +68,7 @@ $alertColor: var(--alert-color);
 
 ion-header {
   ion-toolbar {
-    background: white;
+    background: $lightColor;
   }
 }
 
@@ -144,7 +147,7 @@ ion-button {
         border-radius: 50%;
         height: 15px;
         width: fit-content;
-        color: white;
+        color:  $lightColor;
         display: flex;
         align-items: center;
         top: 0%;
@@ -161,7 +164,7 @@ ion-button {
 }
 
 .filter {
-  background-color: #f6f6f6;
+  background-color: $ionContentBG;
 }
 
 .custom-header {
@@ -221,7 +224,7 @@ ion-button {
         padding: 3px;
         height: 14px;
         width: fit-content;
-        color: white;
+        color:  $lightColor;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -287,7 +290,7 @@ ion-button {
 
 
 .page-header {
-  background-color: #f6f6f6;
+  background-color: $ionContentBG;
   display: flex;
   justify-content: center;
 
@@ -402,7 +405,7 @@ ion-button {
 }
 
 ion-content {
-  --ion-background-color: #f6f6f6;
+  --ion-background-color: #{$ionContentBG};
   // --padding-top: 52px;
 }
 
@@ -441,7 +444,7 @@ ion-content {
     height: 26px;
     min-width: 26px;
 
-    color: white;
+    color:  $lightColor;
     background-color: rgba(44, 52, 84, 0.65);
     border-radius: 15px;
     @include flex(4, center, center, '');
@@ -479,20 +482,21 @@ ion-content {
   }
 }
 
-.discount-cards,
+.discounts-cards,
 .search-cards,
 .section-cards,
 .prods-cards,
 .offers>.cards,
 .cart-prods,
-.compos,.sections {
+.compos,
+.sections {
   display: grid !important;
   row-gap: 8px;
   column-gap: 8px;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
 
   ion-button {
-    color: white;
+    color:  $lightColor !important;
   }
 }
 
@@ -546,7 +550,11 @@ ion-content {
   }
 
 
-.card {ion-button{color: white;}}
+  .card {
+    ion-button {
+      color:  $lightColor;
+    }
+  }
 }
 
 @media (1023px>width>768px) {
@@ -595,7 +603,7 @@ ion-content {
     >div:nth-child(3) {
       flex-basis: 49%;
       height: 278px;
-      background: white;
+      background:  $lightColor;
       border-right-width: 0;
       border-left-width: 0;
     }
@@ -635,6 +643,8 @@ ion-content {
     }
   }
 }
+
+// app-custom-image{overflow: hidden;}
 
 ion-modal.filter-modal {
   --height: 100%;
@@ -844,10 +854,11 @@ ion-modal.filter-modal {
 
       >ion-button:first-of-type {
         background: #{$primaryColor};
-        color: white;
+        color:  $lightColor;
       }
+
       >ion-button:last-of-type {
-        background: white;
+        background:  $lightColor;
         color: #{$primaryColor} !important;
       }
     }
@@ -869,6 +880,18 @@ ion-modal.date-modal {
   --width: fit-content;
   --border-radius: 20px;
   --box-shadow: 0px 0px 20px rgb(8, 158, 223) !important;
+}
+
+ion-modal.img-viewer-modal{
+    --height: 100%;
+    --width: 100%;
+    --background: transparent;
+    --backdrop-opacity: .7;
+    --backdrop-filter: blur(4px);
+
+    app-image-viewer{
+      // width: 100%;
+    }
 }
 
 @keyframes spinning {
@@ -897,10 +920,11 @@ ion-toast {
   direction: rtl;
 }
 
-ion-toast.global-notification{
-  --height:60px;
-  --width:100%;
-  margin-top: 44px;    --border-radius: 50px;
+ion-toast.global-notification {
+  --height: 60px;
+  --width: 100%;
+  margin-top: 44px;
+  --border-radius: 50px;
 }
 
 .time-picker {
@@ -930,6 +954,18 @@ ion-toast.global-notification{
       &::part(time-button) {
         background: var(--bg-gray);
       }
+
+      &::part(calendar-day) {
+        font-family: "Cairo";
+      }
+
+      &::part(calendar-day today) {
+        color:  $lightColor;
+      }
+
+      ion-button:last-of-type{
+        color: $secondaryColor;
+      }
     }
   }
 }
@@ -937,7 +973,7 @@ ion-toast.global-notification{
 
 ion-footer {
   ion-button {
-    color: white !important;
+    color:  $lightColor !important;
   }
 }
 
@@ -1005,8 +1041,14 @@ ion-modal.cancel-modal {
 
 ion-alert.custom-alert {
 
+  --ion-text-color:#{$primaryColor};
+
   .alert-title {
     color: $primaryColor !important;
+  }
+
+  .alert-button-group{
+    direction: rtl;
   }
 
   .alert-button.sc-ion-alert-ios:first-of-type {
@@ -1024,7 +1066,7 @@ ion-toast.light-color {
   --box-shadow:0px 1px 5px 0px #{$secondaryColor};
 
   &::part(container) {
-    color: white;
+    color:  $lightColor;
   }
 
   toast-button-group>button {
@@ -1049,7 +1091,7 @@ ion-popover.order-options {
 
       ion-button {
         width: 100%;
-        color: white;
+        color:  $lightColor;
         --border-radius: 10px;
 
         ion-icon {
@@ -1061,27 +1103,128 @@ ion-popover.order-options {
 }
 
 
-// ion-alert.sc-ion-alert-ios-s{
-//   --min-width: 332px;
-//   // backdrop-filter: brightness(0.8);
-//   .alert-wrapper.sc-ion-alert-ios {
-//     background: var(--dark-gray);
+app-custom-image{
+      overflow: hidden;
+    border-radius: 6px;
+}
+
+
+// preserve the same colors
+.dark{
+
+.filter{
+  background-color: $ionContentBG ;
+}
+
+ .card,
+ ion-toolbar,
+ .section-content>div>div,
+ ion-footer,
+ ion-tab-bar{
+  --background: $lightColor !important;
+  background-color: $lightColor !important;
+  --ion-background-color:transparent !important;
+  border-color: transparent !important;
+
+  .addition-btns>ion-button{
+    background-color: $ionContentBG !important;
+    --ion-color-primary: none !important;
+  }
+  ion-icon,ion-button{
+    color: $lightColor !important;
+  }
+ }
+
+ ion-toolbar{
+  ion-label{--ion-color-light: #{$darkColor};}
+  ion-button:nth-child(1){--ion-color-light:#{$darkColor} !important;}
+    span{color: white !important;}
+    ion-button>ion-icon{ color: $darkColor !important;}
+
+  // ion-button:not(:last-of-type){--ion-color-light:white !important;}
+ }
+
+  .page-header,.contacts>div,.user{
+    background-color: $ionContentBG  !important;
+    >div{>div,ion-segment{
+      background-color: $ionContentBG !important;
+      color: $lightColor !important;
+    }
+  }}
+
+  p,section,h3,ion-input{
+    color:$darkColor !important;
+  }
+
+  ion-label{
+    color: $lightColor !important;
+  }
+
+  .offer{
+ion-label{color: $primaryColor !important;}
+  }
+  ion-tab-bar{
+    ion-label{
+      --ion-color-secondary: rgba(128, 128, 128, 1);
+      color: var(--ion-color-secondary) !important;
+    }
+  }
+
+  ion-skeleton-text{
+    background-color: none !important;
+  }
+
+    .add-constract{
+      ion-buttons{
+        color: $darkColor !important;
+        ion-button{--ion-color-light: #{$darkColor} !important;}
+      }
+    }
+
+    ion-alert{
+      --background:#afb2b3 !important;
+    }
+
+    ion-action-sheet{
+      z-index: 20006;
+      --background: #afb2b3 !important;
+      --ion-color-primary: #{$secondaryColor};
+      --button-background-selected: #{$secondaryColor};
+    }
+
+}
+
+
+
+// .dark{
+
+// .filter{
+//   background-color: $ionContentBG !important;
+// }
+
+//  .card,ion-toolbar,.section-content>div>div,ion-footer,ion-tab-bar{
+//   --background: $secondaryColor !important;
+//   background-color: $secondaryColor !important;
+//   border-color: transparent !important;
+
+//   .addition-btns>ion-button{
+//     background-color: $ionContentBG !important;
+//     --ion-color-primary: none !important;
 //   }
-//   .alert-title{
-//     font-size: 20px;
-//     font-family: 'bold';
+//   ion-icon,ion-button{
+//     color: $lightColor !important;
 //   }
-//   .alert-message{
-//     font-size: 16px;
-//     font-family: 'regular';
-//   }
-//   .alert-button.sc-ion-alert-ios {
-//     color: #fff;
-//     &:first-child {
-//       font-weight: bold;
+//  }
+
+//   .page-header,.contacts>div,.user{
+//     background-color: $ionContentBG  !important;
+//     >div{>div,ion-segment{
+//       background-color: $ionContentBG !important;
+//       color: $lightColor !important;
 //     }
-//     &:last-child {
-//       font-weight: 100;
-//     }
+//   }}
+
+//   p,section,h3,ion-label,ion-input{
+//     color:$lightColor !important;
 //   }
 // }

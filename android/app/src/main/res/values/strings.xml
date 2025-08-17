@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">speedo</string>
     <string name="title_activity_main">speedo</string>
-    <string name="package_name">com.speedo.example</string>
-    <string name="custom_url_scheme">com.speedo.example</string>
+    <string name="package_name">iraqsoft.speedolive.com</string>
+    <string name="custom_url_scheme">iraqsoft.speedolive.com</string>
 </resources>

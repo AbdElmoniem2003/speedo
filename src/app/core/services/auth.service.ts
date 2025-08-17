@@ -6,6 +6,7 @@ import { DataService } from "./data.service";
 import { from } from "rxjs";
 import { User } from "../project-interfaces/interfaces";
 
+
 @Injectable({ providedIn: 'root' })
 
 export class AuthService {
@@ -78,9 +79,8 @@ export class AuthService {
     localStorage.removeItem('refreshToken')
     localStorage.removeItem('accessToken')
     this.storage.clear().then(() => {
-      this.wildUsedService.generalToast("يرجي تسجيل الدخول!.", '', 'light-color', 2500, 'middle')
+      // this.wildUsedService.generalToast("يرجي تسجيل الدخول!.", '', 'light-color', 2500, 'middle')
       this.navCtrl.navigateRoot('login')
     })
   }
-
 }
