@@ -42,7 +42,7 @@
 
   <div class="container">
 
-    <swiper-container class="swiper-container" autoplay='{"delay":2000,"disableOnInteraction":false}'
+    <swiper-container *ngIf="!error" class="swiper-container" autoplay='{"delay":2000,"disableOnInteraction":false}'
       [slidesPerView]="'auto'" [loop]="true" [updateOnWindowResize]="true">
       @if (!isLoading) {
       @for (slide of sliders; track $index) {

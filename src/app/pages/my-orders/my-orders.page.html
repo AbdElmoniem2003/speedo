@@ -38,9 +38,9 @@
     </ion-segment>
 
 
+    @if(!isLoading&&!empty&&!error){
     <div class="orders-cards">
 
-      @if(!isLoading&&!empty&&!error){
       @for (order of orders; track $index) {
       <div class="order-card fade-in">
         <div [routerLink]="`/order/${order._id}`">
@@ -74,26 +74,28 @@
       </div>
 
       }
-      }@if(empty){
-      <div class="empty">
-        <ion-icon [src]="'../../../assets/imgs/logo-icon.svg'"></ion-icon>
-        <h3 style="text-align: center;">ليس لديك طلبات
-          @if(filterStatus==orderStatus.WAITING){معلقة}
-          @if(filterStatus==orderStatus.REJECTED){مرفوضة}
-          @if(filterStatus==orderStatus.ACCEPTED){مكتملة}
-          حاليا</h3>
-      </div>
-      }
-      @if(error){
-      <div class="empty">
-        <ion-icon [src]="'../../../assets/imgs/logo-icon.svg'"></ion-icon>
-        <h3 style="text-align: center;"> حدث خطأ في الشبكة. تحقق من إتصالك بالإنترنت </h3>
-      </div>
-      }
     </div>
+    }
+
+    @if(empty){
+    <div class="empty">
+      <ion-icon [src]="'../../../assets/imgs/logo-icon.svg'"></ion-icon>
+      <h3 style="text-align: center;">ليس لديك طلبات
+        @if(filterStatus==orderStatus.WAITING){معلقة}
+        @if(filterStatus==orderStatus.REJECTED){مرفوضة}
+        @if(filterStatus==orderStatus.ACCEPTED){مكتملة}
+        حاليا</h3>
+    </div>
+    }
+    @if(error){
+    <div class="empty">
+      <ion-icon [src]="'../../../assets/imgs/logo-icon.svg'"></ion-icon>
+      <h3 style="text-align: center;"> حدث خطأ في الشبكة. تحقق من إتصالك بالإنترنت </h3>
+    </div>
+    }
     @if(isLoading){
     <div class="orders-cards">
-      <ion-skeleton-text class="order-card" animated *ngFor="let i of [1,2,3,4,5]">
+      <ion-skeleton-text class="order-card" animated *ngFor="let i of [1,2,3,4,5,6,7]">
       </ion-skeleton-text>
     </div>
     }

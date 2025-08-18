@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { AlertController, ModalController, NavController, PopoverController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { WildUsedService } from './core/services/wild-used.service';
 import { Product, User } from './core/project-interfaces/interfaces';
@@ -13,6 +13,8 @@ import { environment } from 'src/environments/environment';
 import { Capacitor } from '@capacitor/core';
 import { AuthService } from './core/services/auth.service';
 import { StatusBar, StatusBarStyle } from '@capacitor/status-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { App } from '@capacitor/app';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +25,9 @@ import { StatusBar, StatusBarStyle } from '@capacitor/status-bar';
 export class AppComponent {
 
   topic: string = environment.topic;
-  user: User = null
+  user: User = null;
+  rootUrl: string = "/tabs/home";
+  lastBackButtonTabTime: number = 0;
   // inCartSub: Subscription;
 
   constructor(private storage: Storage,
@@ -31,7 +35,10 @@ export class AppComponent {
     private wildUsedService: WildUsedService,
     private dataService: DataService,
     private notificationService: NotificationService,
-    private authService: AuthService
+    private authService: AuthService,
+    private currentRouter: Router,
+    private modalCtrl: ModalController,
+    private popoverCtrl: PopoverController, private alertCtrl: AlertController
   ) { }
 
   async ngOnInit() {
@@ -42,7 +49,6 @@ export class AppComponent {
     this.wildUsedService.checkDarkThemes()
     await SplashScreen.hide();
 
-
     // Notification Functions
     if (Capacitor.getPlatform() == 'web') return;
     const permisstion = await PushNotifications.requestPermissions();
@@ -51,31 +57,60 @@ export class AppComponent {
 
     setTimeout(async () => {
 
-      await FCM.subscribeTo({ topic: `all${this.topic}` });
-      if (this.user?._id) await FCM.subscribeTo({ topic: `user-${this.user?._id}${this.topic}` })
+      this.notificationService.subscribe(this.user)
+      this.notificationService.handleNotifications()
 
-      PushNotifications.addListener('pushNotificationReceived', async (notification: PushNotificationSchema) => {
-        alert('frwfrwe')
-        await this.wildUsedService.generalToast(notification.body, 'primary', 'light-color global-notification', 3000, 'ios');
-      });
-
-      PushNotifications.addListener('pushNotificationActionPerformed', async (notif: ActionPerformed) => {
-        await this.navCtrl.navigateForward('notifications')
-      });
     }, 1000);
 
-
+    // Cell Phone Back Button Behavior
+    if (Capacitor.getPlatform() == 'android') {
+      App.addListener('backButton', async ({ canGoBack }) => {
+        this.handleBackButton()
+      })
+    }
   }
 
+  async handleBackButton() {
 
+    // to dismiss any popover, alert or modal opened
+    let modal = await this.modalCtrl.getTop();
+    if (modal) {
+      await modal.dismiss(null, 'cancel');
+      return;
+    }
 
-  // PushNotifications.addListener('registration', (token: Token) => {
-  //   // alert('Register notification token: ' + token.value);
-  // });
+    let popover = await this.popoverCtrl.getTop();
+    if (popover) {
+      await popover.dismiss(null, 'cancel');
+      return;
+    }
 
+    let alert = await this.alertCtrl.getTop();
+    if (alert) {
+      await alert.dismiss(null, 'cancel');
+      return;
+    }
+
+    // avoid double tab propability
+    const now = Date.now();
+    if ((now - this.lastBackButtonTabTime) < 1000) return;
+    this.lastBackButtonTabTime = now
+
+    if (this.currentRouter.url !== this.rootUrl) {
+      this.navCtrl.navigateRoot('tabs/home');
+    } else {
+      const decision = await this.wildUsedService.generalAlert('هل تريد مغادرة التطبيق ؟', "أجل", "كلا");
+      if (!decision) return;
+      App.exitApp()
+
+    }
+  }
 
   ngOnDestroy() {
-    FCM.unsubscribeFrom({ topic: `all${this.topic}` })
-    if (this.user?._id) FCM.unsubscribeFrom({ topic: `user-${this.user?._id}${this.topic}` })
+    this.notificationService.unsubscribe(this.user)
   }
 }
+
+
+
+

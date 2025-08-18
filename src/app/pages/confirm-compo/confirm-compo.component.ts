@@ -29,13 +29,14 @@ import { EnterAnimation, LeaveAnimation } from "src/app/core/consts/animations";
 import { LocationService } from "src/app/core/services/location-service/location-service";
 import { forkJoin } from "rxjs";
 import { WildUsedService } from "src/app/core/services/wild-used.service";
+import { TimeFormatePipe } from "src/app/core/pipes/time-formate-pipe/time-formate-pipe";
 
 @Component({
   selector: "app-confirm-compo",
   templateUrl: "./confirm-compo.component.html",
   styleUrls: ["./confirm-compo.component.scss"],
-  imports: [IonicModule, ReactiveFormsModule, DecimalPipe, DatePipe],
-  providers: [FormsModule],
+  imports: [IonicModule, ReactiveFormsModule, DecimalPipe, TimeFormatePipe],
+  providers: [FormsModule,],
 })
 export class ConfirmCompoComponent implements OnInit {
   total: number = 0;
@@ -227,6 +228,7 @@ export class ConfirmCompoComponent implements OnInit {
     const data = (await modal.onDidDismiss()).data;
     if (!data) return;
     this.orderForm.patchValue({ deliveryDate: new Date(data).getTime() });
+    console.log(new Date(data).getTime())
     // console.log(this.orderForm.get('deliveryDate'))
     // this.deliveryDate = data;
   }

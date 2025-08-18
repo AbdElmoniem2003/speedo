@@ -80,7 +80,7 @@
           }
         </ion-select>
         <ion-label class="fade-in" [class.invalid]="orderForm.get('phone').invalid"
-          (click)="openDateModal()">{{(orderForm.value.deliveryDate|date:'yyyy-MM-dd , HH:mm a')||'اختر موعد التسليم'}}</ion-label>
+          (click)="openDateModal()">{{(orderForm.value.deliveryDate|timeFormate:'') ||'اختر موعد التسليم'}}</ion-label>
         }
       </div>
     </form>

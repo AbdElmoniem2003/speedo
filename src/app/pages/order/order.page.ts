@@ -64,6 +64,7 @@ export class OrderPage implements OnInit {
     this.dataService.getData(this.orderEndPoint).subscribe({
       next: (res: Order[]) => {
         this.order = res[0]
+        console.log(this.order.deliveryDate)
         this.billProducts = res[0].order;
         console.log(this.billProducts)
         this.billProducts.forEach(p => { this.ordersProductsTotalPrice += (p.product.price * p.qty) })

@@ -9,7 +9,7 @@ import {
 import { FCM } from "@capacitor-community/fcm";
 import { NavController } from "@ionic/angular";
 import { WildUsedService } from "../wild-used.service";
-import { Notification } from "../../project-interfaces/interfaces";
+import { Notification, User } from "../../project-interfaces/interfaces";
 import { environment } from "src/environments/environment";
 
 
@@ -31,11 +31,26 @@ export class NotificationService {
 
 
 
+  async subscribe(user?: User) {
+    await FCM.subscribeTo({ topic: `all${this.topic}` });
+    if (user?._id) await FCM.subscribeTo({ topic: `user-${user?._id}${this.topic}` })
+  }
 
 
+  handleNotifications() {
+    PushNotifications.addListener('pushNotificationReceived', async (notification: PushNotificationSchema) => {
+      await this.wildUsedService.generalToast(notification.body, 'primary', 'light-color global-notification', 3000, 'ios');
+    });
+
+    PushNotifications.addListener('pushNotificationActionPerformed', async (notif: ActionPerformed) => {
+      await this.navCtrl.navigateForward('notifications')
+    });
+  }
 
 
-  unsubscribe() {
+  unsubscribe(user?: User) {
+    FCM.unsubscribeFrom({ topic: `all${this.topic}` })
+    if (user?._id) FCM.unsubscribeFrom({ topic: `user-${user?._id}${this.topic}` })
   }
 
 }

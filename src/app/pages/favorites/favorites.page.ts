@@ -40,7 +40,6 @@ export class FavoritesPage implements OnInit {
 
   async getFavorites() {
     this.inFavoritesProducts = await this.favoServise.getFavorites();
-    this.empty = (!this.inFavoritesProducts.length) ? true : false
   }
 
   addToCart(prod: Product) {

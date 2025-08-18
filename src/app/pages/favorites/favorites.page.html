@@ -28,7 +28,7 @@
 
 
     <!-- Empty Ele -->
-    @if(empty){
+    @if(!inFavoritesProducts?.length){
     <div class="empty fade-in">
       <ion-icon [src]="'../../../assets/imgs/logo-icon.svg'"></ion-icon>
       <h3 style="text-align: center;">لا منتجات في المفضلة حاليا</h3>

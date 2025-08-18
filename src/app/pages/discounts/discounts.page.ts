@@ -19,10 +19,7 @@ import { CustomSectionCompoComponent } from '../custom-section-compo/custom-sect
 
 export class DiscountsPage implements OnInit {
 
-  discountsSubscription: Subscription = null
-  discountsSubCategoriesSubscription: Subscription = null
   discountCategories: any
-  offersSubscription: Subscription = null
 
   offers: Offer[] = [];
   discounts: Product[] = [];
@@ -71,7 +68,7 @@ export class DiscountsPage implements OnInit {
   }
 
   getData(ev?: any) {
-    this.offersSubscription = this.dataService.getData(this.endPoint).subscribe({
+    this.dataService.getData(this.endPoint).subscribe({
       next: (response: any[]) => {
 
         if (this.segment == 'offer') {
@@ -94,7 +91,7 @@ export class DiscountsPage implements OnInit {
   }
 
   getDiscoutSubGategories() {
-    this.discountsSubCategoriesSubscription = this.dataService.getData(`product/discount/category`).subscribe({
+    this.dataService.getData(`product/discount/category`).subscribe({
       next: (res: Category[]) => {
         if (res.length > 1) {
           this.discountCategories = [{ name: 'الكل', _id: 'all' }, ...res]
@@ -181,9 +178,7 @@ export class DiscountsPage implements OnInit {
 
 
   ngOnDestroy() {
-    this.offersSubscription.unsubscribe();
-    this.discountsSubscription.unsubscribe();
-    this.discountsSubCategoriesSubscription.unsubscribe()
+
   }
 
 }

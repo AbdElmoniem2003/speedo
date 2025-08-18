@@ -72,7 +72,7 @@ export class HomePage implements OnInit {
 
 
   getData(ev?: any) {
-    this.getSubscription = this.dataService
+    this.dataService
       .getData("home?skip=" + this.skip)
       .subscribe({
         next: (response: any) => {
@@ -197,6 +197,5 @@ export class HomePage implements OnInit {
   }
 
   ngOnDestroy() {
-    this.getSubscription?.unsubscribe()
   }
 }

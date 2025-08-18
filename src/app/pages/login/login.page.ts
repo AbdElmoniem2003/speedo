@@ -47,7 +47,6 @@ export class LoginPage implements OnInit {
   }
 
   login() {
-    console.log(this.loginForm.get("username"))
     this.authService.logIn(this.loginForm.value)
   }
 

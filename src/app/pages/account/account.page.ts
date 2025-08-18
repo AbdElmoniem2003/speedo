@@ -19,7 +19,6 @@ export class AccountPage implements OnInit {
 
   user: User;
   companyInfo: Info = null;
-  infoSubscription: Subscription;
   isLoading: boolean = true;
   empty: boolean = false;
   error: boolean = false;
@@ -41,10 +40,9 @@ export class AccountPage implements OnInit {
 
   getInfo(ev?: any) {
     if (this.companyInfo) return;
-    this.infoSubscription = this.dataService.getData('info').subscribe({
+    this.dataService.getData('info').subscribe({
       next: (res: Info) => {
         if (!res) return this.showEmpty(ev);
-        console.log(55)
         this.companyInfo = res
         this.showContent(ev)
       }, error: err => this.showError(ev)
@@ -54,6 +52,13 @@ export class AccountPage implements OnInit {
 
 
   async logOut() {
+    if (!this.user) {
+      const desicion = await this.wildUsedService.generalAlert('يجب تسجيل الدخول أولا ؟', 'حسنا', 'ليس الأن');
+      if (!desicion) return;
+      this.navCtrl.navigateForward('login')
+      return;
+    }
+
     const desicion = await this.wildUsedService.generalAlert('هل انت متاكد انك تريد تسجيل الخروج ؟', 'نعم', 'لا');
     if (!desicion) return;
     this.authService.logOut()
@@ -89,6 +94,5 @@ export class AccountPage implements OnInit {
 
 
   ngOnDestroy() {
-    this.infoSubscription?.unsubscribe()
   }
 }

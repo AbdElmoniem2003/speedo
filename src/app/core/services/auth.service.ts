@@ -34,9 +34,9 @@ export class AuthService {
   }
 
   logIn(user: { username: string, password: string }) {
-    this.dataService.postData('user/login', user).subscribe((response: User) => {
+    this.dataService.postData('user/login', user).subscribe(async (response: User) => {
       this.saveCredintials(response)
-      this.navCtrl.navigateRoot('tabs/home')
+      await this.navCtrl.navigateRoot('tabs/home')
     }, err => this.wildUsedService.generalToast(err.error.message, '', 'light-color', 2000))
   }
 

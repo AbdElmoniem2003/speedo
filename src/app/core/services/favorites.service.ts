@@ -34,7 +34,7 @@ export class FavoService {
 
   checkFavoriteProds(products: Product[]) {
     // to remove the last one if it was in multiple arraies of Products
-    if (!this.favoProducts.length) products.forEach(p => p.isFav = false);
+    if (!this.favoProducts) { products.forEach(p => p.isFav = false); return };
     this.favoProducts.forEach((p) => {
       products.forEach((prod) => {
         if (p._id === prod._id) prod.isFav = true;
