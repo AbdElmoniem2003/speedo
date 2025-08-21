@@ -4,8 +4,8 @@
   <ion-toolbar>
     <ion-button slot="start" class="no-color-button" routerLink="/cart">
       <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
-      @if((cartService.cartProducts?.length)){
-      <span>{{cartService.cartProducts?.length}}</span>
+      @if((cartService.items?.length)){
+      <span>{{cartService.items?.length}}</span>
       }
     </ion-button>
 
@@ -61,7 +61,7 @@
               <h3>{{(product.price - product.discountPrice) |number}} د.ع</h3>
             </div>
           </div>
-          <ion-button (click)="addToCart(product)">
+          <ion-button (click)="addToCart(product)" [disabled]="product.inCart">
             <ion-label> {{product.inCart?'في السلة':'أضف للسلة'}}</ion-label>
             <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
           </ion-button>

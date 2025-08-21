@@ -5,8 +5,8 @@
       <ion-ripple-effect></ion-ripple-effect>
     </ion-button>
     <ion-button slot="start" class="ion-activatable no-color-button" (click)="toCart()">
-      @if((cartService.cartProducts?.length)){
-      <span>{{cartService.cartProducts?.length}}</span>
+      @if((cartService.items?.length)){
+      <span>{{cartService.items?.length}}</span>
       }
       <ion-img slot="icon-only" src="../../../assets/imgs/cart.svg">
       </ion-img>
@@ -106,7 +106,7 @@
               <p>{{prod.name}}</p>
               <h3>{{prod.price}}د</h3>
             </div>
-            <ion-button (click)="addToCart(prod)">
+            <ion-button (click)="addToCart(prod)" [disabled]="prod.inCart">
               <ion-label> {{prod.inCart?'في السلة':'أضف للسلة'}}</ion-label>
               <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
             </ion-button>
@@ -375,11 +375,9 @@
       }
     </div>
 
-
-
     @if(error){
     <div style="padding: 16px; text-align: center;">
-      <ion-icon name="code-working-outline" style="font-size: 3em;transform:rotateZ(90deg);"></ion-icon>
+      <ion-icon src="../../../assets/imgs/logo-icon.svg" style="font-size: 50px;"></ion-icon>
       <h3> برجاء التحقق من الشبكة و إعادة المحاولة</h3>
     </div>
     }

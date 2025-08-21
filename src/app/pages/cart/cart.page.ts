@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { Subscription } from 'rxjs';
-import { Branch, Product } from 'src/app/core/project-interfaces/interfaces';
+import { Branch, CartProduct, Product } from 'src/app/core/project-interfaces/interfaces';
 import { DataService } from 'src/app/core/services/data.service';
 import { WildUsedService } from 'src/app/core/services/wild-used.service';
 import { ConfirmCompoComponent } from '../confirm-compo/confirm-compo.component';
 import { CartService } from 'src/app/core/services/cart.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-cart',
@@ -16,12 +17,9 @@ import { CartService } from 'src/app/core/services/cart.service';
 })
 export class CartPage implements OnInit {
 
-  inCartSubscription: Subscription;
-  inCartProducts: Product[] = [];
-  inCartIDs: any
-  empty: boolean = false;
+  // inCartSubscription: Subscription;
+  items: CartProduct[] = [];
 
-  total: number = 0;
   location: { lat: number, lng: number } = null;
   branchs: Branch[] = [];
 
@@ -30,64 +28,54 @@ export class CartPage implements OnInit {
     private wildUsedService: WildUsedService,
     private modalCtrl: ModalController,
     private cartService: CartService,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
-    this.getInCartProducts()
+    this.getitems()
   }
 
-  async getInCartProducts() {
-    this.inCartProducts = await this.storage.get("inCart");
-    this.empty = this.inCartProducts?.length ? false : true;;
-    if (this.inCartProducts) this.calcTotal();
+  ionViewWillEnter() {
   }
 
-  addOne(prod: Product, noToast: boolean) {
-    prod.quantity = prod.quantity ? prod.quantity + 1 : 1;
-    this.calcTotal()
-    this.cartService.updateCart(prod, noToast)
+  async getitems() {
+    this.items = this.cartService.items
   }
 
-  removeOne(prod: Product, noToast: boolean) {
+  increase(prod: CartProduct) {
+    prod.quantity += 1;
+    this.cartService.increase(prod)
+  }
+
+  decrease(prod: CartProduct) {
     if (prod.quantity == 1) {
-      this.deleteFromCart(prod, noToast);
+      this.delete(prod);
       return;
     }
     prod.quantity -= 1;
-    this.calcTotal()
-    this.cartService.updateCart(prod, noToast)
+    this.cartService.decrease(prod)
   }
 
-  async deleteFromCart(product: Product, noToast?: boolean) {
-    product.inCart = false;
+  async delete(product: CartProduct, noToast?: boolean) {
     this.wildUsedService.generalAlert(` ${product.name} هل ترد حذف` + ` ؟ `, 'أجل', "كلا").then(async (descision) => {
       if (!descision) return;
-      this.inCartProducts = this.inCartProducts.filter((prod) => {
-        return prod._id !== product._id
-      });
-      this.empty = this.inCartProducts.length ? false : true;
-      this.total = this.inCartProducts.length ? this.calcTotal() : 0;
-      this.cartService.deleteFromCart(product, noToast)
+      this.items = this.items.filter((p) => {
+        if (product.customId == p.customId) console.log(p)
+        return product.customId !== p.customId
+      })
+      this.cartService.delete(product.customId, noToast);
     })
   }
 
-  calcTotal() {
-    this.total = 0
-    this.inCartProducts?.forEach(p => {
-      // need to handle prod extras
-      // if (this.inCartIDs[p._id].extras) {
-      //   total = total + (p.qtyIncrease * (p.price - p.discountPrice)) + 3 * 1545
-      // } else {
-      this.total = this.total + (p.quantity * (p.price - p.discountPrice));
-      // }
-    })
-    return this.total
+  get calcTotal() {
+    return this.items.reduce((total = 0, item) => {
+      return total + item.price * item.quantity;
+    }, 0);
   }
 
   async finishOrder() {
-
-    const user = await this.storage.get('user')
+    const user = this.authService.user
     if (!user) {
       const desicion = await this.wildUsedService.generalAlert('يجب تسجيل الدخول أولا', "حسنا", "لاحقا");
       if (!desicion) return;
@@ -98,15 +86,15 @@ export class CartPage implements OnInit {
   }
 
   async clearCart() {
-    if (this.empty) {
+    if (!this.items.length) {
       await this.wildUsedService.generalToast('لا منتجات لخذفها', '', 'light-color', 2000);
       return;
     }
     const desicion = await this.wildUsedService.generalAlert('هل تريد حذف كل المنتجات من السلة؟', 'أجل', "كلا");
     if (!desicion) return;
     this.cartService.clearCart()
-    this.inCartProducts = [];
-    this.total = 0;
+    this.items = [];
+
     await this.wildUsedService.generalToast('السلة فارغة', 'primary', 'light-color', 2500)
   }
 

@@ -19,8 +19,7 @@
       <div class="form">
         <ion-label>{{selectedBranch?.name}}</ion-label>
 
-        <ion-input class="fade-in" formControlName="coupon" placeholder="كود الخصم..."
-          (ionChange)="logCoupon($event)"></ion-input>
+        <ion-input class="fade-in" formControlName="coupon" placeholder="كود الخصم..."></ion-input>
 
         <ion-radio-group value="1" formControlName="type" (ionChange)="updateService($event)">
 

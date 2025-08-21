@@ -5,8 +5,8 @@
       <ion-ripple-effect></ion-ripple-effect>
     </ion-button>
     <ion-button slot="start" class="ion-activatable no-color-button" (click)="toCart()">
-      @if((cartService.cartProducts?.length)){
-      <span>{{cartService.cartProducts?.length}}</span>
+      @if((cartService.items?.length)){
+      <span>{{cartService.items?.length}}</span>
       }
       <ion-img slot="icon-only" src="../../../assets/imgs/cart.svg">
       </ion-img>

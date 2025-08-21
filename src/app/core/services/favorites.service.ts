@@ -8,7 +8,7 @@ import { WildUsedService } from "./wild-used.service";
 
 export class FavoService {
 
-  favoProducts: Product[] = [];
+  items: Product[] = [];
 
   constructor(
     private storage: Storage,
@@ -17,33 +17,27 @@ export class FavoService {
   ) { }
 
   async getFavorites(): Promise<Product[]> {
-    return this.favoProducts = await this.storage.get('favorites')
+    return this.items = await this.storage.get('favorites')
   }
 
   async updateFavorites(product: Product) {
-    // const isFavorite = this.favoProducts?.find((p) => { return p._id == product._id })
+    // const isFavorite = this.items?.find((p) => { return p._id == product._id })
     if (product.isFav) {
-      this.favoProducts?.length ? this.favoProducts?.push(product) : this.favoProducts = [product];
+      this.items?.length ? this.items?.push(product) : this.items = [product];
       await this.wildUsedService.generalToast('تمت الاضافة للمفضلات بنجاح.', 'primary', 'light-color')
     } else {
-      this.favoProducts = this.favoProducts.filter((p) => { return p._id !== product._id });
+      this.items = this.items.filter((p) => { return p._id !== product._id });
       await this.wildUsedService.generalToast('تمت الإزالة من المفضلات بنجاح.', 'primary', 'light-color')
     }
-    this.storage.set('favorites', this.favoProducts)
+    this.storage.set('favorites', this.items)
   }
 
-  checkFavoriteProds(products: Product[]) {
-    // to remove the last one if it was in multiple arraies of Products
-    if (!this.favoProducts) { products.forEach(p => p.isFav = false); return };
-    this.favoProducts.forEach((p) => {
-      products.forEach((prod) => {
-        if (p._id === prod._id) prod.isFav = true;
-      })
-    })
+  checkFavoriteProds(id: string) {
+    return this.items.some(p => p._id == id)
   };
 
   clearFavorites() {
-    this.favoProducts = [];
+    this.items = [];
     this.storage.remove('favorites')
   }
 }

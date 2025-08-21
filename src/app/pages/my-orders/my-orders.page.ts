@@ -49,6 +49,9 @@ export class MyOrdersPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.showLoading();
+    this.getOrders();
+
     // to remove canceled one after return to my-orders
     this.ordersSubscription = this.orderService.orderBehaviourSubject.subscribe({
       next: (res: Order) => {
@@ -60,8 +63,6 @@ export class MyOrdersPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.showLoading();
-    this.getOrders();
   }
 
   toCart() { this.navCtrl.navigateForward('/cart') }

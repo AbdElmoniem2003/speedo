@@ -5,8 +5,8 @@
       <ion-item lines="none">
         <ion-button slot="start" class="no-color-button" (click)="toCart()">
           <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
-          @if((cartService.cartProducts?.length)){
-          <span>{{cartService.cartProducts?.length}}</span>
+          @if((cartService.items?.length)){
+          <span>{{cartService.items?.length}}</span>
           }
         </ion-button>
 
@@ -47,13 +47,13 @@
         @if(!isLoading){
         @for (product of offerProducts; track $index) {
         <div class="card">
-          <div class="card-content">
+          <div class="card-content" [routerLink]="`/product/${product._id}`">
             <app-custom-image [mainImg]="product.image"></app-custom-image>
             <p>{{product.name}}</p>
             <h3>{{product.price - product.discountPrice|number}} د.ع</h3>
           </div>
-          <ion-button (click)="addToCart(product)">
-            <ion-label>أضف للسلة</ion-label>
+          <ion-button (click)="addToCart(product)" [disabled]="product.inCart">
+            <ion-label> {{product.inCart?'في السلة':'أضف للسلة'}}</ion-label>
             <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
           </ion-button>
           <div class="addition-btns">

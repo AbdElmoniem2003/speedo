@@ -16,6 +16,7 @@ import {
 import { Storage } from "@ionic/storage-angular";
 import {
   Branch,
+  CartProduct,
   Country,
   OrderType,
   Product,
@@ -42,7 +43,7 @@ export class ConfirmCompoComponent implements OnInit {
   total: number = 0;
   ordersTotalPrice: number = 0
   totalDiscounts: number = 0;
-  orderProducts: Product[] = [];
+  orderProducts: CartProduct[] = [];
   orderForm: FormGroup;
   // deliveryDate: string | Date = null;
   location: { lat: number; lng: number } = null;
@@ -67,7 +68,7 @@ export class ConfirmCompoComponent implements OnInit {
 
   async ngOnInit() {
     this.selectedBranch = this.cartService.branch;
-    this.orderProducts = this.cartService.cartProducts;
+    this.orderProducts = this.cartService.items;
     this.calcBill();
     this.getData();
   }
@@ -123,6 +124,7 @@ export class ConfirmCompoComponent implements OnInit {
         note: "",
         price: this.total - this.totalDiscounts,
         ps: [],
+        selectedAdditions: p.selectedAdditions,
         additions: null,
         additionId: null,
         subAdditionId: null,
@@ -173,7 +175,7 @@ export class ConfirmCompoComponent implements OnInit {
   }
 
 
-  // update Bill Calculations
+  //=========================================update Bill Calculations
   updateCountry(ev: any) {
     if (ev)
       this.selectedCountry = this.countries.find((c) => {
@@ -233,7 +235,5 @@ export class ConfirmCompoComponent implements OnInit {
     // this.deliveryDate = data;
   }
 
-  logCoupon(ev: any) {
-    console.log(ev.target.value);
-  }
+
 }

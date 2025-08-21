@@ -36,12 +36,30 @@ export class Product {
   type: number;
   updatedAt: string;
 
+  // Added
   isFav: boolean = false;
   inCart: boolean = false;
   quantity: number;
+  selectedAdditions: Addition[]
 
   __v: number;
   _id: string;
+}
+
+export interface CartProduct {
+  name: string,
+  image: string,
+  selectedAdditions: Addition[]
+  description: number;
+  discountPercentage: number;
+  discountPrice: number;
+  finalPrice: number;
+  quantity: number
+  price: number
+
+  // added
+  customId: string
+  _id: string
 }
 
 export interface Category {
@@ -142,68 +160,67 @@ export interface Branch {
   _id: string;
 }
 
-
 export interface ProductOrder {
-  product: Product,
+  product: Product;
   // quantity: number,
-  qty: number,
-  price: number,
-  note: string,
-  additions: any[],
+  qty: number;
+  price: number;
+  note: string;
+  additions: any[];
   selectedAdditions?: [
     {
-      addition: string,
-      name: string,
-      subName: string,
-      price: number,
-      subAdditions: string,
-      subAdditionPrice: number,
-      total: number,
+      addition: string;
+      name: string;
+      subName: string;
+      price: number;
+      subAdditions: string;
+      subAdditionPrice: number;
+      total: number;
     }
-  ]
+  ];
 }
 
 export interface Order {
-  _id: string,
-  user: string,
-  branch: string,
-  order: ProductOrder[],
-  country: Country,
-  countryCost: number,
+  _id: string;
+  user: string;
+  branch: string;
+  order: ProductOrder[];
+  country: Country;
+  countryCost: number;
   location: {
-    lat: number,
-    lng: number
-  },
-  type: number,
-  total: number,
-  discount: number,
-  service: number,
-  phone: string,
-  displayName: string,
-  deliveryDate: Date,
-  address: string,
-  privatePrice: boolean,
-  note: string,
-  refuseReason: string,
-  status: number,
-  createdAt: Date,
-  updatedAt: Date,
-  orderNumber: number,
-  netTotal: number,
-  orderPrice: number,
+    lat: number;
+    lng: number;
+  };
+  type: number;
+  total: number;
+  discount: number;
+  service: number;
+  phone: string;
+  displayName: string;
+  deliveryDate: Date;
+  address: string;
+  privatePrice: boolean;
+  note: string;
+  refuseReason: string;
+  status: number;
+  createdAt: Date;
+  updatedAt: Date;
+  orderNumber: number;
+  netTotal: number;
+  orderPrice: number;
 }
 export interface OrderType {
-  status: number,
-  name: string,
-  type: number,
-  description: string,
+  status: number;
+  name: string;
+  type: number;
+  description: string;
 }
 export interface Country {
-  name: string,
-  cost: number,
-  status: number,
-  _v: number,
-  _id: number
+  name: string;
+  cost: number;
+  status: number;
+  _v: number;
+  _id: number;
 }
 
 export interface OrderData {
@@ -237,29 +254,64 @@ export interface OrderData {
 }
 
 export interface Notification {
-  _id: string,
-  title: string,
-  image?: string,
-  body?: Category | string,
-  status?: number,
-  topic: string,
-  order: string,
-  category: string,
-  product: string,
-  offer: string,
+  _id: string;
+  title: string;
+  image?: string;
+  body?: Category | string;
+  status?: number;
+  topic: string;
+  order: string;
+  category: string;
+  product: string;
+  offer: string;
   data?: {
-    orderId: string,
-    categoryId: string,
-    productId: string,
-    offerId: string,
-  },
-  createdAt?: Date,
-  updatedAt?: Date,
+    orderId: string;
+    categoryId: string;
+    productId: string;
+    offerId: string;
+  };
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface ProductImage {
+  IMG_URL: string;
+  ITEM_BARCODE: string;
+  createdAt: string;
+  status: number;
+  updatedAt: string;
+  __v: number;
+  _id: string;
+}
 
-  IMG_URL:
-  string, ITEM_BARCODE: string, createdAt: string, status: number
-  updatedAt: string, __v: number, _id: string
+export interface Addition {
+  balance: number;
+  code: string;
+  createdAt: string;
+  name: string;
+  price: number;
+  product: string;
+  required: boolean;
+  status: number;
+  subAdditions: SubAddition[];
+  updatedAt: string;
+
+  //added
+  isChecked: boolean;
+  __v: 0;
+  _id: string;
+}
+
+export interface SubAddition {
+  addition: string;
+  balance: number;
+  code: string;
+  createdAt: string;
+  image: string;
+  name: string;
+  price: number;
+  product: string;
+  showPrice: boolean;
+  status: 1;
+  updatedAt: string;
 }

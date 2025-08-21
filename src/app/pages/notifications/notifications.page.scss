@@ -19,7 +19,7 @@
     app-custom-image,
     .img {
       @include shape(40, 40);
-      border-radius: 50%;
+      border-radius: 15px;
       border: 1px solid rgba(239, 239, 239, 1);
     }
 
@@ -27,20 +27,24 @@
       flex-grow: 1;
       @include flex(4, '', '', column);
 
-      h3,
+      .title,
       .topic {
-        height: 24px;width: 100%;
+        width: 100%;
         text-align: right;
         text-overflow: ellipsis;
         text-wrap: nowrap;
         overflow: hidden;
         border-radius: 5px;
-        font-size: 18px;
         line-height: 24px;
-      }
 
-      p,
+        p{height: 24px;font-weight: 700; font-size: 16px;text-wrap: auto;height: fit-content;}
+        span{color:rgba(24, 24, 24, 0.32);font-size: 12px ;font-weight:500};
+      }
+      .title{@include flex(0,space-between,start,'')}
+
+      >p,
       .body {
+        color: rgba(24, 24, 24, 0.6);
         height: 24px;
         width: 100%;
         text-align: right;

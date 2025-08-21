@@ -2,6 +2,7 @@
 import {
   Component,
   Input,
+  OnChanges,
   OnInit,
 } from "@angular/core";
 import { Directory, Filesystem } from "@capacitor/filesystem";
@@ -15,7 +16,7 @@ import { CameraService } from "src/app/core/services/camers-service/camera.servi
   standalone: false,
 })
 
-export class CustomImagePage implements OnInit {
+export class CustomImagePage {
 
   @Input() loadingImg: string = '../../../assets/imgs/loading.gif';
   @Input() altImg: string = '../../../assets/imgs/logo-icon.svg';
@@ -27,7 +28,7 @@ export class CustomImagePage implements OnInit {
     private cameraService: CameraService
   ) { }
 
-  ngOnInit() {
+  ngOnChanges() {
     this.updateImages()
   }
 

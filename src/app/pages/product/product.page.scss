@@ -11,15 +11,14 @@ ion-content {
 .container {
 
   .product {
-    @include flex(0, end, center, row);
-    flex-wrap: wrap;
+    @include flex(0, end, end, column);
 
     >.img {
       flex-grow: 1;
       padding: 16px;
       @include flex(0, center, center, '');
       background-color: white;
-      flex-basis: 100%;
+      width: 100%;
 
       img,
       app-custom-image {
@@ -101,9 +100,10 @@ ion-content {
     }
 
     >.extra {
-      @include flex(8, '', '', column);
-      flex-grow: 1;
-      padding: 16px;
+      @include flex(8, '', end, column);
+      background-color: $ionContentBG;
+      padding: 16px;    width: 100%;
+    text-align: right;
 
       >h5 {
         font-weight: 700;
@@ -194,10 +194,10 @@ ion-content {
       }
     }
 
-    ion-radio-group {
-      align-self: flex-end;
+    // ion-radio-group {
+      // align-self: flex-end;
 
-      ion-radio {
+      ion-checkbox {
         color: rgba(64, 64, 64, 1);
         --border-radius: 4px;
         --inner-border-radius: 4px;
@@ -210,20 +210,21 @@ ion-content {
           background-color: rgba(217, 217, 217, 1);
         }
 
-        &.radio-checked::part(container) {
+        &.checkbox-checked::part(container) {
           background-color: $primaryColor;
         }
 
-        &.radio-checked::part(mark) {
+        &.checkbox-checked::part(mark) {
           display: none;
         }
       }
-    }
+    // }
 
     .similar-prods {
       background-color: white;
       flex-grow: 1;
       height: fit-content;
+      width: 100%;
       padding: 16px 16px 164px;
 
       >section {

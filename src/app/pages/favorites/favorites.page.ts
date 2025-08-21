@@ -18,7 +18,7 @@ import { WildUsedService } from 'src/app/core/services/wild-used.service';
 export class FavoritesPage implements OnInit {
 
   favoritesSubscription: Subscription
-  inFavoritesProducts: Product[] = []
+  items: Product[] = []
   empty: boolean = false;
 
   constructor(
@@ -39,33 +39,33 @@ export class FavoritesPage implements OnInit {
   toCart() { this.navCtrl.navigateForward('/cart') }
 
   async getFavorites() {
-    this.inFavoritesProducts = await this.favoServise.getFavorites();
+    this.items = await this.favoServise.getFavorites() || [];
+    this.items.forEach(p => { p.isFav = this.cartService.checkInCart(p._id) })
   }
 
   addToCart(prod: Product) {
+    prod.inCart = true
     prod.quantity = prod.quantity ? prod.quantity + 1 : 1;
-    this.cartService.updateCart(prod)
+    this.cartService.add(prod)
   }
 
   removeFromFavorites(prod: Product) {
     // if (desiction) this.inFavorites.push(prod._id);
     // this.inFavorites = this.inFavorites.filter((p) => { return p !== prod._id })
     prod.isFav = !prod.isFav
-    this.inFavoritesProducts = this.inFavoritesProducts.filter((p) => { return p._id !== prod._id });
-    if (!this.inFavoritesProducts.length) this.empty = true
+    this.items = this.items.filter((p) => { return p._id !== prod._id });
+    if (!this.items.length) this.empty = true
     this.favoServise.updateFavorites(prod);
-
   }
 
   async clearFavorites() {
     if (this.empty) return await this.wildUsedService.generalToast('المفضلات فارغة بالفعل !', '', 'light-color');
     const decision = await this.wildUsedService.generalAlert('هل تريد حذف كل المنتجات المفضلة؟', 'أجل', "كلا");
     if (!decision) return;
-    this.inFavoritesProducts = [];
+    this.items = [];
     this.empty = true;
     this.favoServise.clearFavorites()
   }
-
 
   ngOnDestroy() {
     this.favoritesSubscription.unsubscribe()

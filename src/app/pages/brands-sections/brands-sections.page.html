@@ -2,8 +2,8 @@
 
   <ion-toolbar>
     <ion-button class="no-color-button" routerLink="/cart" slot="start">
-      @if((cartService.cartProducts?.length)){
-      <span>{{cartService.cartProducts?.length}}</span>
+      @if((cartService.items?.length)){
+      <span>{{cartService.items?.length}}</span>
       }
       <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
     </ion-button>

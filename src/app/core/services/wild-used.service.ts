@@ -13,7 +13,7 @@ export class WildUsedService {
 
   loading: HTMLIonLoadingElement;
   inFavorites: string[]
-  inCartProducts: Product[] = []
+  items: Product[] = []
   totalInCart: number;
   inCartSub: Subscription;
 

@@ -92,7 +92,7 @@ export class SectionPage implements OnInit {
           } else {
             this.products = this.products.concat(response)
           }
-          this.favoService.checkFavoriteProds(this.products)
+          this.checkFavorites_InCart(this.products)
           this.canLoad = response.length > 20;
           this.products.length > 0 ? this.showContent(ev) : this.showEmpty(ev)
           this.isLoading = false
@@ -100,6 +100,13 @@ export class SectionPage implements OnInit {
           this.showError(ev)
         }
       })
+  }
+
+  checkFavorites_InCart(prods: Product[]) {
+    prods.forEach(p => {
+      p.isFav = this.favoService.checkFavoriteProds(p._id);
+      p.inCart = this.cartService.checkInCart(p._id)
+    })
   }
 
   get subCategEndPoint(): string {
@@ -128,8 +135,9 @@ export class SectionPage implements OnInit {
   }
 
   addToCart(prod: Product) {
+    prod.inCart = true
     prod.quantity = prod.quantity ? prod.quantity + 1 : 1;
-    this.cartService.updateCart(prod)
+    this.cartService.add(prod)
   }
 
   async updateFavorites(prod: Product) {

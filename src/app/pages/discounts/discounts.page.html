@@ -5,8 +5,8 @@
       <ion-ripple-effect></ion-ripple-effect>
     </ion-button>
     <ion-button slot="start" class="ion-activatable no-color-button" (click)="toCart()">
-      @if((cartService.cartProducts?.length)){
-      <span>{{cartService.cartProducts?.length}}</span>
+      @if((cartService.items?.length)){
+      <span>{{cartService.items?.length}}</span>
       }
       <ion-img slot="icon-only" src="../../../assets/imgs/cart.svg">
       </ion-img>
@@ -125,8 +125,8 @@
               <h3>{{prod.finalPrice|number}} د.ع</h3>
             </div>
           </div>
-          <ion-button (click)="addToCart(prod)">
-            <ion-label>{{prod.inCart?'في السلة':'أضف للسلة'}} </ion-label>
+          <ion-button (click)="addToCart(prod)" [disabled]="prod.inCart">
+            <ion-label> {{prod.inCart?'في السلة':'أضف للسلة'}}</ion-label>
             <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
           </ion-button>
 

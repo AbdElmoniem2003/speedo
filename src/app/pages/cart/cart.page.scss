@@ -15,9 +15,7 @@ ion-content {
     direction: ltr;
     background-color: white !important;
     height: fit-content;
-    @include flex(8, center, '', '');
-    flex-wrap: wrap;
-    flex-grow: 1;
+    @include flex(8, center, '', column);
     border-radius: 12px;
     border: 1px solid #F0EFEF;
     padding: 12px;
@@ -40,7 +38,7 @@ ion-content {
       }
 
       ion-icon {
-        color: rgba(85, 85, 85, 1);
+        --ion-color-primary: rgba(85, 85, 85, 1) !important;
         @include shape(24, 24);
         margin-right: auto;
       }

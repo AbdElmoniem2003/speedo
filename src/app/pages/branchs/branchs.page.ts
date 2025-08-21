@@ -72,11 +72,11 @@ export class BranchsPage implements OnInit {
       component: ConfirmCompoComponent,
       enterAnimation: EnterAnimation,
       leaveAnimation: LeaveAnimation,
-      cssClass:'finish-order-modal',
+      cssClass: 'finish-order-modal',
       componentProps: {
-        orderProducts: this.cartService.cartProducts,
+        orderProducts: this.cartService.items,
         location: this.location,
-        branchDiscounts:this.branchDiscounts
+        branchDiscounts: this.branchDiscounts
       }
     })
     await modal.present()

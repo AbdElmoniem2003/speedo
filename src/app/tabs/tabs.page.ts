@@ -29,13 +29,13 @@ export class TabsPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-    this.cartService.getCartProds()
+    this.cartService.reloadCart()
     this.favoService.getFavorites()
     // this.cartService.cartBehaviourSub.subscribe((total) => this.totalInCart = total)
   }
 
   async ionViewWillEnter() {
-    this.user=await this.authService.getUserFromStorage()
+    this.user = await this.authService.getUserFromStorage()
   }
 
   toCart() { this.navCtrl.navigateForward('/cart') }

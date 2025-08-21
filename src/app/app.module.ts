@@ -18,7 +18,6 @@ import { AuthIntercepror } from './core/interceptors/auth.interceptor';
     BrowserModule,
     IonicModule.forRoot({
       scrollAssist: true,
-      // autoFocusAssist: true
     }),
     AppRoutingModule,
     IonicStorageModule.forRoot({ name: 'Speedo' })

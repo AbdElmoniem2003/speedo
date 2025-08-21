@@ -27,6 +27,7 @@ export class AppComponent {
   topic: string = environment.topic;
   user: User = null;
   rootUrl: string = "/tabs/home";
+  tabsUrls: string[] = ["/tabs/home", "/tabs/my-orders", "/tabs/discounts", "/tabs/favorites", "/tabs/account",]
   lastBackButtonTabTime: number = 0;
   // inCartSub: Subscription;
 
@@ -96,13 +97,13 @@ export class AppComponent {
     if ((now - this.lastBackButtonTabTime) < 1000) return;
     this.lastBackButtonTabTime = now
 
-    if (this.currentRouter.url !== this.rootUrl) {
-      this.navCtrl.navigateRoot('tabs/home');
-    } else {
-      const decision = await this.wildUsedService.generalAlert('هل تريد مغادرة التطبيق ؟', "أجل", "كلا");
-      if (!decision) return;
-      App.exitApp()
-
+    if (this.tabsUrls.includes(this.currentRouter.url)) {
+      if (this.currentRouter.url !== this.rootUrl) { this.navCtrl.navigateRoot('tabs/home'); }
+      else {
+        const decision = await this.wildUsedService.generalAlert('هل تريد مغادرة التطبيق ؟', "أجل", "كلا");
+        if (!decision) return;
+        App.exitApp()
+      }
     }
   }
 

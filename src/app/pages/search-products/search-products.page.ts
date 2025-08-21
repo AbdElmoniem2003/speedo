@@ -63,7 +63,7 @@ export class SearchProductsPage implements OnInit {
         } else {
           this.searchProducts = this.searchProducts.concat(response);
         }
-        this.favoService.checkFavoriteProds(this.searchProducts);
+        this.checkFavorites_InCart(this.searchProducts)
         this.searchProducts.length ? this.showContent(ev) : this.showEmpty(ev);
       }, error: err => this.showError(ev)
     })
@@ -74,9 +74,17 @@ export class SearchProductsPage implements OnInit {
     this.getProducts()
   }
 
+  checkFavorites_InCart(prods: Product[]) {
+    prods.forEach(p => {
+      p.isFav = this.favoService.checkFavoriteProds(p._id);
+      p.inCart = this.cartService.checkInCart(p._id)
+    })
+  }
+
   addToCart(prod: Product) {
+    prod.inCart = true
     prod.quantity = prod.quantity ? prod.quantity + 1 : 1;
-    this.cartService.updateCart(prod);
+    this.cartService.add(prod);
   }
 
   addToFavorite(prod: Product) {

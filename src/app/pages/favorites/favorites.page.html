@@ -5,8 +5,8 @@
       <ion-ripple-effect></ion-ripple-effect>
     </ion-button>
     <ion-button slot="start" class="ion-activatable no-color-button" (click)="toCart()">
-      @if((cartService.cartProducts?.length)){
-      <span>{{cartService.cartProducts?.length}}</span>
+      @if((cartService.items?.length)){
+      <span>{{cartService.items?.length}}</span>
       }
       <ion-img slot="icon-only" src="../../../assets/imgs/cart.svg">
       </ion-img>
@@ -22,22 +22,22 @@
 
     <div class="header">
       <ion-icon name="trash" (click)="clearFavorites()"></ion-icon>
-      <p>({{inFavoritesProducts?.length||0}}) منتجات</p>
+      <p>({{items?.length||0}}) منتجات</p>
       <section>المفضلة</section>
     </div>
 
 
     <!-- Empty Ele -->
-    @if(!inFavoritesProducts?.length){
+    @if(!items?.length){
     <div class="empty fade-in">
       <ion-icon [src]="'../../../assets/imgs/logo-icon.svg'"></ion-icon>
       <h3 style="text-align: center;">لا منتجات في المفضلة حاليا</h3>
     </div>
     }
 
-    @if(inFavoritesProducts?.length){
+    @if(items?.length){
     <div class="favorites cards">
-      @for (prod of inFavoritesProducts; track $index) {
+      @for (prod of items; track $index) {
       <div class="card fade-in">
         <div class="prod-data">
 
@@ -50,7 +50,7 @@
             <ion-button (click)="removeFromFavorites(prod)" class="no-color-button">
               <ion-icon [name]="'heart'" slot="icon-only"></ion-icon>
             </ion-button>
-            <ion-button (click)="addToCart(prod)">
+            <ion-button (click)="addToCart(prod)" [disabled]="prod.inCart">
               <ion-label> {{prod.inCart?'في السلة':'أضف للسلة'}}</ion-label>
               <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
             </ion-button>

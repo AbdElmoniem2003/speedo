@@ -2,8 +2,8 @@
   <ion-toolbar>
     <ion-button class="no-color-button" routerLink="/cart" slot="start">
       <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
-      @if((cartService.cartProducts?.length)){
-      <span>{{cartService.cartProducts?.length}}</span>
+      @if((cartService.items?.length)){
+      <span>{{cartService.items?.length}}</span>
       }
     </ion-button>
     <ion-label slot="end">البحث في المنتجات</ion-label>
@@ -75,7 +75,7 @@
               <h3>{{prod.finalPrice|number}} د.ع</h3>
             </div>
           </div>
-          <ion-button (click)="addToCart(prod)">
+          <ion-button (click)="addToCart(prod)" [disabled]="prod.inCart">
             <ion-label> {{prod.inCart?'في السلة':'أضف للسلة'}}</ion-label>
             <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
           </ion-button>

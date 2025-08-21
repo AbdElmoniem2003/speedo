@@ -26,7 +26,10 @@
       @for(notif of notifications;track $index){
       <div class="notif" (click)="openNotification(notif)">
         <div class="content">
-          <h3>{{notif.title}}</h3>
+          <div class="title">
+            <span>{{notif.updatedAt|fromNowPipe}}</span>
+            <p>{{notif.title}}</p>
+          </div>
           <p>{{notif.body}}</p>
         </div>
         <app-custom-image [mainImg]="notif.image"></app-custom-image>

@@ -4,7 +4,7 @@
     <ion-button slot="start" class="no-color-button" (click)="clearCart()">
       <ion-icon name="trash" color="primary"></ion-icon>
     </ion-button>
-    <p slot="end">({{inCartProducts?.length||0}}) منتجات</p>
+    <p slot="end">({{items?.length||0}}) منتجات</p>
     <ion-label slot="end"> السلة</ion-label>
     <ion-button slot="end" class="no-color-button" (click)="navCtrl.pop()">
       <ion-icon name="chevron-forward" slot="icon-only"></ion-icon>
@@ -18,7 +18,7 @@
   <div class="container">
 
     <!-- Empty Ele -->
-    @if(!inCartProducts?.length){
+    @if(!items.length){
     <div class="empty">
       <ion-icon [src]="'../../../assets/imgs/logo-icon.svg'"></ion-icon>
       <h3 style="text-align: center;">لا منتجات في السلة حاليا</h3>
@@ -26,57 +26,49 @@
     }
 
 
-    @if(inCartProducts?.length){
+    @if(items.length){
     <div class="cart-prods">
-      @for (product of inCartProducts; track $index) {
+      @for (product of items; track $index) {
       <div class="product">
         <div class="product-data">
-          <ion-icon (click)="deleteFromCart(product)" name="trash-outline" color="primary"></ion-icon>
+          <ion-icon (click)="delete(product)" name="trash-outline" color="primary"></ion-icon>
           <div>
             <h3>{{product.name}}</h3>
             <div class="add-constract">
               <h3>{{(product.price * product.quantity)|number}} د.ع</h3>
               <ion-buttons slot="end">
-                <ion-button (click)="removeOne(product,true)" [disabled]="(product.quantity<=0)"><ion-icon
+                <ion-button (click)="decrease(product)" [disabled]="(product.quantity<=0)"><ion-icon
                     name="remove-outline"></ion-icon></ion-button>
                 <span>{{product.quantity}}</span>
-                <ion-button (click)="addOne(product,true)"><ion-icon name="add-outline"></ion-icon></ion-button>
+                <ion-button (click)="increase(product)"><ion-icon name="add-outline"></ion-icon></ion-button>
               </ion-buttons>
             </div>
           </div>
-          <app-custom-image [mainImg]="product.image" [routerLink]="`/product/${product._id}`"></app-custom-image>
+          <app-custom-image [mainImg]="product.image"></app-custom-image>
         </div>
 
-        <!-- @if(inCartIDs[product._id].extras){
+        @if(product.selectedAdditions?.length){
 
         <div class="prod-options">
           <div class="extra-data">
-            <div *ngIf="inCartIDs[product._id].extras.towler">
-              <span>1545 د.ع</span>
-              <p>منشفة</p>
+
+            @for (addition of product.selectedAdditions; track $index) {
+            <div>
+              <span>{{addition.price|number}} د.ع</span>
+              <p>{{addition.name}}</p>
             </div>
-            <div *ngIf="inCartIDs[product._id].extras.size">
-              <span>1545 د.ع</span>
-              <p>الحجم ({{inCartIDs[product._id].extras.size}})</p>
-            </div>
-            <div *ngIf="inCartIDs[product._id].extras.color">
-              <span>1545 د.ع</span>
-              <p>اللون ({{inCartIDs[product._id].extras.color}})</p>
-            </div>
+            }
           </div>
 
           <div class="total">
             <p>اجمالى المنتج</p>
-            <h3>{{product.qtyIncrease * product.price + 3*1545}}  د.ع</h3>
+            <h3>{{(product.quantity * product.price + product.selectedAdditions[0]?.price)|number}} د.ع</h3>
           </div>
         </div>
-        } -->
+        }
 
       </div>
       }
-
-
-
 
     </div>
     }
@@ -87,16 +79,16 @@
 
 </ion-content>
 
-<ion-footer *ngIf="inCartProducts">
+<ion-footer *ngIf="items">
   <div class="content">
     <div class="total">
       <p>الإجمالي الكلى</p>
-      <h3>{{total+1000|number}} د.ع</h3>
+      <h3>{{calcTotal+1000|number}} د.ع</h3>
     </div>
     <div>
       <div class="orders">
         <p>الطلبات</p>
-        <h3>{{total|number}} د.ع</h3>
+        <h3>{{calcTotal|number}} د.ع</h3>
       </div>
       <div class="deliver">
         <p>التوصيل</p>
@@ -105,5 +97,5 @@
     </div>
   </div>
 
-  <ion-button (click)="finishOrder()" [disabled]="!inCartProducts?.length">انهاء الطلب</ion-button>
+  <ion-button (click)="finishOrder()" [disabled]="!items?.length">انهاء الطلب</ion-button>
 </ion-footer>

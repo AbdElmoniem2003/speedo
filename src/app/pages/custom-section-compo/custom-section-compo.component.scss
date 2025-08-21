@@ -10,6 +10,11 @@ ion-content {
 .custom-header {
   --border-radius: 15px;
 
+
+  ion-toolbar{
+    padding: 0 16px !important
+  }
+
   ion-button {
     @include flex(0, center, center, '');
     border-radius: 50%;

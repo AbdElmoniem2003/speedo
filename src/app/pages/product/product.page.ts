@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { IonRadio, IonRadioGroup, ModalController, NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { Subscription } from 'rxjs';
-import { Product, ProductImage } from 'src/app/core/project-interfaces/interfaces';
+import { Addition, Product, ProductImage, SubAddition } from 'src/app/core/project-interfaces/interfaces';
 import { CartService } from 'src/app/core/services/cart.service';
 import { DataService } from 'src/app/core/services/data.service';
 import { FavoService } from 'src/app/core/services/favorites.service';
@@ -22,9 +22,10 @@ export class ProductPage implements OnInit {
 
   productSub: Subscription;
   product: Product;
+  productAdditions: Addition[] = [];
+  productSubAdditions: SubAddition[] = [];
   productImgs: ProductImage[]
   similarProducts: Product[] = [];
-  prodExtras: { color: string, size: string, towler: boolean } = { color: null, size: null, towler: false };
   inCartObj: any = {};
 
   skip: number = 0
@@ -47,6 +48,7 @@ export class ProductPage implements OnInit {
     this.getProduct();
   }
 
+  // Get Product
   getProduct(ev?: any) {
     this.showLoading()
     this.wildUsedService.showLoading()
@@ -55,13 +57,16 @@ export class ProductPage implements OnInit {
       {
         next: (res: Product) => {
           this.product = res;
+          this.product.isFav = this.favoService.checkFavoriteProds(this.product._id)
+          this.product.inCart = this.cartService.checkInCart(this.product._id)
+
+          this.product.selectedAdditions = []
           this.product.quantity = 1
           this.getSimillarProducts(res);
-          this.getProductImages()
-          this.favoService.checkFavoriteProds([this.product]);
+          this.getProductImages();
+          this.getAdditions()
           this.wildUsedService.dismisLoading()
           this.showContent(ev);
-          console.log(this.product.additions)
         },
         error: (err) => {
           this.wildUsedService.dismisLoading()
@@ -70,11 +75,7 @@ export class ProductPage implements OnInit {
       })
   }
 
-  async addToCart(prod: Product) {
-    prod.quantity = prod.quantity > 0 ? prod.quantity : 1;
-    this.cartService.updateCart(prod)
-  }
-
+  /* ================================================== */
   // get similar products
 
   get similarProductsEndpoint() {
@@ -87,13 +88,16 @@ export class ProductPage implements OnInit {
   getSimillarProducts(prod: Product) {
     this.dataService.getData(this.similarProductsEndpoint).subscribe({
       next: (res: Product[]) => {
-        this.similarProducts = res;
-        this.favoService.checkFavoriteProds(this.similarProducts);
+        this.similarProducts = res.length ? res : [];
+        this.similarProducts.forEach(p => {
+          p.isFav = this.favoService.checkFavoriteProds(p._id)
+          p.inCart = this.cartService.checkInCart(p._id)
+        })
       }
     })
   }
 
-  // get product images ____________________________________________________________________
+  /*============================================      get product images      ==============================================*/
 
   get productImagesEndpoint() {
     let query: string = `images?ITEM_BARCODE=${this.product.code}`;
@@ -104,7 +108,6 @@ export class ProductPage implements OnInit {
     this.dataService.getData(this.productImagesEndpoint).subscribe({
       next: (res: ProductImage[]) => {
         this.productImgs = res;
-        console.log(this.productImgs)
       }
     })
   }
@@ -121,7 +124,49 @@ export class ProductPage implements OnInit {
     await imgModal.present();
   }
 
+  /* ================================================    get product additions and SubAdditions    ==================================== */
 
+  get additionsEndPoint() {
+    let query: string = `additions?product=${this.product?._id}&status=1`;
+    return query;
+  }
+
+  getAdditions() {
+    this.dataService.getData(this.additionsEndPoint).subscribe({
+      next: (res: Addition[]) => {
+        this.productAdditions = res.length ? res : [];
+      }
+    })
+  }
+
+  selectAddition(addition: Addition) {
+    addition.isChecked = !addition.isChecked;
+    if (addition.isChecked) {
+      (this.product.selectedAdditions) ? this.product.selectedAdditions.push(addition) :
+        this.product.selectedAdditions = [addition];
+    }
+    else {
+      this.product.selectedAdditions = this.product.selectedAdditions?.filter((s) => { return s._id !== addition._id });
+    };
+  }
+
+  get checkRequiredAdditionsNotChecked() {
+    const isRequired = this.productAdditions.find(a => { return a.required && !a.isChecked });
+    return isRequired
+  }
+
+  /* ==================================================   Adding to cart and favorites   ==================================================== */
+
+
+  async addToCart(prod: Product) {
+    prod.inCart = !prod.inCart
+    if (this.checkRequiredAdditionsNotChecked) {
+      this.wildUsedService.generalToast(`يرجي تحديد ${this.checkRequiredAdditionsNotChecked.name}`, '', 'light-color');
+      return;
+    }
+    if (prod.selectedAdditions?.length == 0) prod.selectedAdditions = null;
+    this.cartService.add(prod)
+  }
 
   addToFavorite(prod: Product) {
     prod.isFav = !prod.isFav
@@ -155,6 +200,10 @@ export class ProductPage implements OnInit {
     this.error = false
     this.empty = true
     ev?.target.complete()
+  }
+  refresh(ev?: any) {
+    this.showLoading()
+    this.getProduct()
   }
 
   ngOnDestroy() {

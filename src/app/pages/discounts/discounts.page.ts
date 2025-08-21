@@ -52,11 +52,11 @@ export class DiscountsPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.showLoading()
+    this.getData()
   }
 
   ionViewWillEnter() {
-    this.showLoading()
-    this.getData()
   }
   toCart() { this.navCtrl.navigateForward('/cart') }
 
@@ -76,7 +76,11 @@ export class DiscountsPage implements OnInit {
           this.offers.length ? this.showContent(ev) : this.showEmpty(ev)
         } else {
           this.discounts = this.skip ? this.discounts.concat(response) : response;
-          this.discounts.length ? this.showContent(ev) : this.showEmpty(ev)
+          this.discounts.length ? this.showContent(ev) : this.showEmpty(ev);
+          this.discounts.forEach(p => {
+            p.isFav = this.favoService.checkFavoriteProds(p._id)
+            p.inCart = this.cartService.checkInCart(p._id)
+          })
         }
 
         this.stopLoding = response.length < 20
@@ -167,8 +171,9 @@ export class DiscountsPage implements OnInit {
   }
 
   addToCart(prod: Product) {
+    prod.inCart = true
     prod.quantity = prod.quantity ? prod.quantity + 1 : 1;
-    this.cartService.updateCart(prod)
+    this.cartService.add(prod)
   }
 
   addToFavorite(prod: Product) {

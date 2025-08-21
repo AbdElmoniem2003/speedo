@@ -8,6 +8,7 @@ import { NotificationsPageRoutingModule } from './notifications-routing.module';
 
 import { NotificationsPage } from './notifications.page';
 import { CustomImagePageModule } from '../custom-image/custom-image.module';
+import { FromNowPipe } from 'src/app/core/pipes/time-from-pipe/time-from-pipe';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { CustomImagePageModule } from '../custom-image/custom-image.module';
     FormsModule,
     IonicModule,
     NotificationsPageRoutingModule,
-    CustomImagePageModule
+    CustomImagePageModule,
+    FromNowPipe
   ],
   declarations: [NotificationsPage]
 })

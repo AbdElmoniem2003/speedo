@@ -58,18 +58,14 @@ export class HomePage implements OnInit {
   ) { }
 
   ngOnInit() {
-  }
-
-  ionViewWillEnter() {
     this.showLoading()
     this.getData()
   }
 
+  ionViewWillEnter() {
+  }
+
   toCart() { this.navCtrl.navigateForward('/cart') }
-
-
-
-
 
   getData(ev?: any) {
     this.dataService
@@ -78,6 +74,7 @@ export class HomePage implements OnInit {
         next: (response: any) => {
           if (response) {
             this.products = response.products;
+
             this.sliders = response.sliders;
             this.handleSwiper();
 
@@ -89,6 +86,7 @@ export class HomePage implements OnInit {
             this.bestSeller = response.bestSeller;
 
             this.checkFavorites();
+            this.checkInCart()
           }
           response ? this.showContent(ev) : this.showEmpty(ev);
         }, error: err => {
@@ -110,10 +108,17 @@ export class HomePage implements OnInit {
   }
 
   checkFavorites() {
-    this.favoService.checkFavoriteProds(this.products)
-    this.favoService.checkFavoriteProds(this.bestSeller)
-    this.favoService.checkFavoriteProds(this.newProducts)
-    this.favoService.checkFavoriteProds(this.discountProducts)
+    this.products.forEach(p => { p.isFav = this.favoService.checkFavoriteProds(p._id) })
+    this.bestSeller.forEach(p => { p.isFav = this.favoService.checkFavoriteProds(p._id) })
+    this.newProducts.forEach(p => { p.isFav = this.favoService.checkFavoriteProds(p._id) })
+    this.discountProducts.forEach(p => { p.isFav = this.favoService.checkFavoriteProds(p._id) })
+  }
+
+  checkInCart() {
+    this.products.forEach(p => { p.inCart = this.cartService.checkInCart(p._id) })
+    this.bestSeller.forEach(p => { p.inCart = this.cartService.checkInCart(p._id) })
+    this.newProducts.forEach(p => { p.inCart = this.cartService.checkInCart(p._id) })
+    this.discountProducts.forEach(p => { p.inCart = this.cartService.checkInCart(p._id) })
   }
 
 
@@ -124,8 +129,9 @@ export class HomePage implements OnInit {
   }
 
   addToCart(product: Product) {
-    product.quantity = product.quantity ? product.quantity + 1 : 1;
-    this.cartService.updateCart(product)
+    product.quantity = 1
+    product.inCart = !product.inCart
+    this.cartService.add(product)
   }
 
   async addToFavorite(prod: Product) {
@@ -173,23 +179,6 @@ export class HomePage implements OnInit {
     this.empty = false
     this.getData(ev);
   }
-
-
-  // // typing Actions
-  // typingText: string = ''
-  // previosText: string = 'Chelsea is gonna with the primier league this season .';
-  // speed: number = 50;
-  // isTyping: boolean = true;
-
-  // typing() {
-  //   let textArr = this.previosText.split('');
-  //   textArr.forEach((word, i) => {
-  //     setTimeout(() => {
-  //       this.typingText += word;
-  //     }, this.speed * i);
-  //   })
-  // }
-
 
   toCustomSearch(custom: string) {
     this.dataService.searchParams = custom

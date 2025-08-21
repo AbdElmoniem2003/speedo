@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StatusBar } from '@capacitor/status-bar';
 import { ModalController, NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { Subscription } from 'rxjs';
@@ -48,8 +49,6 @@ export class AccountPage implements OnInit {
       }, error: err => this.showError(ev)
     })
   }
-
-
 
   async logOut() {
     if (!this.user) {

@@ -209,7 +209,6 @@ ion-content {
           @include flex(0, space-between, '', '');
 
           p {
-            min-width: 182px !important;
             height: 52px;
             text-align: right;
             white-space: nowrap;

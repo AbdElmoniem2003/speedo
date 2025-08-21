@@ -4,8 +4,8 @@
   <ion-toolbar>
     <ion-button slot="start" class="no-color-button" routerLink="/cart">
       <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
-      @if((cartService.cartProducts?.length)){
-      <span>{{cartService.cartProducts?.length}}</span>
+      @if((cartService.items?.length)){
+      <span>{{cartService.items?.length}}</span>
       }
     </ion-button>
 
@@ -20,6 +20,10 @@
 }
 
 <ion-content *ngIf="!isloading">
+
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)" pullFactor="0.8" pullMin="60" pullMax="120">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
   <div class="container">
 
@@ -72,33 +76,52 @@
         </div>
       </div>
 
-      <!-- <div class="extra">
-        <h5>اضافات</h5>
 
-        <div class="colors">
+      <!-- Product Additions -->
+
+      @if(productAdditions?.length){
+      <div class="extra">
+        <h5>اضافات</h5>
+        <div class="addition">
+          @for (addition of productAdditions; track $index) {
+          <!-- <ion-radio-group [allowEmptySelection]="true" > -->
+          <ion-checkbox (ionChange)="selectAddition(addition)" [checked]="addition.isChecked">
+            {{addition.name}}
+            @if(addition.price){({{addition.price}})}
+          </ion-checkbox>
+          <!-- </ion-radio-group> -->
+
+          }
+        </div>
+
+        <!-- <div class="colors">
           <h3>اللون</h3>
           <ion-segment [(ngModel)]="prodExtras.color">
             <ion-segment-button value="اخضر"><span></span></ion-segment-button>
             <ion-segment-button value="احمر"><span></span></ion-segment-button>
             <ion-segment-button value="ذهبي"><span></span></ion-segment-button>
           </ion-segment>
-        </div>
+        </div> -->
 
-        <div class="sizes">
+        <!-- <div class="sizes">
           <h3>الحجم</h3>
           <ion-segment [(ngModel)]="prodExtras.size">
             <ion-segment-button value="كبير">كبير (٩٨٠د)</ion-segment-button>
             <ion-segment-button value="متوسط">متوسط (٩٨٧د)</ion-segment-button>
             <ion-segment-button value="صغير">صغير (٧٨٧د)</ion-segment-button>
           </ion-segment>
-        </div>
+        </div> -->
 
-        <ion-radio-group [allowEmptySelection]="true" (ionChange)="prodExtras.towler = !prodExtras.towler">
+        <!-- <ion-radio-group [allowEmptySelection]="true" (ionChange)="prodExtras.towler = !prodExtras.towler">
           <ion-radio>منشفة (٧٦٨د)</ion-radio>
-        </ion-radio-group>
+        </ion-radio-group> -->
 
-      </div> -->
+      </div>
+      }
 
+
+
+      @if(similarProducts?.length){
       <div class="similar-prods" *ngIf="similarProducts">
         <section>منتجات مشابهة</section>
         <div class="prods-cards">
@@ -111,8 +134,8 @@
                 <h3>{{prod.price - prod.discountPrice|number}} د.ع</h3>
               </div>
             </div>
-            <ion-button>
-              <ion-label>أضف للسلة</ion-label>
+            <ion-button (click)="addToCart(prod)" [disabled]="prod.inCart">
+              <ion-label> {{prod.inCart?'في السلة':'أضف للسلة'}}</ion-label>
               <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
             </ion-button>
             <div class="addition-btns">
@@ -149,6 +172,8 @@
 
         </div>
       </div>
+      }
+
 
     </div>
     }
@@ -178,8 +203,8 @@
       <ion-button class="no-color-button" (click)="removeFromFavorite()">
         <ion-icon [name]="product?.isFav?'heart':'heart-outline'" [color]="'primary'"></ion-icon>
       </ion-button>
-      <ion-button (click)="addToCart(this.product)" [disabled]="this.product.inCart">
-        <ion-label> {{this.product.inCart?'في السلة':'أضف للسلة'}}</ion-label>
+      <ion-button (click)="addToCart(this.product)">
+        <ion-label> أضف للسلة</ion-label>
         <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
       </ion-button>
     </div>

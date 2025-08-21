@@ -67,10 +67,18 @@ export class OfferPage implements OnInit {
       .subscribe({
         next: (response: Product[]) => {
           this.showLoading()
-          this.offerProducts = response;
-          this.offerProducts.length ? this.showContent(ev) : this.showEmpty(ev)
+          if (response.length < 20) {
+            this.offerProducts = this.skip ? this.offerProducts.concat(response) : response;
+            this.stopLoading = true;
+          } else {
+            this.offerProducts = this.offerProducts.concat(response);
+          }
+          this.offerProducts.forEach(p => {
+            p.isFav = this.favoService.checkFavoriteProds(p._id)
+            p.inCart = this.cartService.checkInCart(p._id)
+          })
           this.stopLoading = response.length < 20;
-          this.checkFavorites();
+          this.offerProducts.length ? this.showContent(ev) : this.showEmpty(ev);
           this.isLoading = false
         }, error: err => { this.showError(ev) }
       })
@@ -88,8 +96,9 @@ export class OfferPage implements OnInit {
   }
 
   addToCart(prod: Product) {
+    prod.inCart = true
     prod.quantity = prod.quantity ? prod.quantity + 1 : 1;
-    this.cartService.updateCart(prod)
+    this.cartService.add(prod)
   }
 
   toCart() {
@@ -101,9 +110,6 @@ export class OfferPage implements OnInit {
     this.favoService.updateFavorites(prod);
   }
 
-  checkFavorites() {
-    this.favoService.checkFavoriteProds(this.offerProducts)
-  }
 
   async openCustomModal() {
     const modal = await this.modalCtrl.create({
