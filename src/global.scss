@@ -117,7 +117,7 @@ ion-button {
     position: absolute;
     @include shape(120, 120);
     border: 2px solid $primaryColor;
-    border-radius: 50%;
+    border-radius: 30% 20%;
     border-top-color: $secondaryColor;
     border-bottom-color: var(--light-text);
     animation: spinning 1s linear infinite;

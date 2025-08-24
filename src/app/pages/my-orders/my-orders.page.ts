@@ -5,7 +5,6 @@ import { Order } from 'src/app/core/project-interfaces/interfaces';
 import { DataService } from 'src/app/core/services/data.service';
 import { environment } from 'src/environments/environment';
 import { OrderStatus } from 'src/app/core/enums/enum';
-import { EnterAnimation, LeaveAnimation, popoverEnterAnimation, popoverLeaveAnimation } from 'src/app/core/consts/animations';
 import { OrderOptionsComponent } from '../order-options/order-options.component';
 import { WildUsedService } from 'src/app/core/services/wild-used.service';
 import { RefuseModalComponent } from '../refuse-modal/refuse-modal.component';
@@ -41,7 +40,6 @@ export class MyOrdersPage implements OnInit {
     public navCtrl: NavController,
     private modalCtrl: ModalController,
     private dataService: DataService,
-    private storage: Storage,
     private popoverCtrl: PopoverController,
     private wildUsedService: WildUsedService,
     public cartService: CartService,
@@ -59,7 +57,6 @@ export class MyOrdersPage implements OnInit {
         this.orders = this.orders.filter(o => { return o._id !== res._id })
       }
     })
-
   }
 
   ionViewWillEnter() {
@@ -86,7 +83,6 @@ export class MyOrdersPage implements OnInit {
       }
     })
   }
-
 
   filterByStatus(status: number) {
     this.filterStatus = status;
@@ -130,7 +126,6 @@ export class MyOrdersPage implements OnInit {
   }
 
   async showOrderOptions(ev: PointerEvent | MouseEvent, order: Order, index: number) {
-
     const opts: PopoverOptions = {
       component: OrderOptionsComponent,
       componentProps: {
@@ -154,7 +149,6 @@ export class MyOrdersPage implements OnInit {
       this.openRefusalModal(order)
     }
     if (data == 2) {      // activate
-
     }
   }
 
@@ -183,16 +177,20 @@ export class MyOrdersPage implements OnInit {
       }
     })
   }
-  // activateOrder(order: Order) {
-  //   order.status = this.orderStatus.WAITING
-  //   this.dataService.updateData(`order/${order._id}`, order).subscribe({
-  //     next: (res) => {
-  //       console.log(res)
-  //     }, error: (err) => {
-  //       console.log(err)
-  //     }
-  //   })
-  // }
+
+  /* ============================ Editted by admin ============================ */
+  /*
+      activateOrder(order: Order) {
+        order.status = this.orderStatus.WAITING
+        this.dataService.updateData(`order/${order._id}`, order).subscribe({
+          next: (res) => {
+            console.log(res)
+          }, error: (err) => {
+            console.log(err)
+          }
+        })
+      }
+ */
 
   loadMore(ev: InfiniteScrollCustomEvent) {
     this.skip += 1;
@@ -202,5 +200,4 @@ export class MyOrdersPage implements OnInit {
   ngOnDestroy() {
     this.ordersSubscription.unsubscribe()
   }
-
 }
