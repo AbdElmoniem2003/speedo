@@ -124,6 +124,11 @@ ion-modal {
     --padding-start: 16px;
     --padding-end: 16px;
 
+
+    ion-ripple-effect{
+      color: $primaryColor;
+    }
+
  >div{
     max-width: 767px;
     margin: 0 auto;

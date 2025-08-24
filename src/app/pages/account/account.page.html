@@ -98,31 +98,31 @@
           <h2>وسائل التواصل</h2>
           <div class="contacts">
 
-            <div class="ion-activatable">
+            <div class="ion-activatable" (click)="contact('tel',companyInfo.phone)">
               <ion-ripple-effect></ion-ripple-effect>
               <p>{{companyInfo?.phone}}</p>
               <ion-img src="../../../assets/imgs/call.svg" slot="end"></ion-img>
             </div>
 
-            <div class="ion-activatable">
+            <div class="ion-activatable" (click)="contact('insta',companyInfo.instagram)">
               <ion-ripple-effect></ion-ripple-effect>
               <p>{{companyInfo.instagram}}</p>
               <ion-icon name="logo-instagram" slot="end"></ion-icon>
             </div>
 
-            <div class="ion-activatable">
+            <div class="ion-activatable" (click)="contact('fb',companyInfo.facebook)">
               <ion-ripple-effect></ion-ripple-effect>
               <p>{{companyInfo.facebook||'ليس لدينا حساب علي الفيسبوك'}}</p>
               <ion-img src="../../../assets/imgs/facebook.svg" slot="end"></ion-img>
             </div>
 
-            <div class="ion-activatable">
+            <div class="ion-activatable" (click)="contact('wa',companyInfo.whatsapp)">
               <ion-ripple-effect></ion-ripple-effect>
               <p> {{companyInfo.whatsapp}}</p>
               <ion-img src="../../../assets/imgs/whatsup.svg" slot="end"></ion-img>
             </div>
 
-            <div class="ion-activatable">
+            <div class="ion-activatable" (click)="contact('geo',companyInfo.location)">
               <ion-ripple-effect></ion-ripple-effect>
               <p>{{companyInfo?.location||companyInfo?.address}}</p>
               <ion-img src="../../../assets/imgs/location.svg" slot="end"></ion-img>

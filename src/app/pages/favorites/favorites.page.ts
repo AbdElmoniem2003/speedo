@@ -49,9 +49,9 @@ export class FavoritesPage implements OnInit {
     this.cartService.add(prod)
   }
 
-  removeFromFavorites(prod: Product) {
-    // if (desiction) this.inFavorites.push(prod._id);
-    // this.inFavorites = this.inFavorites.filter((p) => { return p !== prod._id })
+  async removeFromFavorites(prod: Product) {
+    const decision = await this.wildUsedService.generalAlert(`هل تريد حذف ${prod.name} من المفضلات ؟`, 'أجل', "كلا");
+    if (!decision) return;
     prod.isFav = !prod.isFav
     this.items = this.items.filter((p) => { return p._id !== prod._id });
     if (!this.items.length) this.empty = true

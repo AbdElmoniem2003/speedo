@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { StatusBar } from '@capacitor/status-bar';
+import { Capacitor } from '@capacitor/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
-import { Subscription } from 'rxjs';
 import { Info, User } from 'src/app/core/project-interfaces/interfaces';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { CartService } from 'src/app/core/services/cart.service';
 import { DataService } from 'src/app/core/services/data.service';
 import { WildUsedService } from 'src/app/core/services/wild-used.service';
+import { Browser } from '@capacitor/browser';
 
 
 @Component({
@@ -30,13 +30,14 @@ export class AccountPage implements OnInit {
     private dataService: DataService,
     private wildUsedService: WildUsedService, public navCtrl: NavController,
     private modalCtrl: ModalController,
-    public cartService: CartService
+    public cartService: CartService,
   ) { }
 
-  ngOnInit() {
-    this.storage.get('user').then(res => this.user = res);
+  async ngOnInit() {
+    this.user = await this.storage.get('user')
     this.getInfo()
   }
+
   toCart() { this.navCtrl.navigateForward('/cart') }
 
   getInfo(ev?: any) {
@@ -61,6 +62,27 @@ export class AccountPage implements OnInit {
     const desicion = await this.wildUsedService.generalAlert('هل انت متاكد انك تريد تسجيل الخروج ؟', 'نعم', 'لا');
     if (!desicion) return;
     this.authService.logOut()
+  }
+
+  async contact(app: string, id: string) {
+
+    let idToOpen: string = '';
+    if (app == 'wa') idToOpen = `https://api.whatsapp.com/send?phone=${id}`;
+    if (app == 'tel') idToOpen = `tel:${id}`;
+    if (app == 'insta') idToOpen = `https://instagram.com/${id}`;
+    if (app == 'geo') idToOpen = `geo:${id}`;
+    if (!id.length) return;
+
+    if (Capacitor.getPlatform() === 'web' || app === 'tel') {
+      window.open(idToOpen)
+    } else {
+      await Browser.open({
+        url: idToOpen,
+        presentationStyle: 'fullscreen', windowName: '_blank'
+      })
+    }
+
+
   }
 
 
