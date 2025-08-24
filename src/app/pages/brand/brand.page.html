@@ -1,6 +1,6 @@
 <ion-header class="custom-header">
 
-  @if(objToView.image){<img [src]="objToView.image" alt="">}
+  @if(objToView.image){<app-custom-image [mainImg]="objToView.image"></app-custom-image>}
 
   <ion-toolbar>
     <ion-button slot="start" class="no-color-button" routerLink="/cart">

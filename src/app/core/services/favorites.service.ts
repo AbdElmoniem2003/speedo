@@ -33,7 +33,7 @@ export class FavoService {
   }
 
   checkFavoriteProds(id: string) {
-    return this.items.some(p => p._id == id)
+    return this.items?.some(p => p._id == id)
   };
 
   clearFavorites() {

@@ -43,7 +43,7 @@
 
 
     >div:last-of-type {
-      @include shape(172, 36);
+      height: 36px;
       @include flex(8, '', center, '');
 
       ion-icon {

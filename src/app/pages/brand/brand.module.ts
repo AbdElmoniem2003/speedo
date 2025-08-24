@@ -15,7 +15,8 @@ import { CustomImagePageModule } from '../custom-image/custom-image.module';
     FormsModule,
     IonicModule,
     BrandPageRoutingModule,
-    CustomImagePageModule
+    CustomImagePageModule,
+
   ],
   declarations: [BrandPage]
 })
