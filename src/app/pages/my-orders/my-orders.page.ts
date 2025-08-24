@@ -98,12 +98,14 @@ export class MyOrdersPage implements OnInit {
     this.isLoading = true
     this.empty = false
     this.error = false
+    this.stopLoad = true
   }
 
   showContent(ev?: any) {
     this.isLoading = false;
     this.empty = false;
     this.error = false;
+    this.stopLoad = false
     ev?.target.complete()
   }
 
