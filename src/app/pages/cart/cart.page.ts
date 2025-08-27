@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
-import { Storage } from '@ionic/storage-angular';
-import { Subscription } from 'rxjs';
-import { Branch, CartProduct, Product } from 'src/app/core/project-interfaces/interfaces';
-import { DataService } from 'src/app/core/services/data.service';
+import { NavController } from '@ionic/angular';
+import { Branch, CartProduct } from 'src/app/core/project-interfaces/interfaces';
 import { WildUsedService } from 'src/app/core/services/wild-used.service';
-import { ConfirmCompoComponent } from '../confirm-compo/confirm-compo.component';
 import { CartService } from 'src/app/core/services/cart.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 
@@ -17,16 +13,12 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class CartPage implements OnInit {
 
-  // inCartSubscription: Subscription;
   items: CartProduct[] = [];
-
   location: { lat: number, lng: number } = null;
   branchs: Branch[] = [];
 
-  constructor(private dataService: DataService,
-    private storage: Storage,
+  constructor(
     private wildUsedService: WildUsedService,
-    private modalCtrl: ModalController,
     private cartService: CartService,
     public navCtrl: NavController,
     private authService: AuthService
@@ -98,7 +90,5 @@ export class CartPage implements OnInit {
     await this.wildUsedService.generalToast('السلة فارغة', 'primary', 'light-color', 2500)
   }
 
-  ngOnDestroy() {
-  }
-
+  ngOnDestroy() { }
 }

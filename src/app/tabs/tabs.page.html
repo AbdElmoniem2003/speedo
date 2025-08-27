@@ -2,35 +2,37 @@
 
   <ion-tab-bar slot="bottom" style="direction: rtl;">
 
-    <ion-tab-button #tab1 tab="home" href="/tabs/home">
+    <ion-tab-button #tab1 tab="home">
       <ion-img aria-hidden="true"
-        [src]="tab1.selected?'../../assets/imgs/tabs-icons/Home-active.svg':'../../assets/imgs/tabs-icons/Home.svg'"></ion-img>
+        [src]="`../../assets/imgs/tabs-icons/Home${tab1.selected?'-active':''}.svg`"></ion-img>
       <ion-label [color]="tab1.selected?'primary':'secondary'">الرئيسية</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button #tab2 tab="my-orders" href="/tabs/my-orders" *ngIf="user">
+    @if(user){
+    <ion-tab-button #tab2 tab="my-orders">
       <ion-img aria-hidden="true"
-        [src]="tab2.selected?'../../assets/imgs/tabs-icons/my-orders-active.svg':'../../assets/imgs/tabs-icons/my-orders.svg'"></ion-img>
+        [src]="`../../assets/imgs/tabs-icons/my-orders${tab2.selected?'-active':''}.svg`"></ion-img>
       <ion-label [color]="tab2.selected?'primary':'secondary'">طلباتي</ion-label>
     </ion-tab-button>
+    }
 
-    <ion-tab-button #tab3 tab="discounts" href="/tabs/discounts">
+    <ion-tab-button #tab3 tab="discounts">
       <ion-icon aria-hidden="true"
-        [src]="tab3.selected?'../../assets/imgs/tabs-icons/discount-active.svg':'../../assets/imgs/tabs-icons/discout.svg'"></ion-icon>
+        [src]="`../../assets/imgs/tabs-icons/discount${tab3.selected?'-active':''}.svg`"></ion-icon>
       <ion-label [color]="tab3.selected?'primary':'secondary'">التخفيضات</ion-label>
     </ion-tab-button>
 
 
-    <ion-tab-button #tab4 tab="favorites" href="/tabs/favorites">
+    <ion-tab-button #tab4 tab="favorites">
       <ion-icon aria-hidden="true"
-        [src]="tab4.selected?'../../assets/imgs/tabs-icons/favourite-active.svg':'../../assets/imgs/tabs-icons/favourite.svg'"></ion-icon>
+        [src]="`../../assets/imgs/tabs-icons/favourite${tab4.selected?'-active':''}.svg`"></ion-icon>
       <ion-label [color]="tab4.selected?'primary':'secondary'">المفضلة</ion-label>
     </ion-tab-button>
 
 
-    <ion-tab-button #tab5 tab="account" href="/tabs/account">
+    <ion-tab-button #tab5 tab="account">
       <ion-icon aria-hidden="true"
-        [src]="tab5.selected?'../../assets/imgs/tabs-icons/user-active.svg':'../../assets/imgs/tabs-icons/user.svg'"></ion-icon>
+        [src]="`../../assets/imgs/tabs-icons/user${tab5.selected?'-active':''}.svg`"></ion-icon>
       <ion-label [color]="tab5.selected?'primary':'secondary'">الحساب</ion-label>
     </ion-tab-button>
   </ion-tab-bar>

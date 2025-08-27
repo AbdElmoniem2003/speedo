@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { DatetimeCustomEvent, IonDatetime, IonicModule, ModalController } from '@ionic/angular';
+import { IonDatetime, IonicModule, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-pick-date-modal',
@@ -10,19 +9,14 @@ import { DatetimeCustomEvent, IonDatetime, IonicModule, ModalController } from '
 })
 export class PickDateModalComponent implements OnInit, AfterViewInit {
 
-  ///// to mak it get next 5 years too not ends in current year /////
+  ///// to make it get next 5 years too not ends in current year /////
   maxDate: string = new Date(new Date().setFullYear(new Date().getFullYear() + 5)).toISOString();
-
   @Input() presentation: string;
   @Input() currentValue: string;
-
   @Input() minimumDate: string;
-
   @ViewChild('dateTime', { static: true }) dateTime: IonDatetime;
 
-  constructor(
-    private modalCtrl: ModalController
-  ) { }
+  constructor(private modalCtrl: ModalController) { }
 
   ngOnInit() { }
 
@@ -41,5 +35,4 @@ export class PickDateModalComponent implements OnInit, AfterViewInit {
     await this.dateTime.cancel();
     await this.modalCtrl.dismiss(null);
   }
-
 }

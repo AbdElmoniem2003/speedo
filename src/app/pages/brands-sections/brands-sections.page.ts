@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { Subscription } from 'rxjs';
 import { Brand, Category, Offer } from 'src/app/core/project-interfaces/interfaces';
 import { CartService } from 'src/app/core/services/cart.service';
 import { DataService } from 'src/app/core/services/data.service';
@@ -98,11 +97,10 @@ export class BrandsSectionsPage implements OnInit {
     this.getCustomData(ev)
   }
 
-  toSection(sectionName: string, id: string) {
-    this.navCtrl.navigateForward(['section'], { queryParams: { customView: this.customView, section: sectionName, id: id } })
+  toSection(sectionName: string, customObj: Category | Brand | Offer) {
+    this.dataService.param = customObj
+    this.navCtrl.navigateForward(`${sectionName}?id=${customObj._id}`)
   }
 
-  ngOnDestroy() {
-  }
-
+  ngOnDestroy() { }
 }

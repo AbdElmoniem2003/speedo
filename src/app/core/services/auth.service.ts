@@ -34,17 +34,23 @@ export class AuthService {
   }
 
   logIn(user: { username: string, password: string }) {
-    this.dataService.postData('user/login', user).subscribe(async (response: User) => {
-      this.saveCredintials(response)
-      await this.navCtrl.navigateRoot('tabs/home')
-    }, err => this.wildUsedService.generalToast(err.error.message, '', 'light-color', 2000))
+    this.dataService.postData('user/login', user).subscribe({
+      next: async (response: User) => {
+        this.saveCredintials(response)
+        await this.navCtrl.navigateRoot('tabs/home')
+      }, error: async err => {
+        await this.wildUsedService.generalToast(err.message, '', 'light-color', 2000)
+      }
+    })
   }
 
   register(user: { username: string, password: string, id?: string }) {
-    this.dataService.postData('user/register', user).subscribe((response: any) => {
-      this.saveCredintials(response)
-      this.navCtrl.navigateRoot('tabs/home')
-    }, err => this.wildUsedService.generalToast(err.error.message, '', 'light-color', 2000))
+    this.dataService.postData('user/register', user).subscribe({
+      next: (response: any) => {
+        this.saveCredintials(response)
+        this.navCtrl.navigateRoot('tabs/home')
+      }, error: async err => await this.wildUsedService.generalToast(err.message, '', 'light-color', 2000)
+    })
   }
 
   setAccessToken(token: string) {
@@ -73,6 +79,26 @@ export class AuthService {
         })
     })
     return from(refreshPromise)
+  }
+
+  async changePassword(body: any) {
+
+    this.wildUsedService.showLoading();
+    return new Promise(resolve => {
+      this.dataService.postData('user/changePassword', body).subscribe({
+        next: (user: User) => {
+          this.saveCredintials(user);
+          this.user = user;
+          this.wildUsedService.dismisLoading();
+          this.navCtrl.navigateRoot('/tabs/home');
+          resolve(true);
+        }, error: async (err: any) => {
+          this.wildUsedService.dismisLoading();
+          await this.wildUsedService.generalToast(err?.error?.message)
+          resolve(false)
+        }
+      })
+    })
   }
 
   async logOut() {

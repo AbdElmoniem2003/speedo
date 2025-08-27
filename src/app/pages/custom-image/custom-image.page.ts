@@ -16,7 +16,7 @@ import { CameraService } from "src/app/core/services/camers-service/camera.servi
   standalone: false,
 })
 
-export class CustomImagePage {
+export class CustomImagePage implements OnChanges, OnInit {
 
   @Input() loadingImg: string = '../../../assets/imgs/loading.gif';
   @Input() altImg: string = '../../../assets/imgs/logo-icon.svg';
@@ -28,6 +28,9 @@ export class CustomImagePage {
     private cameraService: CameraService
   ) { }
 
+  ngOnInit() { }
+
+  // To update the process of getting the image on every change detected
   ngOnChanges() {
     this.updateImages()
   }
@@ -70,8 +73,4 @@ export class CustomImagePage {
     const extention = this.mainImg.slice(this.mainImg.lastIndexOf('.') + 1);
     this.viewImg = `data:image/${extention};base64,` + (foundData as string);
   }
-
-
-
-
 }

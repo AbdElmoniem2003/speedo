@@ -1,4 +1,4 @@
-<ion-header class="main-header">
+<ion-header class="main-header ">
   <ion-toolbar>
     <ion-button slot="start" class="ion-activatable no-color-button" (click)="navCtrl.navigateForward('notifications')">
       <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
@@ -22,7 +22,7 @@
     <div class="header">
       <section>الحساب</section>
       <div class="user">
-        <ion-img slot="icon-only" src="../../../assets/imgs/red-clock.svg"></ion-img>
+        <ion-icon name="ellipsis-vertical" id="order-options" (click)="showAccountOptions($event)"></ion-icon>
         <div>
           <div>
             <h3>{{user?.username}}</h3>
@@ -74,7 +74,7 @@
       </div>
       <div class="card" (click)="logOut()">
         <ion-img src="../../../assets/imgs/logout.svg"></ion-img>
-        <p>تسجيل الخروج</p>
+        <p>تسجيل {{!user?"الدخول":"الخروج"}}</p>
       </div>
       }
     </div>
@@ -83,7 +83,7 @@
 
   <ion-modal trigger="contact-us" #contactModal>
     <ng-template>
-      <ion-header class="custom-header" style="display: flex;justify-content: end;">
+      <ion-header class="custom-header  " style="display: flex;justify-content: end;">
         <ion-toolbar>
           <ion-label slot="end">تواصل معنا</ion-label>
           <ion-button slot="end" (click)="contactModal.dismiss()" class="no-color-button">

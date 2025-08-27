@@ -1,9 +1,6 @@
 @import '../../../theme/mixin.scss';
 @import '../../../global.scss';
 
-ion-content {}
-
-
 .container {
   padding: 0;
 
@@ -33,7 +30,6 @@ ion-content {}
           >img {
             @include shape(143, 143);
             border-radius: 6px;
-            // overflow: hidden;
           }
 
           p {
@@ -142,11 +138,8 @@ ion-content {}
           }
         }
       }
-
     }
   }
-
-
 
   .discounts-filter {
     padding: 0 0 16px;
@@ -184,7 +177,6 @@ ion-content {}
           color: white;
         }
       }
-
     }
 
     ion-icon {
@@ -198,8 +190,6 @@ ion-content {}
       background-color: #f6f6f6;
       color: $primaryColor;
     }
-
-
   }
 
   .offers-cards {
@@ -212,7 +202,8 @@ ion-content {}
       position: relative;
       width: 100%;
       height: 156px;
-
+      overflow: hidden;
+      border-radius: 12px;
 
       ion-img,
       app-custom-image,
@@ -220,9 +211,6 @@ ion-content {}
         position: absolute;
         width: 343px;
         height: 156px;
-        overflow: hidden;
-        border-radius: 12px;
-
       }
 
       ion-button {
@@ -269,9 +257,7 @@ ion-content {}
       }
     }
   }
-
 }
-
 
 ion-modal {
   --backdrop-opacity: 0.5;
@@ -303,5 +289,4 @@ ion-modal {
       }
     }
   }
-
 }

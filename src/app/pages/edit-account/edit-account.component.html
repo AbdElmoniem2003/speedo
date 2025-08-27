@@ -1,0 +1,19 @@
+<ion-content>
+
+
+  <h2>تغيير كلمة المرور</h2>
+  <form [formGroup]="accountForm">
+
+    <ion-label></ion-label>
+    <ion-input formControlName="username" placeholder="اسم المستخدم"></ion-input>
+    <ion-input formControlName="password" placeholder="رقم الهاتف"></ion-input>
+
+    <ion-buttons slot="bottom">
+      <ion-button expand="true" (click)="modalCtrl.dismiss()">إلغاء</ion-button>
+      <ion-button expand="true" (click)="confirm()">تغيير</ion-button>
+    </ion-buttons>
+
+  </form>
+
+
+</ion-content>

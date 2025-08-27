@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { NavController, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Product, Category, Brand } from 'src/app/core/project-interfaces/interfaces';
 import { CartService } from 'src/app/core/services/cart.service';
 import { DataService } from 'src/app/core/services/data.service';
 import { FavoService } from 'src/app/core/services/favorites.service';
-import { WildUsedService } from 'src/app/core/services/wild-used.service';
 import { CustomSectionCompoComponent } from '../custom-section-compo/custom-section-compo.component';
 
 @Component({
@@ -22,22 +20,16 @@ export class BrandPage implements OnInit {
   products: Product[]
   subCategories: Category[] | any = []
   currentSubCategoryId: string = 'all'
-
   customView: string = null
   objToView: Brand = null;
   customImage: string = null;
-
   isLoading: boolean = false;
   empty: boolean = false;
   error: boolean = false;
   canLoad: boolean = true
 
-
-
   constructor(
-    private currentRoute: ActivatedRoute,
     public navCtrl: NavController,
-    private wildUsedService: WildUsedService,
     private modalCtrl: ModalController,
     private dataService: DataService,
     public cartService: CartService,
@@ -47,7 +39,6 @@ export class BrandPage implements OnInit {
   ngOnInit() {
     this.getData()
   }
-
 
   getViewParams() {
     this.objToView = this.dataService.param;
@@ -115,8 +106,6 @@ export class BrandPage implements OnInit {
     this.getSubCategories()
   }
 
-
-
   filterBySubcategory(subCategoryId: string) {
     if (this.subCategories.length === 1 || subCategoryId == this.currentSubCategoryId) return;
     this.showLoading()
@@ -126,7 +115,7 @@ export class BrandPage implements OnInit {
 
   addToCart(prod: Product) {
     prod.inCart = true
-    prod.quantity = prod.quantity ? prod.quantity + 1 : 1;
+    prod.quantity = prod.quantity > 0 ? prod.quantity + 1 : 1;
     this.cartService.add(prod)
   }
 
@@ -152,26 +141,21 @@ export class BrandPage implements OnInit {
     this.getProducts()
   }
 
-
-
   loadMore(ev: any) {
     this.skip += 1;
     this.getData();
   }
 
-
   showContent(ev?: any) {
     this.isLoading = false;
     this.empty = false;
     this.error = false;
-
     ev?.target.complete()
   }
   showLoading(ev?: any) {
     this.isLoading = true;
     this.empty = false;
     this.error = false;
-
     ev?.target.complete()
   }
 
@@ -179,7 +163,6 @@ export class BrandPage implements OnInit {
     this.isLoading = false;
     this.empty = true;
     this.error = false;
-
     ev?.target.complete()
   }
 
@@ -187,7 +170,6 @@ export class BrandPage implements OnInit {
     this.isLoading = false;
     this.empty = false;
     this.error = true;
-
     ev?.target.complete()
   }
 
@@ -201,5 +183,4 @@ export class BrandPage implements OnInit {
   ngOnDestroy() {
     this.dataService.param = null
   }
-
 }

@@ -1,10 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { AnimationController, ModalController, NavController, SegmentCustomEvent } from '@ionic/angular';
-import { Storage } from '@ionic/storage-angular';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { ModalController, NavController, SegmentCustomEvent } from '@ionic/angular';
 import { Category, Offer, Product } from 'src/app/core/project-interfaces/interfaces';
 import { DataService } from 'src/app/core/services/data.service';
-import { WildUsedService } from 'src/app/core/services/wild-used.service';
 import { CartService } from 'src/app/core/services/cart.service';
 import { FavoService } from 'src/app/core/services/favorites.service';
 import { CustomSectionCompoComponent } from '../custom-section-compo/custom-section-compo.component';
@@ -20,35 +17,28 @@ import { CustomSectionCompoComponent } from '../custom-section-compo/custom-sect
 export class DiscountsPage implements OnInit {
 
   discountCategories: any
-
   offers: Offer[] = [];
   discounts: Product[] = [];
   inFavorites: string[] = ['']
-
   segment = 'product'
   switchEnum = {
     offer: "offer",
     discount: 'product'
   }
-
   isLoading: boolean = false;
   empty: boolean = false;
   error: boolean = false;
   skip: number = 0;
   filterModalOpen: boolean = false;
   openModal: boolean = false;
-
   stopLoding: boolean = true
 
   constructor(
     public navCtrl: NavController,
     private dataService: DataService,
-    private storage: Storage,
     public cartService: CartService,
-    private wildUsedService: WildUsedService,
     private favoService: FavoService,
     private modalCtrl: ModalController,
-    private animationCtrl: AnimationController
   ) { }
 
   ngOnInit() {
@@ -82,9 +72,7 @@ export class DiscountsPage implements OnInit {
             p.inCart = this.cartService.checkInCart(p._id)
           })
         }
-
         this.stopLoding = response.length < 20
-
       }, error: error => this.showError(ev)
     })
   }
@@ -103,7 +91,6 @@ export class DiscountsPage implements OnInit {
       }
     })
   }
-
 
   showLoading() {
     this.skip = 0
@@ -136,6 +123,7 @@ export class DiscountsPage implements OnInit {
 
   refresh(ev?: any) {
     this.skip = 0;
+    this.showLoading()
     this.getData(ev)
   }
 
@@ -144,9 +132,7 @@ export class DiscountsPage implements OnInit {
     this.getData(ev)
   }
 
-
-
-  // Functions
+  /*================================   Functions   ================================*/
   async openCustomModal() {
     const modal = await this.modalCtrl.create({
       component: CustomSectionCompoComponent,
@@ -172,7 +158,7 @@ export class DiscountsPage implements OnInit {
 
   addToCart(prod: Product) {
     prod.inCart = true
-    prod.quantity = prod.quantity ? prod.quantity + 1 : 1;
+    prod.quantity = prod.quantity > 0 ? prod.quantity + 1 : 1;
     this.cartService.add(prod)
   }
 
@@ -181,9 +167,5 @@ export class DiscountsPage implements OnInit {
     this.favoService.updateFavorites(prod)
   }
 
-
-  ngOnDestroy() {
-
-  }
-
+  ngOnDestroy() { }
 }

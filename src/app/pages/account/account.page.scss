@@ -163,7 +163,7 @@ ion-modal {
         @include flex(12, end, center, '');
         padding: 12px 16px;
         border: 1px solid rgba(240, 239, 239, 1);
-        background-color: white;
+        background-color: white !important;
         position: relative;
         overflow: hidden;
 

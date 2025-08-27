@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { Storage } from '@ionic/storage-angular';
 import { Subscription } from 'rxjs';
 import { Product } from 'src/app/core/project-interfaces/interfaces';
 import { CartService } from 'src/app/core/services/cart.service';
-import { DataService } from 'src/app/core/services/data.service';
 import { FavoService } from 'src/app/core/services/favorites.service';
 import { WildUsedService } from 'src/app/core/services/wild-used.service';
-
 
 @Component({
   selector: 'app-favorites',
@@ -22,30 +19,24 @@ export class FavoritesPage implements OnInit {
   empty: boolean = false;
 
   constructor(
-    private dataService: DataService,
-    private storage: Storage,
     private wildUsedService: WildUsedService,
     public cartService: CartService, public navCtrl: NavController,
-
     private favoServise: FavoService
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
-  ionViewWillEnter() {
-    this.getFavorites()
-  }
+  ionViewWillEnter() { this.getFavorites() }
   toCart() { this.navCtrl.navigateForward('/cart') }
 
   async getFavorites() {
     this.items = await this.favoServise.getFavorites() || [];
-    this.items.forEach(p => { p.isFav = this.cartService.checkInCart(p._id) })
+    this.items.forEach(p => { p.inCart = this.cartService.checkInCart(p._id) })
   }
 
   addToCart(prod: Product) {
     prod.inCart = true
-    prod.quantity = prod.quantity ? prod.quantity + 1 : 1;
+    prod.quantity = prod.quantity > 0 ? prod.quantity + 1 : 1;
     this.cartService.add(prod)
   }
 
@@ -65,6 +56,11 @@ export class FavoritesPage implements OnInit {
     this.items = [];
     this.empty = true;
     this.favoServise.clearFavorites()
+  }
+
+  refresh(ev: any) {
+    this.getFavorites();
+    ev.target.complete()
   }
 
   ngOnDestroy() {

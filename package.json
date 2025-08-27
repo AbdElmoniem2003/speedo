@@ -34,6 +34,7 @@
     "@capacitor/push-notifications": "^7.0.2",
     "@capacitor/splash-screen": "^7.0.1",
     "@capacitor/status-bar": "7.0.1",
+    "@capawesome/capacitor-android-edge-to-edge-support": "^7.2.3",
     "@ionic/angular": "^8.7.0",
     "@ionic/storage-angular": "^4.0.0",
     "browser-image-resizer": "^2.4.1",

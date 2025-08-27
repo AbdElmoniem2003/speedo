@@ -1,4 +1,4 @@
-<ion-header class="main-header">
+<ion-header class="main-header ">
   <ion-toolbar>
     <ion-button slot="start" class="ion-activatable no-color-button" (click)="navCtrl.navigateForward('notifications')">
       <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
@@ -16,6 +16,10 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)" pullFactor="0.8" pullMin="60" pullMax="120">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
   <div class="container">
 

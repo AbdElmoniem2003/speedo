@@ -24,10 +24,8 @@ export class FavoService {
     // const isFavorite = this.items?.find((p) => { return p._id == product._id })
     if (product.isFav) {
       this.items?.length ? this.items?.push(product) : this.items = [product];
-      await this.wildUsedService.generalToast('تمت الاضافة للمفضلات بنجاح.', 'primary', 'light-color')
     } else {
       this.items = this.items.filter((p) => { return p._id !== product._id });
-      await this.wildUsedService.generalToast('تمت الإزالة من المفضلات بنجاح.', 'primary', 'light-color')
     }
     this.storage.set('favorites', this.items)
   }

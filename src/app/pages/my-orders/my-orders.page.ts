@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { InfiniteScrollCustomEvent, IonPopover, ModalController, NavController, PopoverController, PopoverOptions, RefresherCustomEvent } from '@ionic/angular';
-import { Storage } from '@ionic/storage-angular';
 import { Order } from 'src/app/core/project-interfaces/interfaces';
 import { DataService } from 'src/app/core/services/data.service';
-import { environment } from 'src/environments/environment';
 import { OrderStatus } from 'src/app/core/enums/enum';
 import { OrderOptionsComponent } from '../order-options/order-options.component';
 import { WildUsedService } from 'src/app/core/services/wild-used.service';
@@ -11,8 +9,6 @@ import { RefuseModalComponent } from '../refuse-modal/refuse-modal.component';
 import { CartService } from 'src/app/core/services/cart.service';
 import { OrderService } from 'src/app/core/services/order-service/order.service';
 import { Subscription } from 'rxjs';
-
-const baseUrl = environment.baseUrl
 
 @Component({
   selector: 'app-my-orders',
@@ -32,7 +28,7 @@ export class MyOrdersPage implements OnInit {
   isLoading: boolean = true;
   error: boolean = false;
   empty: boolean = false;
-  stopLoad: boolean = false
+  stopLoad: boolean = true
 
   @ViewChild('orderPopover') orderPopover: IonPopover;
 
@@ -59,8 +55,7 @@ export class MyOrdersPage implements OnInit {
     })
   }
 
-  ionViewWillEnter() {
-  }
+  ionViewWillEnter() { }
 
   toCart() { this.navCtrl.navigateForward('/cart') }
 
@@ -85,7 +80,8 @@ export class MyOrdersPage implements OnInit {
   }
 
   filterByStatus(status: number) {
-    this.filterStatus = status;
+    if (this.filterStatus == status) return;
+    this.filterStatus = status
     this.showLoading()
     this.getOrders()
   }
@@ -101,7 +97,6 @@ export class MyOrdersPage implements OnInit {
     this.isLoading = false;
     this.empty = false;
     this.error = false;
-    this.stopLoad = false
     ev?.target.complete()
   }
 
@@ -126,6 +121,9 @@ export class MyOrdersPage implements OnInit {
   }
 
   async showOrderOptions(ev: PointerEvent | MouseEvent, order: Order, index: number) {
+
+    if (order.status == this.orderStatus.ACCEPTED) return;
+
     const opts: PopoverOptions = {
       component: OrderOptionsComponent,
       componentProps: {
@@ -177,20 +175,6 @@ export class MyOrdersPage implements OnInit {
       }
     })
   }
-
-  /* ============================ Editted by admin ============================ */
-  /*
-      activateOrder(order: Order) {
-        order.status = this.orderStatus.WAITING
-        this.dataService.updateData(`order/${order._id}`, order).subscribe({
-          next: (res) => {
-            console.log(res)
-          }, error: (err) => {
-            console.log(err)
-          }
-        })
-      }
- */
 
   loadMore(ev: InfiniteScrollCustomEvent) {
     this.skip += 1;

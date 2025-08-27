@@ -1,4 +1,4 @@
-<ion-header class="custom-header">
+<ion-header class="custom-header ">
 
   <ion-toolbar>
     <ion-button class="no-color-button" routerLink="/cart" slot="start">
@@ -50,7 +50,7 @@
 
     <div class="brands">
       @for (brand of brands; track $index) {
-      <div class="brand" (click)="toSection('brand',brand._id)">
+      <div class="brand" (click)="toSection('brand',brand)">
         <app-custom-image [mainImg]="brand.image"></app-custom-image>
       </div>
       }
@@ -62,7 +62,7 @@
     @if(customView=='category'){
     <div class="sections">
       @for (category of categories; track $index) {
-      <div class="custom" (click)="toSection('section',category._id)">
+      <div class="custom" (click)="toSection('section',category)">
         <app-custom-image [mainImg]="category.image"></app-custom-image>
         <p> {{category.name}}</p>
       </div>
@@ -75,7 +75,7 @@
     <div class="offers">
 
       @for (offer of offers; track $index) {
-      <div class="offer" (click)="toSection('offer',offer._id)">
+      <div class="offer" (click)="toSection('offer',offer)">
         <app-custom-image [mainImg]="offer.image" [altImg]="'../../../assets/imgs/logo-cover.png'"></app-custom-image>
         <ion-button class="no-color-button">
           <ion-label>تفقد المنتجات</ion-label>

@@ -1,4 +1,4 @@
-import { DatePipe, DecimalPipe } from "@angular/common";
+import { DecimalPipe } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import {
   FormBuilder,
@@ -8,18 +8,15 @@ import {
   Validators,
 } from "@angular/forms";
 import {
-  AnimationController,
   IonicModule,
   ModalController,
   NavController,
 } from "@ionic/angular";
-import { Storage } from "@ionic/storage-angular";
 import {
   Branch,
   CartProduct,
   Country,
   OrderType,
-  Product,
   User,
 } from "src/app/core/project-interfaces/interfaces";
 import { AuthService } from "src/app/core/services/auth.service";
@@ -27,7 +24,6 @@ import { CartService } from "src/app/core/services/cart.service";
 import { DataService } from "src/app/core/services/data.service";
 import { PickDateModalComponent } from "../pick-date-modal/pick-date-modal.component";
 import { EnterAnimation, LeaveAnimation } from "src/app/core/consts/animations";
-import { LocationService } from "src/app/core/services/location-service/location-service";
 import { forkJoin } from "rxjs";
 import { WildUsedService } from "src/app/core/services/wild-used.service";
 import { TimeFormatePipe } from "src/app/core/pipes/time-formate-pipe/time-formate-pipe";
@@ -175,7 +171,7 @@ export class ConfirmCompoComponent implements OnInit {
   }
 
 
-  //=========================================update Bill Calculations
+  /*=========================================    update Bill Calculations    =====================================*/
   updateCountry(ev: any) {
     if (ev)
       this.selectedCountry = this.countries.find((c) => {
@@ -231,9 +227,5 @@ export class ConfirmCompoComponent implements OnInit {
     if (!data) return;
     this.orderForm.patchValue({ deliveryDate: new Date(data).getTime() });
     console.log(new Date(data).getTime())
-    // console.log(this.orderForm.get('deliveryDate'))
-    // this.deliveryDate = data;
   }
-
-
 }

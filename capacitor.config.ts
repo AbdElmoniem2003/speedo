@@ -17,16 +17,15 @@ const config: CapacitorConfig = {
   plugins: {
     Keyboard: {
       resize: KeyboardResize.Body,
-      resizeOnFullScreen: true
+      resizeOnFullScreen: false
     },
     SplashScreen: {
       launchAutoHide: false,
     },
-    StatusBar: {
-      backgroundColor: "#ffffffff",
-      style: "LIGHT"
-    }, PushNotifications: {
+    PushNotifications: {
       presentationOptions: ["badge", "sound", "alert"]
+    }, EdgeToEdge: {
+      backgroundColor: "#ffffff"
     }
 
   }

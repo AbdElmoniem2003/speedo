@@ -17,7 +17,7 @@
     </ion-button>
     <ion-input #searchInputField [(ngModel)]="searchWord" (keyup.enter)="search()" (ionChange)="search()"
       placeholder="...ابحث عن منتج">
-      <ion-icon name="search-outline"></ion-icon>
+      <ion-icon (click)="search()" name="search-outline"></ion-icon>
     </ion-input>
   </div>
 </ion-header>
@@ -53,7 +53,7 @@
       <!-- Loading Ele -->
       @if(isLoading) {
       <div class="search-cards">
-        <ion-skeleton-text class="card" animated *ngFor="let i of [1,2,3,4,5,6]"></ion-skeleton-text>
+        <ion-skeleton-text class="card" animated *ngFor="let i of [1,2,3,4,5,6,7,8]"></ion-skeleton-text>
       </div>
       }
 
@@ -127,7 +127,7 @@
 
 <ion-modal class="filter-modal" trigger="homeFilterModal" #homeFilterModal>
   <ng-template>
-    <ion-header class="custom-header  modal-header">
+    <ion-header class="custom-header  modal-header ">
       <ion-toolbar>
         <ion-label slot="end">فلتر</ion-label>
         <ion-button slot="end" class="no-color-button no-padding" (click)="homeFilterModal.dismiss()">

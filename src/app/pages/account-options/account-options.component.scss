@@ -1,0 +1,18 @@
+
+@import "../../../theme/mixin.scss";
+@import "../../../global.scss";
+
+ion-buttons{
+@include flex(0,center,center,column);
+padding: 0 8px;
+
+    ion-button{
+      width: 100%;
+color: gray;
+
+      &:not(:last-child){
+        border-bottom: 1px solid rgb(213, 213, 208);
+      }
+    }
+
+}

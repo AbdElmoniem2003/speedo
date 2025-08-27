@@ -4,10 +4,6 @@ import { FormGroup } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { parsePhoneNumberWithError } from 'libphonenumber-js';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { WildUsedService } from 'src/app/core/services/wild-used.service';
-
-
-
 
 @Component({
   selector: 'app-login',
@@ -24,7 +20,6 @@ export class LoginPage implements OnInit {
     private builder: FormBuilder,
     private authService: AuthService,
     private navCtrl: NavController,
-    private wildUsedService: WildUsedService
   ) { }
 
   ngOnInit() {
@@ -55,6 +50,4 @@ export class LoginPage implements OnInit {
   toHome() {
     this.navCtrl.navigateRoot('tabs/home')
   }
-
-
 }

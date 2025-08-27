@@ -1,4 +1,4 @@
-<ion-header class="main-header">
+<ion-header class="main-header ">
   <ion-toolbar>
     <ion-button slot="start" class="ion-activatable no-color-button" (click)="navCtrl.navigateForward('notifications')">
       <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
@@ -67,8 +67,10 @@
             }
             <p>{{order.createdAt|fromNowPipe}}</p>
           </div>
+          @if (order.status!==orderStatus.ACCEPTED) {
           <ion-icon name="ellipsis-vertical" id="order-options"
             (click)="showOrderOptions($event,order,$index)"></ion-icon>
+          }
         </div>
 
       </div>

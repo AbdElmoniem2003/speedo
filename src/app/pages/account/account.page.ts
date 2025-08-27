@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
-import { ModalController, NavController } from '@ionic/angular';
+import { ModalController, ModalOptions, NavController, PopoverController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { Info, User } from 'src/app/core/project-interfaces/interfaces';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -8,6 +8,10 @@ import { CartService } from 'src/app/core/services/cart.service';
 import { DataService } from 'src/app/core/services/data.service';
 import { WildUsedService } from 'src/app/core/services/wild-used.service';
 import { Browser } from '@capacitor/browser';
+import { AccountOptionsComponent } from '../account-options/account-options.component';
+import { EnterAnimation, popoverEnterAnimation, popoverLeaveAnimation } from 'src/app/core/consts/animations';
+import { EditPasswordComponent } from '../edit-password/edit-password.component';
+import { EditAccountComponent } from '../edit-account/edit-account.component';
 
 
 @Component({
@@ -29,8 +33,9 @@ export class AccountPage implements OnInit {
     private storage: Storage,
     private dataService: DataService,
     private wildUsedService: WildUsedService, public navCtrl: NavController,
-    private modalCtrl: ModalController,
     public cartService: CartService,
+    private popoverCtrl: PopoverController,
+    private modalCtrl: ModalController
   ) { }
 
   async ngOnInit() {
@@ -52,13 +57,7 @@ export class AccountPage implements OnInit {
   }
 
   async logOut() {
-    if (!this.user) {
-      const desicion = await this.wildUsedService.generalAlert('يجب تسجيل الدخول أولا ؟', 'حسنا', 'ليس الأن');
-      if (!desicion) return;
-      this.navCtrl.navigateForward('login')
-      return;
-    }
-
+    if (!this.user) { this.navCtrl.navigateForward('login'); return }
     const desicion = await this.wildUsedService.generalAlert('هل انت متاكد انك تريد تسجيل الخروج ؟', 'نعم', 'لا');
     if (!desicion) return;
     this.authService.logOut()
@@ -81,8 +80,48 @@ export class AccountPage implements OnInit {
         presentationStyle: 'fullscreen', windowName: '_blank'
       })
     }
+  }
 
+  /* =====================================    Account Options ======================================*/
+  async showAccountOptions(ev: any) {
+    const popover = await this.popoverCtrl.create({
+      event: ev, mode: 'ios',
+      component: AccountOptionsComponent,
+      cssClass: 'account-options',
+    })
+    await popover.present();
 
+    const desicion = (await popover.onDidDismiss()).data;
+
+    if (desicion != 'delete') this.openEditions(desicion)
+    else this.deleteAccount()
+  }
+
+  async openEditions(desicion: string) {
+    const modalOpts: ModalOptions = {
+      cssClass: 'edit-modal',
+      mode: 'ios',
+      component: desicion == 'password' ? EditPasswordComponent : EditAccountComponent,
+    }
+    const modal = await this.modalCtrl.create(modalOpts);
+    await modal.present()
+  }
+
+  async deleteAccount() {
+    const desicion = await this.wildUsedService.generalAlert("هل تريد حذف حسابك؟", 'نعم', "كلا");
+    if (!desicion) return;
+    this.wildUsedService.showLoading()
+    this.dataService.deleteData(`user/${this.user._id}`).subscribe({
+      next: (res: any) => {
+        this.wildUsedService.dismisLoading();
+        this.wildUsedService.generalToast("تم الحذف بنجاح", "primary", "light-color");
+        this.authService.logOut();
+        console.log(res)
+      }, error: (err: any) => {
+        this.wildUsedService.dismisLoading();
+        this.wildUsedService.generalToast(err.error.message)
+      }
+    })
   }
 
 
@@ -91,6 +130,7 @@ export class AccountPage implements OnInit {
     this.empty = false;
     this.error = false;
   }
+
   showContent(ev?: any) {
     this.isLoading = false;
     this.empty = false;
@@ -104,6 +144,7 @@ export class AccountPage implements OnInit {
     this.empty = true;
     ev?.target.complete();
   }
+
   showError(ev?: any) {
     this.isLoading = false;
     this.error = true;
@@ -111,9 +152,5 @@ export class AccountPage implements OnInit {
     ev?.target.complete();
   }
 
-
-
-
-  ngOnDestroy() {
-  }
+  ngOnDestroy() { }
 }

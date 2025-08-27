@@ -13,6 +13,7 @@ import { Notification, User } from "../../project-interfaces/interfaces";
 import { environment } from "src/environments/environment";
 
 
+
 @Injectable({ providedIn: 'root' })
 
 export class NotificationService {
@@ -20,22 +21,23 @@ export class NotificationService {
   topic: string = environment.topic
   notifications: Notification[] = []
 
-
   constructor(
     private navCtrl: NavController,
     private wildUsedService: WildUsedService
   ) { }
 
-
-
-
-
+  async requestPermissions(user?: User) {
+    // Notification Functions
+    const permisstion = await PushNotifications.requestPermissions();
+    if (permisstion.receive == 'denied') return;
+    await PushNotifications.register();
+    await this.subscribe(user)
+  }
 
   async subscribe(user?: User) {
     await FCM.subscribeTo({ topic: `all${this.topic}` });
     if (user?._id) await FCM.subscribeTo({ topic: `user-${user?._id}${this.topic}` })
   }
-
 
   handleNotifications() {
     PushNotifications.addListener('pushNotificationReceived', async (notification: PushNotificationSchema) => {
@@ -46,7 +48,6 @@ export class NotificationService {
       await this.navCtrl.navigateForward('notifications')
     });
   }
-
 
   unsubscribe(user?: User) {
     FCM.unsubscribeFrom({ topic: `all${this.topic}` })

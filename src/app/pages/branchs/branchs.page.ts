@@ -66,7 +66,6 @@ export class BranchsPage implements OnInit {
     this.getBranchDiscounts()
   }
 
-
   async confirmOrder() {
     const modal = await this.modalCtrl.create({
       component: ConfirmCompoComponent,
@@ -85,5 +84,4 @@ export class BranchsPage implements OnInit {
   back() {
     this.navCtrl.pop()
   }
-
 }

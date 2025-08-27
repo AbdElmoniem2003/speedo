@@ -4,7 +4,6 @@ import { ProductImage } from 'src/app/core/project-interfaces/interfaces';
 import { register, SwiperContainer } from "swiper/element/bundle";
 import { ModalController } from '@ionic/angular';
 
-
 @Component({
   selector: 'app-image-viewer',
   templateUrl: './image-viewer.component.html',
@@ -27,7 +26,6 @@ export class ImageViewerComponent implements OnInit {
   ngOnInit() {
     this.handleSwiper();
   }
-
 
   handleSwiper() {
     register();
@@ -78,5 +76,4 @@ export class ImageViewerComponent implements OnInit {
       }
     }
   }
-
 }

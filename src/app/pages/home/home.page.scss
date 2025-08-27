@@ -11,6 +11,7 @@ ion-content {
   .swiper-container {
     max-width: 767px;
     height: 180px;
+    display: block;
     box-sizing: content-box;
 
     swiper-slide {

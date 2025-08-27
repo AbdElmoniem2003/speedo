@@ -1,4 +1,4 @@
-<ion-header class="custom-header">
+<ion-header class="custom-header ">
 
   @if(objToView.image){<app-custom-image [mainImg]="objToView.image"></app-custom-image>}
 
@@ -87,7 +87,7 @@
       @if(empty) {
       <div class="empty">
         <ion-icon [src]="'../../../assets/imgs/logo-icon.svg'"></ion-icon>
-        <p>لا منتجات </p>
+        <p>لا منتجات في هذا البراند</p>
       </div>
       }
       @if(error){

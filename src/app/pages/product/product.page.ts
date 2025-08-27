@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IonRadio, IonRadioGroup, ModalController, NavController } from '@ionic/angular';
-import { Storage } from '@ionic/storage-angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Addition, Product, ProductImage, SubAddition } from 'src/app/core/project-interfaces/interfaces';
 import { CartService } from 'src/app/core/services/cart.service';
@@ -27,7 +26,6 @@ export class ProductPage implements OnInit {
   productImgs: ProductImage[]
   similarProducts: Product[] = [];
   inCartObj: any = {};
-
   skip: number = 0
   empty: boolean = false;
   isloading: boolean = true;
@@ -37,7 +35,6 @@ export class ProductPage implements OnInit {
     public navCtrl: NavController,
     private router: ActivatedRoute,
     private dataService: DataService,
-    private storage: Storage,
     public cartService: CartService,
     private favoService: FavoService,
     private wildUsedService: WildUsedService,
@@ -157,9 +154,9 @@ export class ProductPage implements OnInit {
 
   /* ==================================================   Adding to cart and favorites   ==================================================== */
 
-
   async addToCart(prod: Product) {
     prod.inCart = !prod.inCart
+    prod.quantity = prod.quantity > 0 ? prod.quantity + 1 : 1;
     if (this.checkRequiredAdditionsNotChecked) {
       this.wildUsedService.generalToast(`يرجي تحديد ${this.checkRequiredAdditionsNotChecked.name}`, '', 'light-color');
       return;
@@ -209,5 +206,4 @@ export class ProductPage implements OnInit {
   ngOnDestroy() {
     this.productSub.unsubscribe()
   }
-
 }

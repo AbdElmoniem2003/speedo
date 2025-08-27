@@ -2,9 +2,7 @@ import {
   Component,
   OnInit,
 } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
 import { NavController, RefresherCustomEvent } from "@ionic/angular";
-import { Storage } from "@ionic/storage-angular";
 import { Subscription } from "rxjs";
 import { Brand, Category, Offer, Product, Slider } from "src/app/core/project-interfaces/interfaces";
 import { CartService } from "src/app/core/services/cart.service";
@@ -45,12 +43,8 @@ export class HomePage implements OnInit {
   filterModalOpen: boolean = false;
 
 
-
   constructor(
     public navCtrl: NavController,
-    private router: Router,
-    private route: ActivatedRoute,
-    private storage: Storage,
     private dataService: DataService,
     private wildUsedService: WildUsedService,
     public cartService: CartService,
@@ -62,8 +56,7 @@ export class HomePage implements OnInit {
     this.getData()
   }
 
-  ionViewWillEnter() {
-  }
+  ionViewWillEnter() { }
 
   toCart() { this.navCtrl.navigateForward('/cart') }
 
@@ -121,7 +114,6 @@ export class HomePage implements OnInit {
     this.discountProducts.forEach(p => { p.inCart = this.cartService.checkInCart(p._id) })
   }
 
-
   toCustomComponent(customView: string) {
     this.navCtrl.navigateForward(["/brands-sections"], {
       queryParams: { customView: customView },
@@ -139,7 +131,6 @@ export class HomePage implements OnInit {
     await this.favoService.updateFavorites(prod);
     this.checkFavorites()
   }
-
 
   //to Offer Category Brand
   openRelatedView(customObj: Category | Offer | Brand, customView: string) {
@@ -185,6 +176,5 @@ export class HomePage implements OnInit {
     this.navCtrl.navigateForward(`search-products`)
   }
 
-  ngOnDestroy() {
-  }
+  ngOnDestroy() { }
 }

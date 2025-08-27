@@ -1,7 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { IonicModule, LoadingController, ModalController } from '@ionic/angular';
-import { IonIcon, IonButton, IonHeader, IonImg, IonLabel } from "@ionic/angular/standalone";
+import { IonicModule, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Category } from 'src/app/core/project-interfaces/interfaces';
 import { CustomImagePageModule } from '../custom-image/custom-image.module';
@@ -20,10 +18,7 @@ export class CustomSectionCompoComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    private route: ActivatedRoute,
-    private loadingCtrl: LoadingController,
     private modalCtrl: ModalController
-
   ) { }
 
   async ngOnInit() {
@@ -33,9 +28,5 @@ export class CustomSectionCompoComponent implements OnInit, OnDestroy {
     this.modalCtrl.dismiss(val)
   }
 
-
-
-  ngOnDestroy() {
-  }
-
+  ngOnDestroy() { }
 }

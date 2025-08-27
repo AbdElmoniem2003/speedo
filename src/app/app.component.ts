@@ -3,18 +3,18 @@ import { AlertController, ModalController, NavController, PopoverController } fr
 import { Storage } from '@ionic/storage-angular';
 import { WildUsedService } from './core/services/wild-used.service';
 import { Product, User } from './core/project-interfaces/interfaces';
-import { Subscription } from 'rxjs';
 import { DataService } from './core/services/data.service';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { NotificationService } from './core/services/notification-service/notification-service';
-import { ActionPerformed, PushNotifications, PushNotificationSchema, Token } from '@capacitor/push-notifications';
-import { FCM } from '@capacitor-community/fcm';
+import { PushNotifications, PushNotificationSchema, Token } from '@capacitor/push-notifications';
 import { environment } from 'src/environments/environment';
 import { Capacitor } from '@capacitor/core';
 import { AuthService } from './core/services/auth.service';
-import { StatusBar, StatusBarStyle } from '@capacitor/status-bar';
-import { ActivatedRoute, Router } from '@angular/router';
+import { StatusBar, Style } from '@capacitor/status-bar';
+import { Router } from '@angular/router';
 import { App } from '@capacitor/app';
+import { EdgeToEdge } from '@capawesome/capacitor-android-edge-to-edge-support';
+import { EdgeToEdgePlugin } from '@capawesome/capacitor-android-edge-to-edge-support';
 
 @Component({
   selector: 'app-root',
@@ -44,24 +44,16 @@ export class AppComponent {
 
   async ngOnInit() {
     this.storage.create()
+
     this.user = await this.authService.getUserFromStorage()
+
     await this.navCtrl.navigateRoot('tabs/home');
-    if (Capacitor.getPlatform() !== 'web') await StatusBar.setOverlaysWebView({ overlay: false });
     this.wildUsedService.checkDarkThemes()
+
+
+    //Stataus bar & splash screen
     await SplashScreen.hide();
-
-    // Notification Functions
-    if (Capacitor.getPlatform() == 'web') return;
-    const permisstion = await PushNotifications.requestPermissions();
-    if (permisstion.receive == 'denied') return;
-    await PushNotifications.register();
-
-    setTimeout(async () => {
-
-      this.notificationService.subscribe(this.user)
-      this.notificationService.handleNotifications()
-
-    }, 1000);
+    await this.setStatusBar()
 
     // Cell Phone Back Button Behavior
     if (Capacitor.getPlatform() == 'android') {
@@ -69,9 +61,37 @@ export class AppComponent {
         this.handleBackButton()
       })
     }
+
+    // Notification Functions
+    setTimeout(async () => {
+      if (Capacitor.getPlatform() == 'web') return;
+      this.notificationService.requestPermissions(this.user)
+      this.notificationService.handleNotifications()
+    }, 1000);
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* =================================== Handle Navigation Back Button ================================= */
   async handleBackButton() {
+
+    this.wildUsedService.dismisLoading()
 
     // to dismiss any popover, alert or modal opened
     let modal = await this.modalCtrl.getTop();
@@ -106,6 +126,15 @@ export class AppComponent {
       }
     }
   }
+
+  async setStatusBar() {
+    if (Capacitor.getPlatform() == 'web') return;
+    await EdgeToEdge.enable();
+    await StatusBar.setOverlaysWebView({ overlay: true });
+    await StatusBar.setBackgroundColor({ color: "#ffffff" });
+    await StatusBar.setStyle({ style: Style.Light });
+  }
+
 
   ngOnDestroy() {
     this.notificationService.unsubscribe(this.user)

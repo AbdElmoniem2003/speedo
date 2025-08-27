@@ -1,16 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IonModal, ModalController, NavController, PopoverController, PopoverOptions, RefresherCustomEvent } from '@ionic/angular';
-import { Storage } from '@ionic/storage-angular';
-import { Subscription } from 'rxjs';
+import { ModalController, NavController, PopoverController, PopoverOptions, RefresherCustomEvent } from '@ionic/angular';
 import { OrderStatus } from 'src/app/core/enums/enum';
-import { Order, Product, ProductOrder } from 'src/app/core/project-interfaces/interfaces';
+import { Order, ProductOrder } from 'src/app/core/project-interfaces/interfaces';
 import { DataService } from 'src/app/core/services/data.service';
 import { WildUsedService } from 'src/app/core/services/wild-used.service';
 import { OrderOptionsComponent } from '../order-options/order-options.component';
 import { RefuseModalComponent } from '../refuse-modal/refuse-modal.component';
 import { OrderService } from 'src/app/core/services/order-service/order.service';
-
 
 @Component({
   selector: 'app-order',
@@ -20,14 +17,11 @@ import { OrderService } from 'src/app/core/services/order-service/order.service'
 })
 export class OrderPage implements OnInit {
 
-
-  orderSubscription: Subscription;
   order: Order;
   billProducts: ProductOrder[] = [];
   orderID: string;
   bill: any
   ordersProductsTotalPrice: number = 0
-
   orderStatus = OrderStatus
   skip: number = 0;
   isLoading: boolean = true;
@@ -35,13 +29,11 @@ export class OrderPage implements OnInit {
   error: boolean = false;
 
   constructor(private navCtrl: NavController,
-    private storage: Storage,
     private dataService: DataService,
     private currentRoute: ActivatedRoute,
     private wildUsedService: WildUsedService,
     private popoverCtrl: PopoverController,
     private modalCtrl: ModalController, private orderService: OrderService
-
   ) { }
 
   ngOnInit() {
@@ -65,7 +57,6 @@ export class OrderPage implements OnInit {
       next: (res: Order[]) => {
         this.order = res[0]
         this.billProducts = res[0].order;
-        console.log(this.billProducts)
         this.billProducts.forEach(p => { this.ordersProductsTotalPrice += (p.product.price * p.qty) })
         res.length ? this.showContent(ev) : this.showEmpty(ev)
         this.wildUsedService.dismisLoading()
@@ -80,7 +71,7 @@ export class OrderPage implements OnInit {
   async openOrderOperations(ev: PointerEvent | MouseEvent) {
 
     if (this.order.status == this.orderStatus.REJECTED) return;
-
+    if (this.order.status == this.orderStatus.ACCEPTED) return;
     const opts: PopoverOptions = {
       component: OrderOptionsComponent,
       componentProps: {
@@ -119,19 +110,15 @@ export class OrderPage implements OnInit {
     if (!refusalReason) return;
     this.cancelOrder(order);
     this.orderService.cancelOrder(order)
-
   }
 
   cancelOrder(order: Order) {
     this.dataService.deleteData(`order/${order._id}`).subscribe({
       next: (res) => {
         order.status = this.orderStatus.REJECTED
-      }, error: (err) => {
-        console.log(err)
-      }
+      }, error: (err) => { }
     })
   }
-
 
   showLoading() {
     this.isLoading = true
@@ -170,8 +157,5 @@ export class OrderPage implements OnInit {
     this.navCtrl.pop()
   }
 
-  ngOnDestroy() {
-    // this.orderSubscription.unsubscribe()
-  }
-
+  ngOnDestroy() { }
 }

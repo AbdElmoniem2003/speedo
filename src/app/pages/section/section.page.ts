@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
-import { Subscription } from 'rxjs';
-import { Brand, Category, Product } from 'src/app/core/project-interfaces/interfaces';
+import { Category, Product } from 'src/app/core/project-interfaces/interfaces';
 import { CartService } from 'src/app/core/services/cart.service';
 import { DataService } from 'src/app/core/services/data.service';
 import { FavoService } from 'src/app/core/services/favorites.service';
-import { WildUsedService } from 'src/app/core/services/wild-used.service';
 import { CustomSectionCompoComponent } from '../custom-section-compo/custom-section-compo.component';
 
 @Component({
@@ -21,22 +19,16 @@ export class SectionPage implements OnInit {
   products: Product[]
   subCategories: Category[] | any = []
   currentSubCategoryId: string = 'all'
-
   customId: string = null;
   objToView: Category = null;
-
-
-
   isLoading: boolean = false;
   empty: boolean = false;
   error: boolean = false;
   canLoad: boolean = true
 
-
   constructor(
     private currentRoute: ActivatedRoute,
     public navCtrl: NavController,
-    private wildUsedService: WildUsedService,
     private modalCtrl: ModalController,
     private dataService: DataService,
     public cartService: CartService,
@@ -48,8 +40,7 @@ export class SectionPage implements OnInit {
     this.getData()
   }
 
-  ionViewWillEnter() {
-  }
+  ionViewWillEnter() { }
 
   getViewParams() {
     this.objToView = this.dataService.param;
@@ -65,15 +56,11 @@ export class SectionPage implements OnInit {
     this.getSubCategories()
   }
 
-
   getCategory() {
     this.dataService.getData(`category?_id=${this.customId}&skip=0&status=1`).subscribe({
       next: (res: Category[]) => this.objToView = res[0]
     })
   }
-
-
-
 
   get dataEndPoint(): string {
     let query = `product?skip='${this.skip}&status=1`;
@@ -115,7 +102,6 @@ export class SectionPage implements OnInit {
     return endPoint
   }
 
-
   getSubCategories() {
     this.dataService.getData(this.subCategEndPoint).subscribe({
       next: (res: Category[]) => {
@@ -136,7 +122,7 @@ export class SectionPage implements OnInit {
 
   addToCart(prod: Product) {
     prod.inCart = true
-    prod.quantity = prod.quantity ? prod.quantity + 1 : 1;
+    prod.quantity = prod.quantity > 0 ? prod.quantity + 1 : 1;
     this.cartService.add(prod)
   }
 
@@ -167,12 +153,10 @@ export class SectionPage implements OnInit {
     this.getData();
   }
 
-
   showContent(ev?: any) {
     this.isLoading = false;
     this.empty = false;
     this.error = false;
-
     ev?.target.complete()
   }
 
@@ -180,7 +164,6 @@ export class SectionPage implements OnInit {
     this.isLoading = true;
     this.empty = false;
     this.error = false;
-
     ev?.target.complete()
   }
 
@@ -188,7 +171,6 @@ export class SectionPage implements OnInit {
     this.isLoading = false;
     this.empty = true;
     this.error = false;
-
     ev?.target.complete()
   }
 
@@ -196,7 +178,6 @@ export class SectionPage implements OnInit {
     this.isLoading = false;
     this.empty = false;
     this.error = true;
-
     ev?.target.complete()
   }
 
@@ -210,5 +191,4 @@ export class SectionPage implements OnInit {
   ngOnDestroy() {
     this.dataService.param = null
   }
-
 }

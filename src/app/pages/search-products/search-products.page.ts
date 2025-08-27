@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { IonInput, NavController } from '@ionic/angular';
 import { Product } from 'src/app/core/project-interfaces/interfaces';
 import { CartService } from 'src/app/core/services/cart.service';
@@ -18,21 +17,18 @@ export class SearchProductsPage implements OnInit {
   searchProducts: Product[] = []
   searchWord: string = '';
   customFilterWord: string = null; // from home page
-
   isLoading: boolean = true;
   empty: boolean = false;
   error: boolean = false;
   skip: number = 0;
   openModal: boolean = false;
-  stopLoading: boolean = false;
-
+  stopLoading: boolean = true;
 
   constructor(
     private dataService: DataService,
     public navCtrl: NavController,
     public cartService: CartService,
     public favoService: FavoService,
-    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -43,14 +39,13 @@ export class SearchProductsPage implements OnInit {
     this.searchInputField.setFocus()
   }
 
-  ionViewWillEnter() {
-  }
+  ionViewWillEnter() { }
 
   get searchEndPoint() {
     this.customFilterWord = this.dataService.searchParams;
     let query: string = `product?skip=${this.skip}`;
     if (this.customFilterWord) query += `&${this.customFilterWord}`
-    if (this.searchWord) query += `&searchText=${this.searchWord}`;
+    if (this.searchWord.trim()) query += `&searchText=${this.searchWord}`;
     return query;
   }
 
@@ -65,11 +60,15 @@ export class SearchProductsPage implements OnInit {
         }
         this.checkFavorites_InCart(this.searchProducts)
         this.searchProducts.length ? this.showContent(ev) : this.showEmpty(ev);
+        this.stopLoading = (response.length < 20)
       }, error: err => this.showError(ev)
     })
   }
 
   search() {
+    // to cancel custom search as bestSeller or Discounts
+    if (!this.searchWord.trim()) return;
+    this.dataService.searchParams = null
     this.showLoading()
     this.getProducts()
   }
@@ -83,7 +82,7 @@ export class SearchProductsPage implements OnInit {
 
   addToCart(prod: Product) {
     prod.inCart = true
-    prod.quantity = prod.quantity ? prod.quantity + 1 : 1;
+    prod.quantity = prod.quantity > 0 ? prod.quantity + 1 : 1;
     this.cartService.add(prod);
   }
 
@@ -91,8 +90,6 @@ export class SearchProductsPage implements OnInit {
     prod.isFav = !prod.isFav;
     this.favoService.updateFavorites(prod);
   }
-
-
 
   showLoading() {
     this.isLoading = true;
@@ -120,7 +117,7 @@ export class SearchProductsPage implements OnInit {
   }
   refresh(ev?: any) {
     // reset
-    this.searchWord = null;
+    this.searchWord = '';
     this.skip = 0;
     this.searchProducts = [];
     this.stopLoading = false
@@ -132,8 +129,4 @@ export class SearchProductsPage implements OnInit {
     this.skip += 1;
     this.getProducts(ev)
   }
-
-
-
-
 }

@@ -33,7 +33,6 @@ export class RegisterPage implements OnInit {
     })
   }
 
-
   available(): ValidationErrors {
     try {
       const phone = parsePhoneNumberWithError(this.registerForm.value.username, "IQ");
@@ -43,14 +42,11 @@ export class RegisterPage implements OnInit {
     }
   }
 
-
   register() {
     this.authService.register(this.registerForm.value)
   }
 
-
   toHome() {
     this.navCtrl.navigateRoot('tabs/home')
   }
-
 }

@@ -1,4 +1,4 @@
-<ion-header class="main-header">
+<ion-header class="main-header ">
   <ion-toolbar>
     <ion-button slot="start" class="ion-activatable no-color-button" (click)="navCtrl.navigateForward('notifications')">
       <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
@@ -14,6 +14,15 @@
     </ion-button>
     <ion-img slot="end" src="../../../assets/imgs/logo-icon.svg"></ion-img>
   </ion-toolbar>
+
+
+</ion-header>
+
+<ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)" pullFactor="0.8" pullMin="60" pullMax="120">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
   <div class="page-header">
     <div>
@@ -33,14 +42,6 @@
       </ion-segment>
     </div>
   </div>
-</ion-header>
-
-<ion-content>
-
-  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)" pullFactor="0.8" pullMin="60" pullMax="120">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
-
 
   <div class="container">
 
@@ -63,7 +64,7 @@
 
     @if(isLoading && segment===switchEnum.offer){
     <div class="offers-cards">
-      <ion-skeleton-text class="offer" *ngFor="let i of [1,2,3]"></ion-skeleton-text>
+      <ion-skeleton-text class="offer" *ngFor="let i of [1,2,3]" animated></ion-skeleton-text>
     </div>
     }
 

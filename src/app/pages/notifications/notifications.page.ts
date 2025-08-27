@@ -13,7 +13,6 @@ import { WildUsedService } from 'src/app/core/services/wild-used.service';
 })
 export class NotificationsPage implements OnInit {
 
-
   notifications: Notification[] = []
   empty: boolean = false;
   isloading: boolean = true;
@@ -34,9 +33,6 @@ export class NotificationsPage implements OnInit {
     this.getNotifications()
   }
 
-
-
-
   get endPoint(): string {
     let query = `fcm?skip=${this.skip}`
     if (this.user?._id) query += `&user=${this.user._id}`
@@ -47,7 +43,7 @@ export class NotificationsPage implements OnInit {
     this.dataService.getData(this.endPoint)
       .subscribe({
         next: (res: Notification[]) => {
-          console.log(res[0])
+          res.forEach(r => console.log(r.category, r.offer, r.order, r.topic))
           this.notifications = this.skip ? this.notifications.concat(res) : res;
           this.notifications.length ? this.showContent(ev) : this.showEmpty(ev);
           this.stopLoading = res?.length != 20;
@@ -66,9 +62,6 @@ export class NotificationsPage implements OnInit {
     if (notif.order) this.navCtrl.navigateForward(`order/${notif.order}`)
     if (notif.product) this.navCtrl.navigateForward(`product/${notif.product}`)
   }
-
-
-
   showLoading() {
     this.isloading = true;
     this.error = false;
@@ -103,6 +96,4 @@ export class NotificationsPage implements OnInit {
     this.skip += 1;
     this.getNotifications(ev)
   }
-
-
 }

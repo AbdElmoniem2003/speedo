@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { ModalController, NavController, RefresherCustomEvent } from '@ionic/angular';
-import { Subscription } from 'rxjs';
 import { Category, Offer, Product } from 'src/app/core/project-interfaces/interfaces';
 import { CartService } from 'src/app/core/services/cart.service';
 import { DataService } from 'src/app/core/services/data.service';
 import { FavoService } from 'src/app/core/services/favorites.service';
 import { WildUsedService } from 'src/app/core/services/wild-used.service';
 import { CustomSectionCompoComponent } from '../custom-section-compo/custom-section-compo.component';
-
 
 @Component({
   selector: 'app-offer',
@@ -22,10 +19,7 @@ export class OfferPage implements OnInit {
   offerID: string = '';
   offerCategories: any[] = []
   selectedCategoryID: string = null
-  inFavorites: string[] = [''];
   offerProducts: Product[]
-
-
   skip: number = 0
   openModal: boolean = false
   isLoading: boolean = true;
@@ -35,7 +29,6 @@ export class OfferPage implements OnInit {
 
   constructor(
     private wildUsedService: WildUsedService,
-    private currentRoute: ActivatedRoute,
     private dataService: DataService,
     public cartService: CartService,
     public favoService: FavoService,
@@ -50,9 +43,7 @@ export class OfferPage implements OnInit {
     this.wildUsedService.dismisLoading()
   }
 
-  ionViewWillEnter() {
-    this.inFavorites = this.wildUsedService.inFavorites
-  }
+  ionViewWillEnter() { }
 
   get setOfferApi() {
     let query = `product?skip=${this.skip}&status=1&offer=${this.offer._id}`;
@@ -82,7 +73,6 @@ export class OfferPage implements OnInit {
           this.isLoading = false
         }, error: err => { this.showError(ev) }
       })
-
   }
 
   getOfferCategories() {
@@ -97,7 +87,7 @@ export class OfferPage implements OnInit {
 
   addToCart(prod: Product) {
     prod.inCart = true
-    prod.quantity = prod.quantity ? prod.quantity + 1 : 1;
+    prod.quantity = prod.quantity > 0 ? prod.quantity + 1 : 1;
     this.cartService.add(prod)
   }
 
@@ -109,7 +99,6 @@ export class OfferPage implements OnInit {
     prod.isFav = !prod.isFav
     this.favoService.updateFavorites(prod);
   }
-
 
   async openCustomModal() {
     const modal = await this.modalCtrl.create({
@@ -128,8 +117,6 @@ export class OfferPage implements OnInit {
     this.selectedCategoryID = category._id;
     this.getData()
   }
-
-
 
   showLoading() {
     this.isLoading = true
@@ -169,9 +156,5 @@ export class OfferPage implements OnInit {
     this.getData(ev)
   }
 
-
-
-  ngOnDestroy() {
-  }
-
+  ngOnDestroy() { }
 }
