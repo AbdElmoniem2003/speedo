@@ -2,6 +2,7 @@ import {
   Component,
   OnInit,
 } from "@angular/core";
+import { NavigationEnd, Router } from "@angular/router";
 import { NavController, RefresherCustomEvent } from "@ionic/angular";
 import { Subscription } from "rxjs";
 import { Brand, Category, Offer, Product, Slider } from "src/app/core/project-interfaces/interfaces";
@@ -48,15 +49,21 @@ export class HomePage implements OnInit {
     private dataService: DataService,
     private wildUsedService: WildUsedService,
     public cartService: CartService,
-    private favoService: FavoService
-  ) { }
+    private favoService: FavoService,
+    private router: Router
+  ) {
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.handleSwiper(); // or reload data
+      }
+    });
+  }
 
   ngOnInit() {
     this.showLoading()
     this.getData()
   }
-
-  ionViewWillEnter() { }
 
   toCart() { this.navCtrl.navigateForward('/cart') }
 
@@ -89,15 +96,16 @@ export class HomePage implements OnInit {
       });
   }
 
+  // ================================= init Swipers
   handleSwiper() {
     register();
     this.swiperEle = document.querySelector('.swiper-container');
     this.swiperEle.pagination = {
       clickable: true,
-      el: 'swiper-pagination'
+      el: 'swiper-pagination',
     };
     this.swiperEle.hashNavigation = true;
-    this.swiperEle.oneWayMovement = false
+    this.swiperEle.oneWayMovement = false;
   }
 
   checkFavorites() {
@@ -115,9 +123,9 @@ export class HomePage implements OnInit {
   }
 
   toCustomComponent(customView: string) {
-    this.navCtrl.navigateForward(["/brands-sections"], {
-      queryParams: { customView: customView },
-    });
+    if (customView == "categories") this.dataService.param = this.categories
+    if (customView == "brands") this.dataService.param = this.brands
+    this.navCtrl.navigateForward(`/brands-sections?customView=${customView}`);
   }
 
   addToCart(product: Product) {
@@ -171,8 +179,8 @@ export class HomePage implements OnInit {
     this.getData(ev);
   }
 
-  toCustomSearch(custom: string) {
-    this.dataService.searchParams = custom
+  toCustomSearch(custom: any) {
+    this.dataService.searchParams = custom;
     this.navCtrl.navigateForward(`search-products`)
   }
 

@@ -145,12 +145,10 @@
     padding: 0 0 16px;
     position: relative;
 
-    ion-segment,
-    .loading-segments {
+    ion-segment.loading-segments {
       padding: 0 16px;
-      margin-left: 56px;
       direction: rtl;
-      @include flex(8, '', center, '');
+      @include flex(8, start, center, '');
 
       ion-segment-button,
       ion-skeleton-text {
@@ -180,10 +178,10 @@
     }
 
     ion-icon {
-      padding: 0 16px;
+      padding:  16px;
       position: absolute;
       left: 0;
-      top: 8px;
+      top: 0;
       z-index: 1;
       width: 24px;
       height: 26px;

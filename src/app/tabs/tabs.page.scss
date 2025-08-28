@@ -12,6 +12,9 @@ ion-tab-bar {
     @include shape(75, 64);
     @include flex(4, space-evenly, center, column);
 
+    &.tab-selected ion-label{
+      color:$primaryColor !important;
+    }
 
     ion-label {
       font-size: 12px;

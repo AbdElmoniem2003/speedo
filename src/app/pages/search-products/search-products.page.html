@@ -1,12 +1,20 @@
 <ion-header class="custom-header">
   <ion-toolbar>
-    <ion-button class="no-color-button" routerLink="/cart" slot="start">
+    <ion-button class="no-color-button cart" routerLink="/cart" slot="start">
       <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
       @if((cartService.items?.length)){
       <span>{{cartService.items?.length}}</span>
       }
     </ion-button>
-    <ion-label slot="end">البحث في المنتجات</ion-label>
+    <ion-label slot="end">
+      البحث في
+
+      @if(!dataService.searchParams){المنتجات}
+      @else if (dataService.searchParams.bestSeller){الأكثر مبيعاً}
+      @else if(dataService.searchParams.discount){التخفيضات}
+      @else if(dataService.searchParams.new){المضافة حديثاً}
+
+    </ion-label>
     <ion-button class="no-color-button" (click)="navCtrl.pop()" slot="end">
       <ion-icon name="chevron-forward"></ion-icon>
     </ion-button>

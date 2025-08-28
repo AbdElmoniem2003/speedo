@@ -50,10 +50,8 @@ export class AppComponent {
     await this.navCtrl.navigateRoot('tabs/home');
     this.wildUsedService.checkDarkThemes()
 
-
     //Stataus bar & splash screen
     await SplashScreen.hide();
-    await this.setStatusBar()
 
     // Cell Phone Back Button Behavior
     if (Capacitor.getPlatform() == 'android') {
@@ -125,14 +123,6 @@ export class AppComponent {
         App.exitApp()
       }
     }
-  }
-
-  async setStatusBar() {
-    if (Capacitor.getPlatform() == 'web') return;
-    await EdgeToEdge.enable();
-    await StatusBar.setOverlaysWebView({ overlay: true });
-    await StatusBar.setBackgroundColor({ color: "#ffffff" });
-    await StatusBar.setStyle({ style: Style.Light });
   }
 
 

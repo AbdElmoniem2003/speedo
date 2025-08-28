@@ -4,7 +4,7 @@
       <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
       <ion-ripple-effect></ion-ripple-effect>
     </ion-button>
-    <ion-button slot="start" class="ion-activatable no-color-button" (click)="toCart()">
+    <ion-button slot="start" class="ion-activatable no-color-button cart" (click)="toCart()">
       @if((cartService.items?.length)){
       <span>{{cartService.items?.length}}</span>
       }
@@ -19,10 +19,13 @@
 <ion-content>
   <div class="container">
 
-    <div class="header">
+    <div class="header fade-in">
       <section>الحساب</section>
       <div class="user">
-        <ion-icon name="ellipsis-vertical" id="order-options" (click)="showAccountOptions($event)"></ion-icon>
+        <ion-button class="no-color-button" (click)="showAccountOptions($event)">
+          <ion-icon name="ellipsis-vertical" id="order-options"></ion-icon>
+        </ion-button>
+
         <div>
           <div>
             <h3>{{user?.username}}</h3>
@@ -38,7 +41,7 @@
 
       <!-- Empty Ele -->
       @if(empty) {
-      <div class="empty" style="display: flex;flex-direction: column;align-items: center;">
+      <div class="empty fade-in" style="display: flex;flex-direction: column;align-items: center;">
         <img src="../../../assets/imgs/logo-icon.svg" alt="">
         <h3>لا يوجد بيانات</h3>
       </div>
@@ -46,33 +49,26 @@
 
       <!-- Error Ele -->
       @if(error) {
-      <div class="empty" style="display: flex;flex-direction: column;align-items: center;">
+      <div class="empty fade-in" style="display: flex;flex-direction: column;align-items: center;">
         <img src="../../../assets/imgs/logo-icon.svg" alt="">
         <h3>حدث خطا . تحقق من الشبكة</h3>
       </div>
       }
 
-      @if(isLoading){
-      <div class="card" *ngFor="let i of [1,2,3,4,5]">
-        <ion-skeleton-text class="img" animated></ion-skeleton-text>
-        <ion-skeleton-text class="text" animated></ion-skeleton-text>
-      </div>
-      }
-
-      @if(!isLoading&&!error&&!empty){
-      <div class="card">
+      @if(!error&&!empty){
+      <div class="card fade-in">
         <ion-img src="../../../assets/imgs/store-location-01.svg"></ion-img>
         <p>قائمة الفروع</p>
       </div>
-      <div class="card" (click)="contactModal.present()">
+      <div class="card fade-in" (click)="contactModal.present()">
         <ion-img src="../../../assets/imgs/call.svg"></ion-img>
         <p>إتصل بنا</p>
       </div>
-      <div class="card">
+      <div class="card fade-in">
         <ion-img src="../../../assets/imgs/Side menu icon.svg"></ion-img>
         <p>سياسة الخصوصية</p>
       </div>
-      <div class="card" (click)="logOut()">
+      <div class="card fade-in" (click)="logOut()">
         <ion-img src="../../../assets/imgs/logout.svg"></ion-img>
         <p>تسجيل {{!user?"الدخول":"الخروج"}}</p>
       </div>

@@ -2,7 +2,7 @@
 <ion-header class="custom-header">
 
   <ion-toolbar>
-    <ion-button slot="start" class="no-color-button" routerLink="/cart">
+    <ion-button slot="start" class="no-color-button cart" routerLink="/cart">
       <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
       @if((cartService.items?.length)){
       <span>{{cartService.items?.length}}</span>

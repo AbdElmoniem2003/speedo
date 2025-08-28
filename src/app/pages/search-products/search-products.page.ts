@@ -16,7 +16,6 @@ export class SearchProductsPage implements OnInit {
   @ViewChild('searchInputField') searchInputField: IonInput
   searchProducts: Product[] = []
   searchWord: string = '';
-  customFilterWord: string = null; // from home page
   isLoading: boolean = true;
   empty: boolean = false;
   error: boolean = false;
@@ -25,7 +24,7 @@ export class SearchProductsPage implements OnInit {
   stopLoading: boolean = true;
 
   constructor(
-    private dataService: DataService,
+    public dataService: DataService,
     public navCtrl: NavController,
     public cartService: CartService,
     public favoService: FavoService,
@@ -42,9 +41,9 @@ export class SearchProductsPage implements OnInit {
   ionViewWillEnter() { }
 
   get searchEndPoint() {
-    this.customFilterWord = this.dataService.searchParams;
+    const searchCase = this.dataService.searchParams ? Object.keys(this.dataService.searchParams)[0] : null
     let query: string = `product?skip=${this.skip}`;
-    if (this.customFilterWord) query += `&${this.customFilterWord}`
+    if (searchCase) query += `&${searchCase}=${this.dataService.searchParams[searchCase]}`
     if (this.searchWord.trim()) query += `&searchText=${this.searchWord}`;
     return query;
   }
@@ -68,7 +67,6 @@ export class SearchProductsPage implements OnInit {
   search() {
     // to cancel custom search as bestSeller or Discounts
     if (!this.searchWord.trim()) return;
-    this.dataService.searchParams = null
     this.showLoading()
     this.getProducts()
   }
@@ -129,4 +127,6 @@ export class SearchProductsPage implements OnInit {
     this.skip += 1;
     this.getProducts(ev)
   }
+
+  ngOnDestroy() { }
 }

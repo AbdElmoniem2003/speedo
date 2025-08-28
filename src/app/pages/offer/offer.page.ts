@@ -103,6 +103,7 @@ export class OfferPage implements OnInit {
   async openCustomModal() {
     const modal = await this.modalCtrl.create({
       component: CustomSectionCompoComponent,
+      breakpoints: [0.8],
       componentProps: {
         customObjArr: this.offerCategories,
         currentSubId: this.selectedCategoryID

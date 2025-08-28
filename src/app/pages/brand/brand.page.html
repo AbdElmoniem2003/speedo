@@ -3,7 +3,7 @@
   @if(objToView.image){<app-custom-image [mainImg]="objToView.image"></app-custom-image>}
 
   <ion-toolbar>
-    <ion-button slot="start" class="no-color-button" routerLink="/cart">
+    <ion-button slot="start" class="no-color-button cart" routerLink="/cart">
       <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
       @if((cartService.items?.length)){
       <span>{{cartService.items?.length}}</span>
@@ -35,13 +35,13 @@
         <ion-segment-button class="fade-in" *ngFor="let subCategory of subCategories" [value]="subCategory._id"
           (click)="filterBySubcategory(subCategory._id)">{{subCategory.name}}</ion-segment-button>
       </ion-segment>
-      <ion-icon name="chevron-down-outline" (click)="openSectionOptions()"></ion-icon>
+      @if(subCategories?.length>=5){ <ion-icon name="chevron-down-outline" (click)="openSectionOptions()"></ion-icon>
+      }
     </div>
     <div class="section-filter" *ngIf="!subCategories.length && isLoading">
       <div class="animated-categories">
         <ion-skeleton-text *ngFor="let i of [1,2,3,4,5,6]" animated></ion-skeleton-text>
       </div>
-      <ion-icon name="chevron-down-outline" (click)="openSectionOptions()"></ion-icon>
     </div>
 
     <div class="section">

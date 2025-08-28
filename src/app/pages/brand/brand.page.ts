@@ -127,6 +127,7 @@ export class BrandPage implements OnInit {
   async openSectionOptions() {
     const modal = await this.modalCtrl.create({
       component: CustomSectionCompoComponent,
+      breakpoints: [0.8],
       componentProps: {
         customObjArr: this.subCategories,
         currentSubId: this.currentSubCategoryId

@@ -63,16 +63,36 @@ $ionContentBG: var(--ion-content-BG);
   margin: 0 auto;
 }
 
+
+ion-icon[name=chevron-down-outline]{
+  color: $primaryColor !important;
+}
+
 /* Apply padding only on Android | Ios devices */
   ion-header {
     background-color: white;
-  padding-top: var(--ion-safe-area-top, env(safe-area-inset-top, 24px));
-}
-
-ion-header {
-
+  padding-top: var(--ion-safe-area-top, env(safe-area-inset-top),0px);
   ion-toolbar {
     background: $lightColor;
+
+    ion-button{
+      span{
+        position: absolute;
+        background: $primaryColor;
+        padding: 3px;
+        border-radius: 50%;
+        height: 15px;
+        width: fit-content;
+        color: $lightColor;
+        display: flex;
+        align-items: center;
+        top: 0%;
+        right: 0;
+      }
+      &.cart{
+      @include shape(40,40);
+    }
+    }
   }
 }
 
@@ -141,22 +161,6 @@ ion-button {
       --ion-color-primary-contrast: #{$primaryColor};
       --box-shadow: none;
       position: relative;
-      width: 32px;
-      height: 32px;
-
-      >span {
-        position: absolute;
-        background: $primaryColor;
-        padding: 3px;
-        border-radius: 50%;
-        height: 15px;
-        width: fit-content;
-        color: $lightColor;
-        display: flex;
-        align-items: center;
-        top: 0%;
-        right: 0;
-      }
 
       ion-img {
         position: relative;
@@ -201,14 +205,8 @@ ion-button {
 
   ion-toolbar {
 
-    >ion-button,
+    ion-button,
     ion-back-button {
-      height: 32px;
-      width: 32px;
-      --padding-bottom: 3px;
-      --padding-start: 3px;
-      --padding-end: 3px;
-      --padding-top: 3px;
       @include flex(0, center, center, '');
 
       &.no-padding {
@@ -234,36 +232,19 @@ ion-button {
         right: 0px;
       }
 
-      ion-icon {
+      ion-icon,ion-img {
         @include shape(24, 24)
       }
     }
 
     ion-button:last-of-type {
-      height: 24px;
-      width: 24px;
-
       ion-icon {
-        color: black;
+        color: $darkColor;
       }
     }
 
     >ion-img {
       @include shape(24, 24);
-    }
-
-    ion-button {
-      min-height: 24px;
-      min-width: 24px;
-      --padding-bottom: 0;
-      --padding-start: 0;
-      --padding-end: 0;
-      --padding-top: 0;
-      @include flex(0, center, center, '');
-
-      ion-icon {
-        @include shape(24, 24)
-      }
     }
 
     ion-label {
@@ -854,7 +835,7 @@ ion-modal.filter-modal {
 
 ion-modal.edit-modal{
 --width:250px;
-    --height: 15em;
+    --height: 15em;--border-radius:2em;
   }
 
 ion-modal.date-modal {
@@ -1101,6 +1082,10 @@ app-custom-image {
 
 // preserve the same colors
 .dark {
+
+  ion-icon{
+    // color: $darkColor;
+  }
 
   strong {
     color: $darkColor;

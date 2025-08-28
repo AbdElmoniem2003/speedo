@@ -13,17 +13,15 @@ export class DataService {
 
 
   param: any;
-  searchParams: any;
+  searchParams: {
+    bestSeller?: boolean, discount?: number, new?: boolean
+  };
 
   constructor(
     private http: HttpClient,
     private storage: Storage
   ) { }
 
-
-  passObj(obj) {
-    this.param = obj
-  }
 
   getData(url: string) {
     return this.http.get(baseUrl + url).pipe(take(1))

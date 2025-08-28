@@ -16,7 +16,6 @@ export class FavoritesPage implements OnInit {
 
   favoritesSubscription: Subscription
   items: Product[] = []
-  empty: boolean = false;
 
   constructor(
     private wildUsedService: WildUsedService,
@@ -45,16 +44,14 @@ export class FavoritesPage implements OnInit {
     if (!decision) return;
     prod.isFav = !prod.isFav
     this.items = this.items.filter((p) => { return p._id !== prod._id });
-    if (!this.items.length) this.empty = true
     this.favoServise.updateFavorites(prod);
   }
 
   async clearFavorites() {
-    if (this.empty) return await this.wildUsedService.generalToast('المفضلات فارغة بالفعل !', '', 'light-color');
+    if (!this.items.length) return;
     const decision = await this.wildUsedService.generalAlert('هل تريد حذف كل المنتجات المفضلة؟', 'أجل', "كلا");
     if (!decision) return;
     this.items = [];
-    this.empty = true;
     this.favoServise.clearFavorites()
   }
 

@@ -24,7 +24,6 @@ export class AccountPage implements OnInit {
 
   user: User;
   companyInfo: Info = null;
-  isLoading: boolean = true;
   empty: boolean = false;
   error: boolean = false;
 
@@ -91,18 +90,20 @@ export class AccountPage implements OnInit {
     })
     await popover.present();
 
-    const desicion = (await popover.onDidDismiss()).data;
-
-    if (desicion != 'delete') this.openEditions(desicion)
-    else this.deleteAccount()
+    const desicion: string = (await popover.onDidDismiss()).data;
+    if (desicion == null) return;
+    if (desicion == 'delete') return this.deleteAccount();
+    await this.openEditions(desicion)
   }
 
   async openEditions(desicion: string) {
     const modalOpts: ModalOptions = {
       cssClass: 'edit-modal',
       mode: 'ios',
-      component: desicion == 'password' ? EditPasswordComponent : EditAccountComponent,
+      component: null
     }
+    if (desicion == 'password') modalOpts.component = EditPasswordComponent
+    if (desicion == 'edit') modalOpts.component = EditPasswordComponent
     const modal = await this.modalCtrl.create(modalOpts);
     await modal.present()
   }
@@ -125,28 +126,19 @@ export class AccountPage implements OnInit {
   }
 
 
-  showLoading() {
-    this.isLoading = true;
-    this.empty = false;
-    this.error = false;
-  }
-
   showContent(ev?: any) {
-    this.isLoading = false;
     this.empty = false;
     this.error = false;
     ev?.target.complete()
   }
 
   showEmpty(ev?: any) {
-    this.isLoading = false;
     this.error = false;
     this.empty = true;
     ev?.target.complete();
   }
 
   showError(ev?: any) {
-    this.isLoading = false;
     this.error = true;
     this.empty = false;
     ev?.target.complete();

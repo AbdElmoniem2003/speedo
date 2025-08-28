@@ -4,7 +4,7 @@
       <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
       <ion-ripple-effect></ion-ripple-effect>
     </ion-button>
-    <ion-button slot="start" class="ion-activatable no-color-button" (click)="toCart()">
+    <ion-button slot="start" class="ion-activatable no-color-button cart" (click)="toCart()">
       @if((cartService.items?.length)){
       <span>{{cartService.items?.length}}</span>
       }

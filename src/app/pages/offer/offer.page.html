@@ -3,10 +3,10 @@
   <ion-toolbar>
     <div>
       <ion-item lines="none">
-        <ion-button slot="start" class="no-color-button" (click)="toCart()">
+        <ion-button slot="start" class="no-color-button cart" (click)="toCart()">
           <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
           @if((cartService.items?.length)){
-          <span>{{cartService.items?.length}}</span>
+          <span class="cart-counter">{{cartService.items?.length}}</span>
           }
         </ion-button>
 
@@ -21,7 +21,7 @@
 
 
       <div class="filter">
-        <ion-icon (click)="openCustomModal()" name="chevron-down-outline"></ion-icon>
+        @if(offerCategories.length>=5){ <ion-icon (click)="openCustomModal()" name="chevron-down-outline"></ion-icon>}
         <ion-segment [scrollable]="true" *ngIf="offerCategories.length" [value]="selectedCategoryID">
           <ion-segment-button *ngFor="let category of offerCategories" (click)="filterByCategory(category)"
             [value]="category._id">{{category.name}}</ion-segment-button>

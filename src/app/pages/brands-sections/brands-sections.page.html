@@ -1,7 +1,7 @@
 <ion-header class="custom-header ">
 
   <ion-toolbar>
-    <ion-button class="no-color-button" routerLink="/cart" slot="start">
+    <ion-button class="no-color-button cart" routerLink="/cart" slot="start">
       @if((cartService.items?.length)){
       <span>{{cartService.items?.length}}</span>
       }
@@ -9,9 +9,9 @@
     </ion-button>
 
     <ion-label slot="end">
-      @if(customView=='offer'){العروض}
-      @if(customView=='category'){الأقسام}
-      @if(customView=='brand'){البراندات}
+      @if(customView=='offers'){العروض}
+      @if(customView=='categories'){الأقسام}
+      @if(customView=='brands'){البراندات}
     </ion-label>
     <ion-button slot="end" class="no-color-button" (click)="navCtrl.pop()">
       <ion-icon name="chevron-forward" slot="icon-only"></ion-icon>
@@ -36,17 +36,8 @@
     </div>
     }
 
-    <!-- Error Ele -->
-    @if(error) {
-    <div class="empty" style="display: flex;flex-direction: column;align-items: center;">
-      <img src="../../../assets/imgs/logo-icon.svg" alt="">
-      <h3>حدث خطا . تحقق من الشبكة</h3>
-    </div>
-    }
 
-
-    @if(!isLoading){
-    @if(customView=='brand'){
+    @if(brands.length){
 
     <div class="brands">
       @for (brand of brands; track $index) {
@@ -58,8 +49,7 @@
 
     }
 
-
-    @if(customView=='category'){
+    @if(categories.length){
     <div class="sections">
       @for (category of categories; track $index) {
       <div class="custom" (click)="toSection('section',category)">
@@ -70,8 +60,7 @@
     </div>
     }
 
-
-    @if(customView=='offer'){
+    @if(offers.length){
     <div class="offers">
 
       @for (offer of offers; track $index) {
@@ -86,12 +75,7 @@
 
     </div>
     }
-    }
 
-    <ion-infinite-scroll threshold="25%" [disabled]="stopLoading" position="bottom" (ionInfinite)="loadMore($event)">
-      <ion-infinite-scroll-content loadingSpinner="bubbles">
-      </ion-infinite-scroll-content>
-    </ion-infinite-scroll>
 
   </div>
 

@@ -5,16 +5,16 @@
 *{
   text-align: center;
 }
+h2{
+ padding-bottom: 8px;
+ font-size: 1em;
+ color: $darkColor;
+}
 
 form{
   padding: 0 1em;
    @include flex(8 ,center,center,column);
 
-   h2{
-    padding-bottom: 8px;
-    font-size: 1em;
-    color: rgb(79, 77, 77);
-   }
 
    ion-input{
     padding: 4px 8px;

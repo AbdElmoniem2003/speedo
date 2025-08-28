@@ -4,9 +4,9 @@
       <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
       <ion-ripple-effect></ion-ripple-effect>
     </ion-button>
-    <ion-button slot="start" class="ion-activatable no-color-button" (click)="toCart()">
+    <ion-button slot="start" class="ion-activatable no-color-button cart" (click)="toCart()">
       @if((cartService.items?.length)){
-      <span>{{cartService.items?.length}}</span>
+      <span class="cart-counter">{{cartService.items?.length}}</span>
       }
       <ion-img slot="icon-only" src="../../../assets/imgs/cart.svg">
       </ion-img>
@@ -27,7 +27,7 @@
         <ion-button class="no-color-button" [routerLink]="'/search-products'">
           <ion-img src="../../../assets/imgs/filter.svg" slot="icon-only"></ion-img>
         </ion-button>
-        <ion-input [readonly]="true" (click)="navCtrl.navigateForward('search-products')" placeholder="...ابحث عن منتج">
+        <ion-input [readonly]="true" (click)="toCustomSearch(null)" placeholder="...ابحث عن منتج">
           <ion-icon name="search-outline"></ion-icon>
         </ion-input>
       </div>
@@ -60,12 +60,15 @@
     </swiper-container>
 
 
+
+
+
     <div class="home-data">
 
       @if(!isLoading&&!empty&&!error){
       <div class="sections-cards" *ngIf="categories">
         <div class="header">
-          <ion-button class="more no-color-button" (click)="toCustomComponent('category')">
+          <ion-button class="more no-color-button" (click)="toCustomComponent('categories')">
             المزيد
             <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
           </ion-button>
@@ -89,7 +92,7 @@
 
       <div class="most-demand" *ngIf="bestSeller">
         <div class="header">
-          <ion-button class="more no-color-button" (click)="toCustomSearch('bestSeller=true')">
+          <ion-button class="more no-color-button" (click)="toCustomSearch({bestSeller:true})">
             المزيد
             <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
           </ion-button>
@@ -149,7 +152,7 @@
       <div class="offers" *ngIf="offers">
 
         <div class="header">
-          <ion-button class="more no-color-button" (click)="toCustomComponent('offer')">
+          <ion-button class="more no-color-button" (click)="toCustomComponent('offers')">
             المزيد
             <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
           </ion-button>
@@ -174,7 +177,7 @@
 
       <div class="discounts" *ngIf="discountProducts">
         <div class="header">
-          <ion-button class="more no-color-button" (click)="toCustomSearch('discount=1')">
+          <ion-button class="more no-color-button" (click)="toCustomSearch({discount:1})">
             المزيد
             <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
           </ion-button>
@@ -233,7 +236,7 @@
       <div class="brands" *ngIf="brands">
 
         <div class="header">
-          <ion-button class="more no-color-button" (click)="toCustomComponent('brand')">
+          <ion-button class="more no-color-button" (click)="toCustomComponent('brands')">
             المزيد
             <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
           </ion-button>
@@ -260,7 +263,7 @@
       <div class="recent" *ngIf="newProducts">
 
         <div class="header">
-          <ion-button class="more no-color-button" (click)="toCustomSearch('new=true')">
+          <ion-button class="more no-color-button" (click)="toCustomSearch({new:true})">
             المزيد
             <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
           </ion-button>

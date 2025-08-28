@@ -6,6 +6,9 @@ import { Product } from "../project-interfaces/interfaces";
 import { Subscription } from "rxjs";
 import { DataService } from "./data.service";
 import { alertEnterAnimation, alertLeaveAnimation, EnterAnimation, LeaveAnimation } from "../consts/animations";
+import { Capacitor } from "@capacitor/core";
+import { StatusBar, Style } from "@capacitor/status-bar";
+import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
 
 @Injectable({ providedIn: 'root' })
 
@@ -89,7 +92,8 @@ export class WildUsedService {
   checkDarkThemes() {
     const checkDarkOrLight = window.matchMedia('(prefers-color-scheme: dark)');
     // activate dark if dark is the default
-    this.activateDarkThemes(checkDarkOrLight.matches)
+    this.activateDarkThemes(checkDarkOrLight.matches);
+    if (Capacitor.getPlatform() !== 'web') { this.setStatusBar() };
     // change themes by changing system themes
     checkDarkOrLight.addEventListener(('change'), (media) => {
       this.activateDarkThemes(media.matches)
@@ -98,5 +102,12 @@ export class WildUsedService {
   activateDarkThemes(themeCase: boolean) {
     document.body.classList.toggle('dark', themeCase)
   }
+
+  async setStatusBar() {
+    await EdgeToEdge.enable()
+    await StatusBar.setOverlaysWebView({ overlay: true });
+    await StatusBar.setStyle({ style: Style.Light });
+  }
+
 
 }

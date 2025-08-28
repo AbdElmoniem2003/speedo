@@ -16,7 +16,7 @@ import { CustomSectionCompoComponent } from '../custom-section-compo/custom-sect
 
 export class DiscountsPage implements OnInit {
 
-  discountCategories: any
+  discountCategories: Category[] | any = []
   offers: Offer[] = [];
   discounts: Product[] = [];
   inFavorites: string[] = ['']
@@ -31,7 +31,8 @@ export class DiscountsPage implements OnInit {
   skip: number = 0;
   filterModalOpen: boolean = false;
   openModal: boolean = false;
-  stopLoding: boolean = true
+  stopLoding: boolean = true;
+  selectedCategoryID: string;
 
   constructor(
     public navCtrl: NavController,
@@ -66,6 +67,7 @@ export class DiscountsPage implements OnInit {
           this.offers.length ? this.showContent(ev) : this.showEmpty(ev)
         } else {
           this.discounts = this.skip ? this.discounts.concat(response) : response;
+          this.getDiscoutSubGategories()
           this.discounts.length ? this.showContent(ev) : this.showEmpty(ev);
           this.discounts.forEach(p => {
             p.isFav = this.favoService.checkFavoriteProds(p._id)
@@ -85,9 +87,11 @@ export class DiscountsPage implements OnInit {
   getDiscoutSubGategories() {
     this.dataService.getData(`product/discount/category`).subscribe({
       next: (res: Category[]) => {
+        console.log(res)
         if (res.length > 1) {
           this.discountCategories = [{ name: 'الكل', _id: 'all' }, ...res]
-        } else this.discountCategories = res
+        } else this.discountCategories = res;
+        this.selectedCategoryID = res[0]._id
       }
     })
   }
@@ -136,25 +140,30 @@ export class DiscountsPage implements OnInit {
   async openCustomModal() {
     const modal = await this.modalCtrl.create({
       component: CustomSectionCompoComponent,
+      breakpoints: [0.8],
       componentProps: {
         customObjArr: this.discountCategories,
+        currentSubId: this.selectedCategoryID
       },
       cssClass: ['custom-modal'],
     })
-    await modal.present()
+    await modal.present();
+    this.selectedCategoryID = (await modal.onDidDismiss()).data
   }
+
+  filterByCategory(id: string) {
+
+    if (this.selectedCategoryID == id || this.discountCategories.length <= 1) return;
+    this.showLoading()
+    this.selectedCategoryID = id;
+    this.getData()
+  }
+
 
   toOffer(offer: Offer) {
     this.navCtrl.navigateForward(`offer?id=${offer._id}`);
-    this.dataService.passObj(offer)
   }
 
-  search(ev: any) {
-    console.log(ev.target.value);
-    this.dataService.getData('product?searchText=' + ev.target.value).subscribe((respose: any) => {
-
-    })
-  }
 
   addToCart(prod: Product) {
     prod.inCart = true

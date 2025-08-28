@@ -4,7 +4,7 @@
       <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
       <ion-ripple-effect></ion-ripple-effect>
     </ion-button>
-    <ion-button slot="start" class="ion-activatable no-color-button" (click)="toCart()">
+    <ion-button slot="start" class="ion-activatable no-color-button cart" (click)="toCart()">
       @if((cartService.items?.length)){
       <span>{{cartService.items?.length}}</span>
       }
@@ -51,7 +51,6 @@
       <div class="loading-segments">
         <ion-skeleton-text *ngFor="let i of [1,2,3,4,5]" animated="true"></ion-skeleton-text>
       </div>
-      <ion-icon name="chevron-down-outline" (click)="openCustomModal()"></ion-icon>
     </div>
 
     <div class="discounts">
@@ -107,6 +106,18 @@
     }
 
     @if(segment==='product'){
+
+    <div class="discounts-filter">
+      <ion-segment [value]="selectedCategoryID" class="loading-segments">
+        @for(category of discountCategories;track $index){
+        <ion-segment-button (click)="filterByCategory(category._id)" [value]="category._id"> {{category.name}}
+        </ion-segment-button>
+        }
+      </ion-segment>
+      @if(discountCategories.length>=5){
+      <ion-icon name="chevron-down-outline" (click)="openCustomModal()"></ion-icon>
+      }
+    </div>
 
     <div class="discounts">
 
