@@ -62,6 +62,8 @@ export class AccountPage implements OnInit {
     this.authService.logOut()
   }
 
+
+  /* =================================== Contacts ================================= */
   async contact(app: string, id: string) {
 
     let idToOpen: string = '';
@@ -81,7 +83,7 @@ export class AccountPage implements OnInit {
     }
   }
 
-  /* =====================================    Account Options ======================================*/
+  /* ===================================== Account Options ======================================*/
   async showAccountOptions(ev: any) {
     const popover = await this.popoverCtrl.create({
       event: ev, mode: 'ios',

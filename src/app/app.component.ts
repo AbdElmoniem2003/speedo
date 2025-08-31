@@ -61,11 +61,9 @@ export class AppComponent {
     }
 
     // Notification Functions
-    setTimeout(async () => {
-      if (Capacitor.getPlatform() == 'web') return;
-      this.notificationService.requestPermissions(this.user)
-      this.notificationService.handleNotifications()
-    }, 1000);
+    if (Capacitor.getPlatform() == 'web') return;
+    this.notificationService.requestPermissions(this.user)
+    this.notificationService.handleNotifications()
   }
 
 

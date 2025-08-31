@@ -94,6 +94,7 @@ export class ProductPage implements OnInit {
     })
   }
 
+
   /*============================================      get product images      ==============================================*/
 
   get productImagesEndpoint() {
@@ -120,6 +121,7 @@ export class ProductPage implements OnInit {
     })
     await imgModal.present();
   }
+
 
   /* ================================================    get product additions and SubAdditions    ==================================== */
 

@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { IonInput, NavController } from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { Product } from 'src/app/core/project-interfaces/interfaces';
 import { CartService } from 'src/app/core/services/cart.service';
 import { DataService } from 'src/app/core/services/data.service';
@@ -13,7 +13,6 @@ import { FavoService } from 'src/app/core/services/favorites.service';
 })
 export class SearchProductsPage implements OnInit {
 
-  @ViewChild('searchInputField') searchInputField: IonInput
   searchProducts: Product[] = []
   searchWord: string = '';
   isLoading: boolean = true;
@@ -34,15 +33,15 @@ export class SearchProductsPage implements OnInit {
     this.getProducts();
   }
 
-  ionViewDidEnter(): void {
-    this.searchInputField.setFocus()
-  }
+  ionViewDidEnter(): void { }
 
   ionViewWillEnter() { }
 
   get searchEndPoint() {
     const searchCase = this.dataService.searchParams ? Object.keys(this.dataService.searchParams)[0] : null
     let query: string = `product?skip=${this.skip}`;
+
+    /* ======= For Best Sellers , New Products , Discounts or ETC ========== */
     if (searchCase) query += `&${searchCase}=${this.dataService.searchParams[searchCase]}`
     if (this.searchWord.trim()) query += `&searchText=${this.searchWord}`;
     return query;

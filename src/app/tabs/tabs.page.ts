@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
 import { User } from '../core/project-interfaces/interfaces';
 import { CartService } from '../core/services/cart.service';
 import { FavoService } from '../core/services/favorites.service';
@@ -15,7 +14,7 @@ export class TabsPage implements OnInit {
 
   user: User;
 
-  constructor(private navCtrl: NavController,
+  constructor(
     public cartService: CartService,
     private favoService: FavoService,
     public authService: AuthService
@@ -30,7 +29,6 @@ export class TabsPage implements OnInit {
     this.user = await this.authService.getUserFromStorage()
   }
 
-  toCart() { this.navCtrl.navigateForward('/cart') }
 
   ngOnDestroy() { }
 }

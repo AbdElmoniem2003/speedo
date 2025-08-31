@@ -41,9 +41,10 @@
 
 
   <div class="container">
+    @if(!error){
 
-    <swiper-container *ngIf="!error" class="swiper-container" autoplay='{"delay":2000,"disableOnInteraction":false}'
-      [slidesPerView]="'auto'" [loop]="true" [updateOnWindowResize]="true">
+    <swiper-container class="swiper-container" autoplay='{"delay":2000,"disableOnInteraction":false}'
+      [slidesPerView]="'auto'" [updateOnWindowResize]="true">
       @if (!isLoading) {
       @for (slide of sliders; track $index) {
       <swiper-slide [routerLink]="slide.product?'/product/'+slide.product:'/tabs/home'">
@@ -58,11 +59,10 @@
       }
       <div class="swiper-pagination"></div>
     </swiper-container>
+    }
 
 
-
-
-
+    <!-- Home Content Goes Here -->
     <div class="home-data">
 
       @if(!isLoading&&!empty&&!error){
@@ -377,6 +377,7 @@
       </div>
       }
     </div>
+
 
     @if(error){
     <div style="padding: 16px; text-align: center;">

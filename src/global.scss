@@ -64,19 +64,20 @@ $ionContentBG: var(--ion-content-BG);
 }
 
 
-ion-icon[name=chevron-down-outline]{
+ion-icon[name=chevron-down-outline] {
   color: $primaryColor !important;
 }
 
 /* Apply padding only on Android | Ios devices */
-  ion-header {
-    background-color: white;
-  padding-top: var(--ion-safe-area-top, env(safe-area-inset-top),0px);
+ion-header {
+  background-color: white;
+  padding-top: var(--ion-safe-area-top, env(safe-area-inset-top), 0px);
+
   ion-toolbar {
     background: $lightColor;
 
-    ion-button{
-      span{
+    ion-button {
+      span {
         position: absolute;
         background: $primaryColor;
         padding: 3px;
@@ -89,9 +90,10 @@ ion-icon[name=chevron-down-outline]{
         top: 0%;
         right: 0;
       }
-      &.cart{
-      @include shape(40,40);
-    }
+
+      &.cart {
+        @include shape(40, 40);
+      }
     }
   }
 }
@@ -232,7 +234,8 @@ ion-button {
         right: 0px;
       }
 
-      ion-icon,ion-img {
+      ion-icon,
+      ion-img {
         @include shape(24, 24)
       }
     }
@@ -601,7 +604,6 @@ ion-content {
   }
 
   ion-footer {
-
     >div {
       margin: 0 auto;
       max-width: 768px;
@@ -693,7 +695,7 @@ ion-modal.filter-modal {
           ion-checkbox {
             background: rgba(0, 0, 0, 0.06);
             width: min-content;
-            color:$darkColor;
+            color: $darkColor;
             height: 36px;
             padding: 0px 12px;
             direction: ltr;
@@ -702,7 +704,8 @@ ion-modal.filter-modal {
           }
 
           ion-checkbox::part(container) {
-            @include shape(18, 18);background-color: $lightColor;
+            @include shape(18, 18);
+            background-color: $lightColor;
             border-radius: 50%;
             border-color: rgba(0, 0, 0, 0.6);
           }
@@ -781,7 +784,7 @@ ion-modal.filter-modal {
             --bar-background: rgb(229 229 229);
             flex-grow: 1;
 
-            &::part(pin){
+            &::part(pin) {
               color: $lightColor;
             }
           }
@@ -798,45 +801,48 @@ ion-modal.filter-modal {
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
 
-    ion-buttons {
+    >div {
       flex-grow: 1;
-      @include flex(16px, space-evenly, center, '');
 
-      ion-button {
-        --border-radius: 10px;
-        --padding-top: 8px;
-        --padding-bottom: 8px;
-        --padding-start: 24px;
-        --padding-end: 24px;
-        height: 48px;
-        flex-basis: 50%;
-        font-weight: 700;
-        font-size: 16px;
-        line-height: 28px;
-        letter-spacing: 0px;
-        text-align: center;
-        border-radius: 10px;
-        border: 1px solid $primaryColor;
-      }
+      ion-buttons {
+        @include flex(16, space-evenly, center, '');
 
-      >ion-button:first-of-type {
-        background: #{$primaryColor};
-        color: $lightColor;
-      }
+        ion-button {
+          --border-radius: 10px;
+          --padding-top: 8px;
+          --padding-bottom: 8px;
+          --padding-start: 24px;
+          --padding-end: 24px;
+          height: 48px;
+          flex-basis: 50%;
+          font-weight: 700;
+          font-size: 16px;
+          line-height: 28px;
+          letter-spacing: 0px;
+          text-align: center;
+          border-radius: 10px;
+          border: 1px solid $primaryColor;
+        }
 
-      >ion-button:last-of-type {
-        background: $lightColor;
-        color: #{$primaryColor} !important;
+        >ion-button:first-of-type {
+          background: #{$primaryColor};
+          color: $lightColor;
+        }
+
+        >ion-button:last-of-type {
+          background: $lightColor;
+          color: #{$primaryColor} !important;
+        }
       }
     }
-
   }
 }
 
-ion-modal.edit-modal{
---width:250px;
-    --height: 15em;--border-radius:2em;
-  }
+ion-modal.edit-modal {
+  --width: 250px;
+  --height: 15em;
+  --border-radius: 2em;
+}
 
 ion-modal.date-modal {
   --height: 50%;
@@ -1069,7 +1075,7 @@ ion-popover.order-options {
   }
 }
 
-ion-popover.account-options{
+ion-popover.account-options {
   --width: 160px;
   --backdrop-opacity: 0.2;
 
@@ -1083,7 +1089,7 @@ app-custom-image {
 // preserve the same colors
 .dark {
 
-  ion-icon{
+  ion-icon {
     // color: $darkColor;
   }
 

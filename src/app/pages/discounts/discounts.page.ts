@@ -159,12 +159,6 @@ export class DiscountsPage implements OnInit {
     this.getData()
   }
 
-
-  toOffer(offer: Offer) {
-    this.navCtrl.navigateForward(`offer?id=${offer._id}`);
-  }
-
-
   addToCart(prod: Product) {
     prod.inCart = true
     prod.quantity = prod.quantity > 0 ? prod.quantity + 1 : 1;

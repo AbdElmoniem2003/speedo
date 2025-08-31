@@ -28,9 +28,6 @@ export class CartPage implements OnInit {
     this.getitems()
   }
 
-  ionViewWillEnter() {
-  }
-
   async getitems() {
     this.items = this.cartService.items
   }
@@ -85,6 +82,4 @@ export class CartPage implements OnInit {
     this.items = [];
     await this.wildUsedService.generalToast('السلة فارغة', 'primary', 'light-color', 2500)
   }
-
-  ngOnDestroy() { }
 }

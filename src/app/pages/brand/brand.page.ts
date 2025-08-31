@@ -101,7 +101,6 @@ export class BrandPage implements OnInit {
   getData(ev?: any) {
     this.showLoading()
     this.getViewParams();
-    // this.getBrand()
     this.getProducts(ev);
     this.getSubCategories()
   }
@@ -124,6 +123,8 @@ export class BrandPage implements OnInit {
     this.favoService.updateFavorites(prod)
   }
 
+
+  /* ============================= View Brand Categories ===================== */
   async openSectionOptions() {
     const modal = await this.modalCtrl.create({
       component: CustomSectionCompoComponent,

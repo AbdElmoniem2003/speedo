@@ -94,7 +94,7 @@
       @for (offer of offers; track $index) {
       <div class="offer fade-in">
         <app-custom-image [mainImg]="offer.image" [altImg]="'../../../assets/imgs/logo-cover.png'"></app-custom-image>
-        <ion-button class="no-color-button" (click)="toOffer(offer)">
+        <ion-button class="no-color-button" (click)="navCtrl.navigateForward(`offer?id=${offer._id}`)">
           <ion-label>تفقد المنتجات</ion-label>
           <ion-icon name="chevron-back"></ion-icon>
         </ion-button>

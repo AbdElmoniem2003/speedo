@@ -19,7 +19,7 @@ export class SectionPage implements OnInit {
   products: Product[]
   subCategories: Category[] | any = []
   currentSubCategoryId: string = 'all'
-  customId: string = null;
+  // customId: string = null;
   objToView: Category = null;
   isLoading: boolean = false;
   empty: boolean = false;
@@ -48,23 +48,21 @@ export class SectionPage implements OnInit {
   }
 
   getData(ev?: any) {
-    this.customId = this.currentRoute.snapshot.queryParamMap.get('id')
     this.showLoading()
     this.getViewParams();
-    // this.getCategory()
     this.getProducts(ev);
     this.getSubCategories()
   }
 
   getCategory() {
-    this.dataService.getData(`category?_id=${this.customId}&skip=0&status=1`).subscribe({
+    this.dataService.getData(`category?_id=${this.objToView._id}&skip=0&status=1`).subscribe({
       next: (res: Category[]) => this.objToView = res[0]
     })
   }
 
   get dataEndPoint(): string {
     let query = `product?skip='${this.skip}&status=1`;
-    query += `&category=${this.customId}`
+    query += `&category=${this.objToView._id}`
     if (this.currentSubCategoryId != 'all') query += `&subCategory=${this.currentSubCategoryId}`
     return query
   }
@@ -98,7 +96,7 @@ export class SectionPage implements OnInit {
 
   get subCategEndPoint(): string {
     let endPoint: string = null
-    endPoint = 'subCategory?status=1&category=' + this.customId
+    endPoint = 'subCategory?status=1&category=' + this.objToView._id
     return endPoint
   }
 

@@ -12,6 +12,7 @@ const baseUrl = environment.baseUrl
 export class DataService {
 
 
+  homeSlideActiveIndex: number = 1;
   param: any;
   searchParams: {
     bestSeller?: boolean, discount?: number, new?: boolean

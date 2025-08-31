@@ -23,8 +23,7 @@
     <ion-button class="no-color-button" (click)="homeFilterModal.present()">
       <ion-img src="../../../assets/imgs/filter.svg" slot="icon-only"></ion-img>
     </ion-button>
-    <ion-input #searchInputField [(ngModel)]="searchWord" (keyup.enter)="search()" (ionChange)="search()"
-      placeholder="...ابحث عن منتج">
+    <ion-input [(ngModel)]="searchWord" (keyup.enter)="search()" (ionChange)="search()" placeholder="...ابحث عن منتج">
       <ion-icon (click)="search()" name="search-outline"></ion-icon>
     </ion-input>
   </div>
@@ -145,52 +144,56 @@
     </ion-header>
 
     <ion-content>
-      <div class="filter-content">
-        <div class="colors">
-          <h3>اللون</h3>
-          <ion-segment value="اخضر">
-            <ion-segment-button value="اخضر"><span></span></ion-segment-button>
-            <ion-segment-button value="احمر"><span></span></ion-segment-button>
-            <ion-segment-button value="ذهبي"><span></span></ion-segment-button>
-          </ion-segment>
-        </div>
-
-        <div class="prices">
-          <h3>السعر($)</h3>
-          <div class="range-wrapper">
-            <div class="fake-knob start"></div>
-            <ion-range dir="rtl" [dualKnobs]="true" min="5" max="105" [value]="{ lower: 5, upper: 55 }" [pin]="true"
-              class="custom-range"></ion-range>
-            <div class="fake-knob end"></div>
+      <div class="container">
+        <div class="filter-content">
+          <div class="colors">
+            <h3>اللون</h3>
+            <ion-segment value="اخضر">
+              <ion-segment-button value="اخضر"><span></span></ion-segment-button>
+              <ion-segment-button value="احمر"><span></span></ion-segment-button>
+              <ion-segment-button value="ذهبي"><span></span></ion-segment-button>
+            </ion-segment>
           </div>
-        </div>
 
-        <div class="options">
-          <h3>متغير</h3>
-          <div class="checks">
-            <ion-checkbox value="1">خيار 1</ion-checkbox>
-            <ion-checkbox value="2">خيار 2</ion-checkbox>
-            <ion-checkbox value="3">خيار 3</ion-checkbox>
-            <ion-checkbox value="4">خيار 4</ion-checkbox>
-            <ion-checkbox value="5">خيار 5</ion-checkbox>
+          <div class="prices">
+            <h3>السعر($)</h3>
+            <div class="range-wrapper">
+              <div class="fake-knob start"></div>
+              <ion-range dir="rtl" [dualKnobs]="true" min="5" max="105" [value]="{ lower: 5, upper: 55 }" [pin]="true"
+                class="custom-range"></ion-range>
+              <div class="fake-knob end"></div>
+            </div>
           </div>
-        </div>
 
-        <div class="sizes">
-          <h3>الحجم</h3>
-          <div class="checks square-checkbox">
-            <ion-checkbox value="كبير">كبير</ion-checkbox>
-            <ion-checkbox value="متوسط">متوسط</ion-checkbox>
-            <ion-checkbox value="صغير">صغير</ion-checkbox>
+          <div class="options">
+            <h3>متغير</h3>
+            <div class="checks">
+              <ion-checkbox value="1">خيار 1</ion-checkbox>
+              <ion-checkbox value="2">خيار 2</ion-checkbox>
+              <ion-checkbox value="3">خيار 3</ion-checkbox>
+              <ion-checkbox value="4">خيار 4</ion-checkbox>
+              <ion-checkbox value="5">خيار 5</ion-checkbox>
+            </div>
+          </div>
+
+          <div class="sizes">
+            <h3>الحجم</h3>
+            <div class="checks square-checkbox">
+              <ion-checkbox value="كبير">كبير</ion-checkbox>
+              <ion-checkbox value="متوسط">متوسط</ion-checkbox>
+              <ion-checkbox value="صغير">صغير</ion-checkbox>
+            </div>
           </div>
         </div>
       </div>
     </ion-content>
     <ion-footer>
-      <ion-buttons>
-        <ion-button (click)="null">حفظ</ion-button>
-        <ion-button (click)="homeFilterModal.dismiss()">إلغاء</ion-button>
-      </ion-buttons>
+      <div>
+        <ion-buttons>
+          <ion-button (click)="null">حفظ</ion-button>
+          <ion-button (click)="homeFilterModal.dismiss()">إلغاء</ion-button>
+        </ion-buttons>
+      </div>
     </ion-footer>
   </ng-template>
 </ion-modal>

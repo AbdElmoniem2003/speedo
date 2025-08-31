@@ -25,7 +25,7 @@ export class BranchsPage implements OnInit {
     private dataService: DataService,
     public modalCtrl: ModalController,
     private cartService: CartService,
-    private navCtrl: NavController,
+    public navCtrl: NavController,
     private wildUsedService: WildUsedService,
     private locationService: LocationService
   ) { }
@@ -81,7 +81,4 @@ export class BranchsPage implements OnInit {
     await modal.present()
   }
 
-  back() {
-    this.navCtrl.pop()
-  }
 }

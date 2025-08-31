@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  ViewChild,
 } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { NavController, RefresherCustomEvent } from "@ionic/angular";
@@ -55,14 +56,18 @@ export class HomePage implements OnInit {
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.handleSwiper(); // or reload data
+        setTimeout(() => {
+          this.handleSwiper();
+          this.swiperEle.swiper.slideTo(this.dataService.homeSlideActiveIndex);
+        }, 1000)
       }
     });
   }
 
+
   ngOnInit() {
     this.showLoading()
-    this.getData()
+    this.getData();
   }
 
   toCart() { this.navCtrl.navigateForward('/cart') }
@@ -97,7 +102,7 @@ export class HomePage implements OnInit {
   }
 
   // ================================= init Swipers
-  handleSwiper() {
+  async handleSwiper() {
     register();
     this.swiperEle = document.querySelector('.swiper-container');
     this.swiperEle.pagination = {
@@ -105,6 +110,7 @@ export class HomePage implements OnInit {
       el: 'swiper-pagination',
     };
     this.swiperEle.hashNavigation = true;
+    this.swiperEle.updateOnWindowResize = true;
     this.swiperEle.oneWayMovement = false;
   }
 
@@ -177,11 +183,16 @@ export class HomePage implements OnInit {
     this.error = false
     this.empty = false
     this.getData(ev);
+
   }
 
   toCustomSearch(custom: any) {
     this.dataService.searchParams = custom;
     this.navCtrl.navigateForward(`search-products`)
+  }
+
+  ionViewWillLeave() {
+    this.dataService.homeSlideActiveIndex = this.swiperEle.swiper.activeIndex
   }
 
   ngOnDestroy() { }

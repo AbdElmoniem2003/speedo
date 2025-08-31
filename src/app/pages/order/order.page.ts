@@ -68,6 +68,7 @@ export class OrderPage implements OnInit {
     })
   }
 
+  /* ================================ Cancel Order ======================== */
   async openOrderOperations(ev: PointerEvent | MouseEvent) {
 
     if (this.order.status == this.orderStatus.REJECTED) return;
