@@ -25,8 +25,8 @@ export class EditAccountComponent implements OnInit {
 
   initForm() {
     this.accountForm = this.formBuilder.group({
-      username: [this.authService.user.displayName, Validators.required],
-      password: [this.authService.user.username, Validators.required],
+      username: [this.authService.user().displayName, Validators.required],
+      password: [this.authService.user().username, Validators.required],
     })
   }
 
@@ -34,11 +34,11 @@ export class EditAccountComponent implements OnInit {
   async confirm() {
     if (this.accountForm.invalid) return;
     this.wildUsedService.showLoading();
-    this.dataService.updateData(`/user/${this.authService.user._id}`, this.accountForm.value).subscribe({
+    this.dataService.updateData(`/user/${this.authService.user()._id}`, this.accountForm.value).subscribe({
       next: (res: User) => {
         this.wildUsedService.dismisLoading();
         this.wildUsedService.generalToast("تم تحديث بياناتك بنجاح", 'primary', 'light-color')
-        this.authService.user = res;
+        this.authService.user.set(res);
       },
       error: (err) => {
         this.wildUsedService.dismisLoading();

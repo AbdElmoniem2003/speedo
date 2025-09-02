@@ -14,6 +14,7 @@ export class TabsPage implements OnInit {
 
   user: User;
 
+
   constructor(
     public cartService: CartService,
     private favoService: FavoService,
@@ -26,7 +27,7 @@ export class TabsPage implements OnInit {
   }
 
   async ionViewWillEnter() {
-    this.user = await this.authService.getUserFromStorage()
+    this.user = this.authService.user()
   }
 
 

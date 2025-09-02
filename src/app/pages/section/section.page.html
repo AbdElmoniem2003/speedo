@@ -71,12 +71,8 @@
                 [src]="product.isFav?'../../../assets/imgs/tabs-icons/favourite-active.svg':''"
                 slot="icon-only"></ion-icon>
             </ion-button>
-            <div class="btns">
-              <span class="extra">
-                <ion-img src="../../../assets/imgs/stars.svg" slot="icon-only"></ion-img>
-                جديد
-              </span>
-            </div>
+            <app-product-classes [prod]="product"></app-product-classes>
+
           </div>
         </div>
         }

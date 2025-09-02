@@ -41,7 +41,6 @@ export class HomePage implements OnInit {
   discountProducts: Product[];
   offers: Product[];
   bestSeller: Product[];
-  // inFavorites: string[] ;
   filterModalOpen: boolean = false;
 
 
@@ -51,15 +50,17 @@ export class HomePage implements OnInit {
     private wildUsedService: WildUsedService,
     public cartService: CartService,
     private favoService: FavoService,
-    private router: Router
+    router: Router
   ) {
 
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
+    router.events.subscribe(event => {
+      if (event instanceof NavigationEnd && !this.isLoading) {
+        this.checkFavorites();
+        this.checkInCart();
         setTimeout(() => {
           this.handleSwiper();
           this.swiperEle.swiper.slideTo(this.dataService.homeSlideActiveIndex);
-        }, 1000)
+        }, 1500);
       }
     });
   }
@@ -90,8 +91,6 @@ export class HomePage implements OnInit {
             this.discountProducts = response.discountProducts
             this.bestSeller = response.bestSeller;
 
-            this.checkFavorites();
-            this.checkInCart()
           }
           response ? this.showContent(ev) : this.showEmpty(ev);
         }, error: err => {

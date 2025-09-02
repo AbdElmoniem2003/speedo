@@ -107,7 +107,7 @@
             <div class="card-content" [routerLink]="'/product/'+prod._id">
               <app-custom-image [mainImg]="prod.image"></app-custom-image>
               <p>{{prod.name}}</p>
-              <h3>{{prod.price}}د</h3>
+              <h3>{{prod.price}} د.ع</h3>
             </div>
             <ion-button (click)="addToCart(prod)" [disabled]="prod.inCart">
               <ion-label> {{prod.inCart?'في السلة':'أضف للسلة'}}</ion-label>
@@ -118,28 +118,7 @@
                 <ion-icon [name]="prod.isFav?'heart':'heart-outline'" [color]="prod.isFav?'primary':'dark'"
                   slot="icon-only"></ion-icon>
               </ion-button>
-              <div class="btns">
-
-                @if(prod.new){
-                <span [class]="(prod.offer)|| (prod.special)?'extra':'expanded'">
-                  <img src="../../../assets/imgs/stars.svg" slot="icon-only">
-                  @if(!prod.special&&!prod.offer){جديد}
-                </span>
-                }
-                @if(prod.offer){
-
-                <span [class]="(prod.new)||(prod.special)?'extra':'expanded'">
-                  <img src="../../../assets/imgs/offer-icon.svg" slot="icon-only">
-                  @if(!prod.new&&!prod.special){خصم}
-                </span>
-                }
-                @if(prod.special){
-                <span [class]=" (prod.new)||(prod.offer)?'extra':'expanded'">
-
-                  <img src="../../../assets/imgs/trend-icon.svg" slot="icon-only">
-                </span>
-                }
-              </div>
+              <app-product-classes [prod]="prod"></app-product-classes>
             </div>
           </div>
           }
@@ -203,28 +182,8 @@
                 <ion-icon [name]="discountProd.isFav?'heart':'heart-outline'"
                   [color]="discountProd.isFav?'primary':'dark'" slot="icon-only"></ion-icon>
               </ion-button>
-              <div class="btns">
+              <app-product-classes [prod]="discountProd"></app-product-classes>
 
-                @if(discountProd.new){
-                <span [class]="(discountProd.offer)|| (discountProd.special)?'extra':'expanded'">
-                  <img src="../../../assets/imgs/stars.svg" slot="icon-only">
-                  @if(!discountProd.special&&!discountProd.offer){جديد}
-                </span>
-                }
-                @if(discountProd.offer){
-
-                <span [class]="(discountProd.new)||(discountProd.special)?'extra':'expanded'">
-                  <img src="../../../assets/imgs/offer-icon.svg" slot="icon-only">
-                  @if(!discountProd.new&&!discountProd.special){خصم}
-                </span>
-                }
-                @if(discountProd.special){
-                <span [class]=" (discountProd.new)||(discountProd.offer)?'extra':'expanded'">
-
-                  <img src="../../../assets/imgs/trend-icon.svg" slot="icon-only">
-                </span>
-                }
-              </div>
             </div>
           </div>
           }
@@ -289,28 +248,8 @@
                 <ion-icon [name]="newProd.isFav?'heart':'heart-outline'" [color]="newProd.isFav?'primary':'dark'"
                   slot="icon-only"></ion-icon>
               </ion-button>
-              <div class="btns">
+              <app-product-classes [prod]="newProd"></app-product-classes>
 
-                @if(newProd.new){
-                <span [class]="(newProd.offer)|| (newProd.special)?'extra':'expanded'">
-                  <img src="../../../assets/imgs/stars.svg" slot="icon-only">
-                  @if(!newProd.special&&!newProd.offer){جديد}
-                </span>
-                }
-                @if(newProd.offer){
-
-                <span [class]="(newProd.new)||(newProd.special)?'extra':'expanded'">
-                  <img src="../../../assets/imgs/offer-icon.svg" slot="icon-only">
-                  @if(!newProd.new&&!newProd.special){خصم}
-                </span>
-                }
-                @if(newProd.special){
-                <span [class]=" (newProd.new)||( newProd.offer)?'extra':'expanded'">
-
-                  <img src="../../../assets/imgs/trend-icon.svg" slot="icon-only">
-                </span>
-                }
-              </div>
             </div>
           </div>
           }

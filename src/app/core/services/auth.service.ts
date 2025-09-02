@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, signal, WritableSignal } from "@angular/core";
 import { NavController } from "@ionic/angular";
 import { Storage } from "@ionic/storage-angular";
 import { WildUsedService } from "./wild-used.service";
@@ -11,7 +11,7 @@ import { User } from "../project-interfaces/interfaces";
 
 export class AuthService {
 
-  public user: User;
+  public user: WritableSignal<User> = signal(null);
 
   constructor(
     private storage: Storage,
@@ -19,12 +19,14 @@ export class AuthService {
     private wildUsedService: WildUsedService,
     private dataService: DataService
   ) {
-
+    this.getUserFromStorage();
   }
 
   async getUserFromStorage() {
-    this.user = await this.storage.get('user');
-    return this.user
+    await this.storage.create()
+    const userData = await this.storage.get('user')
+    this.user.set(userData);
+    return this.user()
   }
 
   saveCredintials(userData: User) {
@@ -88,7 +90,7 @@ export class AuthService {
       this.dataService.postData('user/changePassword', body).subscribe({
         next: (user: User) => {
           this.saveCredintials(user);
-          this.user = user;
+          this.user.set(user);
           this.wildUsedService.dismisLoading();
           this.navCtrl.navigateRoot('/tabs/home');
           resolve(true);
@@ -105,7 +107,6 @@ export class AuthService {
     localStorage.removeItem('refreshToken')
     localStorage.removeItem('accessToken')
     this.storage.clear().then(() => {
-      // this.wildUsedService.generalToast("يرجي تسجيل الدخول!.", '', 'light-color',2000)
       this.navCtrl.navigateRoot('login')
     })
   }

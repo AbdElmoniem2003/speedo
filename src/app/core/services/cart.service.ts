@@ -8,7 +8,6 @@ import { WildUsedService } from "./wild-used.service";
 export class CartService {
 
   items: CartProduct[] = [];
-  // cartBehaviourSub = new BehaviorSubject<number>(0)
   branch: Branch = null;
 
   constructor(

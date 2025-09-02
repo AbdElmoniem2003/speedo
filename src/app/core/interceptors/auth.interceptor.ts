@@ -23,14 +23,14 @@ export class AuthIntercepror implements HttpInterceptor {
       if (err instanceof HttpErrorResponse) {
         switch (err.status) {
           case 401:   // refresh token is needed
-            if (req.url.includes('login') || req.url.includes('register')) throwError(err)
+            if (req.url.includes('login') || req.url.includes('register')) throwError(() => err);
             return this.handle_401_Error(req, next);
           case 403:   // refresh token is expired  user has to login again to get a new refresh token
             return this.logOutUser();
-          default: //any other error
+          default: //any other error like localStorage is cleared
             return throwError(() => err);
         }
-      } else { return throwError(err) }
+      } else { return throwError(() => err) }
     }))
   }
 

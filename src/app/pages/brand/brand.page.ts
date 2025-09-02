@@ -6,6 +6,7 @@ import { CartService } from 'src/app/core/services/cart.service';
 import { DataService } from 'src/app/core/services/data.service';
 import { FavoService } from 'src/app/core/services/favorites.service';
 import { CustomSectionCompoComponent } from '../custom-section-compo/custom-section-compo.component';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-brand',
@@ -29,12 +30,19 @@ export class BrandPage implements OnInit {
   canLoad: boolean = true
 
   constructor(
+    router: Router,
     public navCtrl: NavController,
     private modalCtrl: ModalController,
     private dataService: DataService,
     public cartService: CartService,
     private favoService: FavoService
-  ) { }
+  ) {
+    router.events.subscribe(ev => {
+      if (ev instanceof NavigationEnd && !this.isLoading) {
+        this.checkFavorites_InCart(this.products)
+      }
+    })
+  }
 
   ngOnInit() {
     this.getData()
@@ -42,7 +50,6 @@ export class BrandPage implements OnInit {
 
   getViewParams() {
     this.objToView = this.dataService.param;
-    if (!this.objToView) this.getBrand()
   }
 
   get subCategEndPoint(): string {
@@ -51,11 +58,6 @@ export class BrandPage implements OnInit {
     return endPoint
   }
 
-  getBrand() {
-    this.dataService.getData(`brand?_id=${this.objToView._id}&skip=0&status=1`).subscribe({
-      next: (res: Brand[]) => this.objToView = res[0]
-    })
-  }
 
   getSubCategories() {
     this.subCategoriesSub = this.dataService.getData(this.subCategEndPoint).subscribe({
@@ -85,10 +87,6 @@ export class BrandPage implements OnInit {
           } else {
             this.products = this.products.concat(response)
           }
-          this.products.forEach(p => {
-            this.cartService.checkInCart(p._id)
-            this.favoService.checkFavoriteProds(p._id)
-          })
           this.canLoad = response.length > 20;
           this.products.length > 0 ? this.showContent(ev) : this.showEmpty(ev)
           this.isLoading = false
@@ -105,6 +103,13 @@ export class BrandPage implements OnInit {
     this.getSubCategories()
   }
 
+  checkFavorites_InCart(prods: Product[]) {
+    prods.forEach(p => {
+      p.isFav = this.favoService.checkFavoriteProds(p._id);
+      p.inCart = this.cartService.checkInCart(p._id)
+    })
+  }
+
   filterBySubcategory(subCategoryId: string) {
     if (this.subCategories.length === 1 || subCategoryId == this.currentSubCategoryId) return;
     this.showLoading()
@@ -114,7 +119,7 @@ export class BrandPage implements OnInit {
 
   addToCart(prod: Product) {
     prod.inCart = true
-    prod.quantity = prod.quantity > 0 ? prod.quantity + 1 : 1;
+    prod.quantity = 1;
     this.cartService.add(prod)
   }
 

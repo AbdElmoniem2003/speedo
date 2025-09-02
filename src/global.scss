@@ -140,11 +140,9 @@ ion-button {
   .circle {
     position: absolute;
     @include shape(150, 150);
-    border: 2px solid $primaryColor;
-    border-radius: 20% 50%;
-    border-top-color: $secondaryColor;
-    border-bottom-color: var(--light-text);
-    animation: spinning 1s linear infinite;
+    border: 2.5px solid $primaryColor;
+    border-color: $secondaryColor $primaryColor;
+    animation: spinning 1s linear infinite alternate;
   }
 }
 
@@ -278,7 +276,7 @@ ion-button {
   justify-content: center;
 
   >div {
-    padding: 24px 16px 16px;
+    padding: 16px 16px;
     max-width: 767px;
     flex-grow: 1;
 
@@ -616,6 +614,12 @@ ion-modal.filter-modal {
   --height: 100%;
   --width: 100%;
 
+  ion-toolbar {
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 0 !important;
+  }
+
   ion-content {
     --padding-bottom: 16px !important;
     --padding-top: 16px !important;
@@ -661,19 +665,19 @@ ion-modal.filter-modal {
                 border-radius: 30px;
               }
 
-              &[value=اخضر] {
+              &[value=green] {
                 span {
                   background-color: rgba(48, 193, 167, 1);
                 }
               }
 
-              &[value=احمر] {
+              &[value=red] {
                 span {
                   background-color: rgba(189, 3, 54, 1);
                 }
               }
 
-              &[value=ذهبي] {
+              &[value=gold] {
                 span {
                   background-color: rgba(255, 195, 0, 1);
                 }
@@ -747,34 +751,26 @@ ion-modal.filter-modal {
             z-index: 1;
             position: relative;
 
-            &::after {
-              content: "";
-              top: 120%;
-              font-weight: 700;
-              font-size: 12px;
-              line-height: 100%;
-              text-align: right;
-              color: rgba(0, 0, 0, 0.6);
-              position: absolute;
+            span{
+                  top: 120%;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 100%;
+    text-align: right;
+    color: rgb(0 0 0 / 31%);
+    position: absolute;
+    width: max-content;
             }
           }
 
           .fake-knob.start {
             left: 0;
             transform: translateX(50%);
-
-            &::after {
-              content: '105$';
-            }
           }
 
           .fake-knob.end {
             right: 0;
             transform: translateX(-50%);
-
-            &::after {
-              content: '5$';
-            }
           }
 
           ion-range {
@@ -786,6 +782,8 @@ ion-modal.filter-modal {
 
             &::part(pin) {
               color: $lightColor;
+              width: fit-content;
+              padding: 2px;
             }
           }
         }
@@ -870,20 +868,26 @@ ion-modal.custom-modal {
 
 @keyframes spinning {
   0% {
-    transform: rotate(0deg);
+    transform: rotateZ(0deg);
+    border-radius: 50%;
+    border-width:6px 1.5px ;
   }
 
   100% {
-    transform: rotate(360deg);
+    transform: rotateZ(360deg);
+    border-radius: 50%;
+    border-width: 1.5px 6px;
   }
 }
 
 @keyframes faddinAnimation {
   0% {
+    transform: translateY(1rem);
     opacity: 0;
   }
 
   100% {
+    transform: translateY(0);
     opacity: 1;
   }
 }
@@ -1042,7 +1046,7 @@ ion-toast.light-color {
     color: $lightColor;
   }
 
-  toast-button-group>button {
+    &::part(cancel) {
     font-family: 'Cairo';
   }
 }

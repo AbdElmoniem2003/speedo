@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Product } from 'src/app/core/project-interfaces/interfaces';
@@ -20,8 +21,16 @@ export class FavoritesPage implements OnInit {
   constructor(
     private wildUsedService: WildUsedService,
     public cartService: CartService, public navCtrl: NavController,
-    private favoServise: FavoService
-  ) { }
+    private favoServise: FavoService, router: Router
+  ) {
+    router.events.subscribe(event => {
+      if (event instanceof NavigationEnd && this.items.length) {
+        this.items.forEach(p => {
+          p.inCart = this.cartService.checkInCart(p._id)
+        })
+      }
+    });
+  }
 
   ngOnInit() { }
 
@@ -35,7 +44,7 @@ export class FavoritesPage implements OnInit {
 
   addToCart(prod: Product) {
     prod.inCart = true
-    prod.quantity = prod.quantity > 0 ? prod.quantity + 1 : 1;
+    prod.quantity = 1;
     this.cartService.add(prod)
   }
 

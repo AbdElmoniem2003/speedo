@@ -1,0 +1,22 @@
+<div class="btns">
+
+  @if(prod.new){
+  <span [class]="(prod.offer)|| (prod.special)?'extra':'expanded'">
+    <img src="../../../assets/imgs/stars.svg" slot="icon-only">
+    @if(!prod.special&&!prod.offer){جديد}
+  </span>
+  }
+  @if(prod.offer){
+
+  <span [class]="(prod.new)||(prod.special)?'extra':'expanded'">
+    <img src="../../../assets/imgs/offer-icon.svg" slot="icon-only">
+    @if(!prod.new&&!prod.special){خصم}
+  </span>
+  }
+  @if(prod.special){
+  <span [class]="(prod.new)||( prod.offer)?'extra':'expanded'">
+
+    <img src="../../../assets/imgs/trend-icon.svg" slot="icon-only">
+  </span>
+  }
+</div>

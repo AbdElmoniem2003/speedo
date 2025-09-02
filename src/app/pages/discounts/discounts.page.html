@@ -94,7 +94,7 @@
       @for (offer of offers; track $index) {
       <div class="offer fade-in">
         <app-custom-image [mainImg]="offer.image" [altImg]="'../../../assets/imgs/logo-cover.png'"></app-custom-image>
-        <ion-button class="no-color-button" (click)="navCtrl.navigateForward(`offer?id=${offer._id}`)">
+        <ion-button class="no-color-button" (click)="toOffer(offer)">
           <ion-label>تفقد المنتجات</ion-label>
           <ion-icon name="chevron-back"></ion-icon>
         </ion-button>
@@ -147,28 +147,7 @@
               <ion-icon [name]="prod.isFav?'heart':'heart-outline'" [color]="prod.isFav?'primary':'dark'"
                 slot="icon-only"></ion-icon>
             </ion-button>
-            <div class="btns">
-
-              @if(prod.new){
-              <span [class]="(prod.offer&&prod.new)|| (prod.new&&prod.special)?'extra':'expanded'">
-                <img src="../../../assets/imgs/stars.svg" slot="icon-only">
-                @if(!prod.special&&!prod.offer){جديد}
-              </span>
-              }
-              @if(prod.offer){
-
-              <span [class]="(prod.new&&prod.offer)||(prod.special&&prod.offer)?'extra':'expanded'">
-                <img src="../../../assets/imgs/offer-icon.svg" slot="icon-only">
-                @if(!prod.new&&!prod.special){خصم}
-              </span>
-              }
-              @if(prod.special){
-              <span [class]="(prod.new&&prod.special)||(prod.special&& prod.offer)?'extra':'expanded'">
-
-                <img src="../../../assets/imgs/trend-icon.svg" slot="icon-only">
-              </span>
-              }
-            </div>
+            <app-product-classes [prod]="prod"></app-product-classes>
           </div>
         </div>
         }

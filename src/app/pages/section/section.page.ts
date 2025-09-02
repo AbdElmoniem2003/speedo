@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { Category, Product } from 'src/app/core/project-interfaces/interfaces';
 import { CartService } from 'src/app/core/services/cart.service';
@@ -27,14 +27,20 @@ export class SectionPage implements OnInit {
   canLoad: boolean = true
 
   constructor(
-    private currentRoute: ActivatedRoute,
+    router: Router,
     public navCtrl: NavController,
     private modalCtrl: ModalController,
     private dataService: DataService,
     public cartService: CartService,
     private favoService: FavoService
 
-  ) { }
+  ) {
+    router.events.subscribe(ev => {
+      if (ev instanceof NavigationEnd && !this.isLoading) {
+        this.checkFavorites_InCart(this.products)
+      }
+    })
+  }
 
   ngOnInit() {
     this.getData()
@@ -77,7 +83,6 @@ export class SectionPage implements OnInit {
           } else {
             this.products = this.products.concat(response)
           }
-          this.checkFavorites_InCart(this.products)
           this.canLoad = response.length > 20;
           this.products.length > 0 ? this.showContent(ev) : this.showEmpty(ev)
           this.isLoading = false
@@ -120,7 +125,7 @@ export class SectionPage implements OnInit {
 
   addToCart(prod: Product) {
     prod.inCart = true
-    prod.quantity = prod.quantity > 0 ? prod.quantity + 1 : 1;
+    prod.quantity = 1;
     this.cartService.add(prod)
   }
 

@@ -203,7 +203,7 @@ export class ConfirmCompoComponent implements OnInit {
   }
 
   async patchUserInfo() {
-    const user: User = await this.authService.getUserFromStorage();
+    const user: User = this.authService.user();
     this.orderForm.patchValue({
       phone: user.username,
       displayName: user.displayName

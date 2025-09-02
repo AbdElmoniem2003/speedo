@@ -8,6 +8,7 @@ import { SectionPageRoutingModule } from './section-routing.module';
 
 import { SectionPage } from './section.page';
 import { CustomImagePageModule } from '../custom-image/custom-image.module';
+import { ProductClassesComponent } from '../product-classes/product-classes.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,7 @@ import { CustomImagePageModule } from '../custom-image/custom-image.module';
     FormsModule,
     IonicModule,
     SectionPageRoutingModule,
-    CustomImagePageModule
+    CustomImagePageModule, ProductClassesComponent
   ],
   declarations: [SectionPage]
 })

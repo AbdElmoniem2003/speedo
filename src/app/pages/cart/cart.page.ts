@@ -50,7 +50,6 @@ export class CartPage implements OnInit {
     this.wildUsedService.generalAlert(` ${product.name} هل ترد حذف` + ` ؟ `, 'أجل', "كلا").then(async (descision) => {
       if (!descision) return;
       this.items = this.items.filter((p) => {
-        if (product.customId == p.customId) console.log(p)
         return product.customId !== p.customId
       })
       this.cartService.delete(product.customId, noToast);

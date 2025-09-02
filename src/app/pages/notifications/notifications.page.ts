@@ -29,7 +29,7 @@ export class NotificationsPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-    this.user = await this.authService.getUserFromStorage();
+    this.user = await this.authService.user();
     this.getNotifications()
   }
 
@@ -43,7 +43,6 @@ export class NotificationsPage implements OnInit {
     this.dataService.getData(this.endPoint)
       .subscribe({
         next: (res: Notification[]) => {
-          res.forEach(r => console.log(r.category, r.offer, r.order, r.topic))
           this.notifications = this.skip ? this.notifications.concat(res) : res;
           this.notifications.length ? this.showContent(ev) : this.showEmpty(ev);
           this.stopLoading = res?.length != 20;

@@ -6,6 +6,7 @@ import { DataService } from 'src/app/core/services/data.service';
 import { FavoService } from 'src/app/core/services/favorites.service';
 import { WildUsedService } from 'src/app/core/services/wild-used.service';
 import { CustomSectionCompoComponent } from '../custom-section-compo/custom-section-compo.component';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-offer',
@@ -33,8 +34,18 @@ export class OfferPage implements OnInit {
     public cartService: CartService,
     public favoService: FavoService,
     private modalCtrl: ModalController,
-    public navCtrl: NavController
-  ) { }
+    public navCtrl: NavController,
+    router: Router
+  ) {
+    router.events.subscribe(event => {
+      if (event instanceof NavigationEnd && !this.isLoading) {
+        this.offerProducts.forEach(p => {
+          p.isFav = this.favoService.checkFavoriteProds(p._id)
+          p.inCart = this.cartService.checkInCart(p._id)
+        })
+      }
+    });
+  }
 
   async ngOnInit() {
     this.offer = this.dataService.param;
@@ -64,10 +75,6 @@ export class OfferPage implements OnInit {
           } else {
             this.offerProducts = this.offerProducts.concat(response);
           }
-          this.offerProducts.forEach(p => {
-            p.isFav = this.favoService.checkFavoriteProds(p._id)
-            p.inCart = this.cartService.checkInCart(p._id)
-          })
           this.stopLoading = response.length < 20;
           this.offerProducts.length ? this.showContent(ev) : this.showEmpty(ev);
           this.isLoading = false
@@ -87,7 +94,7 @@ export class OfferPage implements OnInit {
 
   addToCart(prod: Product) {
     prod.inCart = true
-    prod.quantity = prod.quantity > 0 ? prod.quantity + 1 : 1;
+    prod.quantity = 1;
     this.cartService.add(prod)
   }
 
@@ -157,5 +164,7 @@ export class OfferPage implements OnInit {
     this.getData(ev)
   }
 
-  ngOnDestroy() { }
+  ngOnDestroy() {
+    this.dataService.param = null
+  }
 }

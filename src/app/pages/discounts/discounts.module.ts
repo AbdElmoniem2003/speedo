@@ -8,6 +8,7 @@ import { DiscountsPageRoutingModule } from './discounts-routing.module';
 
 import { DiscountsPage } from './discounts.page';
 import { CustomImagePageModule } from '../custom-image/custom-image.module';
+import { ProductClassesComponent } from '../product-classes/product-classes.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,7 @@ import { CustomImagePageModule } from '../custom-image/custom-image.module';
     FormsModule,
     IonicModule,
     DiscountsPageRoutingModule,
-    CustomImagePageModule
+    CustomImagePageModule, ProductClassesComponent
   ],
   declarations: [DiscountsPage]
 })

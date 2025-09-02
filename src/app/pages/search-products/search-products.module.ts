@@ -8,6 +8,7 @@ import { SearchProductsPageRoutingModule } from './search-products-routing.modul
 
 import { SearchProductsPage } from './search-products.page';
 import { CustomImagePageModule } from '../custom-image/custom-image.module';
+import { ProductClassesComponent } from '../product-classes/product-classes.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,7 @@ import { CustomImagePageModule } from '../custom-image/custom-image.module';
     FormsModule,
     IonicModule,
     SearchProductsPageRoutingModule,
-    CustomImagePageModule
+    CustomImagePageModule, ProductClassesComponent
   ],
   declarations: [SearchProductsPage]
 })

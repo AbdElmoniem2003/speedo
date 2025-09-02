@@ -8,6 +8,7 @@ import { BrandPageRoutingModule } from './brand-routing.module';
 
 import { BrandPage } from './brand.page';
 import { CustomImagePageModule } from '../custom-image/custom-image.module';
+import { ProductClassesComponent } from '../product-classes/product-classes.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,7 @@ import { CustomImagePageModule } from '../custom-image/custom-image.module';
     FormsModule,
     IonicModule,
     BrandPageRoutingModule,
-    CustomImagePageModule,
+    CustomImagePageModule, ProductClassesComponent
 
   ],
   declarations: [BrandPage]

@@ -9,6 +9,7 @@ import { HomePageRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CustomImagePageModule } from '../custom-image/custom-image.module';
+import { ProductClassesComponent } from "../product-classes/product-classes.component";
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { CustomImagePageModule } from '../custom-image/custom-image.module';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    CustomImagePageModule
+    CustomImagePageModule,
+    ProductClassesComponent
   ],
   declarations: [HomePage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

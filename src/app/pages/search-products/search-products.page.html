@@ -87,34 +87,16 @@
             <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
           </ion-button>
 
+
           <div class="addition-btns">
             <ion-button (click)="addToFavorite(prod)" class="no-color-button">
               <ion-icon [name]="prod.isFav?'heart':'heart-outline'" [color]="prod.isFav?'primary':'dark'"
                 slot="icon-only"></ion-icon>
             </ion-button>
-            <div class="btns">
-
-              @if(prod.new){
-              <span [class]="(prod.offer)|| (prod.special)?'extra':'expanded'">
-                <img src="../../../assets/imgs/stars.svg" slot="icon-only">
-                @if(!prod.special&&!prod.offer){جديد}
-              </span>
-              }
-              @if(prod.offer){
-
-              <span [class]="(prod.new)||(prod.special)?'extra':'expanded'">
-                <img src="../../../assets/imgs/offer-icon.svg" slot="icon-only">
-                @if(!prod.new&&!prod.special){خصم}
-              </span>
-              }
-              @if(prod.special){
-              <span [class]="(prod.new)||( prod.offer)?'extra':'expanded'">
-
-                <img src="../../../assets/imgs/trend-icon.svg" slot="icon-only">
-              </span>
-              }
-            </div>
+            <app-product-classes [prod]="prod"></app-product-classes>
           </div>
+
+
         </div>
         }
       </div>
@@ -148,20 +130,21 @@
         <div class="filter-content">
           <div class="colors">
             <h3>اللون</h3>
-            <ion-segment value="اخضر">
-              <ion-segment-button value="اخضر"><span></span></ion-segment-button>
-              <ion-segment-button value="احمر"><span></span></ion-segment-button>
-              <ion-segment-button value="ذهبي"><span></span></ion-segment-button>
+            <ion-segment value="green">
+              <ion-segment-button value="green"><span></span></ion-segment-button>
+              <ion-segment-button value="red"><span></span></ion-segment-button>
+              <ion-segment-button value="gold"><span></span></ion-segment-button>
             </ion-segment>
           </div>
 
           <div class="prices">
             <h3>السعر($)</h3>
             <div class="range-wrapper">
-              <div class="fake-knob start"></div>
-              <ion-range dir="rtl" [dualKnobs]="true" min="5" max="105" [value]="{ lower: 5, upper: 55 }" [pin]="true"
-                class="custom-range"></ion-range>
-              <div class="fake-knob end"></div>
+              <div class="fake-knob start"><span>{{`${highestPrice()}k $`}}</span></div>
+              <ion-range dir="rtl" [dualKnobs]="true" [min]="lowestPrice()" [max]="highestPrice()" [step]="1"
+                [(ngModel)]="priceRange" [pinFormatter]="formateRange" [value]="" [pin]="true"
+                (ionChange)="logVal($event)" class="custom-range"></ion-range>
+              <div class="fake-knob end"><span>{{`${lowestPrice()}k $`}}</span></div>
             </div>
           </div>
 
@@ -190,7 +173,7 @@
     <ion-footer>
       <div>
         <ion-buttons>
-          <ion-button (click)="null">حفظ</ion-button>
+          <ion-button (click)="homeFilterModal.dismiss()">حفظ</ion-button>
           <ion-button (click)="homeFilterModal.dismiss()">إلغاء</ion-button>
         </ion-buttons>
       </div>

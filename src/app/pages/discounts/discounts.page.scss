@@ -145,7 +145,7 @@
     padding: 0 0 16px;
     position: relative;
 
-    ion-segment.loading-segments {
+    .loading-segments {
       padding: 0 16px;
       direction: rtl;
       @include flex(8, start, center, '');

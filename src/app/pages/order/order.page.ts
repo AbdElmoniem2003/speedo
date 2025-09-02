@@ -28,7 +28,7 @@ export class OrderPage implements OnInit {
   empty: boolean = false;
   error: boolean = false;
 
-  constructor(private navCtrl: NavController,
+  constructor(public navCtrl: NavController,
     private dataService: DataService,
     private currentRoute: ActivatedRoute,
     private wildUsedService: WildUsedService,
@@ -152,10 +152,6 @@ export class OrderPage implements OnInit {
     this.error = false
     this.empty = false
     this.getProducts(ev)
-  }
-
-  back() {
-    this.navCtrl.pop()
   }
 
   ngOnDestroy() { }

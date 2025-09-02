@@ -5,6 +5,7 @@ import { DataService } from 'src/app/core/services/data.service';
 import { CartService } from 'src/app/core/services/cart.service';
 import { FavoService } from 'src/app/core/services/favorites.service';
 import { CustomSectionCompoComponent } from '../custom-section-compo/custom-section-compo.component';
+import { NavigationEnd, Router } from '@angular/router';
 
 
 @Component({
@@ -35,21 +36,34 @@ export class DiscountsPage implements OnInit {
   selectedCategoryID: string;
 
   constructor(
+    router: Router,
     public navCtrl: NavController,
     private dataService: DataService,
     public cartService: CartService,
     private favoService: FavoService,
     private modalCtrl: ModalController,
-  ) { }
+  ) {
+    router.events.subscribe(event => {
+      if (event instanceof NavigationEnd && !this.isLoading) {
+        this.discounts.forEach(p => {
+          p.isFav = this.favoService.checkFavoriteProds(p._id)
+          p.inCart = this.cartService.checkInCart(p._id)
+        })
+      }
+    });
+  }
 
   ngOnInit() {
     this.showLoading()
     this.getData()
   }
 
-  ionViewWillEnter() {
-  }
   toCart() { this.navCtrl.navigateForward('/cart') }
+
+  toOffer(offer: Offer) {
+    this.navCtrl.navigateForward(`offer?id=${offer._id}`);
+    this.dataService.param = offer;
+  }
 
   get endPoint() {
     let query: string;
@@ -69,10 +83,6 @@ export class DiscountsPage implements OnInit {
           this.discounts = this.skip ? this.discounts.concat(response) : response;
           this.getDiscoutSubGategories()
           this.discounts.length ? this.showContent(ev) : this.showEmpty(ev);
-          this.discounts.forEach(p => {
-            p.isFav = this.favoService.checkFavoriteProds(p._id)
-            p.inCart = this.cartService.checkInCart(p._id)
-          })
         }
         this.stopLoding = response.length < 20
       }, error: error => this.showError(ev)
@@ -87,7 +97,6 @@ export class DiscountsPage implements OnInit {
   getDiscoutSubGategories() {
     this.dataService.getData(`product/discount/category`).subscribe({
       next: (res: Category[]) => {
-        console.log(res)
         if (res.length > 1) {
           this.discountCategories = [{ name: 'الكل', _id: 'all' }, ...res]
         } else this.discountCategories = res;
@@ -161,7 +170,7 @@ export class DiscountsPage implements OnInit {
 
   addToCart(prod: Product) {
     prod.inCart = true
-    prod.quantity = prod.quantity > 0 ? prod.quantity + 1 : 1;
+    prod.quantity = 1;
     this.cartService.add(prod)
   }
 

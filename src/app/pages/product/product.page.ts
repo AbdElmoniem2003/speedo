@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Addition, Product, ProductImage, SubAddition } from 'src/app/core/project-interfaces/interfaces';
@@ -33,13 +33,20 @@ export class ProductPage implements OnInit {
 
   constructor(
     public navCtrl: NavController,
-    private router: ActivatedRoute,
     private dataService: DataService,
+    private route: ActivatedRoute,
+    router: Router,
     public cartService: CartService,
     private favoService: FavoService,
     private wildUsedService: WildUsedService,
     private modalCtrl: ModalController
-  ) { }
+  ) {
+    router.events.subscribe(ev => {
+      if (ev instanceof NavigationEnd && !this.isloading) {
+        this.backFromNavigation()
+      }
+    })
+  }
 
   ngOnInit() {
     this.getProduct();
@@ -49,13 +56,11 @@ export class ProductPage implements OnInit {
   getProduct(ev?: any) {
     this.showLoading()
     this.wildUsedService.showLoading()
-    const productId = this.router.snapshot.paramMap.get('id');
+    const productId = this.route.snapshot.paramMap.get('id');
     this.productSub = this.dataService.getData("product/" + productId).subscribe(
       {
         next: (res: Product) => {
           this.product = res;
-          this.product.isFav = this.favoService.checkFavoriteProds(this.product._id)
-          this.product.inCart = this.cartService.checkInCart(this.product._id)
 
           this.product.selectedAdditions = []
           this.product.quantity = 1
@@ -94,6 +99,14 @@ export class ProductPage implements OnInit {
     })
   }
 
+  backFromNavigation() {
+    this.product.isFav = this.favoService.checkFavoriteProds(this.product?._id);
+    this.product.inCart = this.cartService.checkInCart(this.product?._id);
+    this.similarProducts.forEach(p => {
+      p.isFav = this.favoService.checkFavoriteProds(p._id);
+      p.inCart = this.cartService.checkInCart(p._id);
+    });
+  }
 
   /*============================================      get product images      ==============================================*/
 
@@ -158,7 +171,6 @@ export class ProductPage implements OnInit {
 
   async addToCart(prod: Product) {
     prod.inCart = !prod.inCart
-    prod.quantity = prod.quantity > 0 ? prod.quantity + 1 : 1;
     if (this.checkRequiredAdditionsNotChecked) {
       this.wildUsedService.generalToast(`يرجي تحديد ${this.checkRequiredAdditionsNotChecked.name}`, '', 'light-color');
       return;
