@@ -42,7 +42,7 @@ export class SearchProductsPage implements OnInit {
   }
 
   ngOnInit() {
-    this.getProducts();
+    this.getProducts().then(() => this.updatePricesRange());
   }
 
 
@@ -60,7 +60,7 @@ export class SearchProductsPage implements OnInit {
 
   /* ______________________________________________________________________________________________________________________ */
   /*  For normal get of search globaly */
-  getProducts(ev?: any) {
+  async getProducts(ev?: any) {
     this.dataService.getData(this.searchEndPoint).subscribe({
       next: (response: Product[]) => {
         if (response.length < 20) {
@@ -69,7 +69,6 @@ export class SearchProductsPage implements OnInit {
         } else {
           this.searchProducts = this.searchProducts.concat(response);
         }
-        this.updatePricesRange();
         this.searchProducts.length ? this.showContent(ev) : this.showEmpty(ev);
         this.stopLoading = (response.length < 20)
       }, error: err => this.showError(ev)
@@ -77,9 +76,10 @@ export class SearchProductsPage implements OnInit {
   }
 
   search() {
-    if (!this.searchWord.trim()) return;
-    this.showLoading()
-    this.getProducts()
+    if (this.searchWord.trim().length) {
+      this.showLoading()
+      this.getProducts()
+    }
   }
 
   filter() {
@@ -96,8 +96,8 @@ export class SearchProductsPage implements OnInit {
   updatePricesRange() {
 
     let sortedByPriceLH = [...this.searchProducts].sort((prevProd, curProd) => prevProd.price - curProd.price);
-    const highest = sortedByPriceLH[sortedByPriceLH.length - 1].price.toString().slice(0, -3);
-    const lowest = sortedByPriceLH[0].price.toString().slice(0, -3);
+    const highest = sortedByPriceLH[sortedByPriceLH.length - 1]?.price.toString().slice(0, -3);
+    const lowest = sortedByPriceLH[0]?.price.toString().slice(0, -3);
     this.highestPrice.update(val => val = Number(highest))
     this.lowestPrice.update(val => val = Number(lowest));
   }

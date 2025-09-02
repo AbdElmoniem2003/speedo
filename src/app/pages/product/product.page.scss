@@ -39,6 +39,10 @@ ion-content {
       flex-basis: 100%;
       @include flex(8, center, '', column);
 
+      .prod-title,.prod-desc{
+        color: $darkColor;
+      }
+
       .btns {
         direction: rtl
       }

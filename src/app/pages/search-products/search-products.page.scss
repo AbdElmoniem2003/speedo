@@ -10,6 +10,9 @@ ion-header {
 
   ion-toolbar {
     padding: 0 16px;
+    ion-button{
+      @include shape(40,40);
+    }
   }
 
   .filter {

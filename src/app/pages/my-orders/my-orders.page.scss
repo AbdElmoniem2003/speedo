@@ -46,15 +46,13 @@
       color: rgba(128, 128, 128, 1);
       overflow: hidden;
       --indicator-color: transparent;
-      --color-checked: dodgerblue;
+      --color-checked: #{$primaryColor};
 
       &.segment-button-checked {
         color: white;
         background-color: $secondaryColor;
       }
     }
-
-
   }
 
   .orders-cards {
@@ -170,9 +168,7 @@
         ion-icon {
           @include shape(24, 24);color: black;
         }
-
       }
-
     }
   }
 }

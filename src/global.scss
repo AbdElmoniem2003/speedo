@@ -751,15 +751,15 @@ ion-modal.filter-modal {
             z-index: 1;
             position: relative;
 
-            span{
-                  top: 120%;
-    font-weight: 700;
-    font-size: 12px;
-    line-height: 100%;
-    text-align: right;
-    color: rgb(0 0 0 / 31%);
-    position: absolute;
-    width: max-content;
+            span {
+              top: 120%;
+              font-weight: 700;
+              font-size: 12px;
+              line-height: 100%;
+              text-align: right;
+              color: rgb(0 0 0 / 31%);
+              position: absolute;
+              width: max-content;
             }
           }
 
@@ -870,7 +870,7 @@ ion-modal.custom-modal {
   0% {
     transform: rotateZ(0deg);
     border-radius: 50%;
-    border-width:6px 1.5px ;
+    border-width: 6px 1.5px;
   }
 
   100% {
@@ -1046,7 +1046,7 @@ ion-toast.light-color {
     color: $lightColor;
   }
 
-    &::part(cancel) {
+  &::part(cancel) {
     font-family: 'Cairo';
   }
 }
@@ -1092,9 +1092,9 @@ app-custom-image {
 
 // preserve the same colors
 .dark {
-
-  ion-icon {
-    // color: $darkColor;
+  .refresher-refreshing-icon {
+    background-color: $lightColor !important;
+    border: none !important;
   }
 
   strong {
