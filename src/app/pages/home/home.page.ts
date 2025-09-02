@@ -1,18 +1,15 @@
 import {
   Component,
-  OnInit,
-  ViewChild,
+  OnInit
 } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { NavController, RefresherCustomEvent } from "@ionic/angular";
-import { Subscription } from "rxjs";
 import { Brand, Category, Offer, Product, Slider } from "src/app/core/project-interfaces/interfaces";
 import { CartService } from "src/app/core/services/cart.service";
 import { DataService } from "src/app/core/services/data.service";
 import { FavoService } from "src/app/core/services/favorites.service";
 import { WildUsedService } from "src/app/core/services/wild-used.service";
 import { register, SwiperContainer } from "swiper/element/bundle";
-
 
 @Component({
   selector: "app-home",
@@ -24,9 +21,6 @@ export class HomePage implements OnInit {
 
   swiperEle: SwiperContainer;
   loadingImg: string = "../../../assets/imgs/transparent_loading.gif";
-
-  getSubscription: Subscription = null;
-
   isLoading: boolean = true;
   stopLoading: boolean = false;
   empty: boolean = false;
@@ -42,7 +36,6 @@ export class HomePage implements OnInit {
   offers: Product[];
   bestSeller: Product[];
   filterModalOpen: boolean = false;
-
 
   constructor(
     public navCtrl: NavController,
@@ -64,7 +57,6 @@ export class HomePage implements OnInit {
       }
     });
   }
-
 
   ngOnInit() {
     this.showLoading()
@@ -182,7 +174,6 @@ export class HomePage implements OnInit {
     this.error = false
     this.empty = false
     this.getData(ev);
-
   }
 
   toCustomSearch(custom: any) {

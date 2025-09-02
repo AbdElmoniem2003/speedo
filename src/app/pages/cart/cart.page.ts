@@ -46,13 +46,13 @@ export class CartPage implements OnInit {
     this.cartService.decrease(prod)
   }
 
-  async delete(product: CartProduct, noToast?: boolean) {
+  async delete(product: CartProduct) {
     this.wildUsedService.generalAlert(` ${product.name} هل ترد حذف` + ` ؟ `, 'أجل', "كلا").then(async (descision) => {
       if (!descision) return;
       this.items = this.items.filter((p) => {
         return product.customId !== p.customId
       })
-      this.cartService.delete(product.customId, noToast);
+      this.cartService.delete(product.customId, true);
     })
   }
 

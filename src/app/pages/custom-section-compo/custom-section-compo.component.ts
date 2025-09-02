@@ -16,7 +16,6 @@ export class CustomSectionCompoComponent implements OnInit, OnDestroy {
   customObjArr: Category[] = [];
   @Input("currentSubId") currentSubId: string;
 
-
   constructor(
     private modalCtrl: ModalController
   ) { }

@@ -9,9 +9,7 @@ import { DataService } from 'src/app/core/services/data.service';
 import { WildUsedService } from 'src/app/core/services/wild-used.service';
 import { Browser } from '@capacitor/browser';
 import { AccountOptionsComponent } from '../account-options/account-options.component';
-import { EnterAnimation, popoverEnterAnimation, popoverLeaveAnimation } from 'src/app/core/consts/animations';
 import { EditPasswordComponent } from '../edit-password/edit-password.component';
-import { EditAccountComponent } from '../edit-account/edit-account.component';
 
 
 @Component({

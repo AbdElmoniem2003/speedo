@@ -25,13 +25,12 @@
     </div>
     }
 
-
     @if(items.length){
     <div class="cart-prods">
       @for (product of items; track $index) {
       <div class="product">
         <div class="product-data">
-          <ion-icon (click)="delete(product,true)" name="trash-outline" color="primary"></ion-icon>
+          <ion-icon (click)="delete(product)" name="trash-outline" color="primary"></ion-icon>
           <div>
             <h3>{{product.name}}</h3>
             <div class="add-constract">
@@ -66,16 +65,11 @@
           </div>
         </div>
         }
-
       </div>
       }
-
     </div>
     }
-
   </div>
-
-
 
 </ion-content>
 

@@ -32,7 +32,5 @@ export class EditPasswordComponent implements OnInit {
     const done = await this.authService.changePassword(this.passwordForm.value);
     console.log(done)
     if (done) this.modalCtrl.dismiss()
-
   }
-
 }

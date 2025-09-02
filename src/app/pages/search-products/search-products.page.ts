@@ -22,7 +22,6 @@ export class SearchProductsPage implements OnInit {
   skip: number = 0;
   openModal: boolean = false;
   stopLoading: boolean = true;
-
   lowestPrice = signal<number>(0);
   highestPrice = signal<number>(0);
   priceRange: { lower: number, upper: number }
@@ -44,7 +43,6 @@ export class SearchProductsPage implements OnInit {
   ngOnInit() {
     this.getProducts().then(() => this.updatePricesRange());
   }
-
 
   ionViewWillEnter() { }
 
@@ -82,19 +80,11 @@ export class SearchProductsPage implements OnInit {
     }
   }
 
-  filter() {
-
-  }
-
-  logVal(ev) {
-    // values need to be multiplied by 1000
-    console.log(ev.target.value)
-  }
+  filter() { }
 
   formateRange(val: number) { return `${val}k` }
 
   updatePricesRange() {
-
     let sortedByPriceLH = [...this.searchProducts].sort((prevProd, curProd) => prevProd.price - curProd.price);
     const highest = sortedByPriceLH[sortedByPriceLH.length - 1]?.price.toString().slice(0, -3);
     const lowest = sortedByPriceLH[0]?.price.toString().slice(0, -3);

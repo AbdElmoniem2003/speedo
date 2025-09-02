@@ -30,7 +30,6 @@ export class EditAccountComponent implements OnInit {
     })
   }
 
-
   async confirm() {
     if (this.accountForm.invalid) return;
     this.wildUsedService.showLoading();
@@ -46,6 +45,4 @@ export class EditAccountComponent implements OnInit {
       }
     })
   }
-
-
 }

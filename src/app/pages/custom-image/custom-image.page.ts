@@ -8,7 +8,6 @@ import {
 import { Directory, Filesystem } from "@capacitor/filesystem";
 import { CameraService } from "src/app/core/services/camers-service/camera.service";
 
-
 @Component({
   selector: "app-custom-image",
   templateUrl: "./custom-image.page.html",
@@ -30,8 +29,8 @@ export class CustomImagePage implements OnChanges, OnInit {
 
   ngOnInit() { }
 
-  // To update the process of getting the image on every change detected
   ngOnChanges() {
+    // To update the process of getting the image on every change detected
     this.updateImages()
   }
 

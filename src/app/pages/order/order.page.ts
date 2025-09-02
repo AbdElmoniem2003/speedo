@@ -95,8 +95,8 @@ export class OrderPage implements OnInit {
       if (!decition) return;
       this.openRefusalModal(this.order)
     }
-    if (data == 2) {      // activate
-    }
+    if (data == 2) { }   // activate
+
   }
 
   async openRefusalModal(order: Order) {

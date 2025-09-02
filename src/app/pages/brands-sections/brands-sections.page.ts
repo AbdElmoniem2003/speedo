@@ -5,7 +5,6 @@ import { Brand, Category, Offer } from 'src/app/core/project-interfaces/interfac
 import { CartService } from 'src/app/core/services/cart.service';
 import { DataService } from 'src/app/core/services/data.service';
 
-
 @Component({
   selector: 'app-brands-sections',
   templateUrl: './brands-sections.page.html',
@@ -18,8 +17,6 @@ export class BrandsSectionsPage implements OnInit {
   offers: Offer[] = [];
   categories: Category[] = [];
   empty = false;
-
-
 
   constructor(
     private route: ActivatedRoute,
@@ -37,10 +34,8 @@ export class BrandsSectionsPage implements OnInit {
     if (this.customView == 'categories') { this.categories = this.dataService.param as Category[] };
     if (this.customView == 'offers') { this.offers = this.dataService.param as Offer[] };
     if (this.customView == 'brands') { this.brands = this.dataService.param as Brand[] };
-
     this.empty = (!this.brands.length && !this.offers.length && !this.categories.length);
   }
-
 
   refresh(ev?: any) {
     // reset
@@ -50,7 +45,6 @@ export class BrandsSectionsPage implements OnInit {
     this.getCustomData(ev);
     ev?.target.complete();
   }
-
 
   toSection(sectionName: string, customObj: Category | Brand | Offer) {
     this.dataService.param = customObj

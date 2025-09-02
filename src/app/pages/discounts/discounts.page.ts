@@ -7,7 +7,6 @@ import { FavoService } from 'src/app/core/services/favorites.service';
 import { CustomSectionCompoComponent } from '../custom-section-compo/custom-section-compo.component';
 import { NavigationEnd, Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-discounts',
   templateUrl: './discounts.page.html',

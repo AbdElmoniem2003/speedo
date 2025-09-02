@@ -10,7 +10,6 @@ import { WildUsedService } from 'src/app/core/services/wild-used.service';
 import { ImageViewerComponent } from '../image-viewer/image-viewer.component';
 import { EnterAnimation, LeaveAnimation } from 'src/app/core/consts/animations';
 
-
 @Component({
   selector: 'app-product',
   templateUrl: './product.page.html',
@@ -52,7 +51,6 @@ export class ProductPage implements OnInit {
     this.getProduct();
   }
 
-  // Get Product
   getProduct(ev?: any) {
     this.showLoading()
     this.wildUsedService.showLoading()
@@ -137,7 +135,6 @@ export class ProductPage implements OnInit {
 
 
   /* ================================================    get product additions and SubAdditions    ==================================== */
-
   get additionsEndPoint() {
     let query: string = `additions?product=${this.product?._id}&status=1`;
     return query;
@@ -167,8 +164,8 @@ export class ProductPage implements OnInit {
     return isRequired
   }
 
-  /* ==================================================   Adding to cart and favorites   ==================================================== */
 
+  /* ==================================================   Adding to cart and favorites   ==================================================== */
   async addToCart(prod: Product) {
     prod.inCart = !prod.inCart
     if (this.checkRequiredAdditionsNotChecked) {

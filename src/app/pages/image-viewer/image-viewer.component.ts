@@ -16,7 +16,6 @@ export class ImageViewerComponent implements OnInit {
   prodImg: string = null;
   images: ProductImage[] = null;
   swiperEle: SwiperContainer;
-
   touchTime: number = 0;
 
   constructor(

@@ -46,8 +46,6 @@ export class SectionPage implements OnInit {
     this.getData()
   }
 
-  ionViewWillEnter() { }
-
   getViewParams() {
     this.objToView = this.dataService.param;
     if (!this.objToView) this.getCategory()

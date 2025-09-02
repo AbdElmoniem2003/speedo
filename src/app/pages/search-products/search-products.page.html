@@ -143,7 +143,7 @@
               <div class="fake-knob start"><span>{{`${highestPrice()}k $`}}</span></div>
               <ion-range dir="rtl" [dualKnobs]="true" [min]="lowestPrice()" [max]="highestPrice()" [step]="1"
                 [(ngModel)]="priceRange" [pinFormatter]="formateRange" [value]="" [pin]="true"
-                (ionChange)="logVal($event)" class="custom-range"></ion-range>
+                class="custom-range"></ion-range>
               <div class="fake-knob end"><span>{{`${lowestPrice()}k $`}}</span></div>
             </div>
           </div>

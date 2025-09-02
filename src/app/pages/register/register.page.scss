@@ -59,8 +59,10 @@
 
       &:first-of-type {
         @include shape(228.09, 262.35);
-        top: 15.33px;
-        left: 55.47px;
+    top: 15.33px;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
       }
 
       &:nth-last-of-type(2) {
@@ -193,11 +195,10 @@
 
   >ion-img {
     @include shape(204, 236);
-    top: 553px;
-    left: 55px;
-    left: calc(55px / 375px * 100%);
-    transform: rotateZ(180deg);
-    position: fixed;
+        top: 553px;
+    left: 50%;
+    transform: rotateZ(180deg) translateX(50%) translateY(-5%);
+    position: absolute;
     z-index: -1;
   }
 }
