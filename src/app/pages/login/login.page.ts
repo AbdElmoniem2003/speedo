@@ -36,7 +36,6 @@ export class LoginPage implements OnInit {
   available(): ValidationErrors {
     try {
       const phone = parsePhoneNumberWithError(this.loginForm.value.username, "IQ");
-      console.log(phone.isValid())
       return phone.isValid() ? null : { invalidPhone: true };
     } catch (error) {
       return { invalidPhone: true };

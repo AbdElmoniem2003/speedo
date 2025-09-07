@@ -6,7 +6,6 @@ import { CartService } from 'src/app/core/services/cart.service';
 import { DataService } from 'src/app/core/services/data.service';
 import { FavoService } from 'src/app/core/services/favorites.service';
 import { CustomSectionCompoComponent } from '../custom-section-compo/custom-section-compo.component';
-import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-brand',
@@ -30,22 +29,20 @@ export class BrandPage implements OnInit {
   canLoad: boolean = true
 
   constructor(
-    router: Router,
     public navCtrl: NavController,
     private modalCtrl: ModalController,
     private dataService: DataService,
     public cartService: CartService,
-    private favoService: FavoService
-  ) {
-    router.events.subscribe(ev => {
-      if (ev instanceof NavigationEnd && !this.isLoading) {
-        this.checkFavorites_InCart(this.products)
-      }
-    })
-  }
+    private favoService: FavoService,
+  ) { }
 
   ngOnInit() {
     this.getData()
+  }
+
+  ionViewWillEnter() {
+    if (!this.products) return;
+    this.checkFavorites_InCart(this.products)
   }
 
   getViewParams() {
@@ -78,7 +75,6 @@ export class BrandPage implements OnInit {
   }
 
   getProducts(ev?: any) {
-    // remove susbcription;
     this.dataService.getData(this.dataEndPoint)
       .subscribe({
         next: (response: Product[]) => {
@@ -88,6 +84,7 @@ export class BrandPage implements OnInit {
             this.products = this.products.concat(response)
           }
           this.canLoad = response.length > 20;
+          this.checkFavorites_InCart(this.products)
           this.products.length > 0 ? this.showContent(ev) : this.showEmpty(ev)
           this.isLoading = false
         }, error: error => {

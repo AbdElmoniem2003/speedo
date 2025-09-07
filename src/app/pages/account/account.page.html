@@ -1,10 +1,6 @@
 <ion-header class="main-header ">
   <ion-toolbar>
-    <ion-button slot="start" class="ion-activatable no-color-button" (click)="navCtrl.navigateForward('notifications')">
-      <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
-      <ion-ripple-effect></ion-ripple-effect>
-    </ion-button>
-    <ion-button slot="start" class="ion-activatable no-color-button cart" (click)="toCart()">
+    <ion-button slot="end" class="cart" fill="clear" (click)="toCart()">
       @if((cartService.items?.length)){
       <span>{{cartService.items?.length}}</span>
       }
@@ -12,7 +8,12 @@
       </ion-img>
       <ion-ripple-effect></ion-ripple-effect>
     </ion-button>
-    <ion-img slot="end" src="../../../assets/imgs/logo-icon.svg"></ion-img>
+    <ion-button slot="end" fill="clear" (click)="navCtrl.navigateForward('notifications')">
+      <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
+      <ion-ripple-effect></ion-ripple-effect>
+    </ion-button>
+
+    <ion-img slot="start" src="../../../assets/imgs/logo-icon.svg"></ion-img>
   </ion-toolbar>
 </ion-header>
 
@@ -21,19 +22,21 @@
 
     <div class="header fade-in">
       <section>الحساب</section>
+      @if(authService.user()){
       <div class="user">
-        <ion-button class="no-color-button" (click)="showAccountOptions($event)">
+        <ion-button fill="clear" (click)="showAccountOptions($event)">
           <ion-icon name="ellipsis-vertical" id="order-options"></ion-icon>
         </ion-button>
 
         <div>
           <div>
-            <h3>{{user?.username}}</h3>
+            <h3>{{authService.user()?.username}}</h3>
             <p>{{'karim.ali@mail.com'}}</p>
           </div>
           <ion-img src="../../../assets/imgs/user-img.svg"></ion-img>
         </div>
       </div>
+      }
     </div>
 
 
@@ -70,7 +73,7 @@
       </div>
       <div class="card fade-in" (click)="logOut()">
         <ion-img src="../../../assets/imgs/logout.svg"></ion-img>
-        <p>تسجيل {{!user?"الدخول":"الخروج"}}</p>
+        <p>تسجيل {{!authService.user()?"الدخول":"الخروج"}}</p>
       </div>
       }
     </div>
@@ -81,16 +84,16 @@
     <ng-template>
       <ion-header class="custom-header  " style="display: flex;justify-content: end;">
         <ion-toolbar>
-          <ion-label slot="end">تواصل معنا</ion-label>
-          <ion-button slot="end" (click)="contactModal.dismiss()" class="no-color-button">
-            <ion-icon style="color: black;" name="chevron-forward-outline"></ion-icon>
+          <ion-button slot="start" (click)="contactModal.dismiss()" fill="clear">
+            <ion-icon color="dark" name="chevron-back"></ion-icon>
           </ion-button>
+          <ion-label slot="start">تواصل معنا</ion-label>
         </ion-toolbar>
       </ion-header>
 
       <ion-content>
         <div>
-          <p></p>
+          <!-- <p></p> -->
           <h2>وسائل التواصل</h2>
           <div class="contacts">
 

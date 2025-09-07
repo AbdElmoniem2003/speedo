@@ -8,7 +8,7 @@ import {
 } from "@capacitor/push-notifications";
 import { FCM } from "@capacitor-community/fcm";
 import { NavController } from "@ionic/angular";
-import { WildUsedService } from "../wild-used.service";
+import { wideUsedService } from "../wide-used.service";
 import { Notification, User } from "../../project-interfaces/interfaces";
 import { environment } from "src/environments/environment";
 
@@ -23,7 +23,7 @@ export class NotificationService {
 
   constructor(
     private navCtrl: NavController,
-    private wildUsedService: WildUsedService
+    private wideUsedService: wideUsedService
   ) { }
 
   async requestPermissions(user?: User) {
@@ -41,7 +41,7 @@ export class NotificationService {
 
   handleNotifications() {
     PushNotifications.addListener('pushNotificationReceived', async (notification: PushNotificationSchema) => {
-      await this.wildUsedService.generalToast(notification.body, 'primary', 'light-color global-notification', 3000, 'ios');
+      await this.wideUsedService.generalToast(notification.body, 'primary', 'light-color global-notification', 3000, 'ios');
     });
 
     PushNotifications.addListener('pushNotificationActionPerformed', async (notif: ActionPerformed) => {

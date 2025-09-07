@@ -4,9 +4,11 @@ import { Category, Offer, Product } from 'src/app/core/project-interfaces/interf
 import { CartService } from 'src/app/core/services/cart.service';
 import { DataService } from 'src/app/core/services/data.service';
 import { FavoService } from 'src/app/core/services/favorites.service';
-import { WildUsedService } from 'src/app/core/services/wild-used.service';
+import { wideUsedService } from 'src/app/core/services/wide-used.service';
 import { CustomSectionCompoComponent } from '../custom-section-compo/custom-section-compo.component';
 import { NavigationEnd, Router } from '@angular/router';
+import { RefreshService } from 'src/app/core/services/refresh-service/refresh.service';
+import { PagesUrls } from 'src/app/core/enums/pagesUrls.enum';
 
 @Component({
   selector: 'app-offer',
@@ -29,32 +31,36 @@ export class OfferPage implements OnInit {
   error: boolean = false;
 
   constructor(
-    private wildUsedService: WildUsedService,
+    private wideUsedService: wideUsedService,
     private dataService: DataService,
     public cartService: CartService,
     public favoService: FavoService,
     private modalCtrl: ModalController,
     public navCtrl: NavController,
-    router: Router
+    refreshService: RefreshService
   ) {
-    router.events.subscribe(event => {
-      if (event instanceof NavigationEnd && !this.isLoading) {
-        this.offerProducts.forEach(p => {
-          p.isFav = this.favoService.checkFavoriteProds(p._id)
-          p.inCart = this.cartService.checkInCart(p._id)
-        })
+    refreshService.refresher.subscribe({
+      next: (val) => {
+        if (val.includes(PagesUrls.OFFER))
+          this.watchFavo_Cart()
       }
-    });
+    })
+  }
+
+  ionViewWillEnter() {
+    if (!this.offerProducts) return;
+    this.offerProducts.map(p => {
+      p.isFav = this.favoService.checkFavoriteProds(p._id)
+      p.inCart = this.cartService.checkInCart(p._id)
+    })
   }
 
   async ngOnInit() {
     this.offer = this.dataService.param;
-    this.wildUsedService.showLoading()
+    this.wideUsedService.showLoading()
     this.getOfferCategories()
-    this.wildUsedService.dismisLoading()
+    this.wideUsedService.dismisLoading()
   }
-
-  ionViewWillEnter() { }
 
   get setOfferApi() {
     let query = `product?skip=${this.skip}&status=1&offer=${this.offer._id}`;
@@ -75,6 +81,7 @@ export class OfferPage implements OnInit {
           } else {
             this.offerProducts = this.offerProducts.concat(response);
           }
+          this.watchFavo_Cart()
           this.stopLoading = response.length < 20;
           this.offerProducts.length ? this.showContent(ev) : this.showEmpty(ev);
           this.isLoading = false
@@ -105,6 +112,13 @@ export class OfferPage implements OnInit {
   async updateFavorites(prod: Product) {
     prod.isFav = !prod.isFav
     this.favoService.updateFavorites(prod);
+  }
+
+  watchFavo_Cart() {
+    this.offerProducts.map((p) => {
+      p.inCart = this.cartService.checkInCart(p._id);
+      p.isFav = this.favoService.checkFavoriteProds(p._id)
+    })
   }
 
   async openCustomModal() {

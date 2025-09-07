@@ -19,7 +19,6 @@ export class SectionPage implements OnInit {
   products: Product[]
   subCategories: Category[] | any = []
   currentSubCategoryId: string = 'all'
-  // customId: string = null;
   objToView: Category = null;
   isLoading: boolean = false;
   empty: boolean = false;
@@ -27,23 +26,20 @@ export class SectionPage implements OnInit {
   canLoad: boolean = true
 
   constructor(
-    router: Router,
     public navCtrl: NavController,
     private modalCtrl: ModalController,
     private dataService: DataService,
     public cartService: CartService,
-    private favoService: FavoService
-
-  ) {
-    router.events.subscribe(ev => {
-      if (ev instanceof NavigationEnd && !this.isLoading) {
-        this.checkFavorites_InCart(this.products)
-      }
-    })
-  }
+    private favoService: FavoService,
+  ) { }
 
   ngOnInit() {
     this.getData()
+  }
+
+  ionViewWillEnter() {
+    if (!this.products) return;
+    this.checkFavorites_InCart(this.products)
   }
 
   getViewParams() {
@@ -82,6 +78,7 @@ export class SectionPage implements OnInit {
             this.products = this.products.concat(response)
           }
           this.canLoad = response.length > 20;
+          this.checkFavorites_InCart(this.products)
           this.products.length > 0 ? this.showContent(ev) : this.showEmpty(ev)
           this.isLoading = false
         }, error: error => {
@@ -91,7 +88,7 @@ export class SectionPage implements OnInit {
   }
 
   checkFavorites_InCart(prods: Product[]) {
-    prods.forEach(p => {
+    prods.map(p => {
       p.isFav = this.favoService.checkFavoriteProds(p._id);
       p.inCart = this.cartService.checkInCart(p._id)
     })

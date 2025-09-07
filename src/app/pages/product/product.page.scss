@@ -1,6 +1,13 @@
 @import '../../../theme/mixin.scss';
-@import '../../../global.scss';
 
+// @import '../../../global.scss';
+ion-header {
+  box-shadow: none;
+
+  ion-toolbar ion-label {
+    font-weight: 700;
+  }
+}
 
 ion-content {
   // --padding-top: 0;
@@ -34,13 +41,13 @@ ion-content {
     >.prod-data {
       background-color: white;
       padding: 16px;
-      // flex-grow: 1;
       height: fit-content;
-      flex-basis: 100%;
-      @include flex(8, center, '', column);
+      width: 100%;
+      @include flex(8, center, start, column);
 
-      .prod-title,.prod-desc{
-        color: $darkColor;
+      .prod-title,
+      .prod-desc {
+        color: var(--ion-color-dark);
       }
 
       .btns {
@@ -56,7 +63,7 @@ ion-content {
           line-height: 36px;
           letter-spacing: 0px;
           margin: 0;
-          color: $primaryColor;
+          color: var(--ion-color-primary);
           direction: rtl;
         }
 
@@ -98,16 +105,17 @@ ion-content {
         span {
           position: relative;
           overflow: hidden;
-          color: $primaryColor;
+          color: var(--ion-color-primary);
         }
       }
     }
 
     >.extra {
-      @include flex(8, '', end, column);
-      background-color: $ionContentBG;
-      padding: 16px;    width: 100%;
-    text-align: right;
+      @include flex(8, '', start, column);
+      background-color: var(--ion-content-BG);
+      padding: 16px;
+      width: 100%;
+      text-align: right;
 
       >h5 {
         font-weight: 700;
@@ -172,7 +180,7 @@ ion-content {
         }
 
         &.segment-button-checked {
-          border: 1px solid $secondaryColor;
+          border: 1px solid var(--ion-color-secondary);
           padding: 4px;
         }
       }
@@ -192,36 +200,38 @@ ion-content {
         border-radius: 8px;
 
         &.segment-button-checked {
-          background-color: $secondaryColor;
+          background-color: var(--ion-color-secondary);
           color: white;
         }
       }
     }
 
     // ion-radio-group {
-      // align-self: flex-end;
+    // align-self: flex-end;
 
-      ion-checkbox {
-        color: rgba(64, 64, 64, 1);
-        --border-radius: 4px;
-        --inner-border-radius: 4px;
-        --color-checked: #{$secondaryColor};
+    ion-checkbox {
+      direction: ltr;
+      color: rgba(64, 64, 64, 1);
+      --border-radius: 4px;
+      --inner-border-radius: 4px;
+      --color-checked: #{var(--ion-color-secondary)};
 
-        &::part(container) {
-          border-width: 0px;
-          @include shape(20, 20);
-          margin: auto 0;
-          background-color: rgba(217, 217, 217, 1);
-        }
-
-        &.checkbox-checked::part(container) {
-          background-color: $primaryColor;
-        }
-
-        &.checkbox-checked::part(mark) {
-          display: none;
-        }
+      &::part(container) {
+        border-width: 0px;
+        @include shape(20, 20);
+        margin: auto 0;
+        background-color: rgba(217, 217, 217, 1);
       }
+
+      &.checkbox-checked::part(container) {
+        background-color: var(--ion-color-primary);
+      }
+
+      &.checkbox-checked::part(mark) {
+        display: none;
+      }
+    }
+
     // }
 
     .similar-prods {
@@ -243,9 +253,11 @@ ion-content {
 
       .prods-cards {
         width: 100%;
-        direction: rtl;
-        @include flex(8, flex-start, '', row);
-        flex-wrap: wrap;
+
+        display: grid !important;
+        row-gap: 8px;
+        column-gap: 8px;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
 
         .card {
           position: relative;
@@ -317,13 +329,13 @@ ion-content {
 
           >ion-button {
             height: 40px;
-            direction: ltr;
             @include flex(8, center, center, '');
             border-radius: 10px;
             overflow: hidden;
-            --ion-color-primary:#{$primaryColor};
+            width: 100%;
 
             ion-label {
+              color: var(--ion-color-light);
               font-weight: 700;
               font-size: 14px;
               line-height: 26px;
@@ -351,36 +363,34 @@ ion-content {
               overflow: hidden;
             }
 
-            .btns {
-              @include flex(4, '', center, '');
-
-              span {
-                height: 26px;
-                min-width: 26px;
-                max-width: 62px;
-                color: white;
-                background-color: rgba(44, 52, 84, 0.65);
-                border-radius: 15px;
-                @include flex(4, center, center, '');
-                overflow: hidden;
-                font-weight: 600;
-                font-size: 12px;
-                line-height: 22px;
-                letter-spacing: 0px;
-
-                &.extra {
-                  width: 26px;
-                }
-              }
-
-              ion-img {
-                @include shape(18, 18);
-              }
-            }
           }
         }
       }
     }
+  }
+}
+
+.btns {
+  width: 100%;
+  @include flex(4, '', center, '');
+
+  span {
+    height: 26px;
+    width: fit-content;
+    color: white;
+    background-color: rgba(44, 52, 84, 0.65);
+    border-radius: 15px;
+    @include flex(4, center, center, '');
+    overflow: hidden;
+    font-weight: 600;
+    font-size: 12px;
+    padding: 2px 8px;
+    line-height: 22px;
+    letter-spacing: 0px;
+  }
+
+  ion-img {
+    @include shape(18, 18);
   }
 }
 
@@ -399,18 +409,23 @@ ion-footer {
     .add-constract {
       height: 28px;
       width: 100%;
-      @include flex(0, space-between, center, '');
+      @include flex(0, space-between, center, row-reverse);
 
       ion-buttons {
-        @include flex(16, '', center, '');
+        @include flex(16, '', center, row-reverse);
 
         ion-button {
           border-radius: 50%;
           border: 0.5px solid rgba(170, 170, 170, 0.5);
           min-height: 24px;
+          max-height: 24px;
+          overflow: hidden;
           width: 24px;
+          --padding-bottom: 0;
+          --padding-start: 0;
+          --padding-end: 0;
+          --padding-top: 0;
           @include flex(0, center, center, '');
-
 
           ion-icon {
             @include shape(24, 24);
@@ -432,17 +447,17 @@ ion-footer {
     .add-to-cart {
       height: 48px;
       width: 100%;
-      @include flex(8, space-between, center, '');
+      @include flex(8, space-between, center, row-reverse);
 
       >ion-button {
         overflow: hidden;
         width: 143px;
         height: 48px;
         direction: ltr;
-        @include flex(8, center, center, '');
+        @include flex(8, center, center, row-reverse);
         border-radius: 10px;
         overflow: hidden;
-        --ion-color-primary:#{$primaryColor};
+        color: var(--ion-color-light) !important;
 
         ion-label {
           font-weight: 700;
@@ -464,12 +479,13 @@ ion-footer {
         --ion-color-primary: none;
         --border-width: 1px;
         --border-radius: 10px;
-        --border-color: #{$primaryColor};
+        --border-color: var(--ion-color-primary);
         --border-style: solid;
       }
 
       >ion-button:last-of-type {
         flex-grow: 1;
+        color: var(--ion-color-light);
       }
     }
   }

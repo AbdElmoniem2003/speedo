@@ -5,7 +5,9 @@ import { DataService } from 'src/app/core/services/data.service';
 import { CartService } from 'src/app/core/services/cart.service';
 import { FavoService } from 'src/app/core/services/favorites.service';
 import { CustomSectionCompoComponent } from '../custom-section-compo/custom-section-compo.component';
-import { NavigationEnd, Router } from '@angular/router';
+import { RefreshService } from 'src/app/core/services/refresh-service/refresh.service';
+import { PagesUrls } from 'src/app/core/enums/pagesUrls.enum';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-discounts',
@@ -35,26 +37,25 @@ export class DiscountsPage implements OnInit {
   selectedCategoryID: string;
 
   constructor(
-    router: Router,
     public navCtrl: NavController,
     private dataService: DataService,
     public cartService: CartService,
     private favoService: FavoService,
     private modalCtrl: ModalController,
-  ) {
-    router.events.subscribe(event => {
-      if (event instanceof NavigationEnd && !this.isLoading) {
-        this.discounts.forEach(p => {
-          p.isFav = this.favoService.checkFavoriteProds(p._id)
-          p.inCart = this.cartService.checkInCart(p._id)
-        })
-      }
-    });
-  }
+    private refreshService: RefreshService
+  ) { }
 
   ngOnInit() {
     this.showLoading()
-    this.getData()
+    this.getData();
+
+    this.refreshService.refresher.pipe(take(1)).subscribe({
+      next: (val) => {
+        if (this.isLoading && !val.includes(PagesUrls.DISCOUNTS)) return;
+        console.log('Discount Subscriped to refresher')
+        this.watchFavo_Cart()
+      }
+    })
   }
 
   toCart() { this.navCtrl.navigateForward('/cart') }
@@ -83,6 +84,7 @@ export class DiscountsPage implements OnInit {
           this.getDiscoutSubGategories()
           this.discounts.length ? this.showContent(ev) : this.showEmpty(ev);
         }
+        this.watchFavo_Cart()
         this.stopLoding = response.length < 20
       }, error: error => this.showError(ev)
     })
@@ -101,6 +103,13 @@ export class DiscountsPage implements OnInit {
         } else this.discountCategories = res;
         this.selectedCategoryID = res[0]._id
       }
+    })
+  }
+
+  watchFavo_Cart() {
+    this.discounts.map(p => {
+      p.inCart = this.cartService.checkInCart(p._id);
+      p.isFav = this.favoService.checkFavoriteProds(p._id)
     })
   }
 
@@ -178,5 +187,7 @@ export class DiscountsPage implements OnInit {
     this.favoService.updateFavorites(prod)
   }
 
-  ngOnDestroy() { }
+  ngOnDestroy() {
+    this.refreshService.refresher.unsubscribe()
+  }
 }

@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 import { ModalController, ModalOptions, NavController, PopoverController } from '@ionic/angular';
-import { Storage } from '@ionic/storage-angular';
 import { Info, User } from 'src/app/core/project-interfaces/interfaces';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { CartService } from 'src/app/core/services/cart.service';
 import { DataService } from 'src/app/core/services/data.service';
-import { WildUsedService } from 'src/app/core/services/wild-used.service';
+import { wideUsedService } from 'src/app/core/services/wide-used.service';
 import { Browser } from '@capacitor/browser';
 import { AccountOptionsComponent } from '../account-options/account-options.component';
 import { EditPasswordComponent } from '../edit-password/edit-password.component';
@@ -20,24 +19,21 @@ import { EditPasswordComponent } from '../edit-password/edit-password.component'
 })
 export class AccountPage implements OnInit {
 
-  user: User;
   companyInfo: Info = null;
   empty: boolean = false;
   error: boolean = false;
 
   constructor(
-    private authService: AuthService,
-    private storage: Storage,
+    public authService: AuthService,
     private dataService: DataService,
-    private wildUsedService: WildUsedService, public navCtrl: NavController,
+    private wideUsedService: wideUsedService, public navCtrl: NavController,
     public cartService: CartService,
     private popoverCtrl: PopoverController,
     private modalCtrl: ModalController
   ) { }
 
   async ngOnInit() {
-    this.user = await this.storage.get('user')
-    this.getInfo()
+    if (this.authService.user()) this.getInfo()
   }
 
   toCart() { this.navCtrl.navigateForward('/cart') }
@@ -54,8 +50,8 @@ export class AccountPage implements OnInit {
   }
 
   async logOut() {
-    if (!this.user) { this.navCtrl.navigateForward('login'); return }
-    const desicion = await this.wildUsedService.generalAlert('هل انت متاكد انك تريد تسجيل الخروج ؟', 'نعم', 'لا');
+    if (!this.authService.user()) { this.navCtrl.navigateForward('login'); return }
+    const desicion = await this.wideUsedService.generalAlert('هل انت متاكد انك تريد تسجيل الخروج ؟', 'نعم', 'لا');
     if (!desicion) return;
     this.authService.logOut()
   }
@@ -109,18 +105,18 @@ export class AccountPage implements OnInit {
   }
 
   async deleteAccount() {
-    const desicion = await this.wildUsedService.generalAlert("هل تريد حذف حسابك؟", 'نعم', "كلا");
+    const desicion = await this.wideUsedService.generalAlert("هل تريد حذف حسابك؟", 'نعم', "لا");
     if (!desicion) return;
-    this.wildUsedService.showLoading()
-    this.dataService.deleteData(`user/${this.user._id}`).subscribe({
+    this.wideUsedService.showLoading()
+    this.dataService.deleteData(`user/${this.authService.user()._id}`).subscribe({
       next: (res: any) => {
-        this.wildUsedService.dismisLoading();
-        this.wildUsedService.generalToast("تم الحذف بنجاح", "primary", "light-color");
+        this.wideUsedService.dismisLoading();
+        this.wideUsedService.generalToast("تم الحذف بنجاح", "primary", "light-color");
         this.authService.logOut();
         console.log(res)
       }, error: (err: any) => {
-        this.wildUsedService.dismisLoading();
-        this.wildUsedService.generalToast(err.error.message)
+        this.wideUsedService.dismisLoading();
+        this.wideUsedService.generalToast(err.error.message)
       }
     })
   }

@@ -1,18 +1,31 @@
 @import '../../../theme/mixin.scss';
 @import '../../../global.scss';
 
+ion-toolbar{
+  ion-button:first-of-type{
+       --padding-bottom: 8px;
+    --padding-end: 8px;
+    --padding-start: 8px;
+    --padding-top: 8px;
+    font-size: 16px;
+  }
+  ion-label{
+    margin-left: 8px;
+    font-weight: 700;
+  }
+}
+
 ion-content {
   --padding-top: 16px;
 }
 
 .cart-prods {
-  direction: rtl;
   display: flex !important;
   flex-flow: column;
+  gap: 8px;
   padding: 0 16px 16px;
 
   .product {
-    direction: ltr;
     background-color: white !important;
     height: fit-content;
     @include flex(8, center, '', column);
@@ -24,7 +37,7 @@ ion-content {
     .product-data {
       flex-grow: 1;
       height: 94px;
-      @include flex(16, end, center, '');
+      @include flex(16, end, center, row-reverse);
 
       ion-img,
       img,
@@ -36,16 +49,21 @@ ion-content {
         border-radius: 6px;
         overflow: hidden;
       }
+        ion-button.trash{
+           --padding-bottom: 8px;
+    --padding-end: 8px;
+    --padding-start: 8px;
+    --padding-top: 8px;
+    margin-right: auto;
 
-      ion-icon {
-        --ion-color-primary: rgba(85, 85, 85, 1) !important;
-        @include shape(24, 24);
-        margin-right: auto;
-      }
+    ion-icon {
+      // --ion-color-primary: rgba(85, 85, 85, 1) !important;
+      @include shape(24, 24);
+    }
+  }
 
       >div:first-of-type {
-        @include flex(16, '',end, column);
-        width: calc((243 / 343 )*100%);
+        @include flex(16, '',start, column);
 
         h3 {
           margin: 0;
@@ -61,7 +79,6 @@ ion-content {
     overflow: hidden;
     text-overflow: ellipsis;
     text-wrap: auto;
-    direction: rtl;
     width: calc((211 / 243) * 100%);
         }
 
@@ -69,7 +86,7 @@ ion-content {
           @include flex(16,end, center, '');
 
           ion-buttons {
-            @include flex(16, '', center, '');
+            @include flex(16, '', center, row-reverse);
 
             ion-button {
               border-radius: 50%;
@@ -93,7 +110,6 @@ ion-content {
             line-height: 28px;
             letter-spacing: 0px;
             margin: 0;
-            direction: rtl;
           }
         }
 
@@ -124,14 +140,12 @@ ion-content {
             font-size: 14px;
             line-height: 26px;
             letter-spacing: 0px;
-            direction: rtl;
           }
         }
       }
 
       .total {
         height: 26px;
-        direction: rtl;
         @include flex(0, space-between, center, '');
 
         p {
@@ -144,7 +158,7 @@ ion-content {
         }
 
         h3 {
-          color: $primaryColor;
+          color: var(--ion-color-primary);
           font-weight: 700;
           font-size: 14px;
           line-height: 26px;
@@ -170,7 +184,7 @@ ion-footer {
     max-width: 767px;
     width: 100%;
     padding: 0 16px;
-    @include flex(0, space-between, center, '');
+    @include flex(0, space-between, center, row-reverse);
 
     p {
       font-weight: 600;
@@ -188,7 +202,6 @@ ion-footer {
       letter-spacing: 0px;
       text-align: end;
       margin: 0;
-      direction: rtl
     }
 
     .total,
@@ -202,7 +215,7 @@ ion-footer {
     }
 
     .total>h3 {
-      color: $primaryColor;
+      color: var(--ion-color-primary);
     }
 
     >div:last-child {
@@ -213,7 +226,7 @@ ion-footer {
 
   ion-button {
     --border-radius: 10px;
-    --background: #{$primaryColor};
+    --background: #{var(--ion-color-primary)};
     --padding-top: 8px;
     --padding-bottom: 8px;
     --padding-start: 12px;

@@ -1,6 +1,15 @@
 @import '../../../theme/mixin.scss';
 @import '../../../global.scss';
 
+
+
+ion-toolbar{
+  ion-label{
+    font-weight: 700
+  }
+}
+
+
 .branchs {
   @include flex(8, '', '', column);
   padding: 16px;
@@ -15,7 +24,7 @@
     background-color: white;
 
     &.checked {
-      border-color: $primaryColor $secondaryColor;
+      border-color: var(--ion-color-primary) var(--ion-color-secondary);
     }
 
     >div {
@@ -35,11 +44,11 @@
         font-weight: 500;
 
         &:last-of-type {
-          color: $primaryColor !important
+          color: var(--ion-color-primary) !important
         }
 
         &:first-of-type {
-          color: $secondaryColor
+          color: var(--ion-color-secondary)
         }
       }
     }

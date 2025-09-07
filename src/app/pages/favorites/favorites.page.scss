@@ -1,22 +1,36 @@
 @import '../../../theme/mixin.scss';
-@import '../../../global.scss';
 
+ion-header ion-toolbar{
+   >ion-img {
+      @include shape(33.15, 32);
+    }
+}
 .container {
 
   .header {
     margin-top: 16px;
-    margin-bottom: 16px;
-    @include flex(8, end, '', '');
+    margin-bottom: 16px;  padding: 0 16px;
+    @include flex(8, start, '', row-reverse);
 
     p {
       color: rgba(128, 128, 128, 1);
       direction: rtl;
     }
 
-    ion-icon{
-    margin: 0 auto 0 16px;
+    ion-button{
+      margin: 0 auto 0 0;
+          --padding-bottom: 8px;
+    --padding-end: 8px;
+    --padding-start: 8px;
+    --padding-top: 8px;
+      color: var(--ion-color-primary);
+      ion-icon{
     font-size: 20px;
-    color: $primaryColor;    }
+   }
+   }
+   section{
+    font-weight: 700;
+   }
   }
 
   .cards {
@@ -28,7 +42,7 @@
       width: 100%;
       height: 156px;
       border-radius: 12px;
-      @include flex(12, space-evenly, start, '');
+      @include flex(12, space-evenly, start, row-reverse);
       gap: 12px;
       background-color: white;
       border: 1px solid rgba(240, 239, 239, 1);
@@ -76,12 +90,11 @@
 
         .btns {
           height: 32px;
-          @include flex(12, space-between, center, '');
+          @include flex(12, space-between, center, row-reverse);
 
           >ion-button:last-of-type {
-            --ion-color-primary: #{$primaryColor};
             min-width: 207px;
-            color: white;
+            color: var(--ion-color-light);
             min-height: 32px;
             @include flex(4, center, center, '');
             overflow: hidden;
@@ -104,7 +117,7 @@
 
             >ion-icon {
               @include shape(24, 24);
-              color: #{$secondaryColor} !important;
+              color: var(--ion-color-secondary) !important;
             }
           }
         }

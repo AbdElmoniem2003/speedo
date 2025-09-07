@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { Subscription } from 'rxjs';
+import { take } from 'rxjs';
+import { PagesUrls } from 'src/app/core/enums/pagesUrls.enum';
 import { Product } from 'src/app/core/project-interfaces/interfaces';
 import { CartService } from 'src/app/core/services/cart.service';
 import { FavoService } from 'src/app/core/services/favorites.service';
-import { WildUsedService } from 'src/app/core/services/wild-used.service';
+import { RefreshService } from 'src/app/core/services/refresh-service/refresh.service';
+import { wideUsedService } from 'src/app/core/services/wide-used.service';
 
 @Component({
   selector: 'app-favorites',
@@ -15,26 +16,28 @@ import { WildUsedService } from 'src/app/core/services/wild-used.service';
 })
 export class FavoritesPage implements OnInit {
 
-  favoritesSubscription: Subscription
   items: Product[] = []
 
   constructor(
-    private wildUsedService: WildUsedService,
+    private wideUsedService: wideUsedService,
     public cartService: CartService, public navCtrl: NavController,
-    private favoServise: FavoService, router: Router
-  ) {
-    router.events.subscribe(event => {
-      if (event instanceof NavigationEnd && this.items.length) {
-        this.items.forEach(p => {
-          p.inCart = this.cartService.checkInCart(p._id)
-        })
-      }
-    });
-  }
+    private favoServise: FavoService, private refreshService: RefreshService
+  ) { }
 
   ngOnInit() { }
 
-  ionViewWillEnter() { this.getFavorites() }
+  ionViewWillEnter() {
+    this.getFavorites()
+    this.refreshService.refresher.pipe(take(1)).subscribe({
+      next: (val) => {
+        if (!val.includes(PagesUrls.FAVO)) return;
+        this.items.map(p => {
+          p.inCart = this.cartService.checkInCart(p._id)
+        })
+      }
+    })
+  }
+
   toCart() { this.navCtrl.navigateForward('/cart') }
 
   async getFavorites() {
@@ -56,7 +59,7 @@ export class FavoritesPage implements OnInit {
 
   async clearFavorites() {
     if (!this.items.length) return;
-    const decision = await this.wildUsedService.generalAlert('هل تريد حذف كل المنتجات المفضلة؟', 'أجل', "كلا");
+    const decision = await this.wideUsedService.generalAlert('هل تريد حذف كل المنتجات المفضلة؟', 'نعم', "لا");
     if (!decision) return;
     this.items = [];
     this.favoServise.clearFavorites()
@@ -68,6 +71,6 @@ export class FavoritesPage implements OnInit {
   }
 
   ngOnDestroy() {
-    this.favoritesSubscription.unsubscribe()
+    this.refreshService.refresher.unsubscribe()
   }
 }

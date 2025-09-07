@@ -70,9 +70,9 @@
   }
 }
 
-ion-content {
-  --padding-top: 0;
-}
+// ion-content {
+//   --padding-top: 0;
+// }
 
 
 .container {
@@ -111,7 +111,6 @@ ion-content {
 
 
   .header {
-    direction: rtl;
 
     section {
       font-weight: 700;
@@ -152,13 +151,13 @@ ion-content {
 
         >div {
           height: 32px;
-          @include flex(0, space-between, '', '');
+          @include flex(0, space-between, '', row-reverse);
         }
       }
 
       >div.total {
         height: 64px;
-        @include flex(0, space-between, center, row);
+        @include flex(0, space-between, center, row-reverse);
       }
     }
   }
@@ -170,11 +169,11 @@ ion-content {
 
     .header {
       padding: 0;
+      direction: ltr;
     }
 
     section {
       width: 100%;
-      direction: ltr;
     }
 
     .product {
@@ -223,7 +222,6 @@ ion-content {
             overflow: hidden;
             text-overflow: ellipsis;
             text-wrap: auto;
-            direction: rtl;
             width: inherit;
           }
 
@@ -235,13 +233,13 @@ ion-content {
             letter-spacing: 0px;
             align-self: end;
             min-width: 51px;
-            text-align: end;direction: rtl;
+            text-align: end;
             width: -webkit-fill-available;
           }
         }
 
         >div:last-of-type {
-          @include flex(4, end, center, '');
+          @include flex(4, start, center, '');
           height: 30px;
 
           >div {

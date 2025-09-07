@@ -30,12 +30,12 @@
         line-height: 30px;
         letter-spacing: -0.41px;
         text-align: right;
-        color: $primaryColor;
+        color: var(--ion-color-primary);
       }
     }
 
     button {
-      position: relative;
+      position: absolute;
       top: 59px;
       left: 16px;
       z-index: 100;
@@ -44,7 +44,8 @@
       background-color: transparent;
       @include shape(56, 24);
       @include flex(0, space-between, center, '');
-      color: $primaryColor;
+      color: var(--ion-color-primary);
+      direction: ltr;
 
       ion-icon {
         @include shape(24, 24);
@@ -81,7 +82,7 @@
     }
 
     ion-label{
-      color: $primaryColor !important;
+      color: var(--ion-color-primary) !important;
     }
 
   }
@@ -124,7 +125,7 @@
           letter-spacing: 0px;
           overflow: hidden;
           text-align: right;
-          @include flex(12, space-evenly, center, '');
+          @include flex(12, space-evenly, center, '');direction:ltr;
 
           ion-img,
           ion-icon {
@@ -132,7 +133,7 @@
             margin: 0 12px;
 
             &.valid {
-              --ion-color-dark:#{$primaryColor};
+              --ion-color-dark:#{var(--ion-color-primary)};
             }
           }
 
@@ -147,7 +148,7 @@
       --padding: 8px 16px;
       --border-radius: 10px;
       color: white;
-      --background: #{$primaryColor};
+      --background: #{var(--ion-color-primary)};
 
       ion-img {
         margin-left: 8px;
@@ -171,7 +172,7 @@
       }
 
       strong {
-        color: $primaryColor;
+        color: var(--ion-color-primary);
         font-weight: 700;
         font-size: 16px;
         line-height: 28px;

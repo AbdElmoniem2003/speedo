@@ -1,10 +1,12 @@
 import { Injectable, signal, WritableSignal } from "@angular/core";
 import { NavController } from "@ionic/angular";
 import { Storage } from "@ionic/storage-angular";
-import { WildUsedService } from "./wild-used.service";
+import { wideUsedService } from "./wide-used.service";
 import { DataService } from "./data.service";
 import { from } from "rxjs";
 import { User } from "../project-interfaces/interfaces";
+import { CartService } from "./cart.service";
+import { FavoService } from "./favorites.service";
 
 
 @Injectable({ providedIn: 'root' })
@@ -16,8 +18,10 @@ export class AuthService {
   constructor(
     private storage: Storage,
     private navCtrl: NavController,
-    private wildUsedService: WildUsedService,
-    private dataService: DataService
+    private wideUsedService: wideUsedService,
+    private dataService: DataService,
+    private cartService: CartService,
+    private favoService: FavoService
   ) {
     this.getUserFromStorage();
   }
@@ -32,16 +36,18 @@ export class AuthService {
   saveCredintials(userData: User) {
     this.setAccessToken(userData.accessToken)
     this.setRefreshToken(userData.refreshToken)
-    this.storage.set('user', userData)
+    this.storage.set('user', userData);
+    this.user.set(userData)
   }
 
   logIn(user: { username: string, password: string }) {
     this.dataService.postData('user/login', user).subscribe({
-      next: async (response: User) => {
+      next: (response: User) => {
         this.saveCredintials(response)
-        await this.navCtrl.navigateRoot('tabs/home')
+        this.navCtrl.navigateRoot('tabs')
       }, error: async err => {
-        await this.wildUsedService.generalToast(err.message, '', 'light-color', 2000)
+        console.log('Login')
+        await this.wideUsedService.generalToast(err.message, '', 'light-color', 2000)
       }
     })
   }
@@ -50,8 +56,8 @@ export class AuthService {
     this.dataService.postData('user/register', user).subscribe({
       next: (response: any) => {
         this.saveCredintials(response)
-        this.navCtrl.navigateRoot('tabs/home')
-      }, error: async err => await this.wildUsedService.generalToast(err.message, '', 'light-color', 2000)
+        this.navCtrl.navigateRoot('tabs')
+      }, error: async err => await this.wideUsedService.generalToast(err.message, '', 'light-color', 2000)
     })
   }
 
@@ -85,18 +91,18 @@ export class AuthService {
 
   async changePassword(body: any) {
 
-    this.wildUsedService.showLoading();
+    this.wideUsedService.showLoading();
     return new Promise(resolve => {
       this.dataService.postData('user/changePassword', body).subscribe({
         next: (user: User) => {
           this.saveCredintials(user);
           this.user.set(user);
-          this.wildUsedService.dismisLoading();
+          this.wideUsedService.dismisLoading();
           this.navCtrl.navigateRoot('/tabs/home');
           resolve(true);
         }, error: async (err: any) => {
-          this.wildUsedService.dismisLoading();
-          await this.wildUsedService.generalToast(err?.error?.message)
+          this.wideUsedService.dismisLoading();
+          await this.wideUsedService.generalToast(err?.error?.message)
           resolve(false)
         }
       })
@@ -106,8 +112,11 @@ export class AuthService {
   async logOut() {
     localStorage.removeItem('refreshToken')
     localStorage.removeItem('accessToken')
+    this.user.set(null)
+    this.cartService.items = []
+    this.favoService.items = []
     this.storage.clear().then(() => {
-      this.navCtrl.navigateRoot('login')
+      this.navCtrl.navigateForward('login');
     })
   }
 }

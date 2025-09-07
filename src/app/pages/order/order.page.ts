@@ -4,7 +4,7 @@ import { ModalController, NavController, PopoverController, PopoverOptions, Refr
 import { OrderStatus } from 'src/app/core/enums/enum';
 import { Order, ProductOrder } from 'src/app/core/project-interfaces/interfaces';
 import { DataService } from 'src/app/core/services/data.service';
-import { WildUsedService } from 'src/app/core/services/wild-used.service';
+import { wideUsedService } from 'src/app/core/services/wide-used.service';
 import { OrderOptionsComponent } from '../order-options/order-options.component';
 import { RefuseModalComponent } from '../refuse-modal/refuse-modal.component';
 import { OrderService } from 'src/app/core/services/order-service/order.service';
@@ -31,7 +31,7 @@ export class OrderPage implements OnInit {
   constructor(public navCtrl: NavController,
     private dataService: DataService,
     private currentRoute: ActivatedRoute,
-    private wildUsedService: WildUsedService,
+    private wideUsedService: wideUsedService,
     private popoverCtrl: PopoverController,
     private modalCtrl: ModalController, private orderService: OrderService
   ) { }
@@ -50,7 +50,7 @@ export class OrderPage implements OnInit {
   }
 
   async getProducts(ev?: any) {
-    this.wildUsedService.showLoading()
+    this.wideUsedService.showLoading()
     this.showLoading()
     this.getParams();
     this.dataService.getData(this.orderEndPoint).subscribe({
@@ -59,11 +59,11 @@ export class OrderPage implements OnInit {
         this.billProducts = res[0].order;
         this.billProducts.forEach(p => { this.ordersProductsTotalPrice += (p.product.price * p.qty) })
         res.length ? this.showContent(ev) : this.showEmpty(ev)
-        this.wildUsedService.dismisLoading()
+        this.wideUsedService.dismisLoading()
       }, error: (err) => {
         this.showError(ev)
-        this.wildUsedService.generalToast('حدث خطأ في الشبكة. تحقق من إتصالك بالإنترنت', '', 'light-color', 2000)
-        this.wildUsedService.dismisLoading()
+        this.wideUsedService.generalToast('حدث خطأ في الشبكة. تحقق من إتصالك بالإنترنت', '', 'light-color', 2000)
+        this.wideUsedService.dismisLoading()
       }
     })
   }
@@ -91,7 +91,7 @@ export class OrderPage implements OnInit {
     if (!data) return;
 
     if (data == 1) {      // cancel
-      const decition = await this.wildUsedService.generalAlert('هل تريد الإلغاء؟', "نعم", "كلا")
+      const decition = await this.wideUsedService.generalAlert('هل تريد الإلغاء؟', "نعم", "لا")
       if (!decition) return;
       this.openRefusalModal(this.order)
     }

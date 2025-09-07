@@ -1,10 +1,6 @@
 <ion-header class="main-header ">
   <ion-toolbar>
-    <ion-button slot="start" class="ion-activatable no-color-button" (click)="navCtrl.navigateForward('notifications')">
-      <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
-      <ion-ripple-effect></ion-ripple-effect>
-    </ion-button>
-    <ion-button slot="start" class="ion-activatable no-color-button cart" (click)="toCart()">
+    <ion-button slot="end" class=" cart" fill="clear" (click)="toCart()">
       @if((cartService.items?.length)){
       <span>{{cartService.items?.length}}</span>
       }
@@ -12,7 +8,12 @@
       </ion-img>
       <ion-ripple-effect></ion-ripple-effect>
     </ion-button>
-    <ion-img slot="end" src="../../../assets/imgs/logo-icon.svg"></ion-img>
+    <ion-button slot="end" fill="clear" (click)="navCtrl.navigateForward('notifications')">
+      <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
+      <ion-ripple-effect></ion-ripple-effect>
+    </ion-button>
+
+    <ion-img slot="start" src="../../../assets/imgs/logo-icon.svg"></ion-img>
   </ion-toolbar>
 
 
@@ -24,26 +25,27 @@
     <ion-refresher-content refreshingSpinner="bubbles"></ion-refresher-content>
   </ion-refresher>
 
-  <div class="page-header">
-    <div>
-      <section>التخفيضات</section>
-      <div class="filter">
-        <ion-button class="no-color-button" [routerLink]="'/search-products'">
-          <ion-img src="../../../assets/imgs/filter.svg" slot="icon-only"></ion-img>
-        </ion-button>
-        <ion-input [readonly]="true" (click)="navCtrl.navigateForward('search-products')" placeholder="...ابحث عن منتج">
-          <ion-icon name="search-outline"></ion-icon>
-        </ion-input>
-      </div>
-
-      <ion-segment [(ngModel)]="segment" class="nav-segments" [value]="segment" (ionChange)="toggleSegement($event)">
-        <ion-segment-button value="offer">العروض</ion-segment-button>
-        <ion-segment-button value="product">الخصومات</ion-segment-button>
-      </ion-segment>
-    </div>
-  </div>
 
   <div class="container">
+    <div class="page-header">
+      <div>
+        <section>التخفيضات</section>
+        <div class="filter">
+          <ion-input [readonly]="true" (click)="navCtrl.navigateForward('search-products')"
+            placeholder="...ابحث عن منتج">
+            <ion-icon name="search-outline"></ion-icon>
+          </ion-input>
+          <ion-button fill="clear" [routerLink]="'/search-products'">
+            <ion-img src="../../../assets/imgs/filter.svg" slot="icon-only"></ion-img>
+          </ion-button>
+        </div>
+
+        <ion-segment [(ngModel)]="segment" class="nav-segments" [value]="segment" (ionChange)="toggleSegement($event)">
+          <ion-segment-button value="product">الخصومات</ion-segment-button>
+          <ion-segment-button value="offer">العروض</ion-segment-button>
+        </ion-segment>
+      </div>
+    </div>
 
     <!-- Loading Ele -->
     @if(isLoading && segment===switchEnum.discount){
@@ -94,9 +96,9 @@
       @for (offer of offers; track $index) {
       <div class="offer fade-in">
         <app-custom-image [mainImg]="offer.image" [altImg]="'../../../assets/imgs/logo-cover.png'"></app-custom-image>
-        <ion-button class="no-color-button" (click)="toOffer(offer)">
+        <ion-button (click)="toOffer(offer)" fill="clear">
           <ion-label>تفقد المنتجات</ion-label>
-          <ion-icon name="chevron-back"></ion-icon>
+          <ion-icon name="chevron-forward"></ion-icon>
         </ion-button>
       </div>
       }
@@ -144,7 +146,8 @@
 
           <div class="addition-btns">
             <ion-button (click)="addToFavorite(prod)" class="no-color-button">
-              <ion-icon [name]="prod.isFav?'heart':'heart-outline'" [color]="prod.isFav?'primary':'dark'"
+              <ion-icon [name]="!prod.isFav?'heart-outline':''" color="dark"
+                [src]="prod.isFav?'../../../assets/imgs/tabs-icons/favourite-active.svg':''"
                 slot="icon-only"></ion-icon>
             </ion-button>
             <app-product-classes [prod]="prod"></app-product-classes>

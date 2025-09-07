@@ -33,7 +33,7 @@ swiper-container{
     &::part(bullet-active) {
       @include shape(8, 8);
       border-radius: 8px;
-      background-color: $primaryColor;
+      background-color: var(--ion-color-primary);
     }
 
 

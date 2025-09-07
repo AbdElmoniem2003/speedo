@@ -1,10 +1,6 @@
 <ion-header class="main-header ">
   <ion-toolbar>
-    <ion-button slot="start" class="ion-activatable no-color-button" (click)="navCtrl.navigateForward('notifications')">
-      <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
-      <ion-ripple-effect></ion-ripple-effect>
-    </ion-button>
-    <ion-button slot="start" class="ion-activatable no-color-button cart" (click)="toCart()">
+    <ion-button slot="end" class="cart" fill="clear" (click)="toCart()">
       @if((cartService.items?.length)){
       <span>{{cartService.items?.length}}</span>
       }
@@ -12,7 +8,12 @@
       </ion-img>
       <ion-ripple-effect></ion-ripple-effect>
     </ion-button>
-    <ion-img slot="end" src="../../../assets/imgs/logo-icon.svg"></ion-img>
+    <ion-button slot="end" fill="clear" (click)="navCtrl.navigateForward('notifications')">
+      <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
+      <ion-ripple-effect></ion-ripple-effect>
+    </ion-button>
+
+    <ion-img slot="start" src="../../../assets/imgs/logo-icon.svg"></ion-img>
   </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -25,7 +26,9 @@
 
 
     <div class="header">
-      <ion-icon name="trash" (click)="clearFavorites()"></ion-icon>
+      <ion-button fill="clear" (click)="clearFavorites()" slot="end">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
       <p>({{items?.length||0}}) منتجات</p>
       <section>المفضلة</section>
     </div>
@@ -51,12 +54,12 @@
           </div>
 
           <div class="btns">
-            <ion-button (click)="removeFromFavorites(prod)" class="no-color-button">
+            <ion-button (click)="removeFromFavorites(prod)" fill="clear">
               <ion-icon [name]="'heart'" slot="icon-only"></ion-icon>
             </ion-button>
             <ion-button (click)="addToCart(prod)" [disabled]="prod.inCart">
-              <ion-label> {{prod.inCart?'في السلة':'أضف للسلة'}}</ion-label>
               <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
+              <ion-label> {{prod.inCart?'في السلة':'أضف للسلة'}}</ion-label>
             </ion-button>
           </div>
 

@@ -2,6 +2,15 @@
 @import '../../../global.scss';
 
 
+ion-toolbar{
+  >ion-label{
+font-weight: 700;
+font-style: Bold;
+font-size: 20px;
+line-height: 32px;
+text-align: center;
+    }
+}
 
 ion-content {
   --padding-top: 0;
@@ -9,7 +18,7 @@ ion-content {
 
 
 .container {
-  .brands {
+  .brands ,.sections{
     display: grid !important;
   row-gap: 8px;
   column-gap: 8px;
@@ -20,7 +29,7 @@ ion-content {
     color: white;
   }
 
-    .brand {
+    .brand,.section {
       @include flex(0, center, center, '');
       padding: 12px;
       background-color: white;
@@ -39,7 +48,7 @@ ion-content {
     padding: 16px;
     direction: rtl;
 
-    .custom {
+    .section {
       @include flex(8, center, center, column);
       background-color: white;
       height: 227px;

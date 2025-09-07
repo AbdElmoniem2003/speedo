@@ -1,10 +1,6 @@
 <ion-header class="main-header ">
   <ion-toolbar>
-    <ion-button slot="start" class="ion-activatable no-color-button" (click)="navCtrl.navigateForward('notifications')">
-      <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
-      <ion-ripple-effect></ion-ripple-effect>
-    </ion-button>
-    <ion-button slot="start" class="ion-activatable no-color-button cart" (click)="toCart()">
+    <ion-button slot="end" class=" cart" fill="clear" (click)="toCart()">
       @if((cartService.items?.length)){
       <span>{{cartService.items?.length}}</span>
       }
@@ -12,7 +8,12 @@
       </ion-img>
       <ion-ripple-effect></ion-ripple-effect>
     </ion-button>
-    <ion-img slot="end" src="../../../assets/imgs/logo-icon.svg"></ion-img>
+    <ion-button slot="end" fill="clear" (click)="navCtrl.navigateForward('notifications')">
+      <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
+      <ion-ripple-effect></ion-ripple-effect>
+    </ion-button>
+
+    <ion-img slot="start" src="../../../assets/imgs/logo-icon.svg"></ion-img>
   </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -24,8 +25,8 @@
   <div class="container">
 
     <div class="header">
-      <p>({{orders?.length||0}}) فواتير</p>
       <section>طلباتي</section>
+      <p>({{orders?.length||0}}) فواتير</p>
     </div>
     <ion-segment class="filter fade-in" scrollable="true" [value]="filterStatus">
       <ion-segment-button [value]="orderStatus.REJECTED"

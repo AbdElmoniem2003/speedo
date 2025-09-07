@@ -1,0 +1,35 @@
+@import '../../../theme/mixin.scss';
+
+
+.btns {
+  @include flex(4, '', center, '');
+
+  span {
+    height: 26px;
+    min-width: 26px;
+
+    color: var(--ion-color-light);
+    background-color: rgba(44, 52, 84, 0.65);
+    border-radius: 15px;
+    @include flex(4, center, center, '');
+    overflow: hidden;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 22px;
+    letter-spacing: 0px;
+
+    &.extra {
+      width: 26px;
+    }
+
+    &.expanded {
+      padding: 2px 8px;
+      width: fit-content;
+    }
+  }
+
+  ion-img,
+  img {
+    @include shape(18, 18);
+  }
+}

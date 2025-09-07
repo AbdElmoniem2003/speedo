@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
 import { Geolocation } from "@capacitor/geolocation"
-import { WildUsedService } from "../wild-used.service";
+import { wideUsedService } from "../wide-used.service";
 
 @Injectable({ providedIn: "root" })
 
 export class LocationService {
   location: { lat: number, lng: number } = null
   constructor(
-    private wildUsedService: WildUsedService
+    private wideUsedService: wideUsedService
   ) { }
 
   async requestPermission() {
@@ -22,7 +22,7 @@ export class LocationService {
         return;
       }
       const request = (await this.requestPermission()).location
-      if (request == 'denied') { this.wildUsedService.generalToast("الرجاء تفعيل خدمات الموقع", '', 'light-color', 2000) }
+      if (request == 'denied') { this.wideUsedService.generalToast("الرجاء تفعيل خدمات الموقع", '', 'light-color', 2000) }
     })
   }
 

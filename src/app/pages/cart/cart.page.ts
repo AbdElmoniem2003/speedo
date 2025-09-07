@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Branch, CartProduct } from 'src/app/core/project-interfaces/interfaces';
-import { WildUsedService } from 'src/app/core/services/wild-used.service';
+import { wideUsedService } from 'src/app/core/services/wide-used.service';
 import { CartService } from 'src/app/core/services/cart.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 
@@ -18,7 +18,7 @@ export class CartPage implements OnInit {
   branchs: Branch[] = [];
 
   constructor(
-    private wildUsedService: WildUsedService,
+    private wideUsedService: wideUsedService,
     private cartService: CartService,
     public navCtrl: NavController,
     private authService: AuthService
@@ -47,7 +47,7 @@ export class CartPage implements OnInit {
   }
 
   async delete(product: CartProduct) {
-    this.wildUsedService.generalAlert(` ${product.name} هل ترد حذف` + ` ؟ `, 'أجل', "كلا").then(async (descision) => {
+    this.wideUsedService.generalAlert(` ${product.name} هل ترد حذف` + ` ؟ `, 'نعم', "لا").then(async (descision) => {
       if (!descision) return;
       this.items = this.items.filter((p) => {
         return product.customId !== p.customId
@@ -65,7 +65,7 @@ export class CartPage implements OnInit {
   async finishOrder() {
     const user = this.authService.user
     if (!user) {
-      const desicion = await this.wildUsedService.generalAlert('يجب تسجيل الدخول أولا', "حسنا", "لاحقا");
+      const desicion = await this.wideUsedService.generalAlert('يجب تسجيل الدخول أولا', "حسنا", "لاحقا");
       if (!desicion) return;
       this.navCtrl.navigateForward('login');
       return;
@@ -75,10 +75,10 @@ export class CartPage implements OnInit {
 
   async clearCart() {
     if (!this.items.length) return;
-    const desicion = await this.wildUsedService.generalAlert('هل تريد حذف كل المنتجات من السلة؟', 'أجل', "كلا");
+    const desicion = await this.wideUsedService.generalAlert('هل تريد حذف كل المنتجات من السلة؟', 'نعم', "لا");
     if (!desicion) return;
     this.cartService.clearCart()
     this.items = [];
-    await this.wildUsedService.generalToast('السلة فارغة', 'primary', 'light-color', 2500)
+    await this.wideUsedService.generalToast('السلة فارغة', 'primary', 'light-color', 2500)
   }
 }

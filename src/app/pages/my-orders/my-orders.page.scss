@@ -1,6 +1,11 @@
 @import '../../../theme/mixin.scss';
-@import '../../../global.scss';
 
+
+ion-header ion-toolbar{
+   >ion-img {
+      @include shape(33.15, 32);
+    }
+}
 .empty {
   width: 100%;
   @include flex(20, center, center, column);
@@ -13,21 +18,40 @@
 }
 
 .container {
-
-
   .header {
     margin-top: 16px;
     margin-bottom: 16px;
-    @include flex(8, end, '', '');
+    @include flex(8, start, '', '');
+    width: 100%;
+    height: 28px;
+    padding: 0 16px;
+    margin-bottom: 8px;
 
     p {
       color: rgba(128, 128, 128, 1);
       direction: rtl;
     }
+
+  ion-skeleton-text {
+    height: 100%;
+    width: 100%;
+    border-radius: 15px;
+    margin-top: 5px;
   }
 
+  section {
+    font-size: 16px;
+    line-height: 28px;
+    margin: 0;
+    @include flex(0, end, center, '');
+    padding: 0;
+    font-weight: 700;
+    letter-spacing: 0px;
+  }
+}
+
   .filter {
-    @include flex(8, end, '', '');
+    @include flex(8, start, '', '');
     width: 100%;
     padding: 0 16px;
     height: 40px;
@@ -46,11 +70,11 @@
       color: rgba(128, 128, 128, 1);
       overflow: hidden;
       --indicator-color: transparent;
-      --color-checked: #{$primaryColor};
+      --color-checked: #{var(--ion-color-primary)};
 
       &.segment-button-checked {
         color: white;
-        background-color: $secondaryColor;
+        background-color: var(--ion-color-secondary);
       }
     }
   }

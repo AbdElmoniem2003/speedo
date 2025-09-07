@@ -3,6 +3,7 @@ import { User } from '../core/project-interfaces/interfaces';
 import { CartService } from '../core/services/cart.service';
 import { FavoService } from '../core/services/favorites.service';
 import { AuthService } from '../core/services/auth.service';
+import { RefreshService } from '../core/services/refresh-service/refresh.service';
 
 @Component({
   selector: 'app-tabs',
@@ -17,7 +18,8 @@ export class TabsPage implements OnInit {
   constructor(
     public cartService: CartService,
     private favoService: FavoService,
-    public authService: AuthService
+    public authService: AuthService,
+    private refresherService: RefreshService
   ) { }
 
   async ngOnInit() {
@@ -25,8 +27,12 @@ export class TabsPage implements OnInit {
     this.favoService.getFavorites()
   }
 
-  async ionViewWillEnter() {
-    this.user = this.authService.user()
+  ionViewWillEnter() {
+    this.refresherService.emittNew = 'Init Tabs'
+  }
+
+  emitt(url: string) {
+    this.refresherService.emittNew = url
   }
 
   ngOnDestroy() { }

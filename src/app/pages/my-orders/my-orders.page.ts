@@ -12,7 +12,7 @@ import { Order } from "src/app/core/project-interfaces/interfaces";
 import { DataService } from "src/app/core/services/data.service";
 import { OrderStatus } from "src/app/core/enums/enum";
 import { OrderOptionsComponent } from "../order-options/order-options.component";
-import { WildUsedService } from "src/app/core/services/wild-used.service";
+import { wideUsedService } from "src/app/core/services/wide-used.service";
 import { RefuseModalComponent } from "../refuse-modal/refuse-modal.component";
 import { CartService } from "src/app/core/services/cart.service";
 import { OrderService } from "src/app/core/services/order-service/order.service";
@@ -43,7 +43,7 @@ export class MyOrdersPage implements OnInit {
     private modalCtrl: ModalController,
     private dataService: DataService,
     private popoverCtrl: PopoverController,
-    private wildUsedService: WildUsedService,
+    private wideUsedService: wideUsedService,
     public cartService: CartService,
     private orderService: OrderService
   ) { }
@@ -85,7 +85,7 @@ export class MyOrdersPage implements OnInit {
       error: (err) => {
         this.showError(ev);
         console.log(err);
-        this.wildUsedService.generalToast(
+        this.wideUsedService.generalToast(
           "حدث خطأ في الشبكة. تحقق من إتصالك بالإنترنت",
           "",
           "light-color",
@@ -163,10 +163,10 @@ export class MyOrdersPage implements OnInit {
 
     if (data == 1) {
       // cancel
-      const decition = await this.wildUsedService.generalAlert(
+      const decition = await this.wideUsedService.generalAlert(
         "هل تريد الإلغاء؟",
         "نعم",
-        "كلا"
+        "لا"
       );
       if (!decition) return;
       this.openRefusalModal(order);

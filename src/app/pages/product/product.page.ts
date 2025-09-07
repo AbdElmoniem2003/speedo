@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
-import { Subscription } from 'rxjs';
 import { Addition, Product, ProductImage, SubAddition } from 'src/app/core/project-interfaces/interfaces';
 import { CartService } from 'src/app/core/services/cart.service';
 import { DataService } from 'src/app/core/services/data.service';
 import { FavoService } from 'src/app/core/services/favorites.service';
-import { WildUsedService } from 'src/app/core/services/wild-used.service';
+import { wideUsedService } from 'src/app/core/services/wide-used.service';
 import { ImageViewerComponent } from '../image-viewer/image-viewer.component';
 import { EnterAnimation, LeaveAnimation } from 'src/app/core/consts/animations';
+
 
 @Component({
   selector: 'app-product',
@@ -18,8 +18,7 @@ import { EnterAnimation, LeaveAnimation } from 'src/app/core/consts/animations';
 })
 export class ProductPage implements OnInit {
 
-  productSub: Subscription;
-  product: Product;
+  product: Product = null;
   productAdditions: Addition[] = [];
   productSubAdditions: SubAddition[] = [];
   productImgs: ProductImage[]
@@ -34,42 +33,38 @@ export class ProductPage implements OnInit {
     public navCtrl: NavController,
     private dataService: DataService,
     private route: ActivatedRoute,
-    router: Router,
     public cartService: CartService,
     private favoService: FavoService,
-    private wildUsedService: WildUsedService,
-    private modalCtrl: ModalController
-  ) {
-    router.events.subscribe(ev => {
-      if (ev instanceof NavigationEnd && !this.isloading) {
-        this.backFromNavigation()
-      }
-    })
-  }
+    private wideUsedService: wideUsedService,
+    private modalCtrl: ModalController,
+  ) { }
 
   ngOnInit() {
     this.getProduct();
   }
+  ionViewWillEnter() {
+    this.backFromNavigation()
+  }
 
   getProduct(ev?: any) {
     this.showLoading()
-    this.wildUsedService.showLoading()
+    this.wideUsedService.showLoading()
     const productId = this.route.snapshot.paramMap.get('id');
-    this.productSub = this.dataService.getData("product/" + productId).subscribe(
+    this.dataService.getData("product/" + productId).subscribe(
       {
         next: (res: Product) => {
           this.product = res;
-
           this.product.selectedAdditions = []
           this.product.quantity = 1
           this.getSimillarProducts(res);
+          this.backFromNavigation()
           this.getProductImages();
           this.getAdditions()
-          this.wildUsedService.dismisLoading()
+          this.wideUsedService.dismisLoading()
           this.showContent(ev);
         },
         error: (err) => {
-          this.wildUsedService.dismisLoading()
+          this.wideUsedService.dismisLoading()
           this.showError(ev)
         }
       })
@@ -89,18 +84,17 @@ export class ProductPage implements OnInit {
     this.dataService.getData(this.similarProductsEndpoint).subscribe({
       next: (res: Product[]) => {
         this.similarProducts = res.length ? res : [];
-        this.similarProducts.forEach(p => {
-          p.isFav = this.favoService.checkFavoriteProds(p._id)
-          p.inCart = this.cartService.checkInCart(p._id)
-        })
+        this.backFromNavigation()
       }
     })
   }
 
   backFromNavigation() {
-    this.product.isFav = this.favoService.checkFavoriteProds(this.product?._id);
-    this.product.inCart = this.cartService.checkInCart(this.product?._id);
-    this.similarProducts.forEach(p => {
+    if (this.product) {
+      this.product.isFav = this.favoService.checkFavoriteProds(this.product._id);
+      this.product.inCart = this.cartService.checkInCart(this.product._id);
+    }
+    this.similarProducts.map(p => {
       p.isFav = this.favoService.checkFavoriteProds(p._id);
       p.inCart = this.cartService.checkInCart(p._id);
     });
@@ -169,7 +163,7 @@ export class ProductPage implements OnInit {
   async addToCart(prod: Product) {
     prod.inCart = !prod.inCart
     if (this.checkRequiredAdditionsNotChecked) {
-      this.wildUsedService.generalToast(`يرجي تحديد ${this.checkRequiredAdditionsNotChecked.name}`, '', 'light-color');
+      this.wideUsedService.generalToast(`يرجي تحديد ${this.checkRequiredAdditionsNotChecked.name}`, '', 'light-color');
       return;
     }
     if (prod.selectedAdditions?.length == 0) prod.selectedAdditions = null;
@@ -181,9 +175,9 @@ export class ProductPage implements OnInit {
     this.favoService.updateFavorites(prod)
   }
 
-  removeFromFavorite() {
-    this.product.isFav = !this.product.isFav;
-    this.favoService.updateFavorites(this.product)
+  removeFromFavorite(prod: Product) {
+    prod.isFav = !prod.isFav;
+    this.favoService.updateFavorites(prod)
   }
 
   showLoading() {
@@ -214,7 +208,5 @@ export class ProductPage implements OnInit {
     this.getProduct()
   }
 
-  ngOnDestroy() {
-    this.productSub.unsubscribe()
-  }
+  ngOnDestroy() { }
 }

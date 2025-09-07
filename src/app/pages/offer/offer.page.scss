@@ -19,11 +19,15 @@ ion-content {
     p {
       overflow: hidden;
       text-wrap: wrap;
+      font-family: inherit;
       text-align: right;
       text-overflow: ellipsis;
       white-space: nowrap;
       width: -webkit-fill-available;
       direction: rtl;
+    }
+    ion-label{
+      font-weight: 700;
     }
 
     p {
@@ -47,15 +51,18 @@ ion-content {
     ion-item {
       padding: 0 calc((100% - 768px) / 2) !important;
       --border-color: transparent;
-      --background: $lightColor;
-
+      --background: var(--ion-color-light);
+      background-color: var(--ion-color-light);
+      ion-button:last-of-type{
+  font-size: 16px;
+      }
     }
   }
 
   .filter {
     display: flex;
     padding: 0 16px;
-    justify-content: end;
+    justify-content: start;
     align-items: center;
     width: 100%;
 
@@ -96,8 +103,8 @@ ion-content {
         min-width: fit-content;
 
         &.segment-button-checked {
-          --color-checked:#{$secondaryColor};
-          background-color: $secondaryColor;
+          --color-checked:var(--ion-color-secondary);
+          background-color: var(--ion-color-secondary);
           color: white;
         }
       }
@@ -109,7 +116,7 @@ ion-content {
       width: 24px;
       height: 24px;
       background-color: #f6f6f6;
-      color: $primaryColor;
+      color: var(--ion-color-primary);
     }
   }
 }
@@ -140,6 +147,7 @@ ion-toolbar {
         position: relative;
         background-color: white;
         height: 303px;
+        min-width: 150px;
         @include flex(12, center, center, column);
         flex-basis: calc((100% - 8px)* 0.5);
         border-radius: 12px;
@@ -185,7 +193,7 @@ ion-toolbar {
           @include flex(8, center, center, '');
           border-radius: 10px;
           overflow: hidden;
-          --ion-color-primary:#{$primaryColor};
+          width: 100%;
 
           ion-label {
             font-weight: 700;
@@ -193,6 +201,7 @@ ion-toolbar {
             line-height: 26px;
             letter-spacing: 0px;
             text-align: center;
+            color: var(--ion-color-light)
           }
 
           ion-img {
@@ -342,7 +351,7 @@ ion-modal {
         padding: 8px;
 
         &.checked {
-          border-color: $primaryColor;
+          border-color: var(--ion-color-primary);
         }
 
         ion-img {

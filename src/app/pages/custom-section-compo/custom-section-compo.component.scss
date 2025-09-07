@@ -27,6 +27,7 @@ ion-content {
     overflow: hidden;
 
     ion-icon {
+      font-size: 16px;
       @include shape(16, 16)
     }
   }
@@ -45,6 +46,7 @@ ion-toolbar {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(109px, 1fr));
     direction: rtl;
+    gap: 8px;
     padding: 16px;
 
     .compo {
@@ -57,7 +59,7 @@ ion-toolbar {
       padding: 8px;
 
       &.checked {
-        border-color: $primaryColor;
+        border-color: var(--ion-color-primary);
       }
 
       ion-img,

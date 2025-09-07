@@ -5,15 +5,15 @@ ion-tab-bar {
   height: 64px;
 
   ion-tab-button {
-    --ion-color-primary-shade: #{$primaryColor};
-    --ion-color-primary: #{$primaryColor};
-    // color: #{$primaryColor};
-    --ripple-color: #{$primaryColor};
+    --ion-color-primary-shade: var(--ion-color-primary);
+    --ion-color-primary: var(--ion-color-primary);
+    // color: #{var(--ion-color-primary)};
+    --ripple-color: var(--ion-color-primary);
     @include shape(75, 64);
     @include flex(4, space-evenly, center, column);
 
     &.tab-selected ion-label{
-      color:$primaryColor !important;
+      color:var(--ion-color-primary) !important;
     }
 
     ion-label {
@@ -23,7 +23,7 @@ ion-tab-bar {
       min-width: 52px;
       letter-spacing: 0;
       text-align: center;
-      --ion-color-primary:#{$primaryColor};
+      --ion-color-primary:var(--ion-color-primary);
       --ion-color-secondary: rgba(128, 128, 128, 1);
     }
 

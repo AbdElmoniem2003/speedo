@@ -25,7 +25,7 @@ import { DataService } from "src/app/core/services/data.service";
 import { PickDateModalComponent } from "../pick-date-modal/pick-date-modal.component";
 import { EnterAnimation, LeaveAnimation } from "src/app/core/consts/animations";
 import { forkJoin } from "rxjs";
-import { WildUsedService } from "src/app/core/services/wild-used.service";
+import { wideUsedService } from "src/app/core/services/wide-used.service";
 import { TimeFormatePipe } from "src/app/core/pipes/time-formate-pipe/time-formate-pipe";
 
 @Component({
@@ -57,7 +57,7 @@ export class ConfirmCompoComponent implements OnInit {
     public modalCtrl: ModalController,
     private cartService: CartService,
     private dataService: DataService,
-    private wildUsedService: WildUsedService,
+    private wideUsedService: wideUsedService,
     private navCtrl: NavController,
     private authService: AuthService
   ) { }
@@ -95,7 +95,7 @@ export class ConfirmCompoComponent implements OnInit {
       error: (err) => {
         this.empty = true;
         this.isloading = false;
-        this.wildUsedService.generalToast("خطأ في الشبكة : حاول لاحقاً.", '', 'light-color', 2000);
+        this.wideUsedService.generalToast("خطأ في الشبكة : حاول لاحقاً.", '', 'light-color', 2000);
       },
     });
   }
@@ -147,19 +147,19 @@ export class ConfirmCompoComponent implements OnInit {
   }
 
   async finishOrder() {
-    if (this.orderForm.invalid) return await this.wildUsedService.generalToast('الرجاء ملأ بيانات المستلم', '', 'light-color')
+    if (this.orderForm.invalid) return await this.wideUsedService.generalToast('الرجاء ملأ بيانات المستلم', '', 'light-color')
 
-    const decision = await this.wildUsedService.generalAlert("هل تريد إنهاء الطلب ؟ ", "نعم", "كلا");
+    const decision = await this.wideUsedService.generalAlert("هل تريد إنهاء الطلب ؟ ", "نعم", "لا");
     if (!decision) return;
-    this.wildUsedService.showLoading();
+    this.wideUsedService.showLoading();
     this.dataService.postData(`order`, this.orderBody).subscribe({
       next: async (res) => {
         this.clearOrder()
-        await this.wildUsedService.generalToast("تم تأكيد طلبك بنجاح.", 'primary', 'light-color');
-        this.wildUsedService.dismisLoading()
+        await this.wideUsedService.generalToast("تم تأكيد طلبك بنجاح.", 'primary', 'light-color');
+        this.wideUsedService.dismisLoading()
       }, error: async (err) => {
-        await this.wildUsedService.generalToast('فشل في العملية تحقق من الشبكة', '', 'light-color', 2000)
-        this.wildUsedService.dismisLoading()
+        await this.wideUsedService.generalToast('فشل في العملية تحقق من الشبكة', '', 'light-color', 2000)
+        this.wideUsedService.dismisLoading()
       }
     })
   }

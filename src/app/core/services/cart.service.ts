@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Storage } from "@ionic/storage-angular";
 import { Branch, CartProduct, Product } from "../project-interfaces/interfaces";
-import { WildUsedService } from "./wild-used.service";
+import { wideUsedService } from "./wide-used.service";
 
 @Injectable({ providedIn: 'root' })
 
@@ -12,7 +12,7 @@ export class CartService {
 
   constructor(
     private storage: Storage,
-    private wildUsedService: WildUsedService
+    private wideUsedService: wideUsedService
   ) { }
 
   async reloadCart() {
@@ -46,13 +46,13 @@ export class CartService {
 
   async add(product: Product, noToast?: boolean) {
     this.items.push(this.generateCartProduct(product))
-    if (!noToast) await this.wildUsedService.generalToast('تمت الاضافة للسلة بنجاح.', 'primary', 'light-color');
+    if (!noToast) await this.wideUsedService.generalToast('تمت الاضافة للسلة بنجاح.', 'primary', 'light-color');
     this.storage.set('inCart', this.items)
   }
 
   async delete(id: string, noToast?: boolean) {
     this.items = this.items.filter((p) => { return p.customId !== id });
-    if (!noToast) await this.wildUsedService.generalToast('تمت الحذف من السلة بنجاح.', 'primary', 'light-color')
+    if (!noToast) await this.wideUsedService.generalToast('تمت الحذف من السلة بنجاح.', 'primary', 'light-color')
     this.storage.set('inCart', this.items);
   }
 

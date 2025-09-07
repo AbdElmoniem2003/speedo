@@ -2,13 +2,15 @@ import {
   Component,
   OnInit
 } from "@angular/core";
-import { NavigationEnd, Router } from "@angular/router";
 import { NavController, RefresherCustomEvent } from "@ionic/angular";
+import { take } from "rxjs";
+import { PagesUrls } from "src/app/core/enums/pagesUrls.enum";
 import { Brand, Category, Offer, Product, Slider } from "src/app/core/project-interfaces/interfaces";
 import { CartService } from "src/app/core/services/cart.service";
 import { DataService } from "src/app/core/services/data.service";
 import { FavoService } from "src/app/core/services/favorites.service";
-import { WildUsedService } from "src/app/core/services/wild-used.service";
+import { RefreshService } from "src/app/core/services/refresh-service/refresh.service";
+import { wideUsedService } from "src/app/core/services/wide-used.service";
 import { register, SwiperContainer } from "swiper/element/bundle";
 
 @Component({
@@ -27,40 +29,40 @@ export class HomePage implements OnInit {
   error: boolean = false;
   skip: number = 0
 
-  products: Product[];
-  sliders: Slider[];
-  categories: Category[];
-  brands: Brand[];
-  newProducts: Product[];
-  discountProducts: Product[];
-  offers: Product[];
-  bestSeller: Product[];
+  products: Product[] = [];
+  sliders: Slider[] = [];
+  categories: Category[] = [];
+  brands: Brand[] = [];
+  newProducts: Product[] = [];
+  discountProducts: Product[] = [];
+  offers: Product[] = [];
+  bestSeller: Product[] = [];
   filterModalOpen: boolean = false;
 
   constructor(
     public navCtrl: NavController,
     private dataService: DataService,
-    private wildUsedService: WildUsedService,
+    private wideUsedService: wideUsedService,
     public cartService: CartService,
     private favoService: FavoService,
-    router: Router
-  ) {
-
-    router.events.subscribe(event => {
-      if (event instanceof NavigationEnd && !this.isLoading) {
-        this.checkFavorites();
-        this.checkInCart();
-        setTimeout(() => {
-          this.handleSwiper();
-          this.swiperEle.swiper.slideTo(this.dataService.homeSlideActiveIndex);
-        }, 1500);
-      }
-    });
-  }
+    private refreshService: RefreshService
+  ) { }
 
   ngOnInit() {
     this.showLoading()
     this.getData();
+
+    this.refreshService.refresher.pipe(take(1)).subscribe({
+      next: (val) => {
+        if (this.isLoading && !val.includes(PagesUrls.HOME)) return;
+        this.checkInCart();
+        this.checkFavorites();
+        setTimeout(() => {
+          this.handleSwiper();
+          this.swiperEle.swiper.slideTo(this.dataService.homeSlideActiveIndex || 0);
+        }, 1500);
+      }
+    })
   }
 
   toCart() { this.navCtrl.navigateForward('/cart') }
@@ -74,6 +76,7 @@ export class HomePage implements OnInit {
             this.products = response.products;
 
             this.sliders = response.sliders;
+            this.offers = response.offers
             this.handleSwiper();
 
             this.categories = response.categories
@@ -83,10 +86,13 @@ export class HomePage implements OnInit {
             this.discountProducts = response.discountProducts
             this.bestSeller = response.bestSeller;
 
+            this.checkFavorites();
+            this.checkInCart();
+
           }
           response ? this.showContent(ev) : this.showEmpty(ev);
         }, error: err => {
-          this.wildUsedService.generalToast("حدث خطا . تحقق من الشبكة", '', 'light-color', 2000)
+          this.wideUsedService.generalToast("حدث خطا . تحقق من الشبكة", '', 'light-color', 2000)
           this.showError(ev)
         }
       });
@@ -185,5 +191,5 @@ export class HomePage implements OnInit {
     this.dataService.homeSlideActiveIndex = this.swiperEle.swiper.activeIndex
   }
 
-  ngOnDestroy() { }
+  ngOnDestroy() { this.refreshService.refresher.unsubscribe() }
 }

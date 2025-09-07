@@ -1,10 +1,8 @@
 <ion-header class="main-header">
   <ion-toolbar>
-    <ion-button slot="start" class="ion-activatable no-color-button" (click)="navCtrl.navigateForward('notifications')">
-      <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
-      <ion-ripple-effect></ion-ripple-effect>
-    </ion-button>
-    <ion-button slot="start" class="ion-activatable no-color-button cart" (click)="toCart()">
+    <ion-img slot="start" src="../../../assets/imgs/logo-icon.svg"></ion-img>
+
+    <ion-button slot="end" class="cart" fill="clear" (click)="toCart()">
       @if((cartService.items?.length)){
       <span class="cart-counter">{{cartService.items?.length}}</span>
       }
@@ -12,7 +10,10 @@
       </ion-img>
       <ion-ripple-effect></ion-ripple-effect>
     </ion-button>
-    <ion-img slot="end" src="../../../assets/imgs/logo-icon.svg"></ion-img>
+    <ion-button slot="end" fill="clear" (click)="navCtrl.navigateForward('notifications')">
+      <ion-img slot="icon-only" src="../../../assets/imgs/bell.svg"></ion-img>
+      <ion-ripple-effect></ion-ripple-effect>
+    </ion-button>
   </ion-toolbar>
 
 </ion-header>
@@ -20,20 +21,6 @@
 
 <ion-content>
 
-  <div class="page-header">
-    <div>
-      <section>الرئيسية</section>
-      <div class="filter">
-        <ion-button class="no-color-button" [routerLink]="'/search-products'">
-          <ion-img src="../../../assets/imgs/filter.svg" slot="icon-only"></ion-img>
-        </ion-button>
-        <ion-input [readonly]="true" (click)="toCustomSearch(null)" placeholder="...ابحث عن منتج">
-          <ion-icon name="search-outline"></ion-icon>
-        </ion-input>
-      </div>
-
-    </div>
-  </div>
 
   <ion-refresher (ionRefresh)="refresh($event)" slot="fixed">
     <ion-refresher-content refreshingSpinner="bubbles"> </ion-refresher-content>
@@ -41,6 +28,20 @@
 
 
   <div class="container">
+    <div class="page-header">
+      <div>
+        <section>الرئيسية</section>
+        <div class="filter">
+          <ion-input [readonly]="true" (click)="toCustomSearch(null)" placeholder="...ابحث عن منتج">
+            <ion-icon name="search-outline"></ion-icon>
+          </ion-input>
+          <ion-button fill="clear" [routerLink]="'/search-products'">
+            <ion-img src="../../../assets/imgs/filter.svg" slot="icon-only"></ion-img>
+          </ion-button>
+        </div>
+
+      </div>
+    </div>
     @if(!error){
 
     <swiper-container class="swiper-container" autoplay='{"delay":2000,"disableOnInteraction":false}'
@@ -68,11 +69,11 @@
       @if(!isLoading&&!empty&&!error){
       <div class="sections-cards" *ngIf="categories">
         <div class="header">
-          <ion-button class="more no-color-button" (click)="toCustomComponent('categories')">
-            المزيد
-            <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
-          </ion-button>
           <section>الأقسام</section>
+          <ion-button class="more" fill="clear" (click)="toCustomComponent('categories')">
+            المزيد
+            <ion-icon name="chevron-forward-outline" slot="start"></ion-icon>
+          </ion-button>
         </div>
 
 
@@ -92,11 +93,11 @@
 
       <div class="most-demand" *ngIf="bestSeller">
         <div class="header">
-          <ion-button class="more no-color-button" (click)="toCustomSearch({bestSeller:true})">
-            المزيد
-            <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
-          </ion-button>
           <section>الأكثر طلبا</section>
+          <ion-button class="more" fill="clear" (click)="toCustomSearch({bestSeller:true})">
+            المزيد
+            <ion-icon name="chevron-forward-outline" slot="start"></ion-icon>
+          </ion-button>
         </div>
 
 
@@ -114,8 +115,9 @@
               <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
             </ion-button>
             <div class="addition-btns">
-              <ion-button (click)="addToFavorite(prod)" class="no-color-button">
-                <ion-icon [name]="prod.isFav?'heart':'heart-outline'" [color]="prod.isFav?'primary':'dark'"
+              <ion-button (click)="addToFavorite(prod)" fill="clear">
+                <ion-icon [name]="!prod.isFav?'heart-outline':''" color="dark"
+                  [src]="prod.isFav?'../../../assets/imgs/tabs-icons/favourite-active.svg':''"
                   slot="icon-only"></ion-icon>
               </ion-button>
               <app-product-classes [prod]="prod"></app-product-classes>
@@ -128,23 +130,24 @@
 
       </div>
 
-      <div class="offers" *ngIf="offers">
+      @if(offers.length){
+      <div class="offers">
 
         <div class="header">
-          <ion-button class="more no-color-button" (click)="toCustomComponent('offers')">
-            المزيد
-            <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
-          </ion-button>
           <section>العروض</section>
+          <ion-button class="more" fill="clear" (click)="toCustomComponent('offers')">
+            المزيد
+            <ion-icon name="chevron-forward-outline" slot="start"></ion-icon>
+          </ion-button>
         </div>
 
         <div class="offers-cards">
           @for (offer of offers; track $index) {
           <div class="card fade-in">
             <app-custom-image [mainImg]="offer.image"></app-custom-image>
-            <ion-button class="no-color-button" [routerLink]="['/offer']" [queryParams]=" { id: offer._id} ">
+            <ion-button fill="clear" [routerLink]="['/offer']" [queryParams]=" { id: offer._id} ">
               <ion-label>تفقد المنتجات</ion-label>
-              <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
+              <ion-icon name="chevron-forward-outline" slot="start"></ion-icon>
             </ion-button>
           </div>
           }
@@ -153,14 +156,15 @@
 
 
       </div>
+      }
 
       <div class="discounts" *ngIf="discountProducts">
         <div class="header">
-          <ion-button class="more no-color-button" (click)="toCustomSearch({discount:1})">
-            المزيد
-            <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
-          </ion-button>
           <section>التخفيضات</section>
+          <ion-button class="more" fill="clear" (click)="toCustomSearch({discount:1})">
+            المزيد
+            <ion-icon name="chevron-forward-outline" slot="start"></ion-icon>
+          </ion-button>
         </div>
 
 
@@ -178,9 +182,10 @@
               <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
             </ion-button>
             <div class="addition-btns">
-              <ion-button (click)="addToFavorite(discountProd)" class="no-color-button">
-                <ion-icon [name]="discountProd.isFav?'heart':'heart-outline'"
-                  [color]="discountProd.isFav?'primary':'dark'" slot="icon-only"></ion-icon>
+              <ion-button (click)="addToFavorite(discountProd)" fill="clear">
+                <ion-icon [name]="!discountProd.isFav?'heart-outline':''" color="dark"
+                  [src]="discountProd.isFav?'../../../assets/imgs/tabs-icons/favourite-active.svg':''"
+                  slot="icon-only"></ion-icon>
               </ion-button>
               <app-product-classes [prod]="discountProd"></app-product-classes>
 
@@ -195,11 +200,11 @@
       <div class="brands" *ngIf="brands">
 
         <div class="header">
-          <ion-button class="more no-color-button" (click)="toCustomComponent('brands')">
-            المزيد
-            <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
-          </ion-button>
           <section>البراندات</section>
+          <ion-button class="more" fill="clear" (click)="toCustomComponent('brands')">
+            المزيد
+            <ion-icon name="chevron-forward-outline" slot="start"></ion-icon>
+          </ion-button>
         </div>
 
 
@@ -222,11 +227,11 @@
       <div class="recent" *ngIf="newProducts">
 
         <div class="header">
-          <ion-button class="more no-color-button" (click)="toCustomSearch({new:true})">
-            المزيد
-            <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
-          </ion-button>
           <section>وصل حديثا</section>
+          <ion-button class="more" fill="clear" (click)="toCustomSearch({new:true})">
+            المزيد
+            <ion-icon name="chevron-forward-outline" slot="start"></ion-icon>
+          </ion-button>
         </div>
 
 
@@ -244,8 +249,9 @@
             </ion-button>
 
             <div class="addition-btns">
-              <ion-button (click)="addToFavorite(newProd)" class="no-color-button">
-                <ion-icon [name]="newProd.isFav?'heart':'heart-outline'" [color]="newProd.isFav?'primary':'dark'"
+              <ion-button (click)="addToFavorite(newProd)" fill="clear">
+                <ion-icon [name]="!newProd.isFav?'heart-outline':''" color="dark"
+                  [src]="newProd.isFav?'../../../assets/imgs/tabs-icons/favourite-active.svg':''"
                   slot="icon-only"></ion-icon>
               </ion-button>
               <app-product-classes [prod]="newProd"></app-product-classes>

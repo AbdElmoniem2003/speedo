@@ -1,8 +1,101 @@
 @import '../../../theme/mixin.scss';
 @import '../../../global.scss';
 
-.container {
 
+.custom-header {
+  box-shadow: none;
+
+  >img,
+  app-custom-image {
+    width: 343px;
+    height: 100px;
+    object-fit: contain;
+    margin: 0 auto 0;
+    display: block;
+    border-radius: 12px;
+  }
+
+  >ion-button {
+    --padding-bottom: 8px;
+    --padding-end: 8px;
+    --padding-start: 8px;
+    --padding-top: 8px;
+    position: relative;
+  }
+
+  >ion-img {
+    width: 100%;
+  }
+
+  ion-toolbar {
+    padding: 0 16px;
+
+    ion-button,
+    ion-back-button {
+      @include flex(0, center, center, '');
+
+      &.no-padding {
+        --padding-bottom: 0px;
+        --padding-end: 0px;
+        --padding-start: 0px;
+        height: fit-content;
+        border-radius: 50%;
+      }
+
+      span {
+        position: absolute;
+        background: var(--ion-color-primary);
+        padding: 3px;
+        height: 14px;
+        width: fit-content;
+        color: var(--ion-color-light);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        top: 0%;
+        font-size: 14px;
+        right: 0px;
+      }
+
+      ion-icon,
+      ion-img {
+        @include shape(24, 24)
+      }
+    }
+
+    ion-button:last-of-type {
+      ion-icon {
+        color: var(--ion-color-dark);
+      }
+    }
+
+    >ion-img {
+      @include shape(24, 24);
+    }
+
+    ion-label {
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 32px;
+      letter-spacing: 0px;
+      margin-left: 10px;
+      font-family: 'Cairo'
+    }
+
+    p {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 28px;
+      letter-spacing: 0px;
+      text-align: center;
+      direction: rtl;
+      font-family: 'Cairo';
+      color: rgba(128, 128, 128, 1);
+    }
+  }
+}
+
+.container {
 
   .section-filter {
 
@@ -51,8 +144,8 @@
         border: 1px solid rgba(219, 219, 219, 1);
 
         &.segment-button-checked {
-          --color-checked:#{$secondaryColor};
-          background-color: $secondaryColor;
+          --color-checked:#{var(--ion-color-secondary)};
+          background-color: var(--ion-color-secondary);
           color: white;
         }
       }
@@ -67,7 +160,7 @@
       width: 24px;
       height: 26px;
       background-color: #f6f6f6;
-      color: $primaryColor;
+      color: var(--ion-color-primary);
     }
   }
 
@@ -137,12 +230,12 @@
         }
 
         >ion-button {
-          height: 40px;
+          height: 40px;width: 100%;
           direction: ltr;
           @include flex(8, center, center, '');
           border-radius: 10px;
           overflow: hidden;
-          --ion-color-primary:#{$primaryColor};
+          color: var(--ion-color-light);
 
           ion-label {
             font-weight: 700;

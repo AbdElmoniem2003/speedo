@@ -1,21 +1,21 @@
 <ion-header class="custom-header ">
 
   <ion-toolbar>
-    <ion-button class="no-color-button cart" routerLink="/cart" slot="start">
+    <ion-button class=" cart" fill="clear" routerLink="/cart" slot="end">
       @if((cartService.items?.length)){
       <span>{{cartService.items?.length}}</span>
       }
       <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
     </ion-button>
 
-    <ion-label slot="end">
+    <ion-button slot="start" fill="clear" (click)="navCtrl.pop()">
+      <ion-icon name="chevron-back" slot="icon-only" color="dark"></ion-icon>
+    </ion-button>
+    <ion-label slot="start">
       @if(customView=='offers'){العروض}
       @if(customView=='categories'){الأقسام}
       @if(customView=='brands'){البراندات}
     </ion-label>
-    <ion-button slot="end" class="no-color-button" (click)="navCtrl.pop()">
-      <ion-icon name="chevron-forward" slot="icon-only"></ion-icon>
-    </ion-button>
 
   </ion-toolbar>
 </ion-header>
@@ -52,7 +52,7 @@
     @if(categories.length){
     <div class="sections">
       @for (category of categories; track $index) {
-      <div class="custom" (click)="toSection('section',category)">
+      <div class="section" (click)="toSection('section',category)">
         <app-custom-image [mainImg]="category.image"></app-custom-image>
         <p> {{category.name}}</p>
       </div>

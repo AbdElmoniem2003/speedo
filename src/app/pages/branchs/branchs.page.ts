@@ -4,7 +4,7 @@ import { Branch } from 'src/app/core/project-interfaces/interfaces';
 import { CartService } from 'src/app/core/services/cart.service';
 import { DataService } from 'src/app/core/services/data.service';
 import { LocationService } from 'src/app/core/services/location-service/location-service';
-import { WildUsedService } from 'src/app/core/services/wild-used.service';
+import { wideUsedService } from 'src/app/core/services/wide-used.service';
 import { ConfirmCompoComponent } from '../confirm-compo/confirm-compo.component';
 import { EnterAnimation, LeaveAnimation } from 'src/app/core/consts/animations';
 
@@ -26,7 +26,7 @@ export class BranchsPage implements OnInit {
     public modalCtrl: ModalController,
     private cartService: CartService,
     public navCtrl: NavController,
-    private wildUsedService: WildUsedService,
+    private wideUsedService: wideUsedService,
     private locationService: LocationService
   ) { }
 

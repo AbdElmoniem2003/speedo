@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Product } from "../project-interfaces/interfaces";
 import { Storage } from "@ionic/storage-angular";
-import { WildUsedService } from "./wild-used.service";
-
 
 @Injectable({ providedIn: 'root' })
 
@@ -12,8 +10,6 @@ export class FavoService {
 
   constructor(
     private storage: Storage,
-    private wildUsedService: WildUsedService,
-
   ) { }
 
   async getFavorites(): Promise<Product[]> {

@@ -3,7 +3,7 @@
   <ion-toolbar>
     <div>
       <ion-item lines="none">
-        <ion-button slot="start" class="no-color-button cart" (click)="toCart()">
+        <ion-button slot="end" fill="clear" class="cart" (click)="toCart()">
           <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
           @if((cartService.items?.length)){
           <span class="cart-counter">{{cartService.items?.length}}</span>
@@ -11,11 +11,11 @@
         </ion-button>
 
         <div class="txts">
-          <ion-label slot="end"> {{offer.name}}</ion-label>
-          <p slot="end"> {{offer.description}}</p>
+          <ion-label> {{offer.name}}</ion-label>
+          <p> {{offer.description}}</p>
         </div>
-        <ion-button slot="end" (click)="navCtrl.pop()" class="no-color-button">
-          <ion-icon icon="chevron-forward"></ion-icon>
+        <ion-button slot="start" class="cart" (click)="navCtrl.pop()" fill="clear">
+          <ion-icon icon="chevron-back" color="dark"></ion-icon>
         </ion-button>
       </ion-item>
 

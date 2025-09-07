@@ -1,5 +1,4 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Product } from 'src/app/core/project-interfaces/interfaces';
 import { CartService } from 'src/app/core/services/cart.service';
@@ -31,20 +30,15 @@ export class SearchProductsPage implements OnInit {
     public navCtrl: NavController,
     public cartService: CartService,
     public favoService: FavoService,
-    router: Router
-  ) {
-    router.events.subscribe(event => {
-      if (event instanceof NavigationEnd && !this.isLoading) {
-        this.checkFavorites_InCart(this.searchProducts);
-      }
-    });
-  }
+  ) { }
 
   ngOnInit() {
-    this.getProducts().then(() => this.updatePricesRange());
+    this.getProducts()
   }
-
-  ionViewWillEnter() { }
+  ionViewWillEnter() {
+    if (!this.searchProducts) return;
+    this.checkFavorites_InCart(this.searchProducts)
+  }
 
   get searchEndPoint() {
     const searchCase = this.dataService.searchParams ? Object.keys(this.dataService.searchParams)[0] : null
@@ -67,6 +61,8 @@ export class SearchProductsPage implements OnInit {
         } else {
           this.searchProducts = this.searchProducts.concat(response);
         }
+        this.checkFavorites_InCart(this.searchProducts);
+        this.updatePricesRange()
         this.searchProducts.length ? this.showContent(ev) : this.showEmpty(ev);
         this.stopLoading = (response.length < 20)
       }, error: err => this.showError(ev)

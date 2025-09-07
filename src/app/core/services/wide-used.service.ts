@@ -12,7 +12,7 @@ import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
 
 @Injectable({ providedIn: 'root' })
 
-export class WildUsedService {
+export class wideUsedService {
 
   loading: HTMLIonLoadingElement;
   inFavorites: string[]

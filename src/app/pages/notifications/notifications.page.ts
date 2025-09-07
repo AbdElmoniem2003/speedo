@@ -3,7 +3,7 @@ import { NavController } from '@ionic/angular';
 import { Notification, User } from 'src/app/core/project-interfaces/interfaces';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { DataService } from 'src/app/core/services/data.service';
-import { WildUsedService } from 'src/app/core/services/wild-used.service';
+import { wideUsedService } from 'src/app/core/services/wide-used.service';
 
 @Component({
   selector: 'app-notifications',
@@ -25,7 +25,7 @@ export class NotificationsPage implements OnInit {
     public navCtrl: NavController,
     private dataService: DataService,
     private authService: AuthService,
-    private wildUsedService: WildUsedService
+    private wideUsedService: wideUsedService
   ) { }
 
   async ngOnInit() {
@@ -48,7 +48,7 @@ export class NotificationsPage implements OnInit {
           this.stopLoading = res?.length != 20;
         }, error: async (err) => {
           this.showError(ev);
-          await this.wildUsedService.generalToast('حدث خطأ ما. تأكد من اللإتصال بالشبكة.', '', 'light-color', 2000);
+          await this.wideUsedService.generalToast('حدث خطأ ما. تأكد من اللإتصال بالشبكة.', '', 'light-color', 2000);
         }
       })
   }

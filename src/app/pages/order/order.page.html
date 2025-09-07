@@ -2,20 +2,22 @@
 
   <ion-toolbar>
     @if(!isLoading && order){
-    <ion-icon slot="start" name="ellipsis-vertical" (click)="openOrderOperations($event)"></ion-icon>
-    <ion-chip slot="start" *ngIf="order.status==orderStatus.WAITING" title="معلق">معلق</ion-chip>
-    <ion-chip slot="start" *ngIf="order.status==orderStatus.REJECTED" title="مرفوض">مرفوض</ion-chip>
-    <ion-chip slot="start" *ngIf="order.status==orderStatus.ACCEPTED" title="مكتمل">مكتمل</ion-chip>
+    @if(order.status==orderStatus.WAITING){<ion-chip slot="end" title="معلق">معلق</ion-chip>}
+    @if(order.status==orderStatus.REJECTED){<ion-chip slot="end" title="مرفوض">مرفوض</ion-chip>}
+    @if(order.status==orderStatus.ACCEPTED){<ion-chip slot="end" title="مكتمل">مكتمل</ion-chip>}
     }
+    <ion-button slot="end" fill="clear" (click)="openOrderOperations($event)">
+      <ion-icon name="ellipsis-vertical"></ion-icon>
+    </ion-button>
 
-    <div slot="end">
+    <div slot="start">
+      <ion-button slot="start" fill="clear" (click)="navCtrl.pop()">
+        <ion-icon name="chevron-back" slot="icon-only" color="dark"></ion-icon>
+      </ion-button>
+      <ion-img slot="start" src="../../../assets/imgs/invoice-01.svg"></ion-img>
       @if(!isLoading && order){
       <h3>فاتورة {{order.orderNumber}}</h3>
       }
-      <ion-img src="../../../assets/imgs/invoice-01.svg"></ion-img>
-      <ion-button slot="end" class="no-color-button" (click)="navCtrl.pop()">
-        <ion-icon name="chevron-forward" slot="icon-only"></ion-icon>
-      </ion-button>
     </div>
   </ion-toolbar>
 </ion-header>
@@ -89,11 +91,12 @@
 
       @for(prod of billProducts;track $index){
       <div class="product" [routerLink]="`/product/${prod.product._id}`">
+        <app-custom-image [mainImg]="prod.product.image"></app-custom-image>
         <div class="product-data">
 
           <div>
-            <strong style="direction: rtl;">{{prod.product.price|number}} د.ع</strong>
             <p>{{prod.product.name}}</p>
+            <strong>{{prod.product.price|number}} د.ع</strong>
           </div>
 
           <div>
@@ -107,7 +110,6 @@
             }
           </div>
         </div>
-        <app-custom-image [mainImg]="prod.product.image"></app-custom-image>
       </div>
       }
 

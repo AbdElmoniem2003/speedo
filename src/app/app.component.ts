@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AlertController, ModalController, NavController, PopoverController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
-import { WildUsedService } from './core/services/wild-used.service';
+import { wideUsedService } from './core/services/wide-used.service';
 import { User } from './core/project-interfaces/interfaces';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { NotificationService } from './core/services/notification-service/notification-service';
@@ -10,6 +10,8 @@ import { Capacitor } from '@capacitor/core';
 import { AuthService } from './core/services/auth.service';
 import { Router } from '@angular/router';
 import { App } from '@capacitor/app';
+import { FavoService } from './core/services/favorites.service';
+import { RefreshService } from './core/services/refresh-service/refresh.service';
 
 @Component({
   selector: 'app-root',
@@ -27,19 +29,23 @@ export class AppComponent {
 
   constructor(private storage: Storage,
     private navCtrl: NavController,
-    private wildUsedService: WildUsedService,
+    private wideUsedService: wideUsedService,
     private notificationService: NotificationService,
     private authService: AuthService,
     private currentRouter: Router,
-    private modalCtrl: ModalController,
+    private modalCtrl: ModalController, private favoService: FavoService,
     private popoverCtrl: PopoverController, private alertCtrl: AlertController
   ) {
+    inject(AuthService);
+    inject(RefreshService)
   }
 
   async ngOnInit() {
 
+    await this.storage.create();
+    this.favoService.getFavorites()
     this.user = this.authService.user()
-    this.wildUsedService.checkDarkThemes()
+    this.wideUsedService.checkDarkThemes()
 
     await this.navCtrl.navigateRoot('tabs/home');
     //Status bar & splash screen
@@ -62,7 +68,7 @@ export class AppComponent {
   /* =================================== Handle Navigation Back Button ================================= */
   async handleBackButton() {
 
-    this.wildUsedService.dismisLoading()
+    this.wideUsedService.dismisLoading()
 
     // to dismiss any popover, alert or modal opened
     let modal = await this.modalCtrl.getTop();
@@ -91,7 +97,7 @@ export class AppComponent {
     if (this.tabsUrls.includes(this.currentRouter.url)) {
       if (this.currentRouter.url !== this.rootUrl) { this.navCtrl.navigateRoot('tabs/home'); }
       else {
-        const decision = await this.wildUsedService.generalAlert('هل تريد مغادرة التطبيق ؟', "أجل", "كلا");
+        const decision = await this.wideUsedService.generalAlert('هل تريد مغادرة التطبيق ؟', "نعم", "لا");
         if (decision) return App.exitApp();
       }
     }

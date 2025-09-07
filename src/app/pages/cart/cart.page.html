@@ -1,14 +1,14 @@
 <ion-header class="custom-header">
 
   <ion-toolbar>
-    <ion-button slot="start" class="no-color-button" (click)="clearCart()">
+    <ion-button slot="end" fill="clear" (click)="clearCart()">
       <ion-icon name="trash" color="primary"></ion-icon>
     </ion-button>
-    <p slot="end">({{items?.length||0}}) منتجات</p>
-    <ion-label slot="end"> السلة</ion-label>
-    <ion-button slot="end" class="no-color-button" (click)="navCtrl.pop()">
-      <ion-icon name="chevron-forward" slot="icon-only"></ion-icon>
+    <ion-button slot="start" fill="clear" (click)="navCtrl.pop()">
+      <ion-icon name="chevron-back" slot="icon-only" color="dark"></ion-icon>
     </ion-button>
+    <ion-label slot="start"> السلة</ion-label>
+    <p slot="start"> ({{items?.length||0}}) منتجات </p>
 
   </ion-toolbar>
 </ion-header>
@@ -30,7 +30,9 @@
       @for (product of items; track $index) {
       <div class="product">
         <div class="product-data">
-          <ion-icon (click)="delete(product)" name="trash-outline" color="primary"></ion-icon>
+          <ion-button class="trash" fill="clear" color="primary" (click)="delete(product)">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
           <div>
             <h3>{{product.name}}</h3>
             <div class="add-constract">

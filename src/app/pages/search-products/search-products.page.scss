@@ -12,6 +12,16 @@ ion-header {
     padding: 0 16px;
     ion-button{
       @include shape(40,40);
+      font-size: 1em;
+    }
+
+    ion-label{
+font-weight: 700;
+font-style: Bold;
+font-size: 20px;
+line-height: 32px;
+letter-spacing: 0px;
+text-align: center;
     }
   }
 
@@ -24,7 +34,7 @@ ion-header {
     width: 100%;
     height: 60px;
     padding: 10px 16px;
-    background-color: $ionContentBG;
+    background-color: var(--ion-content-BG);
 
     ion-input,
     ion-button {
@@ -39,6 +49,7 @@ ion-header {
       padding: 8px 24px 8px 12px !important;
       @include flex(0, space-between, center, '');
       text-align: right;
+      direction: ltr;
     }
 
 
@@ -50,48 +61,45 @@ ion-header {
   .search {
     .search-cards {
       width: 100%;
-      direction: rtl;
       padding:16px;
-      @include flex(8, flex-start, '', row);
-      flex-wrap: wrap;
+        display: grid !important;
+  row-gap: 8px;
+  column-gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
 
-      .card {
-        position: relative;
-        background-color: white;
-        height: 303px;
-        @include flex(12, center, center, column);
-        border-radius: 12px;
-        border: 1px solid rgba(240, 239, 239, 1);
-        padding: 12px;
+        .card,
+        ion-skeleton-text {
+          position: relative;
+          background-color: white;
+          height: 303px;
+          @include flex(12, center, space-between, column);
+          border-radius: 12px;
+          border: 1px solid rgba(240, 239, 239, 1);
+          padding: 12px;
 
-        .card-content {
-          width: 143px;
-          height: 227px;
-          overflow: hidden;
-          @include flex(8, flex-start, '', column);
+          .card-content {
+            width: 143px;
+            height: 227px;
+            overflow: hidden;
+            @include flex(8, flex-start, '', column);
 
-          >ion-img,
-          app-custom-image,
-          >img {
-            @include shape(143, 143);
-            border-radius: 6px;overflow: hidden;
-            // overflow: hidden;
-          }
+            >ion-img,
+            >img,
+            app-custom-image {
+              @include shape(143, 143);
+              border-radius: 6px;
+              display: block;
+              // overflow: hidden;
+            }
 
-          p {
-            font-weight: 600;
-            font-size: 12px;
-            line-height: 22px;
-            letter-spacing: 0px;
-            white-space: wrap;
-            text-overflow: ellipsis;
-          }
-
-          div {
-            display: flex;
-            align-items: center;
-            width: 100%; //
-            height: 28px;
+            p {
+              font-weight: 600;
+              font-size: 12px;
+              line-height: 22px;
+              letter-spacing: 0px;
+              white-space: wrap;
+              text-overflow: ellipsis;
+            }
 
             h3 {
               font-weight: 700;
@@ -101,92 +109,273 @@ ion-header {
               margin: 0;
               flex-grow: 1;
             }
-
-            >h3.before-discount {
-              color: rgba(170, 170, 170, 1);
-              position: relative;
-
-              &::after {
-                content: "";
-                width: 100%;
-                height: 1.2px;
-                display: block;
-                position: absolute;
-                background: rgb(170 170 170);
-                top: 50%;
-                transform: translateY(50%);
-              }
-            }
           }
-        }
-
-        >ion-button {
-          height: 40px;
-          direction: ltr;
-          @include flex(8, center, center, '');
-          border-radius: 10px;
-          overflow: hidden;
-          --ion-color-primary:#{$primaryColor};
-
-          ion-label {
-            font-weight: 700;
-            font-size: 14px;
-            line-height: 26px;
-            letter-spacing: 0px;
-            text-align: center;
-          }
-
-          ion-img {
-            @include shape(18, 18);
-            margin-left: 8px;
-          }
-        }
-
-        .addition-btns {
-          position: absolute;
-          top: 12px;
-          width: 143px;
-          padding: 0 5px;
-          @include flex(0, space-between, center, '');
 
           >ion-button {
-            @include shape(26, 26);
-            --ion-color-primary: white;
-            border-radius: 50%;
+            height: 40px;
+            direction: ltr;
+            @include flex(8, center, center, '');
+            border-radius: 10px;
+            color: white;
             overflow: hidden;
-          }
 
-          .btns {
-            @include flex(4, '', center, '');
-
-            span {
-              height: 26px;
-              min-width: 26px;
-              max-width: 62px;
-              color: white;
-              background-color: rgba(44, 52, 84, 0.65);
-              border-radius: 15px;
-              @include flex(4, center, center, '');
-              overflow: hidden;
-              font-weight: 600;
-              font-size: 12px;
-              line-height: 22px;
+            ion-label {
+              font-weight: 700;
+              font-size: 14px;
+              line-height: 26px;
               letter-spacing: 0px;
-
-              &.expanded {
-                width: 64px;
-              }
+              text-align: center;
             }
 
             ion-img {
               @include shape(18, 18);
+              margin-left: 8px;
             }
           }
+
+          .addition-btns {
+            position: absolute;
+            top: 12px;
+            width: 143px;
+            padding: 0 5px;
+            @include flex(0, space-between, center, '');
+
+            >ion-button {
+              @include shape(26, 26);
+              --ion-color-primary: rgba(255, 255, 255, 0.2);
+              border-radius: 50%;
+              overflow: hidden;
+            }
+
+          }
         }
-      }
 
     }
   }
 
 }
 
+
+ion-modal.filter-modal {
+  --height: 100%;
+  --width: 100%;
+
+  ion-toolbar {
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 0 !important;
+  }
+
+  ion-content {
+    --padding-bottom: 16px !important;
+    --padding-top: 16px !important;
+    --padding-start: 16px !important;
+    --padding-end: 16px !important;
+
+    .filter-content {
+      @include flex(8, center, end, column);
+
+      >div {
+        width: 100%;
+
+        h3 {
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 26px;
+          letter-spacing: 0px;
+          text-align: right;
+          margin: 0;
+          color: rgba(0, 0, 0, 0.6);
+        }
+
+        &.colors {
+          >ion-segment {
+            display: flex;
+            justify-content: end;
+            gap: 4px;
+
+            >ion-segment-button {
+              --color-checked: transparent;
+              --indicator-color: transparent;
+              --padding-end: 0;
+              --padding-bottom: 0;
+              --padding-start: 0;
+              min-width: 40px;
+              min-height: 22px;
+              border-radius: 30px;
+
+              span {
+                width: 40px;
+                height: 22px;
+                border-radius: 30px;
+              }
+
+              &[value=green] {
+                span {
+                  background-color: rgba(48, 193, 167, 1);
+                }
+              }
+
+              &[value=red] {
+                span {
+                  background-color: rgba(189, 3, 54, 1);
+                }
+              }
+
+              &[value=gold] {
+                span {
+                  background-color: rgba(255, 195, 0, 1);
+                }
+              }
+
+              &.segment-button-checked {
+                border: 1px solid var(--ion-color-secondary);
+                padding: 4px;
+              }
+            }
+          }
+        }
+
+        .checks {
+          @include flex(10, start, center, '');
+          flex-wrap: wrap;
+
+          ion-checkbox {
+            background: rgba(0, 0, 0, 0.06);
+            width: min-content;
+            color: var(--ion-color-dark);
+            height: 36px;
+            padding: 0px 12px;
+            direction: ltr;
+            border-radius: 16px;
+            margin: 0 0px 10px 10px;
+          }
+
+          ion-checkbox::part(container) {
+            @include shape(18, 18);
+            background-color: var(--ion-color-light);
+            border-radius: 50%;
+            border-color: rgba(0, 0, 0, 0.6);
+          }
+
+          &.square-checkbox ion-checkbox::part(container) {
+            @include shape(18, 18);
+            border-radius: 4px;
+            border-color: rgba(0, 0, 0, 0.6);
+          }
+
+          ion-checkbox::part(mark) {
+            background: none;
+            transition: none;
+            transform: none;
+            border-radius: 0;
+          }
+
+          ion-checkbox.checkbox-checked::part(container) {
+            background-color: var(--ion-color-primary);
+            border-color: transparent;
+            overflow: hidden;
+          }
+
+          ion-checkbox.checkbox-checked::part(mark) {
+            display: none;
+          }
+        }
+
+        .range-wrapper {
+          display: flex;
+          align-items: center;
+          position: relative;
+
+          .fake-knob {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: rgb(229 229 229);
+            z-index: 1;
+            position: relative;
+
+            span {
+              top: 120%;
+              font-weight: 700;
+              font-size: 12px;
+              line-height: 100%;
+              text-align: right;
+              color: rgb(0 0 0 / 31%);
+              position: absolute;
+              width: max-content;
+            }
+          }
+
+          .fake-knob.start {
+            left: 0;
+            transform: translateX(50%);
+          }
+
+          .fake-knob.end {
+            right: 0;
+            transform: translateX(-50%);
+          }
+
+          ion-range {
+            --knob-background: var(--primary-color);
+            --knob-size: 24px;
+            --bar-background-active: var(--primary-color);
+            --bar-background: rgb(229 229 229);
+            flex-grow: 1;
+
+            &::part(pin) {
+              color: var(--ion-color-light);
+              width: fit-content;
+              padding: 2px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  ion-footer {
+    height: 80px;
+    padding: 16px !important;
+    @include flex(12, center, '', '');
+    border-top: 1px solid rgba(242, 242, 242, 1);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+
+    >div {
+      flex-grow: 1;
+
+      ion-buttons {
+        @include flex(16, space-evenly, center, '');
+
+        ion-button {
+          --border-radius: 10px;
+          --padding-top: 8px;
+          --padding-bottom: 8px;
+          --padding-start: 24px;
+          --padding-end: 24px;
+          height: 48px;
+          flex-basis: 50%;
+          font-weight: 700;
+          font-size: 16px;
+          line-height: 28px;
+          letter-spacing: 0px;
+          text-align: center;
+          border-radius: 10px;
+          border: 1px solid var(--ion-color-primary);
+        }
+
+        >ion-button:last-of-type {
+          background:var(--ion-color-primary);
+          color: var(--ion-color-light);
+        }
+
+        >ion-button:first-of-type {
+          background: var(--ion-color-light);
+          color:  var(--ion-color-primary) !important;
+        }
+      }
+    }
+  }
+}

@@ -4,7 +4,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { User } from 'src/app/core/project-interfaces/interfaces';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { DataService } from 'src/app/core/services/data.service';
-import { WildUsedService } from 'src/app/core/services/wild-used.service';
+import { wideUsedService } from 'src/app/core/services/wide-used.service';
 
 @Component({
   selector: 'app-edit-account',
@@ -17,7 +17,7 @@ export class EditAccountComponent implements OnInit {
   accountForm: FormGroup
 
   constructor(
-    private formBuilder: FormBuilder, private wildUsedService: WildUsedService,
+    private formBuilder: FormBuilder, private wideUsedService: wideUsedService,
     public modalCtrl: ModalController, private authService: AuthService, private dataService: DataService
   ) { }
 
@@ -32,16 +32,16 @@ export class EditAccountComponent implements OnInit {
 
   async confirm() {
     if (this.accountForm.invalid) return;
-    this.wildUsedService.showLoading();
+    this.wideUsedService.showLoading();
     this.dataService.updateData(`/user/${this.authService.user()._id}`, this.accountForm.value).subscribe({
       next: (res: User) => {
-        this.wildUsedService.dismisLoading();
-        this.wildUsedService.generalToast("تم تحديث بياناتك بنجاح", 'primary', 'light-color')
+        this.wideUsedService.dismisLoading();
+        this.wideUsedService.generalToast("تم تحديث بياناتك بنجاح", 'primary', 'light-color')
         this.authService.user.set(res);
       },
       error: (err) => {
-        this.wildUsedService.dismisLoading();
-        this.wildUsedService.generalToast(err.error.message, '', 'light-color')
+        this.wideUsedService.dismisLoading();
+        this.wideUsedService.generalToast(err.error.message, '', 'light-color')
       }
     })
   }

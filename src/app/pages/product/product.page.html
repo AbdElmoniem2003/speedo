@@ -2,7 +2,7 @@
 <ion-header class="custom-header">
 
   <ion-toolbar>
-    <ion-button slot="start" class="no-color-button cart" routerLink="/cart">
+    <ion-button slot="end" class="cart" fill="clear" routerLink="/cart">
       <ion-img src="../../../assets/imgs/cart.svg"></ion-img>
       @if((cartService.items?.length)){
       <span>{{cartService.items?.length}}</span>
@@ -10,16 +10,18 @@
     </ion-button>
 
 
-    <ion-label slot="end"> تفاصيل المنتج</ion-label>
-    <ion-button slot="end" class="no-color-button" (click)="navCtrl.pop()">
-      <ion-icon name="chevron-forward" slot="icon-only"></ion-icon>
+    <ion-button slot="start" fill="clear" (click)="navCtrl.pop()">
+      <ion-icon name="chevron-back" color="dark" slot="icon-only"></ion-icon>
     </ion-button>
+    <ion-label slot="start"> تفاصيل المنتج</ion-label>
 
   </ion-toolbar>
 </ion-header>
 }
 
-<ion-content *ngIf="!isloading">
+
+@if(!isloading){
+<ion-content>
 
   <ion-refresher slot="fixed" (ionRefresh)="refresh($event)" pullFactor="0.8" pullMin="60" pullMax="120">
     <ion-refresher-content refreshingSpinner="bubbles"></ion-refresher-content>
@@ -122,7 +124,7 @@
 
 
       @if(similarProducts?.length){
-      <div class="similar-prods" *ngIf="similarProducts">
+      <div class="similar-prods">
         <section>منتجات مشابهة</section>
         <div class="prods-cards">
           @for (prod of similarProducts; track $index) {
@@ -134,13 +136,14 @@
                 <h3>{{prod.price - prod.discountPrice|number}} د.ع</h3>
               </div>
             </div>
-            <ion-button (click)="addToCart(prod)" [disabled]="prod.inCart">
-              <ion-label> {{prod.inCart?'في السلة':'أضف للسلة'}}</ion-label>
+            <ion-button (click)="addToCart(prod)" color="primary" [disabled]="prod.inCart">
               <ion-img src="../../../assets/imgs/add-cart.svg"></ion-img>
+              <ion-label> {{prod.inCart?'في السلة':'أضف للسلة'}}</ion-label>
             </ion-button>
             <div class="addition-btns">
-              <ion-button (click)="addToFavorite(prod)" class="no-color-button">
-                <ion-icon [name]="prod.isFav?'heart':'heart-outline'" [color]="prod.isFav?'primary':'dark'"
+              <ion-button (click)="addToFavorite(prod)" fill="clear">
+                <ion-icon [name]="!prod.isFav?'heart-outline':''" color="dark"
+                  [src]="prod.isFav?'../../../assets/imgs/tabs-icons/favourite-active.svg':''"
                   slot="icon-only"></ion-icon>
               </ion-button>
               <app-product-classes [prod]="prod"></app-product-classes>
@@ -165,23 +168,23 @@
 </ion-content>
 
 
-<ion-footer *ngIf="!isloading">
+<ion-footer>
 
   <div>
     <div class="add-constract">
       <h3>{{product.price - product.discountPrice |number}} د.ع</h3>
       <ion-buttons slot="end">
-        <ion-button (click)="product.quantity=product?.quantity -1" [disabled]="(product?.quantity<=1)||product.inCart">
-          <ion-icon name="remove-outline"></ion-icon></ion-button>
-        <span>{{product?.quantity}}</span>
-        <ion-button (click)="product.quantity=product?.quantity +1" [disabled]="product.inCart"><ion-icon
-            name="add-outline"></ion-icon></ion-button>
+        <ion-button (click)="product.quantity=product.quantity-1" [disabled]="(product.quantity<=1)"><ion-icon
+            name="remove-outline"></ion-icon></ion-button>
+        <span>{{product.quantity}}</span>
+        <ion-button (click)="product.quantity=product.quantity+1"><ion-icon name="add-outline"></ion-icon></ion-button>
       </ion-buttons>
     </div>
 
     <div class="add-to-cart">
-      <ion-button class="no-color-button" (click)="removeFromFavorite()">
-        <ion-icon [name]="product?.isFav?'heart':'heart-outline'" [color]="'primary'"></ion-icon>
+      <ion-button fill="clear" (click)="removeFromFavorite(this.product)">
+        <ion-icon [name]="!product.isFav?'heart-outline':''" color="dark"
+          [src]="product.isFav?'../../../assets/imgs/tabs-icons/favourite-active.svg':''" slot="icon-only"></ion-icon>
       </ion-button>
       <ion-button (click)="addToCart(this.product)" [disabled]="product.inCart">
         <ion-label> أضف للسلة</ion-label>
@@ -192,3 +195,4 @@
 
 
 </ion-footer>
+}
