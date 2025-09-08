@@ -67,10 +67,12 @@
             <span>{{order.service|number}}</span>
             <p>الخدمة</p>
           </div>
-          <div *ngIf="order.country">
+          @if(order.country){
+          <div>
             <span>{{order.countryCost|number}}</span>
             <p>المحافظة</p>
           </div>
+          }
           <!-- <div>
             <span>{{order.countryCost}}</span>
             <p>التوصيل للمحافظة</p>
@@ -100,8 +102,6 @@
           </div>
 
           <div>
-            <!-- <div *ngIf="billProducts[prod._id].extras?.size">الحجم<strong>L 0</strong></div>
-            <div *ngIf="billProducts[prod._id].extras?.color">اللون<strong>أبيض 0</strong></div>-->
             <div>العدد<strong>{{prod.qty}}</strong></div>
             @if(prod.selectedAdditions){
             @for (addition of prod.selectedAdditions; track $index) {

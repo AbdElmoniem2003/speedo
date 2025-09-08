@@ -27,25 +27,34 @@
   </ion-refresher>
 
   <div class="container">
-
-    <div class="section-filter" style="position: relative;" *ngIf="subCategories?.length">
+    @if(subCategories.length){
+    <div class="section-filter" style="position: relative;">
       <ion-segment [value]="currentSubCategoryId" [scrollable]="true">
-        <ion-segment-button class="fade-in" *ngFor="let subCategory of subCategories" [value]="subCategory._id"
+        @for ( subCategory of subCategories; track $index) {
+        <ion-segment-button class="fade-in"
           (click)="filterBySubcategory(subCategory._id)">{{subCategory.name}}</ion-segment-button>
+        }
       </ion-segment>
       @if(subCategories?.length>=5){ <ion-icon name="chevron-down-outline" (click)="openSectionOptions()"></ion-icon>
       }
     </div>
-    <div class="section-filter" *ngIf="!subCategories.length && isLoading">
+    }
+    @if(!subCategories.length && isLoading){
+    <div class="section-filter">
       <div class="animated-categories">
-        <ion-skeleton-text *ngFor="let i of [1,2,3,4,5,6]" animated></ion-skeleton-text>
+        @for (item of [1,2,3,4,5,6]; track $index) {
+        <ion-skeleton-text animated></ion-skeleton-text>
+        }
       </div>
     </div>
+    }
 
     <div class="section">
       @if(isLoading){
       <div class="section-cards">
-        <ion-skeleton-text class="card" animated="true" *ngFor="let i of [1,2,3,4,5,6,7,8]"></ion-skeleton-text>
+        @for (item of [1,2,3,4,5,6,7,8]; track $index) {
+        <ion-skeleton-text class="card" animated="true"></ion-skeleton-text>
+        }
       </div>
       }
 

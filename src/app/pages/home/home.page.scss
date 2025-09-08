@@ -26,7 +26,7 @@ ion-header ion-toolbar{
     margin: 0;
     @include flex(0, end, center, '');
     padding: 0;
-    font-weight: 700;
+    font-weight: 700;font-family: "Bold";
     letter-spacing: 0px;
   }
 }
@@ -96,34 +96,10 @@ ion-header ion-toolbar{
       height: 32px;
       margin: 0 auto 16px;
       padding: 0;
-      font-weight: 700;
+      font-weight: 700;font-family: "Bold";
       font-size: 20px;
       line-height: 32px;
       letter-spacing: 0px;
-    }
-
-    .nav-segments {
-      display: flex;
-      background-color: #f6f6f6;
-      // padding: 0 24px 0 8px;
-      max-width: 767px;
-      margin: 0 auto;
-
-      ion-segment-button {
-        font-weight: 700;
-        flex-grow: 1;
-        font-size: 16px;
-        line-height: 28px;
-        letter-spacing: 0px;
-        color: rgba(170, 170, 170, 1);
-        border-bottom: 1px solid rgba(219, 219, 219, 1);
-
-        &.segment-button-checked {
-          color: var(--ion-color-secondary);
-          --color-checked: #{var(--ion-color-primary)};
-          --indicator-color: #{var(--ion-color-primary)};
-        }
-      }
     }
 
     .filter {
@@ -204,7 +180,7 @@ ion-header ion-toolbar{
 
             h3 {
               @include shape(80, 40);
-              font-weight: 600;
+              font-weight: 500;
               font-size: 12px;
               line-height: 22px;
               letter-spacing: 0px;
@@ -269,7 +245,7 @@ ion-header ion-toolbar{
             }
 
             p {
-              font-weight: 600;
+              font-weight: 600; font-family:'SemiBold';
               font-size: 12px;
               line-height: 22px;
               letter-spacing: 0px;
@@ -278,7 +254,7 @@ ion-header ion-toolbar{
             }
 
             h3 {
-              font-weight: 700;
+              font-weight: 700;font-family: "Bold";
               font-size: 16px;
               line-height: 28px;
               letter-spacing: 0px;
@@ -452,6 +428,9 @@ ion-header ion-toolbar{
       section {
         margin-left: auto;
       }
+    }
+    section {
+      font-family: "Bold";
     }
 
 

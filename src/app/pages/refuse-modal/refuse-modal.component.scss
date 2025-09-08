@@ -3,6 +3,11 @@
     padding: 0 calc((100% - 767px) /2) !important;
   }
 }
+ion-toolbar{
+  ion-label{
+    font-weight: 700;font-family: "Bold";
+  }
+}
 
 ion-footer{
 }

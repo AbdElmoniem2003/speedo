@@ -25,7 +25,7 @@ ion-header ion-toolbar{
       height: 32px;
       margin: 0 auto 16px;
       padding: 0;
-      font-weight: 700;
+      font-weight: 700;font-family: "Bold";
       font-size: 20px;
       line-height: 32px;
       letter-spacing: 0px;
@@ -40,6 +40,7 @@ ion-header ion-toolbar{
 
       ion-segment-button {
         font-weight: 700;
+        font-family: 'Bold';
         flex-grow: 1;
         font-size: 16px;
         line-height: 28px;
@@ -121,7 +122,7 @@ ion-header ion-toolbar{
             }
 
             p {
-              font-weight: 600;
+              font-weight: 600; font-family:'SemiBold';
               font-size: 12px;
               line-height: 22px;
               letter-spacing: 0px;
@@ -130,7 +131,7 @@ ion-header ion-toolbar{
             }
 
             h3 {
-              font-weight: 700;
+              font-weight: 700;font-family: "Bold";
               font-size: 16px;
               line-height: 28px;
               letter-spacing: 0px;
@@ -190,6 +191,7 @@ ion-header ion-toolbar{
 
       ion-segment-button,
       ion-skeleton-text {
+       font-family: 'Bold';
         font-weight: 700;
         font-size: 12px;
         line-height: 22px;

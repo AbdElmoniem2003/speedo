@@ -2,35 +2,35 @@
 
   <ion-tab-bar slot="bottom" style="direction: rtl;">
 
-    <ion-tab-button #tab1 tab="home" (click)="emitt('home')">
+    <ion-tab-button #tab1 tab="home" (click)="emitt(pagesUrls.HOME)">
       <ion-img aria-hidden="true"
         [src]="`../../assets/imgs/tabs-icons/Home${tab1.selected?'-active':''}.svg`"></ion-img>
       <ion-label [color]="tab1.selected?'primary':'secondary'">الرئيسية</ion-label>
     </ion-tab-button>
 
     @if(authService.user()){
-    <ion-tab-button #tab2 tab="my-orders" (click)="emitt('my-orders')">
+    <ion-tab-button #tab2 tab="my-orders">
       <ion-img aria-hidden="true"
         [src]="`../../assets/imgs/tabs-icons/my-orders${tab2.selected?'-active':''}.svg`"></ion-img>
       <ion-label [color]="tab2.selected?'primary':'secondary'">طلباتي</ion-label>
     </ion-tab-button>
     }
 
-    <ion-tab-button #tab3 tab="discounts" (click)="emitt('discounts')">
+    <ion-tab-button #tab3 tab="discounts" (click)="emitt(pagesUrls.DISCOUNTS)">
       <ion-icon aria-hidden="true"
         [src]="`../../assets/imgs/tabs-icons/discount${tab3.selected?'-active':''}.svg`"></ion-icon>
       <ion-label [color]="tab3.selected?'primary':'secondary'">التخفيضات</ion-label>
     </ion-tab-button>
 
 
-    <ion-tab-button #tab4 tab="favorites" (click)="emitt('favorites')">
+    <ion-tab-button #tab4 tab="favorites" (click)="emitt(pagesUrls.FAVO)">
       <ion-icon aria-hidden="true"
         [src]="`../../assets/imgs/tabs-icons/favourite${tab4.selected?'-active':''}.svg`"></ion-icon>
       <ion-label [color]="tab4.selected?'primary':'secondary'">المفضلة</ion-label>
     </ion-tab-button>
 
 
-    <ion-tab-button #tab5 tab="account" (click)="emitt('account')">
+    <ion-tab-button #tab5 tab="account">
       <ion-icon aria-hidden="true"
         [src]="`../../assets/imgs/tabs-icons/user${tab5.selected?'-active':''}.svg`"></ion-icon>
       <ion-label [color]="tab5.selected?'primary':'secondary'">الحساب</ion-label>

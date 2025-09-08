@@ -135,7 +135,7 @@ export class SectionPage implements OnInit {
       breakpoints: [0.8],
       componentProps: {
         customObjArr: this.subCategories,
-        currentSubId: this.currentSubCategoryId
+        currentSubId: this.currentSubCategoryId, customName: this.objToView.name
       },
       cssClass: ['custom-modal']
     })

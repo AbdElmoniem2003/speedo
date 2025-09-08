@@ -59,7 +59,9 @@
       <!-- Loading Ele -->
       @if(isLoading) {
       <div class="search-cards">
-        <ion-skeleton-text class="card" animated *ngFor="let i of [1,2,3,4,5,6,7,8]"></ion-skeleton-text>
+        @for (item of [1,2,3,4,5,6,7,8]; track $index) {
+        <ion-skeleton-text class="card" animated></ion-skeleton-text>
+        }
       </div>
       }
 

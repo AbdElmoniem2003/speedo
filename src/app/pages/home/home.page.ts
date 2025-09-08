@@ -3,7 +3,6 @@ import {
   OnInit
 } from "@angular/core";
 import { NavController, RefresherCustomEvent } from "@ionic/angular";
-import { take } from "rxjs";
 import { PagesUrls } from "src/app/core/enums/pagesUrls.enum";
 import { Brand, Category, Offer, Product, Slider } from "src/app/core/project-interfaces/interfaces";
 import { CartService } from "src/app/core/services/cart.service";
@@ -52,7 +51,7 @@ export class HomePage implements OnInit {
     this.showLoading()
     this.getData();
 
-    this.refreshService.refresher.pipe(take(1)).subscribe({
+    this.refreshService.refresher.subscribe({
       next: (val) => {
         if (this.isLoading && !val.includes(PagesUrls.HOME)) return;
         this.checkInCart();

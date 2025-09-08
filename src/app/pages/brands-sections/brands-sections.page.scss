@@ -1,6 +1,4 @@
 @import '../../../theme/mixin.scss';
-@import '../../../global.scss';
-
 
 ion-toolbar{
   >ion-label{
@@ -8,7 +6,7 @@ font-weight: 700;
 font-style: Bold;
 font-size: 20px;
 line-height: 32px;
-text-align: center;
+text-align: center;font-family: "Bold";
     }
 }
 
@@ -65,7 +63,7 @@ ion-content {
       p {
         height: 52px;
         width: -webkit-fill-available;
-        font-weight: 600;
+        font-weight: 600; font-family:'SemiBold';
         font-size: 16px;
         line-height: 28px;
         letter-spacing: 0px;

@@ -1,17 +1,19 @@
 @import '../../../theme/mixin.scss';
-@import '../../../global.scss';
 
-ion-toolbar{
-  ion-button:first-of-type{
-       --padding-bottom: 8px;
+ion-toolbar {
+  ion-button:first-of-type {
+    --padding-bottom: 8px;
     --padding-end: 8px;
     --padding-start: 8px;
     --padding-top: 8px;
     font-size: 16px;
   }
-  ion-label{
+
+  ion-label {
     margin-left: 8px;
+    font-size: 20px;
     font-weight: 700;
+    font-family: "Bold";
   }
 }
 
@@ -27,12 +29,9 @@ ion-content {
 
   .product {
     background-color: white !important;
-    height: fit-content;
-    @include flex(8, center, '', column);
     border-radius: 12px;
     border: 1px solid #F0EFEF;
     padding: 12px;
-
 
     .product-data {
       flex-grow: 1;
@@ -42,48 +41,51 @@ ion-content {
       ion-img,
       img,
       app-custom-image {
-        width: 65px !important;
+        max-width: 65px !important;
+        max-height: 65px !important;
+        width: -webkit-fill-available;
         height: 65px !important;
-        align-self: flex-start;
-        border: 0.5px solid rgba(233, 233, 233, 1);
+        border: 0.5px solid rgb(233, 233, 233);
         border-radius: 6px;
         overflow: hidden;
+        align-self: self-start;
       }
-        ion-button.trash{
-           --padding-bottom: 8px;
-    --padding-end: 8px;
-    --padding-start: 8px;
-    --padding-top: 8px;
-    margin-right: auto;
 
-    ion-icon {
-      // --ion-color-primary: rgba(85, 85, 85, 1) !important;
-      @include shape(24, 24);
-    }
-  }
+      ion-button.trash {
+        --padding-bottom: 8px;
+        --padding-end: 8px;
+        --padding-start: 8px;
+        --padding-top: 8px;
+        margin-right: auto;
+
+        ion-icon {
+          // --ion-color-primary: rgba(85, 85, 85, 1) !important;
+          @include shape(24, 24);
+        }
+      }
 
       >div:first-of-type {
-        @include flex(16, '',start, column);
+        @include flex(2, '', start, column);
 
         h3 {
           margin: 0;
-          color: rgb(64, 64, 64);
           font-weight: 600;
+          font-family: 'SemiBold';
           font-size: 14px;
           line-height: 26px;
           letter-spacing: 0px;
-              display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-wrap: auto;
-    width: calc((211 / 243) * 100%);
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          text-wrap: auto;
+          width: calc((211 / 243) * 100%);
         }
 
         .add-constract {
-          @include flex(16,end, center, '');
+          @include flex(16, end, center, '');
 
           ion-buttons {
             @include flex(16, '', center, row-reverse);
@@ -95,6 +97,10 @@ ion-content {
               max-height: 24px;
               overflow: hidden;
               width: 24px;
+              --padding-bottom: 3px;
+              --padding-end: 3px;
+              --padding-start: 3px;
+              --padding-top: 3px;
               @include flex(0, center, center, '');
 
               ion-icon {
@@ -105,7 +111,7 @@ ion-content {
           }
 
           h3 {
-            font-weight: 700;
+            font-weight: 700;font-family: "Bold";
             font-size: 16px;
             line-height: 28px;
             letter-spacing: 0px;
@@ -137,6 +143,7 @@ ion-content {
           span {
             color: rgba(64, 64, 64, 1);
             font-weight: 600;
+            font-family: 'SemiBold';
             font-size: 14px;
             line-height: 26px;
             letter-spacing: 0px;
@@ -151,6 +158,7 @@ ion-content {
         p {
           color: rgb(170, 170, 170);
           font-weight: 600;
+          font-family: 'SemiBold';
           font-size: 14px;
           line-height: 26px;
           letter-spacing: 0px;
@@ -188,6 +196,7 @@ ion-footer {
 
     p {
       font-weight: 600;
+      font-family: 'SemiBold';
       font-size: 14px;
       line-height: 26px;
       letter-spacing: 0px;

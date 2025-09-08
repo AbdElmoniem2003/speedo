@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { take } from 'rxjs';
 import { PagesUrls } from 'src/app/core/enums/pagesUrls.enum';
 import { Product } from 'src/app/core/project-interfaces/interfaces';
 import { CartService } from 'src/app/core/services/cart.service';
@@ -28,7 +27,7 @@ export class FavoritesPage implements OnInit {
 
   ionViewWillEnter() {
     this.getFavorites()
-    this.refreshService.refresher.pipe(take(1)).subscribe({
+    this.refreshService.refresher.subscribe({
       next: (val) => {
         if (!val.includes(PagesUrls.FAVO)) return;
         this.items.map(p => {

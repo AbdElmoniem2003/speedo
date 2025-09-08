@@ -7,7 +7,6 @@ import { FavoService } from 'src/app/core/services/favorites.service';
 import { CustomSectionCompoComponent } from '../custom-section-compo/custom-section-compo.component';
 import { RefreshService } from 'src/app/core/services/refresh-service/refresh.service';
 import { PagesUrls } from 'src/app/core/enums/pagesUrls.enum';
-import { take } from 'rxjs';
 
 @Component({
   selector: 'app-discounts',
@@ -49,10 +48,9 @@ export class DiscountsPage implements OnInit {
     this.showLoading()
     this.getData();
 
-    this.refreshService.refresher.pipe(take(1)).subscribe({
+    this.refreshService.refresher.subscribe({
       next: (val) => {
         if (this.isLoading && !val.includes(PagesUrls.DISCOUNTS)) return;
-        console.log('Discount Subscriped to refresher')
         this.watchFavo_Cart()
       }
     })

@@ -47,7 +47,7 @@ export class CartPage implements OnInit {
   }
 
   async delete(product: CartProduct) {
-    this.wideUsedService.generalAlert(` ${product.name} هل ترد حذف` + ` ؟ `, 'نعم', "لا").then(async (descision) => {
+    this.wideUsedService.generalAlert(`هل ترد حذف ${product.name} ` + ` ؟ `, 'نعم', "لا").then(async (descision) => {
       if (!descision) return;
       this.items = this.items.filter((p) => {
         return product.customId !== p.customId

@@ -45,11 +45,11 @@ export class AppComponent {
     await this.storage.create();
     this.favoService.getFavorites()
     this.user = this.authService.user()
-    this.wideUsedService.checkDarkThemes()
 
     await this.navCtrl.navigateRoot('tabs/home');
     //Status bar & splash screen
     await SplashScreen.hide();
+    this.wideUsedService.checkDarkThemes()
 
     // Cell Phone Back Button Behavior
     if (Capacitor.getPlatform() == 'android') {
@@ -95,7 +95,7 @@ export class AppComponent {
     this.lastBackButtonTabTime = now
 
     if (this.tabsUrls.includes(this.currentRouter.url)) {
-      if (this.currentRouter.url !== this.rootUrl) { this.navCtrl.navigateRoot('tabs/home'); }
+      if (this.currentRouter.url !== this.rootUrl) { this.navCtrl.navigateForward('tabs/home'); }
       else {
         const decision = await this.wideUsedService.generalAlert('هل تريد مغادرة التطبيق ؟', "نعم", "لا");
         if (decision) return App.exitApp();

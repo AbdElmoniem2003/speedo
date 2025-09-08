@@ -4,6 +4,7 @@ import { CartService } from '../core/services/cart.service';
 import { FavoService } from '../core/services/favorites.service';
 import { AuthService } from '../core/services/auth.service';
 import { RefreshService } from '../core/services/refresh-service/refresh.service';
+import { PagesUrls } from '../core/enums/pagesUrls.enum';
 
 @Component({
   selector: 'app-tabs',
@@ -14,6 +15,7 @@ import { RefreshService } from '../core/services/refresh-service/refresh.service
 export class TabsPage implements OnInit {
 
   user: User;
+  pagesUrls = PagesUrls
 
   constructor(
     public cartService: CartService,
@@ -28,7 +30,7 @@ export class TabsPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.refresherService.emittNew = 'Init Tabs'
+    // this.refresherService.emittNew = 'Init Tabs'
   }
 
   emitt(url: string) {

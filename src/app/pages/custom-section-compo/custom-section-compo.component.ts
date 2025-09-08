@@ -1,6 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { Subscription } from 'rxjs';
 import { Category } from 'src/app/core/project-interfaces/interfaces';
 import { CustomImagePageModule } from '../custom-image/custom-image.module';
 
@@ -12,7 +11,7 @@ import { CustomImagePageModule } from '../custom-image/custom-image.module';
 })
 export class CustomSectionCompoComponent implements OnInit, OnDestroy {
 
-  routeSubscription: Subscription = null;
+  customName: string = '';
   customObjArr: Category[] = [];
   @Input("currentSubId") currentSubId: string;
 

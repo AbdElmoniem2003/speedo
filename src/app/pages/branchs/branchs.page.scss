@@ -1,11 +1,8 @@
 @import '../../../theme/mixin.scss';
-@import '../../../global.scss';
-
-
 
 ion-toolbar{
   ion-label{
-    font-weight: 700
+    font-weight: 700;font-family: "Bold";font-size: 20px
   }
 }
 

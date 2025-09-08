@@ -22,10 +22,15 @@
 
       <div class="filter">
         @if(offerCategories.length>=5){ <ion-icon (click)="openCustomModal()" name="chevron-down-outline"></ion-icon>}
-        <ion-segment [scrollable]="true" *ngIf="offerCategories.length" [value]="selectedCategoryID">
-          <ion-segment-button *ngFor="let category of offerCategories" (click)="filterByCategory(category)"
+        @if(offerCategories.length){
+        <ion-segment [scrollable]="true" [value]="selectedCategoryID">
+          @for (category of offerCategories; track $index) {
+          <ion-segment-button (click)="filterByCategory(category)"
             [value]="category._id">{{category.name}}</ion-segment-button>
+          }
+
         </ion-segment>
+        }
 
       </div>
     </div>
@@ -66,7 +71,9 @@
         </div>
         }
         } @if(isLoading){
-        <ion-skeleton-text *ngFor="let i of [1,2,3,4]" class="card" animated="true"></ion-skeleton-text>
+        @for (item of [1,2,3,4]; track $index) {
+        <ion-skeleton-text class="card" animated="true"></ion-skeleton-text>
+        }
         }
       </div>
     </div>

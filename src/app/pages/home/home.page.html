@@ -67,7 +67,8 @@
     <div class="home-data">
 
       @if(!isLoading&&!empty&&!error){
-      <div class="sections-cards" *ngIf="categories">
+      @if(categories.length){
+      <div class="sections-cards">
         <div class="header">
           <section>الأقسام</section>
           <ion-button class="more" fill="clear" (click)="toCustomComponent('categories')">
@@ -90,8 +91,10 @@
 
         </div>
       </div>
+      }
 
-      <div class="most-demand" *ngIf="bestSeller">
+      @if(bestSeller.length){
+      <div class="most-demand">
         <div class="header">
           <section>الأكثر طلبا</section>
           <ion-button class="more" fill="clear" (click)="toCustomSearch({bestSeller:true})">
@@ -128,7 +131,7 @@
 
 
 
-      </div>
+      </div>}
 
       @if(offers.length){
       <div class="offers">
@@ -158,7 +161,8 @@
       </div>
       }
 
-      <div class="discounts" *ngIf="discountProducts">
+      @if(discountProducts.length){
+      <div class="discounts">
         <div class="header">
           <section>التخفيضات</section>
           <ion-button class="more" fill="clear" (click)="toCustomSearch({discount:1})">
@@ -195,9 +199,10 @@
         </div>
 
 
-      </div>
+      </div>}
 
-      <div class="brands" *ngIf="brands">
+      @if(brands.length){
+      <div class="brands">
 
         <div class="header">
           <section>البراندات</section>
@@ -222,9 +227,9 @@
 
 
 
-      </div>
-
-      <div class="recent" *ngIf="newProducts">
+      </div>}
+      @if(newProducts.length){
+      <div class="recent">
 
         <div class="header">
           <section>وصل حديثا</section>
@@ -266,59 +271,88 @@
 
       </div>
       }
+      }
 
       @if(isLoading){
       <div class="sections-cards">
-        <div class="header" *ngIf="isLoading"> <ion-skeleton-text animated></ion-skeleton-text></div>
+        @if(isLoading){
+        <div class="header"> <ion-skeleton-text animated></ion-skeleton-text></div>
+        }
         <div class="section-content">
 
-          <div *ngIf="isLoading">
-            <ion-skeleton-text animated="true" *ngFor="let i of [1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8]"></ion-skeleton-text>
+          @if(isLoading){
+          <div>
+            @for (item of [1,2,3,4,5,6,7,8]; track $index) {
+            <ion-skeleton-text animated="true"></ion-skeleton-text>
+            }
           </div>
+          }
         </div>
       </div>
 
       <div class="most-demand">
 
-        <div *ngIf="isLoading" class="header"><ion-skeleton-text animated></ion-skeleton-text></div>
+        @if(isLoading){
+        <div class="header"><ion-skeleton-text animated></ion-skeleton-text></div>
+        }
 
-        <div class="demand-cards" *ngIf="isLoading">
-          <ion-skeleton-text animated *ngFor="let i of [1,2,3,4,5,6,7,8]" style="min-width: 167px;"></ion-skeleton-text>
+        @if(isLoading){
+        <div class="demand-cards">
+          @for (item of [1,2,3,4,5,6,7,8]; track $index) {
+          <ion-skeleton-text animated style="min-width: 167px;"></ion-skeleton-text>
+          }
         </div>
+        }
       </div>
 
       <div class="offers">
-        <div class="header" *ngIf="isLoading"><ion-skeleton-text animated></ion-skeleton-text></div>
-        <div class="offers-cards" *ngIf="isLoading">
-          <ion-skeleton-text class="card" *ngFor="let i of [1,2]"></ion-skeleton-text>
+        @if(isLoading){
+
+        <div class="header"><ion-skeleton-text animated></ion-skeleton-text></div>
+        <div class="offers-cards">
+          @for (item of [1,2]; track $index) {
+          <ion-skeleton-text class="card"></ion-skeleton-text>
+          }
         </div>
+        }
       </div>
 
       <div class="discounts">
-        <div class="header" *ngIf="isLoading"><ion-skeleton-text animated=""></ion-skeleton-text>
+        @if(isLoading){
+        <div class="header"><ion-skeleton-text animated=""></ion-skeleton-text>
         </div>
-        <div class="discount-cards" *ngIf="isLoading"><ion-skeleton-text *ngFor="let i of [1,2,3,4,5,6,7,8]" animated=""
-            style="min-width: 167px;"></ion-skeleton-text></div>
+        <div class="discount-cards">
+          @for (item of [1,2,3,4,5,6,7,8]; track $index) {
+          <ion-skeleton-text animated="" style="min-width: 167px;"></ion-skeleton-text>
+          }
+        </div>
+        }
       </div>
 
       <div class="brands">
-        <div class="header" *ngIf="isLoading"><ion-skeleton-text animated=""></ion-skeleton-text>
+        @if(isLoading){
+        <div class="header"><ion-skeleton-text animated=""></ion-skeleton-text>
         </div>
-        <div class="brands-cards" *ngIf="isLoading">
+        <div class="brands-cards">
           <div>
-            <ion-skeleton-text class="card" animated=""
-              *ngFor="let i of [1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8]"></ion-skeleton-text>
+            @for (item of [1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8]; track $index) {
+            <ion-skeleton-text class="card" animated=""></ion-skeleton-text>
+            }
           </div>
         </div>
+        }
       </div>
 
       <div class="recent">
-        <div class="header" *ngIf="isLoading"><ion-skeleton-text animated=""></ion-skeleton-text>
+        @if(isLoading){
+        <div class="header"><ion-skeleton-text animated=""></ion-skeleton-text>
         </div>
-        <div class="recent-cards" *ngIf="isLoading">
-          <ion-skeleton-text class="card" animated="" *ngFor="let i of [1,2,3,4,5,6,7,8]"
-            style="min-width: 167px;"></ion-skeleton-text>
+        <div class="recent-cards">
+          @for (item of [1,2,3,4,5,6,7,8]; track $index) {
+          <ion-skeleton-text class="card" animated="" style="min-width: 167px;"></ion-skeleton-text>
+          }
         </div>
+        }
       </div>
       }
     </div>

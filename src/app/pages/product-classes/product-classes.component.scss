@@ -7,13 +7,13 @@
   span {
     height: 26px;
     min-width: 26px;
-
+    line-height: 18px;
     color: var(--ion-color-light);
     background-color: rgba(44, 52, 84, 0.65);
     border-radius: 15px;
     @include flex(4, center, center, '');
     overflow: hidden;
-    font-weight: 600;
+    font-weight: 600; font-family:'SemiBold';
     font-size: 12px;
     line-height: 22px;
     letter-spacing: 0px;

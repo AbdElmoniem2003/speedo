@@ -16,6 +16,7 @@ ion-header ion-toolbar{
 
    section{
     font-weight: 700;
+    font-family: "Bold";
    }
 
     .user {
@@ -41,7 +42,7 @@ ion-header ion-toolbar{
           @include flex(0, '', start, column);
 
           h3 {
-            font-weight: 700;
+            font-weight: 700;font-family: "Bold";
             font-size: 16px;
             line-height: 28px;
             letter-spacing: 0px;
@@ -49,7 +50,7 @@ ion-header ion-toolbar{
           }
 
           p {
-            font-weight: 600;
+            font-weight: 600; font-family:'SemiBold';
             font-size: 14px;
             line-height: 26px;
             letter-spacing: 0px;
@@ -103,7 +104,7 @@ ion-header ion-toolbar{
 
       p,
       .text {
-        font-weight: 600;
+        font-weight: 600; font-family:'SemiBold';
         font-size: 16px;
         height: 28px;
         line-height: 28px;
@@ -127,7 +128,7 @@ ion-modal {
 
   ion-toolbar{
     ion-label{
-      font-weight: 700;
+      font-weight: 700;font-family: "Bold";font-size: 20px;
     }
 
     ion-button {
@@ -161,7 +162,7 @@ ion-modal {
       }
 
       >h2 {
-        font-weight: 700;
+        font-weight: 700;font-family: "Bold";
         font-size: 20px;
         line-height: 32px;
         letter-spacing: 0px;
@@ -169,7 +170,7 @@ ion-modal {
       }
 
       >p {
-        font-weight: 600;
+        font-weight: 600; font-family:'SemiBold';
         font-size: 14px;
         line-height: 26px;
         letter-spacing: 0px;

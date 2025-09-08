@@ -29,7 +29,7 @@ ion-header ion-toolbar{
    }
    }
    section{
-    font-weight: 700;
+    font-weight: 700;font-family: "Bold";
    }
   }
 
@@ -52,10 +52,14 @@ ion-header ion-toolbar{
       >ion-img,
       >img,
       app-custom-image {
-        border: 0.5px solid rgba(240, 239, 239, 1);
-        @include shape(64, 64);
-        border-radius: 6px;
-        overflow: hidden;
+            max-width: 65px !important;
+    max-height: 65px !important;
+    width: -webkit-fill-available;
+    height: 65px !important;
+    border: 0.5px solid rgb(233, 233, 233);
+    border-radius: 6px;
+    overflow: hidden;
+    align-self: self-start;
       }
 
       .prod-data {
@@ -71,17 +75,22 @@ ion-header ion-toolbar{
           overflow: hidden;
 
           p {
-            font-weight: 600;
+            font-weight: 600; font-family:'SemiBold';
             font-size: 14px;
-            line-height: 26px;
+            line-height: 28px;
             letter-spacing: 0px;
-            flex-grow: 1;
-            text-overflow: ellipsis;
+            flex-grow: 1;overflow: hidden;
+            text-overflow: ellipsis;  display: -webkit-box;
+          -webkit-line-clamp: 2;
+          line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-wrap: auto;
           }
 
           h3 {
             margin: 0;
-            font-weight: 700;
+            font-weight: 700;font-family: "Bold";
             font-size: 16px;
             line-height: 28px;
             letter-spacing: 0px;

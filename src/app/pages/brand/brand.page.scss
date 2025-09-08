@@ -1,8 +1,4 @@
 @import '../../../theme/mixin.scss';
-@import '../../../global.scss';
-
-
-
 
 .custom-header {
   box-shadow: none;
@@ -84,11 +80,11 @@
       line-height: 32px;
       letter-spacing: 0px;
       margin-left: 10px;
-      font-family: 'Cairo'
+      font-family: "Bold";
     }
 
     p {
-      font-weight: 600;
+      font-weight: 600; font-family:'SemiBold';
       font-size: 16px;
       line-height: 28px;
       letter-spacing: 0px;
@@ -131,6 +127,7 @@
 
       ion-segment-button {
         font-weight: 700;
+        font-family: 'Bold';
         flex-grow: 1;
         font-size: 16px;
         line-height: 28px;
@@ -204,7 +201,8 @@
       }
 
       ion-segment-button {
-        font-weight: 700;
+        font-weight: 700;        font-family: 'SemiBold';
+
         font-size: 12px;
         line-height: 22px;
         letter-spacing: 0px;
@@ -277,7 +275,7 @@
           }
 
           p {
-            font-weight: 600;
+            font-weight: 600; font-family:'SemiBold';
             font-size: 12px;
             line-height: 22px;
             letter-spacing: 0px;
@@ -292,7 +290,7 @@
             height: 28px;
 
             h3 {
-              font-weight: 700;
+              font-weight: 700;font-family: "Bold";
               font-size: 16px;
               line-height: 28px;
               letter-spacing: 0px;
@@ -355,7 +353,7 @@
               border-radius: 15px;
               @include flex(4, center, center, '');
               overflow: hidden;
-              font-weight: 600;
+              font-weight: 600; font-family:'SemiBold';
               font-size: 12px;
               line-height: 22px;
               letter-spacing: 0px;

@@ -51,13 +51,17 @@
     @if(isLoading && segment===switchEnum.discount){
     <div class="discounts-filter">
       <div class="loading-segments">
-        <ion-skeleton-text *ngFor="let i of [1,2,3,4,5]" animated="true"></ion-skeleton-text>
+        @for (item of [1,2,3,4,5]; track $index) {
+        <ion-skeleton-text animated="true"></ion-skeleton-text>
+        }
       </div>
     </div>
 
     <div class="discounts">
       <div class="discounts-cards">
-        <ion-skeleton-text class="card" animated *ngFor="let i of [1,2,3,4]"></ion-skeleton-text>
+        @for (item of [1,2,3,4]; track $index) {
+        <ion-skeleton-text class="card" animated></ion-skeleton-text>
+        }
       </div>
     </div>
     }
@@ -65,7 +69,9 @@
 
     @if(isLoading && segment===switchEnum.offer){
     <div class="offers-cards">
-      <ion-skeleton-text class="offer" *ngFor="let i of [1,2,3]" animated></ion-skeleton-text>
+      @for (item of [1,2,3]; track $index) {
+      <ion-skeleton-text class="offer" animated></ion-skeleton-text>
+      }
     </div>
     }
 

@@ -127,7 +127,8 @@ export class OfferPage implements OnInit {
       breakpoints: [0.8],
       componentProps: {
         customObjArr: this.offerCategories,
-        currentSubId: this.selectedCategoryID
+        currentSubId: this.selectedCategoryID,
+        customName: this.offer.name
       },
       cssClass: ['custom-modal'],
     })

@@ -27,12 +27,9 @@ export class wideUsedService {
     private storage: Storage,
     private dataService: DataService,
     private toastCtrl: ToastController
+  ) { }
 
-  ) {
-  }
-
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   getFavorites() {
     this.storage.get('favorites').then((res) => {
@@ -63,8 +60,7 @@ export class wideUsedService {
           {
             text: ok || 'Confirm',
             handler: () => resolve(true)
-          },
-          {
+          }, {
             text: cancel || 'Cancel',
             handler: () => resolve(false)
           }
@@ -93,20 +89,31 @@ export class wideUsedService {
     const checkDarkOrLight = window.matchMedia('(prefers-color-scheme: dark)');
     // activate dark if dark is the default
     this.activateDarkThemes(checkDarkOrLight.matches);
-    if (Capacitor.getPlatform() !== 'web') { this.setStatusBar() };
+    if (Capacitor.getPlatform() !== 'web') { this.setStatusBar(checkDarkOrLight.matches) };
     // change themes by changing system themes
-    checkDarkOrLight.addEventListener(('change'), (media) => {
-      this.activateDarkThemes(media.matches)
+    checkDarkOrLight.addEventListener('change', (media) => {
+      this.activateDarkThemes(media.matches);
+      this.setStatusBar(media.matches)
     })
   }
   activateDarkThemes(themeCase: boolean) {
     document.body.classList.toggle('dark', themeCase)
   }
 
-  async setStatusBar() {
-    await EdgeToEdge.enable()
+  async setStatusBar(dark: boolean) {
+
+    /* ==================================  Edge to edge not changing the native navigation bar BG ============================ */
     await StatusBar.setOverlaysWebView({ overlay: true });
-    await StatusBar.setStyle({ style: Style.Light });
+    await EdgeToEdge.enable()
+    if (!dark) {
+      await EdgeToEdge.setBackgroundColor({ color: '#ffffff' })
+      await StatusBar.setBackgroundColor({ color: '#ffffffff' })
+      await StatusBar.setStyle({ style: Style.Light });
+    } else {
+      await EdgeToEdge.setBackgroundColor({ color: '#000000' })
+      await StatusBar.setBackgroundColor({ color: '#000000ff' })
+      await StatusBar.setStyle({ style: Style.Dark });
+    }
   }
 
 
