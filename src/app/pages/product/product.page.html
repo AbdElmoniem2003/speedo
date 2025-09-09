@@ -142,7 +142,7 @@
             </ion-button>
             <div class="addition-btns">
               <ion-button (click)="addToFavorite(prod)" fill="clear">
-                <ion-icon [name]="!prod.isFav?'heart-outline':''" color="primary"
+                <ion-icon [name]="!prod.isFav?'heart-outline':''" color="dark"
                   [src]="prod.isFav?'../../../assets/imgs/tabs-icons/favourite-active.svg':''"
                   slot="icon-only"></ion-icon>
               </ion-button>
@@ -183,7 +183,7 @@
 
     <div class="add-to-cart">
       <ion-button fill="clear" (click)="removeFromFavorite(this.product)">
-        <ion-icon [name]="!product.isFav?'heart-outline':''" color="dark"
+        <ion-icon [name]="!product.isFav?'heart-outline':''" color="primary"
           [src]="product.isFav?'../../../assets/imgs/tabs-icons/favourite-active.svg':''" slot="icon-only"></ion-icon>
       </ion-button>
       <ion-button (click)="addToCart(this.product)" [disabled]="product.inCart">
