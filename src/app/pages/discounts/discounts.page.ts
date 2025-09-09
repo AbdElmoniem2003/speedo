@@ -111,6 +111,11 @@ export class DiscountsPage implements OnInit {
     })
   }
 
+  toCustomSearch(custom: any) {
+    this.dataService.searchParams = custom;
+    this.navCtrl.navigateForward(`search-products`)
+  }
+
   showLoading() {
     this.skip = 0
     this.isLoading = true;

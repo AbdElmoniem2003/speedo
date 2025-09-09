@@ -35,7 +35,7 @@
           <ion-input [readonly]="true" (click)="toCustomSearch(null)" placeholder="...ابحث عن منتج">
             <ion-icon name="search-outline"></ion-icon>
           </ion-input>
-          <ion-button fill="clear" [routerLink]="'/search-products'">
+          <ion-button fill="clear" (click)="toCustomSearch(null)">
             <ion-img src="../../../assets/imgs/filter.svg" slot="icon-only"></ion-img>
           </ion-button>
         </div>
