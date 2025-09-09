@@ -31,7 +31,7 @@ ion-header{
 
     .content {
       height: 100%;
-      flex-grow: 1;
+      width: calc(100% - 65px);
       @include flex(4, '', '', column);
 
       .title,
@@ -47,7 +47,6 @@ ion-header{
         p{    height: fit-content;
     font-weight: 700;
     font-size: 16px;
-    width: 80%;
     overflow: hidden;
     text-overflow: ellipsis;}
         span{color:rgba(24, 24, 24, 0.32);font-size: 12px ;font-weight:500};
